@@ -1,6 +1,8 @@
 server:
   port: 8353
 
+
+
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
@@ -20,6 +22,7 @@ spring:
     user:
       name: pjt
       password: 123
+
 
 ## jpa 기본 셋팅
   jpa:
@@ -47,7 +50,7 @@ spring:
 #          starttls.enable: true
 
 # 마이바티스 매퍼 설정
-#mybatis:
-#  config-location: classpath:configuration.xml
-#  mapper-locations: classpath:mappers/*.xml
+mybatis:
+  config-location: classpath:configuration.xml
+  mapper-locations: classpath:mappers/**/*.xml
 
