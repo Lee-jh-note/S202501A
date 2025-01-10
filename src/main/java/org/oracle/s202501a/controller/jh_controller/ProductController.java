@@ -72,7 +72,7 @@ public class ProductController {
         return "jh_views/prodModifyForm"; // 안만듬
     }
     @PostMapping("/Prod/ProdModifyAct")
-    public String prodModifyAct(ProductPriceDto productPriceDtoDto, Model model) {final
+    public String prodModifyAct(ProductPriceDto productPriceDtoDto, Model model) {
         productService.ProdModify(productPriceDtoDto);
         return "forward:/jh_views/prodList"; //
 
