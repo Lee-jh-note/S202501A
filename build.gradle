@@ -47,6 +47,9 @@ dependencies {
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	//jpa 모델매퍼
+	implementation 'org.modelmapper:modelmapper:3.1.0'
 }
 tasks.named('test') {
 	useJUnitPlatform()

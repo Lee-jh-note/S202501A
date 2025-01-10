@@ -7,5 +7,7 @@
 <configuration>
     <typeAliases>
         <typeAlias type="org.oracle.s202501a.dto.TestEmpDto" alias="TestEmpDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.ProductDto" alias="ProductDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.ProductPriceDto" alias="ProductPriceDto"/>
     </typeAliases>
 </configuration>

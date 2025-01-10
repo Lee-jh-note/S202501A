@@ -26,7 +26,7 @@ spring:
 
 ## jpa 기본 셋팅
   jpa:
-    show-sql: false # 콘솔에 sql 문 안나옴
+    show-sql: true # 콘솔에 sql 문 안나옴
     hibernate:
       ddl-auto: update
 

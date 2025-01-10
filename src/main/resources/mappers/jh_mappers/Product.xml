@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oracle.s202501a.TestEmpDto">
+
+
+
+    <insert id="CreateProd" parameterType="ProductDto">
+        insert into product (product_no, product_name, description, category)
+        values (product_seq.nextval, #{product_name}, #{description}, #{category})
+
+        <selectKey resultType="long" keyProperty="product_no" order="AFTER">
+            select product_seq.currval
+            from dual
+        </selectKey>
+    </insert>
+
+    <select id="ProdFindAll" resultType="ProductDto">
+        SELECT p.product_no, c.content, p.product_name, t.client_name, p.status
+        FROM product p
+        LEFT JOIN CATEGORIES c ON c.top_category = p.category
+        LEFT JOIN CLIENTS t ON p.product_no = t.product_no
+        WHERE 1 = 1
+    </select>
+
+    <select id="ProdSearch" parameterType="ProductDto" resultType="ProductDto">
+        SELECT p.product_no, c.content, p.product_name, t.client_name, p.status
+        FROM product p
+        LEFT JOIN CATEGORIES c ON c.top_category = p.category
+        LEFT JOIN CLIENTS t ON p.product_no = t.product_no
+         WHERE 1 = 1
+            AND p.product_name LIKE '%' || #{product_name} || '%'
+            AND t.client_name LIKE '%' || #{client_name} || '%'
+        <if test="category != 0">
+            AND c.top_category = #{category}
+        </if>
+    </select>
+
+    <select id="ProdDetails" parameterType="Long" resultType="ProductPriceDto">
+        select p.product_no, p.product_name, c.content, p.status, p.reg_date, h.price, p.description, h.sale_or_purchase
+        from product p, categories c, price_history h
+        where 1 = 1
+          and p.product_no = h.product_no
+          and c.top_category = p.category
+          and p.product_no = #{product_no}
+        and h.TO_DATE = '99/12/31'
+    </select>
+
+    <update id="ProdModify" parameterType="ProductDto">
+        update PRODUCT
+        set product_name = #{product_name}, description = #{description}, CATEGORY = #{CATEGORY}
+        where product_no = #{product_no}
+    </update>
+</mapper>
+
+<!--//    insert into product ( product_no, product_name, description, status, category, product_delete, reg_date)-->
