@@ -9,5 +9,9 @@
         <typeAlias type="org.oracle.s202501a.dto.TestEmpDto" alias="TestEmpDto"/>
         <typeAlias type="org.oracle.s202501a.dto.jh_dto.ProductDto" alias="ProductDto"/>
         <typeAlias type="org.oracle.s202501a.dto.jh_dto.ProductPriceDto" alias="ProductPriceDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.InventoryDto" alias="InventoryDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.CategoriesDto" alias="CategoriesDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.SPRecodesDto" alias="SPRecodesDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.ClosingDto" alias="ClosingDto"/>
     </typeAliases>
 </configuration>

@@ -20,8 +20,8 @@ public class TestController {
         return "test";
     }
 
-    @GetMapping("empTest")
-    public String boardTest(Model model) {
+        @GetMapping("/empTest")
+        public String boardTest(Model model) {
         List<TestEmpDto> emplist = testEmpService.findAll();
 
         model.addAttribute("emplist", emplist);

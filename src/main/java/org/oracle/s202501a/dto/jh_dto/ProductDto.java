@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
 @Data
 @ToString
@@ -20,11 +22,23 @@ public class ProductDto {
     private int category;
     private int product_delete;
     private Date reg_date;
+    private int mid_category;
+
+    //페이징 처리
+    private String currentPage;
+
+    private String pageNum;
+    private int start;
+    private int end;
 
     // 거래처 명
-    private String client_name;
+//    private String client_name;
     // 카테고리 설명
     private String content;
+    private String title;
 
+//    // 카테고리ㅋㅋ
+//    private Map<String,CategoriesDto> top_categories ;
+//    private Map<String,CategoriesDto> mid_categories ;
 
 }

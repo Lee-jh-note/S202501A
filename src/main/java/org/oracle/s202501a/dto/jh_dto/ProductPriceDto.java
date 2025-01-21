@@ -18,8 +18,14 @@ public class ProductPriceDto {
     private String description;
     private int status; // 디
     private int category; //
+    private int mid_category;
     private int product_delete; // 디
     private Date reg_date; // 디
+    private int sale_or_purchase;
+
+ //       select p.product_no, p.product_name, c.TITLE, c.content,
+ //       p.status, p.reg_date, h.price, p.description,
+ //       h.sale_or_purchase
 
     // price
     private int sale_price; // 첫 입력 ㅅ ㅣ구분 용도
@@ -29,5 +35,6 @@ public class ProductPriceDto {
 
     //카테고리
     private String content;
+    private String title;
 
 }

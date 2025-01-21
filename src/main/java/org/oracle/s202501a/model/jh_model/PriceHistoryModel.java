@@ -24,6 +24,13 @@ public class PriceHistoryModel {
     private Integer sale_price; // 기본 0
     private Integer pur_price; // 기본 0
 
+    //페이징 처리
+    private String currentPage;
+
+    private String pageNum;
+    private int start;
+    private int end;
+
 
     public PriceHistoryModel(Long id, Long productNo, String fromDate, String toDate, int saleOrPurchase, int price, int category, Date regDate) {
         this.id = id;

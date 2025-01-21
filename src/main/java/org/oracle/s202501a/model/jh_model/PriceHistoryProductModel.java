@@ -38,4 +38,17 @@ public class PriceHistoryProductModel {
         this.product_name = product_name;
     }
 
+//    public PriceHistoryProductModel(Long id, String product_name, Long product_no, String from_date, String to_date,
+//                                    int sale_or_purchase, int price, int category, Date reg_date) {
+//        this.id = id;
+//        this.product_no = product_no;
+//        this.from_date = from_date;
+//        this.to_date = to_date;
+//        this.sale_or_purchase = sale_or_purchase;
+//        this.price = price;
+//        this.category = category;
+//        this.reg_date = reg_date;
+//        this.product_name = product_name;
+//    }
+
 }
