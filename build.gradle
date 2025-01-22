@@ -25,7 +25,6 @@ dependencies {
    implementation 'org.springframework.boot:spring-boot-starter-web-services'
    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-   implementation 'org.springframework.boot:spring-boot-starter-websocket'
    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
    // java mail
    implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -49,6 +48,9 @@ dependencies {
    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
    implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+   // 웹 소켓
+   implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 }
 tasks.named('test') {
    useJUnitPlatform()

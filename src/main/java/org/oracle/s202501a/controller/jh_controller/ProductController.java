@@ -26,7 +26,7 @@ public class ProductController {
     private final ProductDao productDao;
     private final ProdCategoryService prodCategoryService;
 
-    @GetMapping("/")
+    @GetMapping("/tttt")
     public String prodMain(Model model) {
 
         return "jh_views/ProdTest";

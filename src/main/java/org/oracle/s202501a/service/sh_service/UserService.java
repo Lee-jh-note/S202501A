@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 
 	private final UserRepository userRepository;
-	
+
 	@Transactional
 	public void createUser(Emp emp) {
 		System.out.println("UserRepository createUser emp->"+emp);
