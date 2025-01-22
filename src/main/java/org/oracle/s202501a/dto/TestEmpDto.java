@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TestEmpDto {
 
-    private Long emp_no; // emp_no
+    private Long emp_No; // emp_no
     private Long dept_No;
     private String emp_Name;
     private String emp_Tel;

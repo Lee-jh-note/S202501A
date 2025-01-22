@@ -69,7 +69,7 @@
   <tbody>
   <c:forEach var="emp" items="${emplist}">
     <tr>
-      <td>${emp.emp_no}</td>
+      <td>${emp.emp_No}</td>
       <td>${emp.dept_No}</td>
       <td>${emp.emp_Name}</td>
       <td>${emp.emp_Tel}</td>

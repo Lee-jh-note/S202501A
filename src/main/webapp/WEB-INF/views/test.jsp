@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="header.jsp" %>
 <%@ include file="footer.jsp" %>
-<%@ include file="menu.jsp" %>
+<%@ include file="menu.jsp" %> 
 <html>
 <head>
     <meta charset="UTF-8">
