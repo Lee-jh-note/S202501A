@@ -18,7 +18,7 @@
 	<!-- emp테이블의 emp_no 순으로 dept_name도 보여지도록 -->
 	<!-- org.oracle.s202501a.dto.ny_dto. 이거 안붙이고싶으면 컨피규레이션에 두줄 붙이기 1223 4시간 
 		2분 -->
-	<select id="nylistEmp" parameterType="Emp" resultType="Emp">
+	<select id="nylistEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp" resultType="org.oracle.s202501a.dto.ny_dto.Emp">
  <![CDATA[
     SELECT *
     FROM
@@ -52,7 +52,7 @@
 
 	<!-- 직원 상세조회 -->
 	<select id="nylistEmpSelOne" parameterType="Long"
-		resultType="Emp">
+		resultType="org.oracle.s202501a.dto.ny_dto.Emp">
   <![CDATA[
     SELECT 
         e.emp_no,        -- 사원 번호
@@ -80,7 +80,7 @@
 	<!-- 직원 수정 -->
 	<!--#{} sql문 순서데로 적어야함. -->
 
-	<update id="nyUpdateEmp" parameterType="Emp"> <!-- #{}의 이름과 디티오에 있는 컬럼명 같다면 알아서 들어옴 -->
+	<update id="nyUpdateEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp"> <!-- #{}의 이름과 디티오에 있는 컬럼명 같다면 알아서 들어옴 -->
 		
 		
 		UPDATE EMP
@@ -102,7 +102,7 @@
 	<!-- 직원 등록 -->
 	<!-- detailEmp 상세조회페이지, (수정)updateForm페이지, writeForm등록페이지 => jsp에는 같은 칼럼 
 		보이게 -->
-	<insert id="nyinsertEmp" parameterType="Emp"> <!-- emp 테이블의 순서데로 집어넣어야한다. -->
+	<insert id="nyinsertEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp"> <!-- emp 테이블의 순서데로 집어넣어야한다. -->
 		INSERT INTO EMP (
 		emp_No,
 		dept_No,       <!-- 부서 번호 -->
@@ -134,7 +134,7 @@
 
 
 <!-- 직원 직급 선택 (등록 시)-->
-	<select id="nySelectPos" resultType="emp">	
+	<select id="nySelectPos" resultType="org.oracle.s202501a.dto.ny_dto.Emp">	
  <![CDATA[
     SELECT DISTINCT position
     FROM emp
@@ -151,7 +151,7 @@
 </select>
 
 	<!-- 직원 삭제여부를 1로 업데이트 -->
-	<update id="nyDelteUpdateEmp" parameterType="Emp">
+	<update id="nyDelteUpdateEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp">
 		UPDATE EMP
 		SET
 		emp_Delete = 1
@@ -165,7 +165,7 @@
 
 
 	<!-- 직원 검색 -->
-	<select id="nycondEmpTotal" parameterType="Emp" resultType="int">
+	<select id="nycondEmpTotal" parameterType="org.oracle.s202501a.dto.ny_dto.Emp" resultType="int">
 		SELECT Count(*) FROM EMP
 		<choose>
 			<when test="search == 's_position'"> <!-- jsp에 들어간 이름명 -->
@@ -181,8 +181,8 @@
 	</select>
 
 
-	<select id="nySearchListEmp" parameterType="Emp"
-		resultType="Emp">
+	<select id="nySearchListEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp"
+		resultType="org.oracle.s202501a.dto.ny_dto.Emp">
 		SELECT *
 		FROM
 		(
@@ -213,7 +213,7 @@
 
 
 	<!-- 직원&부서 리스트 조인 테이블 조회 -->
-	<select id="nyListEmpDept" resultType="Emp">
+	<select id="nyListEmpDept" resultType="org.oracle.s202501a.dto.ny_dto.Emp">
 		select e.emp_No, e.emp_Name, e.emp_position, d.dept_Name, d.dept_Tel
 		from EMP e, DEPT d
 		where e.dept_no=d.dept_=No(+)

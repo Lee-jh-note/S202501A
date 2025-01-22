@@ -11,7 +11,7 @@
 		WHERE board_Category = 0
 	</select>
 	
-	 <select id="nylistBoard" parameterType="Board" resultType="Board">
+	 <select id="nylistBoard" parameterType="org.oracle.s202501a.dto.ny_dto.Board" resultType="org.oracle.s202501a.dto.ny_dto.Board">
            <![CDATA[
     SELECT *
     FROM

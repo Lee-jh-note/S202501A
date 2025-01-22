@@ -6,7 +6,7 @@
 	<select id="clientTotal" resultType="int">
 		SELECT Count(*) FROM clients
 	</select>
-	<select id="shlistClient" parameterType="Client" resultType="Client">
+	<select id="shlistClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO" resultType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
 		<![CDATA[
 			SELECT *
 			FROM
@@ -20,11 +20,11 @@
 			AND   rn <= #{end}
 		]]>
 	</select>
-	<select id="shdetailClient" parameterType ="int" resultType="Client">
+	<select id="shdetailClient" parameterType ="int" resultType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
 		SELECT * FROM clients where client_No = #{client_No}
 	</select>
 	
-	<update id="shupdateClient" parameterType="Client">
+	<update id="shupdateClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
 		UPDATE clients SET client_Name=#{client_Name}
 						  ,business_No=#{business_No}  
 						  ,client_Ceo=#{client_Ceo}  
@@ -35,7 +35,7 @@
 		WHERE client_No=#{client_No}					
 	</update>
 	
-	<select id="shListManger" resultType="Client">
+	<select id="shListManger" resultType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
 	  SELECT DISTINCT CLIENT_TYPE, 
 	       CASE 
 	           WHEN CLIENT_TYPE = 0 THEN '매출처'
@@ -47,7 +47,7 @@
 
 	</select>
 
-	<insert id="shinsertClient" parameterType="Client">
+	<insert id="shinsertClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
 		  INSERT INTO Clients (
        							CLIENT_NAME, CLIENT_TYPE, CLIENT_CEO,
         						BUSINESS_NO, CLIENT_EMAIL, CLIENT_TEL, CEO_TEL, CLIENT_DELETE, REG_DATE
@@ -61,7 +61,7 @@
     )
 	</insert>
 	
-	<select id="condClientTotal" parameterType="Client" resultType="int">
+	<select id="condClientTotal" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO" resultType="int">
 		SELECT COUNT(*) FROM CLIENTS
 		<choose>
 			<when test="search == 's_client_Ceo'">
@@ -76,7 +76,7 @@
 		</choose>
 	</select>
 	
-	<select id="shClientSearchList3" parameterType="Client" resultType="Client">
+	<select id="shClientSearchList3" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO" resultType="Client">
 		SELECT *
 		FROM 
 		(
@@ -102,7 +102,7 @@
 	</select>
 	
 		<!-- 직원 삭제여부를 1로 업데이트-->
-		<update id="shDeleteClient" parameterType="Client"> 
+		<update id="shDeleteClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO"> 
 			UPDATE CLIENTS
 			SET 
 			    CLIENT_Delete = 1         

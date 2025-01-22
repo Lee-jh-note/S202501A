@@ -6,7 +6,7 @@
 <mapper namespace="org.oracle.s202501a.mapper.CommMapper">
 
 
-   <select id="shCommSelect" resultType="Comm"   parameterType="int">
+   <select id="shCommSelect" resultType="org.oracle.s202501a.dto.sh_dto.CommDto"   parameterType="int">
     <![CDATA[
       select * from common 
       Where bcd = #{bcd}

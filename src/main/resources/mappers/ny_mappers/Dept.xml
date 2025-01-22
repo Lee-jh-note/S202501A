@@ -6,11 +6,11 @@
 <mapper namespace="org.oracle.s202501a.mapper.DeptMapper">
 
 
-	<select id="nySelectDept" resultType="Dept">
+	<select id="nySelectDept" resultType="org.oracle.s202501a.dto.ny_dto.Dept">
 		select * from DEPT
 	</select>
 
-	<select id="nylistDeptSelOne" parameterType="Long"	resultType="Dept">
+	<select id="nylistDeptSelOne" parameterType="Long"	resultType="org.oracle.s202501a.dto.ny_dto.Dept">
 		select * from DEPT
 		WHERE dept_No = #{dept_No} 
 	</select>
@@ -27,7 +27,7 @@
 </select>
 	
 	
-	<insert id="nyinsertDept" parameterType="Dept">
+	<insert id="nyinsertDept" parameterType="org.oracle.s202501a.dto.ny_dto.Dept">
 	INSERT INTO DEPT (
 	dept_No,
 	dept_Name,
@@ -41,7 +41,7 @@
 	
 	
 	<!-- 부서 수정 -->
-	<update id="nyDeptUpdate" parameterType="Emp">
+	<update id="nyDeptUpdate" parameterType="org.oracle.s202501a.dto.ny_dto.Dept">
 		UPDATE DEPT
 		SET
 		dept_No = #{dept_No},

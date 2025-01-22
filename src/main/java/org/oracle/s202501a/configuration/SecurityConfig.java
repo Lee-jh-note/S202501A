@@ -45,22 +45,23 @@ public class SecurityConfig {
                             .requestMatchers("/Sales").hasAuthority("ROLE_SALES")
                             .requestMatchers("/Logistics").hasAuthority("ROLE_LOGISTICS")
                             .requestMatchers("/HR").hasAuthority("ROLE_HR")
+                            .requestMatchers("/**").permitAll()
 //                            .requestMatchers("/admanager").access(new WebExpressionAuthorizationManager("hasRole('ADMIN') or hasRole('MANAGER')"))
                             .anyRequest().authenticated()
         					)
         	// 인증 
-            .formLogin(form -> form
-                   .loginPage("/login")  // UsernamePasswordAuthenticationFilter 생성 폼방식의 인증처리
-                   .authenticationDetailsSource(authenticationDetailsSource)
-                   .successHandler(successHandler)
-                   .failureHandler(failureHandler)
-                   .permitAll()
-                   )
-           .authenticationProvider(authenticationProvider)
-           .exceptionHandling(
-           		   exception -> exception
-                   .accessDeniedHandler(new FormAccessDeniedHandler("/denied"))
-        		   )
+//            .formLogin(form -> form
+//                   .loginPage("/login")  // UsernamePasswordAuthenticationFilter 생성 폼방식의 인증처리
+//                   .authenticationDetailsSource(authenticationDetailsSource)
+//                   .successHandler(successHandler)
+//                   .failureHandler(failureHandler)
+//                   .permitAll()
+//                   )
+//           .authenticationProvider(authenticationProvider)
+//           .exceptionHandling(
+//           		   exception -> exception
+//                   .accessDeniedHandler(new FormAccessDeniedHandler("/denied"))
+//        		   )
             ;
 		
         return http.build();

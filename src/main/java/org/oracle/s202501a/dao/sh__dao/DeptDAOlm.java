@@ -19,7 +19,7 @@ public class DeptDAOlm implements DeptDAO {
 	      List<DeptDTO> deptList = null;
 	      System.out.println("DeptDaoImpl deptSelect Start..." );
 	      try {
-	         deptList = session.selectList("nySelectDept");
+	         deptList = session.selectList("org.oracle.s202501a.mapper.DeptMapper.nySelectDept");
 	      } catch (Exception e) {
 	         System.out.println("DeptDaoImpl deptSelect Exception->"+e.getMessage());
 	      }
@@ -35,7 +35,7 @@ public class DeptDAOlm implements DeptDAO {
 
 	      try {
 	         //
-	         dept = session.selectOne("nylistDeptSelOne", dept_No); // #기본키여서 셀렉트원?
+	         dept = session.selectOne("org.oracle.s202501a.mapper.DeptMapper.nylistDeptSelOne", dept_No); // #기본키여서 셀렉트원?
 	         System.out.println("DeptDaoImpl detail dept->" + dept);
 	      } catch (Exception e) {
 	         System.out.println("DeptDaoImpl detail Exception->" + e.getMessage());

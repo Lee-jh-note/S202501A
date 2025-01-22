@@ -18,7 +18,7 @@ public class EmpDAOlm implements EmpDAO {
 		List<EmpDTO> empList = null;
 		System.out.println("EmpDaolm empSelect Start...");
 		try {
-			empList = session.selectList("shEmpSelect");
+			empList = session.selectList("org.oracle.s202501a.mapper.empMapper.nySelectDept");
 		} catch (Exception e) {
 			System.out.println("EmpDaolm empSelect Exception->"+e.getMessage());
 		}
@@ -39,7 +39,7 @@ public class EmpDAOlm implements EmpDAO {
 	         // 입력시 EMP_NO_SEQ.nextv 직원번호 자동 생성 (ID 자동 생성)
 	         // 부서이름+ 생년월일 => password (비밀번호 자동 생성)
 	         // emp.setPassword("HR");
-	         result = session.insert("nyinsertEmp", emp);
+	         result = session.insert("org.oracle.s202501a.mapper.empMapper.nyinsertEmp", emp);
 	      } catch (Exception e) {
 	         System.out.println("EmpDaoImpl insert Exception->" + e.getMessage());
 	      }

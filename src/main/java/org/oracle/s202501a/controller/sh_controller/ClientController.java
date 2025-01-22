@@ -123,31 +123,6 @@ public class ClientController {
 		
 	}
 	
-	@RequestMapping(value = "listSearch3")
-	public String listSearch3(ClientDTO client, Model model) {
-		System.out.println("ClientController Start listSearch3...");
-		System.out.println("EmpController listSearch3 client->"+client);
-		
-		int totalClient = cs.condTotalClient(client);
-		System.out.println("ClientController listSearch3 totalClient=>"+ totalClient);
-		
-		Paging page = new Paging(totalClient, client.getCurrentPage());
-		client.setStart(page.getStart());
-		client.setEnd(page.getEnd());
-		System.out.println("ClientController listSearch3 page=>" +page);
-		
-		List<ClientDTO> listSearchClient =cs.listSearchClient(client);
-		
-		System.out.println("ClientController listSearch3 listSearchClient.size()=>"+ listSearchClient.size());
-		System.out.println("ClientController listSearch3 listSearchEmp=>"+ listSearchClient);
-		
-		model.addAttribute("totalClient",totalClient );
-		model.addAttribute("listClient", listSearchClient);
-		model.addAttribute("page", page);
-		
-		
-		return "sh_views/list";
-	}
 	
 	 @RequestMapping(value = "deleteClient")
 	   public String deleteClient(ClientDTO client, Model model) {
@@ -193,27 +168,7 @@ public class ClientController {
 
 	   }
 	 
-	  @PostMapping(value = "writeEmp")
-	   public String writeEmp(EmpDTO emp, Model model) {
-	      System.out.println("EmpController Start writeEmp...");
-	      System.out.println("EmpController writeEmp emp->" + emp);
 
-	      DeptDTO dept = cs.detailDept(emp.getDept_No());
-//	      System.out.println("EmpController detailEmp dept.getDept_Name()->" + dept.getDept_Name());
-//	      System.out.println("EmpController detailEmp  emp.getBirth()->" + emp.getBirth().replace("-", ""));
-	      
-	      String passwd = dept.getDept_Name() + emp.getBirth();
-	      System.out.println("EmpController writeEmp passwd->" + passwd);
-	      emp.setPassword(passwd);
-	      // Service, Dao , Mapper명[insertEmp] 까지 -> insert
-	      int insertResult = cs.insertEmp(emp);
-	      if (insertResult > 0)
-	         return "redirect:listEmp";
-	      else {
-	         model.addAttribute("msg", "입력 실패 확인해 보세요");
-	         return "forward:writeFormEmp";
-	      }
-	   }
 		
 	
 	
