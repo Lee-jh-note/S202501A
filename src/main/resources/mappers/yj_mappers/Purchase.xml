@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oracle.s202501a.mapper.PurchaseMapper">
+
+	<!-- 발주 총 갯수 - 페이징 처리해야해서 필요함 -->
+	<select id="yjPurchaseTotal" resultType="int">
+		select Count(*) from purchase
+		where purchase_date = TRUNC(sysdate)
+	</select>
+	
+	<!-- 발주 리스트 -->
+	<!-- 최신 발주 정보가 먼저 뜰지, 오래된게 먼저 뜰지 정해야함 -->
+	<!-- 발주서 안에 여러 상품을 넣을 수 있도록 수정하면서, 발주리스트에 총상품, 총수량, 총금액을 넣음. -->
+	<!-- 따라서 count와 sum으로 나타내도록 product_count, total_quantity, total_price 알리아스 설정 및 그것에 따른 Purchase dto에 필드 설정해줌 -->
+	<!-- 그리고 상태값은 공통 테이블을 조인해와서 표기. Purchase dto에 int로 있던 status를 String으로 바꿔줌 -->
+	<select id="yjListPurchase" parameterType="org.oracle.s202501a.dto.yj_dto.Purchase" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
+        select *
+		from (
+		    select rownum rn, a.*
+		    from (
+		            select pur.purchase_date, 
+		            MIN(pur.title) title, 
+		            MIN(c.client_name) client_name, 
+		            MIN(e.emp_name) emp_name, 
+		            c.client_no,
+		            COUNT(pd.product_no) AS product_count,
+		            SUM(pd.quantity) AS total_quantity,
+		            SUM(NVL(pd.price, 0) * NVL(pd.quantity, 0)) AS total_price,
+		            MIN(pur.req_delivery_date) req_delivery_date,
+		            MIN(CASE pur.status
+		                WHEN 0 THEN '대기'
+		                WHEN 1 THEN '부분입고'
+		                WHEN 2 THEN '완료'
+		                ELSE '알 수 없음'
+		                END) AS status
+		            from purchase pur
+		            left join clients c on pur.client_no = c.client_no
+		            left join emp e on pur.emp_no = e.emp_no
+		            left join purchase_details pd on pur.purchase_date = pd.purchase_date 
+		                                       and pur.client_no = pd.client_no
+		            left join product pro on pd.product_no = pro.product_no
+		            where pur.purchase_date = TRUNC(sysdate)
+		            GROUP BY c.client_no, pur.purchase_date
+		            order by pur.purchase_date) a
+		            )
+		where rn between #{start} and #{end}
+	</select>
+	
+	<!-- 발주 검색을 위한 총 갯수 -->
+	<select id="yjSearchTotalPurchase" parameterType="org.oracle.s202501a.dto.yj_dto.Purchase" resultType="int">
+			select Count(*)
+			from(
+			    select Count(*)
+			    from purchase pur
+				join clients c on pur.client_no = c.client_no
+				join emp e on pur.emp_no = e.emp_no
+				join purchase_details pd on pur.purchase_date = pd.purchase_date 
+				                           and pur.client_no = pd.client_no
+				join product pro on pd.product_no = pro.product_no
+			    where 1=1 <!-- 1=1이 없으면 where 뒤에 바로 AND가 들어와서 오류남. 입력값이 없다면 전체 결과가 나와야하므로 결과가 true로 나오는 식 넣어줌 -->
+	        <!-- 시작일과 종료일 -->
+	        <!-- 시작일이나 마지막일 중 하나만 입력하면 그 범위에 맞게 검색되도록 하고 싶었는데 그건 아직 안됨. -보류- 총갯수에서만 하니 오류가 났던거. 다시 하니 됨. 검색 결과는 밑에꺼에서 나오는거니까 밑에꺼 잘 고치기 -->
+	        <if test="startDate != ''">
+	         <![CDATA[
+			    AND pur.purchase_date >= #{startDate}
+			 ]]>
+			</if>
+			<if test="endDate != ''">
+			 <![CDATA[
+			    AND pur.purchase_date <= #{endDate}
+			 ]]>
+			</if>
+	        <if test="startDate != '' and endDate !='' ">
+	            AND pur.purchase_date BETWEEN #{startDate} AND #{endDate}
+	        </if>
+	
+	        <!-- 거래처 검색 -->
+	        <if test="client_name != ''">
+	             AND LOWER(c.client_name) like '%' || LOWER(#{client_name}) || '%'
+	        </if>
+	        
+		    <!-- 상태 검색 -->
+       		<if test="status != null and status != ''">
+			    <choose>
+			        <when test="status == 0">
+			            AND pur.status = 0
+			        </when>
+			        <when test="status == 1">
+			            AND pur.status = 1
+			        </when>
+			        <when test="status == 2">
+			            AND pur.status = 2
+			        </when>
+			    </choose>
+			</if>
+
+
+	        GROUP BY c.client_no, pur.purchase_date)
+	</select>
+	
+	<!-- 발주 검색 -->
+	<select id="yjSearchListPurchase" parameterType="org.oracle.s202501a.dto.yj_dto.Purchase" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
+		SELECT *
+		FROM (
+		    SELECT rownum rn, b.*
+		    FROM (
+				SELECT pur.purchase_date, c.client_no,
+	                MIN(pur.title) title, 
+	                MIN(c.client_name) client_name, 
+	                MIN(e.emp_name) emp_name,
+	                COUNT(pd.product_no) AS product_count,
+	                SUM(pd.quantity) AS total_quantity,
+	                SUM(NVL(pd.price, 0) * NVL(pd.quantity, 0)) AS total_price,
+	                MIN(pur.req_delivery_date) req_delivery_date,
+	                MIN(CASE pur.status
+	                WHEN 0 THEN '대기'
+	                WHEN 1 THEN '부분입고'
+	                WHEN 2 THEN '완료'
+	                ELSE '알 수 없음'
+	                END) AS status
+			        FROM purchase pur
+			        left JOIN clients c ON pur.client_no = c.client_no
+			        left JOIN emp e ON pur.emp_no = e.emp_no
+			        left JOIN purchase_details pd ON pur.purchase_date = pd.purchase_date AND pur.client_no = pd.client_no
+			        left JOIN product pro ON pd.product_no = pro.product_no
+			        WHERE 1=1
+		        <if test="startDate != null and startDate != ''">
+		        <![CDATA[
+		            AND pur.purchase_date >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+		            ]]>
+		        </if>
+		        <if test="endDate != null and endDate != ''">
+		        <![CDATA[
+		            AND pur.purchase_date <= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		            ]]>
+		        </if>
+		        <if test="client_name != null and client_name != ''">
+		             AND LOWER(c.client_name) like '%' || LOWER(#{client_name}) || '%'
+		        </if>
+			    
+			    <!-- 상태 검색 -->
+	       		<if test="status != null and status != ''">
+				    <choose>
+				        <when test="status == 0">
+				            AND pur.status = 0
+				        </when>
+				        <when test="status == 1">
+				            AND pur.status = 1
+				        </when>
+				        <when test="status == 2">
+				            AND pur.status = 2
+				        </when>
+				    </choose>
+				</if>
+
+				GROUP BY c.client_no, pur.purchase_date
+		        ORDER BY pur.purchase_date
+		    ) b
+		)
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+<!-- 	 발주 상세정보 
+	<select id="yjPurchaseDetail" parameterType="String" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
+		select *
+		from purchase pur
+		join clients c on pur.client_no = c.client_no
+		join emp e on pur.emp_no = e.emp_no
+		join purchase_details pd on pur.purchase_date = pd.purchase_date 
+		                           and pur.client_no = pd.client_no
+		join product pro on pd.product_no = pro.product_no
+		where pur.title = #{title}
+	</select> -->
+	
+	<!-- 구매 상세 조회 -구매에서 가져와야하는 값 - 제목, 매입일자, 요청배송일, 담당자, 거래처명, 비고-->
+	<select id="yjDetailPurchase" parameterType="map" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
+		select pur.title, pur.purchase_date, pur.req_delivery_date, c.client_name, e.emp_name, pur.remarks, pur.status,pur.client_no
+		from purchase pur
+		join clients c on pur.client_no = c.client_no
+		join emp e on pur.emp_no = e.emp_no
+		where pur.purchase_date = #{purchase_date}
+			 and pur.client_no = #{client_no, jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 구매상세의 상세 조회 -구매상세에서 가져와야하는 값 - 매입일자, 거래처명, 품목명, 단가, 수량 -->
+	<select id="yjDetailPurchaseDetail" parameterType="map" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
+		select pd.purchase_date, c.client_name, pro.product_name, pd.price, pd.quantity, pd.status, pd.product_no
+		from purchase_details pd
+		join clients c on pd.client_no = c.client_no
+        join product pro on pd.product_no = pro.product_no
+		where pd.purchase_date = #{purchase_date}
+			 and pd.client_no = #{client_no, jdbcType=VARCHAR}
+	</select>
+	
+	<!-- PurchaseDaoImpl - listManager -insert를 위한 사원 드롭다운 -->
+	<select id="yjListManager" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
+		select emp_no, emp_name
+		from emp
+	</select>
+	
+	<!-- PurchaseDaoImpl - listClient -insert를 위한 거래처 드롭다운 -->
+	<select id="yjListClient" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
+		select client_no, client_name
+		from clients
+	</select>
+	
+	<!-- PurchaseDaoImpl - listProduct -insert를 위한 제품 드롭다운 -->
+	<select id="yjListProduct" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
+		select product_no, product_name
+		from product
+	</select>
+
+	
+	<!-- PurchaseDaoImpl productPrice -발주 등록 화면에서 물품을 선택하면 가격관리Seq에서 매입가를 가져옴 -->
+	<select id="yjProductPrice" parameterType="int" resultType="int">
+    		select NVL(ph.price, 0)
+			from product pro
+			join price_history ph on pro.product_no = ph.product_no
+			where pro.product_no = #{product_no}
+			    and ph.sale_or_purchase = 0 
+			    and to_date = '99/12/31'
+    </select>
+    
+    <!-- 발주 정보 수정 -->
+    <update id="yjUpdatePurchase" >
+    	UPDATE purchase SET title = #{title},
+    						req_delivery_date = #{req_delivery_date},
+    						remarks = #{remarks}
+    	where purchase_date = #{purchase_date}
+    		  and client_no = #{client_no}
+    </update>
+    <!-- 물품 수정은 delete하고 insert 하는 형식으로 -->
+    
+    
+    <!--  발주서 삭제 - 구매상세 - 구매 순서로 -->
+    <delete id="deletePurchase1" parameterType="map">
+		delete from purchase_details
+		where purchase_date = #{purchase_date}
+			 	and client_no = #{client_no}
+			 	and status = 0
+    </delete>
+    
+    <delete id="deletePurchase2" parameterType="map">
+		delete from purchase
+		where purchase_date = #{purchase_date}
+			 	and client_no = #{client_no}
+			 	and status = 0
+    </delete>
+    
+    
+	
+	
+</mapper>

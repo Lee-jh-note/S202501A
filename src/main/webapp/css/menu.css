@@ -3,11 +3,6 @@ body {
     font-family: Arial, sans-serif;
     display: flex;
 }
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-}
 
 .sidebar {
     width: 180px;
@@ -83,7 +78,7 @@ input[id*="answer"] + label + div p {
 }
 
 input[id*="answer"]:checked + label + div {
-    max-height: 150px;
+    max-height: 200px;
 }
 
 input[id*="answer"]:checked + label em {
