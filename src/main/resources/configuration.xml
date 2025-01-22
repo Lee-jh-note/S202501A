@@ -6,6 +6,9 @@
 
 <configuration>
     <typeAliases>
-        <typeAlias type="org.oracle.s202501a.dto.TestEmpDto" alias="TestEmpDto"/>
+        <typeAlias alias="TestEmpDto" type="org.oracle.s202501a.dto.TestEmpDto" />
+        <typeAlias alias="EMP" type="org.oracle.s202501a.dto.ny_dto.Emp" />
+        <typeAlias alias="DEPT" type="org.oracle.s202501a.dto.ny_dto.Dept" />
+        <typeAlias alias="Board" type="org.oracle.s202501a.dto.ny_dto.Board" />
     </typeAliases>
 </configuration>

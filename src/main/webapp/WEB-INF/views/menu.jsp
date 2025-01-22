@@ -59,8 +59,8 @@
         <input type="checkbox" name="menu-item" id="answer6">
         <label for="answer6">인사 관리<em></em></label>
         <div class="submenu">
-            <p>직원 조회</p>
-            <p>직원 등록</p>
+            <p><a href="listEmp">직원 조회</a></p>
+            <p><a href="writeFormEmp">직원 등록</a></p>
         </div>
     </div>
 

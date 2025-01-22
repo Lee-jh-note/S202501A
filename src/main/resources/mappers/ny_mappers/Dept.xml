@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.oracle.s202501a.mapper.DeptMapper">
+
+
+	<select id="nySelectDept" resultType="Dept">
+		select * from DEPT
+	</select>
+
+	<select id="nylistDeptSelOne" parameterType="Long"	resultType="Dept">
+		select * from DEPT
+		WHERE dept_No = #{dept_No} 
+	</select>
+	
+	
+	<delete id="nydeleteDept" parameterType="Long">
+		delete from Dept where 
+		Dept_No=#{dept_No}
+	</delete>
+	
+	<select id="nycountEmpInDept" parameterType="long" resultType="int">
+    SELECT COUNT(*) FROM EMP
+    WHERE dept_no = #{dept_No}
+</select>
+	
+	
+	<insert id="nyinsertDept" parameterType="Dept">
+	INSERT INTO DEPT (
+	dept_No,
+	dept_Name,
+	dept_Tel 
+	) VALUES (
+	#{dept_No},   
+	#{dept_Name},  
+	#{dept_Tel}
+	)
+	</insert>
+	
+	
+	<!-- 부서 수정 -->
+	<update id="nyDeptUpdate" parameterType="Emp">
+		UPDATE DEPT
+		SET
+		dept_No = #{dept_No},
+		dept_Name = #{dept_Name},
+		dept_Tel = #{dept_Tel}
+		WHERE dept_No = #{dept_No}
+	</update>
+	
+	
+	
+	
+	<!-- 직원 삭제 -->
+	<!-- <delete id="nydeleteEmp" parameterType="int"> delete from EMP where 
+		emp_No=#{emp_No} </delete> -->
+
+
+
+</mapper>
