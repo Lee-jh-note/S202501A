@@ -214,12 +214,13 @@
 
 	
 	<!-- PurchaseDaoImpl productPrice -발주 등록 화면에서 물품을 선택하면 가격관리Seq에서 매입가를 가져옴 -->
+	<!-- 매입- 0 -->
 	<select id="yjProductPrice" parameterType="int" resultType="int">
     		select NVL(ph.price, 0)
 			from product pro
 			join price_history ph on pro.product_no = ph.product_no
 			where pro.product_no = #{product_no}
-			    and ph.sale_or_purchase = 0 
+			    and ph.sale_or_purchase = 0
 			    and to_date = '99/12/31'
     </select>
     

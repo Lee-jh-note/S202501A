@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+.bb {
+        width: 300px;
+}
+body {
+	font-family: 굴림체; text-align: center;
+}
+table {
+	width: 100%;
+	border-collapse: collapse;
+    margin: 0 auto;
+}
+tr {
+	height: 30px;
+}
+
+th {
+	background-color: #f2f2f2;
+}
+th, td {	
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: middle;
+}
