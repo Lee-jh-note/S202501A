@@ -18,7 +18,7 @@ public class EmpDAOlm implements EmpDAO {
 		List<EmpDTO> empList = null;
 		System.out.println("EmpDaolm empSelect Start...");
 		try {
-			empList = session.selectList("org.oracle.s202501a.mapper.empMapper.nySelectDept");
+			empList = session.selectList("org.oracle.s202501a.mapper.DeptMapper.nySelectDept");
 		} catch (Exception e) {
 			System.out.println("EmpDaolm empSelect Exception->"+e.getMessage());
 		}

@@ -27,11 +27,12 @@ public class LoginController {
 	        model.addAttribute("exception",exception);
 		
 		return "sh_views/loginPage";
-
 	}
 	
-    @GetMapping(value="/writeFormEmp")
+    @GetMapping(value="/writeFormEmp655")
     public String signup() {
+    	
+    	
         return "sh_views/writeFormEmp";
     }
 

@@ -72,26 +72,21 @@ public class EmpDaoImpl implements EmpDao {
 		}
 		return updateCount;
 	}
+	
+	// 유저 컨트롤러 동일
 	//직원 등록
-	@Override
-	public int insertEmp(Emp emp) {
-		int result = 0;
-		System.out.println("EmpDaoImpl insert Start...");
-		String password = "";
-		try {
-			System.out.println("EmpDaoImpl insert emp->"+emp);
-			password = emp.getDept_Name();
-			// emp.setPassword(password);
-			// 입력시 EMP_NO_SEQ.nextv 직원번호 자동 생성 (ID 자동 생성)
-			// 부서이름+ 생년월일 => password (비밀번호 자동 생성)
-			// emp.setPassword("HR");
-			result = session.insert("nyinsertEmp", emp);
-		} catch (Exception e) {
-			System.out.println("EmpDaoImpl insert Exception->" + e.getMessage());
-		}
-		return result;
-
-	}
+	/*
+	 * @Override public int insertEmp(Emp emp) { int result = 0;
+	 * System.out.println("EmpDaoImpl insert Start..."); String password = ""; try {
+	 * System.out.println("EmpDaoImpl insert emp->"+emp); password =
+	 * emp.getDept_Name(); // emp.setPassword(password); // 입력시 EMP_NO_SEQ.nextv
+	 * 직원번호 자동 생성 (ID 자동 생성) // 부서이름+ 생년월일 => password (비밀번호 자동 생성) //
+	 * emp.setPassword("HR"); result = session.insert("nyinsertEmp", emp); } catch
+	 * (Exception e) { System.out.println("EmpDaoImpl insert Exception->" +
+	 * e.getMessage()); } return result;
+	 * 
+	 * }
+	 */
 	
 	@Override
 	public List<Emp> empPosSelect() {

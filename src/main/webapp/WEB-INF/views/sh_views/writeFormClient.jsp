@@ -59,17 +59,17 @@
 			<tr><th>사업자 번호</th><td>	<input 	type="text"   	name="business_No" 			required="required"></td></tr>
 			<tr><th>이메일</th><td>	 	<input 	type="text"   	name="client_Email" 		required="required"></td></tr>
 			<tr><th>기업 전화번호</th><td>	<input 	type="text"   	name="client_Tel" 			required="required"></td></tr>
-			<tr><th>대표자 전화번호</th><td><input 	type="text"   	name="ceo_Tel" 				required="required"></td></tr>
+			<tr><th>대표자 전화번호</th><td><input 	type="text"     name="ceo_Tel" 				required="required"></td></tr>
 			<tr><th>등록일</th><td>		<input 	type="date" 	name="reg_Date" 			required="required"></td></tr>
 		 	<tr><th>구분</th><td>
 				<select name="client_Type">
 					<c:forEach var="client" items="${clientMngList}">
 						<option value="${client.client_Type}">${client.client_Type}
 								<c:choose>
-			                        <c:when test="${client.client_Type == 1}">
+			                        <c:when test="${client.client_Type == 0}">
 			                            매입처
 			                        </c:when>
-			                        <c:when test="${client.client_Type == 0}">
+			                        <c:when test="${client.client_Type == 1}">
 			                            매출처
 			                        </c:when>
 			                        <c:otherwise>

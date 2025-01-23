@@ -23,7 +23,7 @@
     </div>
    <div>
    <h1> 발주 </h1>
-        <form action="listSearch3" style="display: flex; justify-content: space-between; align-items: center;">
+        <form action="listSearchSh" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
             	<select name="search">
             		<option value="s_client_Ceo">대표 이름</option>
@@ -50,10 +50,10 @@
          <tr><td>${client.client_No}</td>
         	 <td>
                 <c:choose>
-                    <c:when test="${client.client_Type == 0}">
+                    <c:when test="${client.client_Type == 1}">
                         매출처
                     </c:when>
-                    <c:when test="${client.client_Type == 1}">
+                    <c:when test="${client.client_Type == 0}">
                         매입처
                     </c:when>
                     <c:otherwise>

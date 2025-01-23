@@ -141,33 +141,57 @@ public class ClientController {
 	          return "redirect:listClient"; 
 	      }
 	 
-	 @RequestMapping(value = "writeFormEmp3")
-	   public String writeFormEmp3(Model model) {
-	      System.out.println("empController writeFormEmp3 Start...");
-
-	      // 부서 선택
-	      List<DeptDTO> deptList = cs.deptSelect();
-	      model.addAttribute("deptList", deptList);
-	      System.out.println("EmpController writeFormEmp3 deptList.size->" + deptList.size());
-	      System.out.println("EmpController writeFormEmp3 deptList->" + deptList);
-
-	      // 직급 선택
-	      List<EmpDTO> empList = cs.empSelect();
-	      model.addAttribute("empList", empList);
-	      System.out.println("EmpController writeFormEmp3 empList.size->" + empList.size());
-	      System.out.println("EmpController writeFormEmp3 empList->" + empList);
-	     
-	      // role 선택
-	      int bcd = 100;    // 권한(role) 
-	      List<CommDto> roleList = cs.roleSelect(100);
-	      model.addAttribute("roleList", roleList);
-	      System.out.println("EmpController writeFormEmp3 roleList.size->" + roleList.size());
-	      System.out.println("EmpController writeFormEmp3 roleList->" + roleList);
-
-	      return "sh_views/writeFormEmp";
-
-	   }
+			/*
+			 * @RequestMapping(value = "writeFormEmp3") public String writeFormEmp3(Model
+			 * model) { System.out.println("empController writeFormEmp3 Start...");
+			 * 
+			 * // 부서 선택 List<DeptDTO> deptList = cs.deptSelect();
+			 * model.addAttribute("deptList", deptList);
+			 * System.out.println("EmpController writeFormEmp3 deptList.size->" +
+			 * deptList.size()); System.out.println("EmpController writeFormEmp3 deptList->"
+			 * + deptList);
+			 * 
+			 * // 직급 선택 List<EmpDTO> empList = cs.empSelect(); model.addAttribute("empList",
+			 * empList); System.out.println("EmpController writeFormEmp3 empList.size->" +
+			 * empList.size()); System.out.println("EmpController writeFormEmp3 empList->" +
+			 * empList);
+			 * 
+			 * // role 선택 int bcd = 100; // 권한(role) List<CommDto> roleList =
+			 * cs.roleSelect(100); model.addAttribute("roleList", roleList);
+			 * System.out.println("EmpController writeFormEmp3 roleList.size->" +
+			 * roleList.size()); System.out.println("EmpController writeFormEmp3 roleList->"
+			 * + roleList);
+			 * 
+			 * return "sh_views/writeFormEmp";
+			 * 
+			 * }
+			 */
 	 
+	 @RequestMapping(value = "listSearchSh")
+	   public String listSearch3(ClientDTO client, Model model) {
+	      System.out.println("ClientController Start listSearchSh...");
+	      System.out.println("EmpController listSearchSh client->"+client);
+	      
+	      int totalClient = cs.condTotalClient(client);
+	      System.out.println("ClientController listSearchSh totalClient=>"+ totalClient);
+	      
+	      Paging page = new Paging(totalClient, client.getCurrentPage());
+	      client.setStart(page.getStart());
+	      client.setEnd(page.getEnd());
+	      System.out.println("ClientController listSearchSh page=>" +page);
+	      
+	      List<ClientDTO> listSearchClient =cs.listSearchClient(client);
+	      
+	      System.out.println("ClientController listSearchSh listSearchClient.size()=>"+ listSearchClient.size());
+	      System.out.println("ClientController listSearchSh listSearchEmp=>"+ listSearchClient);
+	      
+	      model.addAttribute("totalClient",totalClient );
+	      model.addAttribute("listClient", listSearchClient);
+	      model.addAttribute("page", page);
+	      
+	      
+	      return "sh_views/list";
+	   }
 
 		
 	
