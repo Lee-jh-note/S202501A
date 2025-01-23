@@ -1,6 +1,6 @@
 package org.oracle.s202501a.controller.sh_controller;
 
-import org.oracle.s202501a.dto.sh_dto.DeptDTO;
+import org.oracle.s202501a.dto.sh_dto.DeptDTO	;
 import org.oracle.s202501a.dto.sh_dto.EmpDTO;
 import org.oracle.s202501a.entity.Emp;
 import org.oracle.s202501a.service.sh_service.ClientService;
@@ -20,16 +20,26 @@ public class UserController {
 
 	private final PasswordEncoder passwordEncoder;
 	
-	@PostMapping(value = "/writeFormEmp3")
+	@PostMapping(value = "/re/writeFormEmp35")
 	public String signup(EmpDTO empDto) {
 		System.out.println("UserController @PostMapping signup start... ");
 		System.out.println("UserController @PostMapping signup empDto 1->"+empDto);
 	    DeptDTO dept = cs.detailDept(empDto.getDept_No());
 
-	    String passwd = dept.getDept_Name() + empDto.getBirth().replace("-","");
+	    
+	    
+	    //String passwd = dept.getDept_Name() + empDto.getBirth().replace("-","");
+	    String passwd = "123";
+
 	    System.out.println("EmpController writeEmp passwd->" + passwd);
 	    empDto.setPassword(passwd);
 
+	    String username = empDto.getEmp_Email();
+	    
+	    System.out.println("EmpController writeEmp username->" + username);
+	    empDto.setUsername(username);
+	    
+	    
 		ModelMapper mapper = new ModelMapper();
 		Emp emp = mapper.map(empDto, Emp.class);
 		// accountDto password Encoder

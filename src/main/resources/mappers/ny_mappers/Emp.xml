@@ -97,40 +97,45 @@
 	</update>
 	
 	
-	
+<!--	
+// 유저컨트롤러 동일 
+// 직원 등록	
+<insert id="nyinsertEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp">
+    <selectKey keyProperty="EMP_NO_SEQ" resultType="Long" order="BEFORE">
+        select EMP_NO_SEQ.nextval from dual
+    </selectKey>
+    <![CDATA[
+    INSERT INTO EMP (
+        emp_No,
+        dept_No,       
+        emp_Name,      
+        emp_Tel,        전화번호 
+        emp_Email,      이메일 
+        password,      비밀번호 
+        birth,          생년월일 
+        hiredate,      입사일 
+        roles,          사용자 권한
+        position,       직급 
+        username,       아이디 
+        emp_Delete      삭제 여부 
+    ) VALUES (
+        EMP_NO_SEQ,
+        #{dept_No},           부서 번호 
+        #{emp_Name},          이름 
+        #{emp_Tel},           전화번호 
+        #{emp_Email},         이메일 
+        #{password},          비밀번호 (부서 명+ 생년월일('-'빼고 8자리)
+        #{birth},             생년월일 
+        #{hiredate},          입사일 
+        #{roles},             사용자 권한
+        #{position},          직급 
+        TO_CHAR(EMP_NO_SEQ),  아이디  
+        0                     삭제 여부 (1이 삭제) 
+    )
+    ]]>
+</insert>
+-->
 
-	<!-- 직원 등록 -->
-	<!-- detailEmp 상세조회페이지, (수정)updateForm페이지, writeForm등록페이지 => jsp에는 같은 칼럼 
-		보이게 -->
-	<insert id="nyinsertEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp"> <!-- emp 테이블의 순서데로 집어넣어야한다. -->
-		INSERT INTO EMP (
-		emp_No,
-		dept_No,       <!-- 부서 번호 -->
-		emp_Name,      <!-- 이름 -->
-		emp_Tel,       <!-- 전화번호 -->
-		emp_Email,     <!-- 이메일 -->
-		password,      <!-- 비밀번호 -->
-		birth,         <!-- 생년월일 -->
-		hiredate,      <!-- 입사일 -->
-		roles,     <!-- 사용자 권한 -->
-		position,      <!-- 직급 -->
-		username,            <!-- 아이디 -->
-		emp_Delete     <!-- 삭제 여부 -->
-		) VALUES (
-		EMP_NO_SEQ.nextval,
-		#{dept_No},          <!-- 부서 번호 -->
-		#{emp_Name},         <!-- 이름 -->
-		#{emp_Tel},          <!-- 전화번호 -->
-		#{emp_Email},        <!-- 이메일 -->
-		#{password},          <!-- # 비밀번호 -->
-		#{birth},           <!-- 생년월일 -->
-		#{hiredate},         <!-- 입사일 -->
-		1,                   <!-- 이거 다른 테이블 가져올 ??? 사용자 권한 (1로 고정) // 수정 필요-->
-		#{position},         <!-- 직급 -->
-		EMP_NO_SEQ.currval,  <!-- # 아이디  -->
-		0                    <!-- # 삭제 여부 (0으로 고정) -->
-		)
-	</insert>
 
 
 <!-- 직원 직급 선택 (등록 시)-->
@@ -188,7 +193,15 @@
 		(
 		SELECT rownum rn , a.*
 		FROM
-		(select *
+		(select  e.emp_no,        
+                e.emp_name,      
+                e.dept_no,       
+                e.position,      
+                e.emp_tel,       
+                e.emp_email,     
+                e.birth,         
+                e.hiredate,      
+                d.dept_name
 		from EMP e
 		LEFT JOIN DEPT d
         ON e.dept_no = d.dept_no

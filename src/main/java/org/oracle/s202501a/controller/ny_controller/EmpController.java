@@ -14,8 +14,10 @@ import java.util.List;
 import org.hibernate.query.Page;
 import org.oracle.s202501a.dto.ny_dto.Dept;
 import org.oracle.s202501a.dto.ny_dto.Emp;
+import org.oracle.s202501a.dto.sh_dto.CommDto;
 import org.oracle.s202501a.service.ny_service.EmpService;
 import org.oracle.s202501a.service.ny_service.Paging;
+import org.oracle.s202501a.service.sh_service.ClientService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EmpController {
 	private final EmpService es;
-
+	private final ClientService cs;
+	
 	// 직원 리스트
 	@RequestMapping(value = "listEmp")
 	public String listEmp(Emp emp, Model model) {
@@ -194,7 +197,7 @@ public class EmpController {
 			emp.setHiredate(hiredate);
 		}
 		System.out.println("hiredate->" + hiredate);
-
+System.out.println("반환 지건 " + emp);
 		model.addAttribute("emp", emp);
 		return "ny_views/updateFormEmp";
 
@@ -216,48 +219,58 @@ public class EmpController {
 		return "forward:listEmp";
 	}
 	
+	// 유
+	/*
+	 * //직원 등록
+	 * 
+	 * @RequestMapping(value = "writeFormEmp") public String writeFormEmp(Model
+	 * model) { System.out.println("empController writeFormEmp Start...");
+	 * 
+	 * // 부서 선택 List<Dept> deptList = es.deptSelect();
+	 * model.addAttribute("deptList", deptList);
+	 * System.out.println("EmpController deptList.size->" + deptList.size());
+	 * 
+	 * // 직급 선택 List<Emp> empList = es.empPosSelect(); model.addAttribute("empList",
+	 * empList); System.out.println("EmpController empList.size->" +
+	 * deptList.size());
+	 * 
+	 * // role 선택 int bcd = 100; // 권한(role) List<CommDto> roleList =
+	 * cs.roleSelect(100); model.addAttribute("roleList", roleList);
+	 * System.out.println("EmpController writeFormEmp3 roleList.size->" +
+	 * roleList.size()); System.out.println("EmpController writeFormEmp3 roleList->"
+	 * + roleList);
+	 * 
+	 * return "ny_views/writeFormEmp";
+	 * 
+	 * }
+	 */
 
 	
-	//직원 등록
+	// 직원 등록
 	@RequestMapping(value = "writeFormEmp")
 	public String writeFormEmp(Model model) {
-		System.out.println("empController writeFormEmp Start...");
+	    System.out.println("empController writeFormEmp Start...");
 
-		// 부서 선택
-		List<Dept> deptList = es.deptSelect();
-		model.addAttribute("deptList", deptList);
-		System.out.println("EmpController deptList.size->" + deptList.size());
+	    // 부서 선택
+	    List<Dept> deptList = es.deptSelect();
+	    model.addAttribute("deptList", deptList);
+	    System.out.println("EmpController deptList.size->" + deptList.size());
 
-		// 직급 선택
-		List<Emp> empList = es.empPosSelect();
-		model.addAttribute("empList", empList);
-		System.out.println("EmpController empList.size->" + deptList.size());
+	    // 직급 선택
+	    List<Emp> empList = es.empPosSelect();
+	    model.addAttribute("empList", empList);
+	    System.out.println("EmpController empList.size->" + deptList.size());
 
-		return "ny_views/writeFormEmp";
+	    // role 선택
+	    int bcd = 100; // 권한(role)
+	    List<CommDto> roleList = cs.roleSelect(100);
+	    model.addAttribute("roleList", roleList);
+	    System.out.println("EmpController writeFormEmp3 roleList.size->" + roleList.size());
+	    System.out.println("EmpController writeFormEmp3 roleList->" + roleList);
 
+	    return "ny_views/writeFormEmp";
 	}
 
-	@PostMapping(value = "writeEmp")
-	public String writeEmp(Emp emp, Model model) {
-		System.out.println("EmpController Start writeEmp...");
-		System.out.println("EmpController writeEmp emp->" + emp);
-
-		Dept dept = es.detailDept(emp.getDept_No());
-//		System.out.println("EmpController detailEmp dept.getDept_Name()->" + dept.getDept_Name());
-//		System.out.println("EmpController detailEmp  emp.getBirth()->" + emp.getBirth().replace("-", ""));
-		
-		String passwd = dept.getDept_Name() + emp.getBirth().replace("-", "");
-		System.out.println("EmpController writeEmp passwd->" + passwd);
-		emp.setPassword(passwd);
-		// Service, Dao , Mapper명[insertEmp] 까지 -> insert
-		int insertResult = es.insertEmp(emp);
-		if (insertResult > 0)
-			return "redirect:listEmp";
-		else {
-			model.addAttribute("msg", "입력 실패 확인해 보세요");
-			return "forward:writeFormEmp";
-		}
-	}
 
 	
 	/*

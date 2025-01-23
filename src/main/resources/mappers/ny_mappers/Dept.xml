@@ -6,8 +6,21 @@
 <mapper namespace="org.oracle.s202501a.mapper.DeptMapper">
 
 
+
+	<select id="ny11SelectDept" resultType="org.oracle.s202501a.dto.ny_dto.Dept">
+		select dept_no, dept_name
+		from DEPT 
+        
+	</select>
+
+
+
+
 	<select id="nySelectDept" resultType="org.oracle.s202501a.dto.ny_dto.Dept">
-		select * from DEPT
+		select e.emp_no, e.emp_name
+		from DEPT d
+		left join EMP e on d.dept_no = e.dept_no 
+        where emp_delete =0
 	</select>
 
 	<select id="nylistDeptSelOne" parameterType="Long"	resultType="org.oracle.s202501a.dto.ny_dto.Dept">
