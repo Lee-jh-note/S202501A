@@ -83,13 +83,10 @@
 				<td>${emp.hiredate.substring(0, 10)}</td>
 			</tr>
 			<tr>
-				<th>id</th>
-				<td>${emp.id}</td>
+				<th>username</th>
+				<td>${emp.username}</td>
 			</tr>
-			<tr>
-				<th>passwd</th>
-				<td>${emp.password}</td>
-			</tr>
+	
 			<tr>
 				<td colspan="2"><input type="button" value="목록" onclick="location.href='listEmp'"> 
 				<input type="button" value="수정" onclick="location.href='updateFormEmp?emp_No=${emp.emp_No}'">

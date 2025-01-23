@@ -1,6 +1,6 @@
 package org.oracle.s202501a.service.ny_service;
 
-import java.util.List;
+import java.util.List;	
 
 import org.oracle.s202501a.dao.ny_dao.DeptDao;
 import org.oracle.s202501a.dao.ny_dao.EmpDao;
@@ -81,13 +81,11 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	//직원 등록
-	@Override
-	public int insertEmp(Emp emp) {
-		int result = 0;
-		System.out.println("EmpServiceImpl insert Start...");
-		result = ed.insertEmp(emp);
-		return result;
-	}
+	/*
+	 * @Override public int insertEmp(Emp emp) { int result = 0;
+	 * System.out.println("EmpServiceImpl insert Start..."); result =
+	 * ed.insertEmp(emp); return result; }
+	 */
 	//직원 삭제 (업데이트)
 	@Override
 	public int deleteEmp(Emp emp) {

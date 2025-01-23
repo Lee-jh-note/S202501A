@@ -23,7 +23,7 @@ public class DeptDaoImpl implements DeptDao {
 		List<Dept> deptList = null;
 		System.out.println("DeptDaoImpl deptSelect Start..." );
 		try {
-			deptList = session.selectList("nySelectDept");
+			deptList = session.selectList("ny11SelectDept");
 		} catch (Exception e) {
 			System.out.println("DeptDaoImpl deptSelect Exception->"+e.getMessage());
 		}

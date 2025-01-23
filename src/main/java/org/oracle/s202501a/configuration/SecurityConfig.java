@@ -50,18 +50,18 @@ public class SecurityConfig {
                             .anyRequest().authenticated()
         					)
         	// 인증 
-//            .formLogin(form -> form
-//                   .loginPage("/login")  // UsernamePasswordAuthenticationFilter 생성 폼방식의 인증처리
-//                   .authenticationDetailsSource(authenticationDetailsSource)
-//                   .successHandler(successHandler)
-//                   .failureHandler(failureHandler)
-//                   .permitAll()
-//                   )
-//           .authenticationProvider(authenticationProvider)
-//           .exceptionHandling(
-//           		   exception -> exception
-//                   .accessDeniedHandler(new FormAccessDeniedHandler("/denied"))
-//        		   )
+            .formLogin(form -> form
+                   .loginPage("/login")  // UsernamePasswordAuthenticationFilter 생성 폼방식의 인증처리
+                   .authenticationDetailsSource(authenticationDetailsSource)
+                   .successHandler(successHandler)
+                   .failureHandler(failureHandler)
+                   .permitAll()
+                   )
+           .authenticationProvider(authenticationProvider)
+           .exceptionHandling(
+           		   exception -> exception
+                   .accessDeniedHandler(new FormAccessDeniedHandler("/denied"))
+        		   )
             ;
 		
         return http.build();

@@ -38,8 +38,8 @@
 	<select id="shListManger" resultType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
 	  SELECT DISTINCT CLIENT_TYPE, 
 	       CASE 
-	           WHEN CLIENT_TYPE = 0 THEN '매출처'
-	           WHEN CLIENT_TYPE = 1 THEN '매입처'
+	           WHEN CLIENT_TYPE = 1 THEN '매출처'
+	           WHEN CLIENT_TYPE = 0 THEN '매입처'
 	           ELSE '기타'
 	       END AS CLIENT_TYPE_DESC
 		FROM CLIENTS
@@ -49,10 +49,12 @@
 
 	<insert id="shinsertClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
 		  INSERT INTO Clients (
+		  						CLIENT_NO,
        							CLIENT_NAME, CLIENT_TYPE, CLIENT_CEO,
         						BUSINESS_NO, CLIENT_EMAIL, CLIENT_TEL, CEO_TEL, CLIENT_DELETE, REG_DATE
         						,EMP_NO
 						    ) VALUES (
+						    	CLIENT_NO_SEQ.nextval,
 						        #{client_Name}, #{client_Type}, #{client_Ceo},
 						        #{business_No}, #{client_Email}, #{client_Tel}, 
 						        #{ceo_Tel}, #{client_Delete}, TO_DATE(#{reg_Date}, 'YYYY-MM-DD')

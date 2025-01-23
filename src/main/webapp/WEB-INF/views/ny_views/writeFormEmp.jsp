@@ -55,7 +55,7 @@
     <div class="bb"></div>
     <div>
     <h2>직원등록</h2>
-        <form action="writeEmp" method="post" name="frm">
+        <form action="/re/writeFormEmp35" method="post" name="frm">
         <table>
                 <tr>
                     <th>이름</th>
@@ -94,6 +94,15 @@
                 <tr>
                     <th>입사일</th>
                     <td><input type="date" name="hiredate" required="required"></td>
+                </tr>
+                <tr>
+                    <th>권한</th>
+	                <td><select name="roles">
+	                            <c:forEach var="role" items="${roleList}">
+	                                <option value="${role.content}">${role.content}</option>
+	                            </c:forEach>
+	                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="submit" value="확인"></td>

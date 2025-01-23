@@ -7,9 +7,10 @@ import org.oracle.s202501a.dto.sh_dto.ClientDTO;
 import org.oracle.s202501a.dto.sh_dto.CommDto;
 import org.oracle.s202501a.dto.sh_dto.DeptDTO;
 import org.oracle.s202501a.dto.sh_dto.EmpDTO;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public interface ClientService {
 	int					   totalClient();
 	List<ClientDTO>		   listClient(ClientDTO client);
