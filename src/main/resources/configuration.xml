@@ -20,5 +20,8 @@
         <typeAlias type="org.oracle.s202501a.dto.jh_dto.CategoriesDto" alias="CategoriesDto"/>
         <typeAlias type="org.oracle.s202501a.dto.jh_dto.SPRecodesDto" alias="SPRecodesDto"/>
         <typeAlias type="org.oracle.s202501a.dto.jh_dto.ClosingDto" alias="ClosingDto"/>
+        
+        <typeAlias alias="Sales" 	  type="org.oracle.s202501a.dto.rw_dto.Sales" />
+        <typeAlias alias="SalesAll"   type="org.oracle.s202501a.dto.rw_dto.SalesAll" />
     </typeAliases>
 </configuration>
