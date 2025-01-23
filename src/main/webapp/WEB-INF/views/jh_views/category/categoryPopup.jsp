@@ -24,30 +24,25 @@
         <tr>
             <th>대분류</th>
             <th>대분류 내용</th>
-            <th>대분류 수정/삭제</th>
             <th>중분류</th>
             <th>중분류 내용</th>
-            <th>중분류 수정/삭제</th>
         </tr>
         </thead>
         <tbody>
         <!-- 모델에서 받은 topList 데이터를 반복하여 출력 -->
         <c:forEach var="topCategory" items="${topList}">
             <tr>
-                <td>${topCategory.top_category}</td>
-                <td>${topCategory.title}</td>
-                <td>
-                    <a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}" class="btn btn-warning btn-sm">수정/삭제</a>
-                </td>
+                <!-- 대분류 내용에 링크 추가 -->
+                <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}" class="text-decoration-none">${topCategory.top_category}</a></td>
+                <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}" class="text-decoration-none">${topCategory.title}</a></td>
+
 
                 <!-- 해당 top_category에 속한 midList만 필터링하여 출력 -->
                 <c:forEach var="midCategory" items="${midList}">
                     <c:if test="${midCategory.top_category == topCategory.top_category}">
-                        <td>${midCategory.mid_category}</td>
-                        <td>${midCategory.content}</td>
-                        <td>
-                            <a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}" class="btn btn-warning btn-sm">수정/삭제</a>
-                        </td>
+                        <!-- 중분류 내용에 링크 추가 -->
+                        <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}" class="text-decoration-none">${midCategory.mid_category}</a></td>
+                        <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}" class="text-decoration-none">${midCategory.content}</a></td>
                     </c:if>
                 </c:forEach>
             </tr>

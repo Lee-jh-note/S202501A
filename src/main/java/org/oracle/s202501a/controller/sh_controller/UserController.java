@@ -25,9 +25,6 @@ public class UserController {
 		System.out.println("UserController @PostMapping signup start... ");
 		System.out.println("UserController @PostMapping signup empDto 1->"+empDto);
 	    DeptDTO dept = cs.detailDept(empDto.getDept_No());
-
-
-
 	    //String passwd = dept.getDept_Name() + empDto.getBirth().replace("-","");
 	    String passwd = "123";
 

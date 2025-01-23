@@ -27,10 +27,6 @@ public class ProductService {
 
     // 전체 리스트
     public ProdCatePagingDto getProdList(ProductDto productDto, String name, Integer type) {
-        if (productDto.getCurrentPage() == null) {
-            productDto.setCurrentPage("1");
-        }
-
         // 총 상품 수 조회
         int total = prodTotal();
 
@@ -40,7 +36,7 @@ public class ProductService {
         productDto.setEnd(page.getEnd());
 
         // 카테고리 정보 조회
-        CategoriesDto categoriesDto = prodCategoryService.ProdCateFindAll();
+        CategoriesDto categoriesDto = prodCategoryService.prodCateFindAll();
         List<CategoriesDto> cataDto = categoriesDto.getTopList();
 
         // 상품 검색 기능

@@ -76,4 +76,14 @@ public class ProdCategoryDaoImpl implements ProdCategoryDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public CategoriesDto findByTop(CategoriesDto categoriesDto) {
+        try {
+            return sqlSession.selectOne("findByTop", categoriesDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

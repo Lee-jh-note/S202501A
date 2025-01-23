@@ -26,13 +26,7 @@ public class InventoryService {
 
 
     public InvenPagingDto getInventoryList(InventoryDto inventoryDto, String product_name, String yymm) {
-        // 1. 기본값 처리 및 날짜 형식 변경
 
-        System.out.println("서비스 프로 네임 : " + product_name);
-        System.out.println("서비스 yymm : " + yymm);
-        if (inventoryDto.getCurrentPage() == null) {
-            inventoryDto.setCurrentPage("1");
-        }
         if (yymm != null && !yymm.isEmpty()) {
             String formattedYymm = yymm.substring(2).replace('-', '/');
             inventoryDto.setYymm(formattedYymm);

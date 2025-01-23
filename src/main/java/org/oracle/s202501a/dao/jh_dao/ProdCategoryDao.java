@@ -22,4 +22,6 @@ public interface ProdCategoryDao {
     List<CategoriesDto> topFindAll();
 
     List<CategoriesDto> midFindAll();
+
+    CategoriesDto findByTop(CategoriesDto categoriesDto);
 }

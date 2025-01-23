@@ -6,13 +6,28 @@
 <mapper namespace="org.oracle.s202501a.dto.jh_dto.CategoriesDto">
     <select id="ProdCateFindAll" resultType="CategoriesDto">
         select *
-        from categories
-        where top_category like '5__'
+        from categories;
     </select>
 
     <insert id="ProdCateCreate" parameterType="CategoriesDto">
         insert into CATEGORIES (TOP_CATEGORY, MID_CATEGORY, TITLE, CONTENT)
-        values ( #{top_category}, #{mid_category}, #{title}, #{content} )
+        values (
+        <if test="top_category == null || top_category == 0">
+            TOP_CATEGORY_SEQ.nextval
+        </if>
+        <if test="top_category != null &amp;&amp; top_category != 0">
+            #{top_category}
+        </if>,
+
+        <if test="mid_category == null || mid_category == 0">
+            MID_CATEGORY_SEQ.nextval
+        </if>
+        <if test="mid_category != null &amp;&amp; mid_category != 0">
+            #{mid_category}
+        </if>,
+
+        #{title}, #{content}
+        )
     </insert>
 
     <select id="ProdCateDetails" parameterType="CategoriesDto" resultType="CategoriesDto">
@@ -20,15 +35,22 @@
         from CATEGORIES
         where 1 = 1
         and TOP_CATEGORY = #{top_category}
-        and MID_CATEGORY = #{mid_category}
+        <if test="mid_category != null &amp;&amp; mid_category != 0">
+            and MID_CATEGORY = #{mid_category}
+        </if>
     </select>
 
     <update id="ProdCateModify" parameterType="CategoriesDto">
         update CATEGORIES
-        set title = #{title}, content = #{content}
+        set title = #{title}
+        <if test="mid_category != null &amp;&amp; mid_category != 0">
+            , content = #{content}
+        </if>
         where 1 = 1
         and TOP_CATEGORY = #{top_category}
-        and MID_CATEGORY = #{mid_category}
+        <if test="mid_category != null &amp;&amp; mid_category != 0">
+            and MID_CATEGORY = #{mid_category}
+        </if>
     </update>
     
     <delete id="ProdCateDelete" parameterType="CategoriesDto">
@@ -46,5 +68,11 @@
     <select id="midFindAll" resultType="CategoriesDto">
         select MID_CATEGORY, content, TOP_CATEGORY
         from CATEGORIES
+    </select>
+
+    <select id="findByTop" parameterType="CategoriesDto" resultType="CategoriesDto">
+        select distinct top_category, title
+        from CATEGORIES
+        where top_category = #{top_category}
     </select>
 </mapper>

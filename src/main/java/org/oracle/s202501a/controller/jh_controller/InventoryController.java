@@ -25,9 +25,6 @@ public class InventoryController {
                             @RequestParam(value = "product_name", required = false) String product_name,
                             @RequestParam(value = "yymm", required = false) String yymm) {
 
-        System.out.println("컨트롤러 프로 네임 : " + product_name);
-        System.out.println("컨트롤러 yymm : " + yymm);
-
         // 서비스 호출: 조건에 맞는 결과 조회
         InvenPagingDto response = inventoryService.getInventoryList(inventoryDto, product_name, yymm);
 
@@ -46,7 +43,6 @@ public class InventoryController {
     public String optimalModify(@RequestParam(value = "product_no", required = false) Long product_no,
                                 @RequestParam("optimal_quantity") int optimal) {
 
-        System.out.println("컨트롤러 프로넘 : " + product_no);
         inventoryService.optimalModify(product_no, optimal);
 
         return "redirect:/Inven/InvenList";

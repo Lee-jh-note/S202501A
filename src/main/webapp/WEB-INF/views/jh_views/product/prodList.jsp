@@ -36,7 +36,7 @@
     <!-- 버튼: 제품 등록, 분류 관리 -->
     <div class="mb-4">
         <a href="/Prod/ProdCreate" class="btn btn-success">제품 등록</a>
-        <a href="/Prod/Category/List" onclick="window.open(this.href, 'categoryPopup', 'width=800,height=1200'); return false;" class="btn btn-info">분류 관리</a>
+        <a href="/Prod/Category/List" onclick="window.open(this.href, 'categoryPopup', 'width=600,height=800'); return false;" class="btn btn-info">분류 관리</a>
     </div>
 
     <!-- 상태 변경 폼 -->

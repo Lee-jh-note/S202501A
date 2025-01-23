@@ -51,7 +51,7 @@ public class ProductController {
     // 등록
     @GetMapping("/Prod/ProdCreate")
     public String prodCreate(Model model) throws JsonProcessingException {
-        CategoriesDto category = prodCategoryService.ProdCateFindAll();
+        CategoriesDto category = prodCategoryService.prodCateFindAll();
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonTopList = objectMapper.writeValueAsString(category.getTopList());
@@ -84,7 +84,7 @@ public class ProductController {
     public String prodModify(Model model, @RequestParam("productNo") Long productNo) throws JsonProcessingException {
 
         ProductPriceDto dto = productService.prodDetails(productNo);
-        CategoriesDto category = prodCategoryService.ProdCateFindAll();
+        CategoriesDto category = prodCategoryService.prodCateFindAll();
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonTopList = objectMapper.writeValueAsString(category.getTopList());

@@ -20,7 +20,7 @@
         FROM (SELECT p.product_no, c.content, c.title, p.product_name, p.status, p.description, rownum rm
               FROM product p
                        LEFT JOIN CATEGORIES c ON c.mid_category = p.mid_category
-              where product_delete = 1
+              where product_delete = 0
               ORDER BY p.product_no)
         WHERE rm between #{start} and #{end}
     </select>
@@ -28,7 +28,7 @@
     <select id="ProdTotal" resultType="int">
         select count(*)
         from product p
-        where PRODUCT_DELETE = 1
+        where PRODUCT_DELETE = 0
     </select>
 
     <select id="ProdSearch" parameterType="ProductDto" resultType="ProductDto">
@@ -37,7 +37,7 @@
         FROM product p
         LEFT JOIN CATEGORIES c ON c.mid_category = p.mid_category
         where 1 = 1
-          and PRODUCT_DELETE = 1
+          and PRODUCT_DELETE = 0
         AND p.product_name LIKE '%' || #{product_name} || '%'
         <if test="category != 0">
             AND c.top_category = #{category}
@@ -53,7 +53,7 @@
         FROM product p
         LEFT JOIN CATEGORIES c ON c.mid_category = p.mid_category
         where 1 = 1
-        and PRODUCT_DELETE = 1
+        and PRODUCT_DELETE = 0
           <if test="product_name != null">
         AND p.product_name LIKE '%' || #{product_name} || '%'
           </if>
@@ -73,7 +73,7 @@
           and c.mid_category = p.mid_category
           and p.product_no = #{product_no}
         and h.TO_DATE = '99/12/31'
-        and p.PRODUCT_DELETE = 1
+        and p.PRODUCT_DELETE = 0
     </select>
 
     <update id="ProdModify" parameterType="ProductDto">
@@ -84,7 +84,7 @@
 
     <update id="ProdDelete" parameterType="Long">
         update product
-        set PRODUCT_DELETE = 0
+        set PRODUCT_DELETE = 1
         where product_no = #{product_no}
     </update>
 
@@ -110,7 +110,7 @@
         FROM product p
                  LEFT JOIN inventory i ON p.product_no = i.product_no
             and i.yymm = to_char(sysdate, 'yy/mm')
-        WHERE p.PRODUCT_DELETE = 1
+        WHERE p.PRODUCT_DELETE = 0
           AND p.STATUS = 1
           AND i.product_no IS NULL
     </select>

@@ -1,14 +1,13 @@
 package org.oracle.s202501a.controller.jh_controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oracle.s202501a.dto.jh_dto.CategoriesDto;
 import org.oracle.s202501a.service.jh_service.ProdCategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,39 +21,57 @@ public class ProdCategoryController {
     // 리스트 where top = 500
     @GetMapping("/Prod/Category/List")
     public String ProdCategoryList(Model model) {
-        CategoriesDto dto = prodCategoryService.ProdCateFindAll();
+        CategoriesDto dto = prodCategoryService.prodCateFindAll();
         List<CategoriesDto> topList = dto.getTopList();
         List<CategoriesDto> midList = dto.getMidList();
-
         model.addAttribute("topList", topList);
         model.addAttribute("midList", midList);
         return "jh_views/category/categoryPopup";
     }
+
     // 생성 폼
     @GetMapping("/Prod/Category/Create")
-    public String ProdCategoryCreate(Model model) {
+    public String ProdCategoryCreate(Model model) throws JsonProcessingException {
+        CategoriesDto category = prodCategoryService.prodCateFindAll();
 
+        List<CategoriesDto> dto = category.getTopList();
+        model.addAttribute("top_list", dto);
         return "jh_views/category/ProdCateCreateForm";
     }
-    // 생성 act
-    @PostMapping("/Prod/Category/CreateAct")
-    public String ProdCategoryCreateAct(@ModelAttribute CategoriesDto categoriesDto) {
-        prodCategoryService.ProdCateCreate(categoriesDto);
+
+    //  한번에 추가
+    @PostMapping("/Prod/Category/add")
+    @ResponseBody
+    public String addSubCategory(@RequestParam(value = "newMidCategory", required = false) String newMidCategory,
+                                 @RequestParam(value = "newTopCategory", required = false) String newTopCategory) {
+        // 중분류 추가 로직 (DB 또는 서비스 호출)
+        prodCategoryService.prodCateCreate(newMidCategory, newTopCategory);
         return "redirect:/Prod/Category/List";
     }
 
-    // 상세 에서 수정 삭제까지 구현 해야함
-    @GetMapping("/Prod/Category/Detail")
-    public String ProdCategoryDetail(Model model, @ModelAttribute CategoriesDto categoriesDto) {
-        CategoriesDto dto = prodCategoryService.ProdCateDetails(categoriesDto);
-        model.addAttribute("CateDetails", dto);
-        return "jh_views/ProdCateDetail";
+    // 대분류 선택 후 추가
+    @PostMapping("/Prod/Category/Create")
+    public String createSubCategory(CategoriesDto dto) {
+        System.out.println("컨트롤러 : " + dto);
+        prodCategoryService.prodCateCreateMid(dto);
+
+        return "redirect:/Prod/Category/List";
     }
+
+//    // 상세 에서 수정 삭제까지 구현 해야함
+//    @GetMapping("/Prod/Category/Detail")
+//    public String ProdCategoryDetail(Model model, @ModelAttribute CategoriesDto categoriesDto) {
+//        CategoriesDto dto = prodCategoryService.prodCateDetails(categoriesDto);
+//        model.addAttribute("CateDetails", dto);
+//        return "jh_views/ProdCateDetail";
+//    }
 
     // 수정 및 삭제 폼
     @GetMapping("/Prod/Category/Modify")
     public String ProdCategoryModify(Model model, @ModelAttribute CategoriesDto categoriesDto) {
-        CategoriesDto dto = prodCategoryService.ProdCateDetails(categoriesDto);
+        System.out.println("컨트롤러 수정 타겟 : " + categoriesDto);
+        CategoriesDto dto = prodCategoryService.prodCateDetails(categoriesDto);
+        System.out.println("컨트롤러 수정: " + dto);
         model.addAttribute("category", dto);
         return "jh_views/category/ProdCateModifyForm";
     }
@@ -63,14 +80,14 @@ public class ProdCategoryController {
     @PostMapping("/Prod/Category/ModifyAct")
     public String ProdCategoryModify(@ModelAttribute CategoriesDto categoriesDto) {
         System.out.println("수정 액션 들어온 내용 :" + categoriesDto);
-        prodCategoryService.ProdCateModify(categoriesDto);
+        prodCategoryService.prodCateModify(categoriesDto);
         return "redirect:/Prod/Category/List";
     }
 
     // 삭제
     @PostMapping("/Prod/Category/Delete")
     public String ProdCategoryDelete(@ModelAttribute CategoriesDto categoriesDto) {
-        prodCategoryService.ProdCateDelete(categoriesDto);
+        prodCategoryService.prodCateDelete(categoriesDto);
         return "redirect:/Prod/Category/List";
     }
 
