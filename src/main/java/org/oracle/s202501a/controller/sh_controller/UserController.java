@@ -8,7 +8,7 @@ import org.oracle.s202501a.service.sh_service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.modelmapper.ModelMapper;	
+import org.modelmapper.ModelMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +26,8 @@ public class UserController {
 		System.out.println("UserController @PostMapping signup empDto 1->"+empDto);
 	    DeptDTO dept = cs.detailDept(empDto.getDept_No());
 
-	    
-	    
+
+
 	    //String passwd = dept.getDept_Name() + empDto.getBirth().replace("-","");
 	    String passwd = "123";
 
@@ -35,11 +35,10 @@ public class UserController {
 	    empDto.setPassword(passwd);
 
 	    String username = empDto.getEmp_Email();
-	    
+
 	    System.out.println("EmpController writeEmp username->" + username);
 	    empDto.setUsername(username);
-	    
-	    
+
 		ModelMapper mapper = new ModelMapper();
 		Emp emp = mapper.map(empDto, Emp.class);
 		// accountDto password Encoder
