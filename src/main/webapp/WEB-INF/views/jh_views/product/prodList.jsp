@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="../ProdTest.jsp"%>
+
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -44,30 +46,31 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th><input type="checkbox" id="select_all" onclick="toggleAll(this)"/> Select All</th>
-                <th>Product No</th>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Category</th>
-                <th>Actions</th> <!-- 수정 및 상세 조회 링크 -->
+                <th>제품 코드</th>
+                <th>제품 이름</th>
+                <th>상세</th>
+                <th>상태</th>
+                <th>분류</th>
+                <th>수정/삭제</th> <!-- 수정 및 상세 조회 링크 -->
+                <th><input type="checkbox" id="select_all" onclick="toggleAll(this)"/>  All</th>
+
             </tr>
             </thead>
             <tbody>
             <c:forEach var="product" items="${list}">
                 <tr>
                     <!-- 체크박스 -->
-                    <td><input type="checkbox" name="product_no" value="${product.product_no}"/></td>
-                    <!-- Product No, Product Name 등 -->
                     <td>${product.product_no}</td>
                     <td>${product.product_name}</td>
                     <td>${product.description}</td>
-                    <td>${product.status}</td>
+                    <td>${product.status == 0 ? '비활성' : '활성'}</td>
                     <td>${product.content}</td>
                     <td>
-                        <a href="/Prod/ProdModify?productNo=${product.product_no}" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="/Prod/ProdDetails?productNo=${product.product_no}" class="btn btn-info btn-sm">View</a>
+                        <a href="/Prod/ProdModify?productNo=${product.product_no}" class="btn btn-warning btn-sm">수정</a>
+                        <a href="/Prod/ProdDetails?productNo=${product.product_no}" class="btn btn-info btn-sm">상세보기</a>
                     </td>
+                    <td><input type="checkbox" name="product_no" value="${product.product_no}"/></td>
+
                 </tr>
             </c:forEach>
             </tbody>

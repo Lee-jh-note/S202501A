@@ -42,7 +42,7 @@
     </tr>
     <tr>
       <th>등록일</th>
-      <td>${ProductPrice.reg_date}</td>
+      <td><fmt:formatDate value="${ProductPrice.reg_date}" pattern="yy/MM/dd"/></td>
     </tr>
     <tr>
       <th>Sale Price</th>

@@ -28,12 +28,14 @@ public class PriceHistoryService {
 
     // 처음에 등록 제품 등록에서 넘어올거임
     public void priceCreateAct(PriceHistoryModel model) {
-            model.setSale_or_purchase(0);
+            model.setSale_or_purchase(1);
             model.setPrice(model.getSale_price());
             PriceHistory priceHistory = PriceHistoryMapper.toEntity(model);
             priceHistory.prePersist();
             priceHistoryRepository.save(priceHistory);
-            model.setSale_or_purchase(1);
+
+
+            model.setSale_or_purchase(0);
             model.setPrice(model.getPur_price());
             priceHistory = PriceHistoryMapper.toEntity(model);
             priceHistory.prePersist();
@@ -43,7 +45,6 @@ public class PriceHistoryService {
     // 지난 날짜의 판매가 구매가 변경
     public PriceHistoryModel oldPriceModify(PriceHistoryModel model) {
 
-        System.out.println("지난 날짜 가격 변경 객체 : " + model);
             model.setReg_date(new Date());
             PriceHistory oldHistory = PriceHistoryMapper.toEntity(model);
             priceHistoryRepository.save(oldHistory);

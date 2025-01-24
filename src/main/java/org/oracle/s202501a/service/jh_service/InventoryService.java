@@ -44,11 +44,11 @@ public class InventoryService {
         List<InventoryDto> list;
         PagingJH page;
 
-            total = searchCount(inventoryDto);
-            page = pagingService.getPagingInfo(total, inventoryDto.getCurrentPage());
-            inventoryDto.setStart(page.getStart());
-            inventoryDto.setEnd(page.getEnd());
-            list = invenSearchList(inventoryDto);
+        total = searchCount(inventoryDto);
+        page = pagingService.getPagingInfo(total, inventoryDto.getCurrentPage());
+        inventoryDto.setStart(page.getStart());
+        inventoryDto.setEnd(page.getEnd());
+        list = invenSearchList(inventoryDto);
 
         // 3. 응답 DTO 반환
         return new InvenPagingDto(list, page);
@@ -74,19 +74,33 @@ public class InventoryService {
     }
 
     public void invenCreate(InventoryDto inventoryDto) {
-        String date = inventoryDto.getYymm().replace("-","/").substring(2);
+        String date = inventoryDto.getYymm().replace("-", "/").substring(2);
         inventoryDto.setYymm(date);
         inventoryDao.invenCreate(inventoryDto);
     }
 
     public void closing(ClosingDto dto) {
-        String date = dto.getYymm().replace("-","/").substring(2);
+
+        String date = dto.getYymm().replace("-", "/").substring(2);
         dto.setYymm(date);
         dto.setEmp_no(1); // 세션에서 가져와야하지만 임시로
         inventoryDao.closing(dto);
     }
 
     public boolean closingCheck(String yymm) {
-       return inventoryDao.closingCheck(yymm);
+
+        String ym = yymm.substring(2).replace("-", "/");
+        return inventoryDao.closingCheck(ym) == 0; // 반환 0 이면 트루 리턴 1 이면 펄스 리턴
+    }
+
+    public InventoryDto InvenFindByProdName(Long prodNo) {
+        return inventoryDao.InvenFindByProdName(prodNo);
+    }
+
+    public void QuantityModify(Long prodNo, int quantity) {
+        InventoryDto dto = new InventoryDto();
+        dto.setProduct_no(prodNo);
+        dto.setQuantity(quantity);
+//        inventoryDao.QuantityModify(dto);
     }
 }

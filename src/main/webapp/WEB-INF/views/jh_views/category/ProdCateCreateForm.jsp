@@ -102,6 +102,9 @@
                     $('#newTopCategory').val('');
                     $('#newMidCategoryModal').val(''); // 모달의 중분류 필드 초기화
                     $('#addCategoryModal').modal('hide');  // 모달 닫기
+
+                    // 리스트 페이지로 리다이렉션
+                    window.location.href = '/Prod/Category/List';  // 리스트 페이지로 이동
                 },
                 error: function(xhr, status, error) {
                     alert("오류 발생: " + error);

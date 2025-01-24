@@ -49,7 +49,9 @@ public class ProdCategoryService {
     }
 
     public void prodCateDelete(CategoriesDto categoriesDto) {
+
         prodCategoryDao.ProdCateDelete(categoriesDto);
+        prodCategoryDao.CateDelProdUpdate(categoriesDto);
     }
 
     public void addMidCategory(String category, String newSubCategory) {

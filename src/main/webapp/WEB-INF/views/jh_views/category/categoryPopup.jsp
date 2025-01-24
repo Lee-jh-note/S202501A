@@ -22,10 +22,10 @@
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
+
             <th>대분류</th>
-            <th>대분류 내용</th>
+
             <th>중분류</th>
-            <th>중분류 내용</th>
         </tr>
         </thead>
         <tbody>
@@ -33,7 +33,7 @@
         <c:forEach var="topCategory" items="${topList}">
             <tr>
                 <!-- 대분류 내용에 링크 추가 -->
-                <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}" class="text-decoration-none">${topCategory.top_category}</a></td>
+<%--                <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}" class="text-decoration-none">${topCategory.top_category}</a></td>--%>
                 <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}" class="text-decoration-none">${topCategory.title}</a></td>
 
 
@@ -41,7 +41,7 @@
                 <c:forEach var="midCategory" items="${midList}">
                     <c:if test="${midCategory.top_category == topCategory.top_category}">
                         <!-- 중분류 내용에 링크 추가 -->
-                        <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}" class="text-decoration-none">${midCategory.mid_category}</a></td>
+<%--                        <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}" class="text-decoration-none">${midCategory.mid_category}</a></td>--%>
                         <td><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}" class="text-decoration-none">${midCategory.content}</a></td>
                     </c:if>
                 </c:forEach>

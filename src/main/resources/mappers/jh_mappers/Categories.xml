@@ -59,15 +59,22 @@
         and TOP_CATEGORY = #{top_category}
         and mid_category = #{mid_category}
     </delete>
+    <update id="CateDelProdUpdate" parameterType="CategoriesDto">
+        update product
+        set MID_CATEGORY = 0, CATEGORY = 0
+        where MID_CATEGORY = #{mid_category}
+    </update>
 
     <select id="topFindAll" resultType="CategoriesDto">
         select distinct top_category, title
         from categories
+        where TOP_CATEGORY not in (0)
     </select>
 
     <select id="midFindAll" resultType="CategoriesDto">
         select MID_CATEGORY, content, TOP_CATEGORY
         from CATEGORIES
+        where MID_CATEGORY not in (0)
     </select>
 
     <select id="findByTop" parameterType="CategoriesDto" resultType="CategoriesDto">

@@ -115,6 +115,12 @@
           AND i.product_no IS NULL
     </select>
 
+    <select id="validProdName" resultType="int">
+        select count(*)
+        from product
+        where product_name = #{product_name}
+    </select>
+
 </mapper>
 
 

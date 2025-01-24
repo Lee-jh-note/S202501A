@@ -18,7 +18,7 @@ public class ProdCategoryController {
 
     private final ProdCategoryService prodCategoryService;
 
-    // 리스트 where top = 500
+
     @GetMapping("/Prod/Category/List")
     public String ProdCategoryList(Model model) {
         CategoriesDto dto = prodCategoryService.prodCateFindAll();
@@ -44,7 +44,6 @@ public class ProdCategoryController {
     @ResponseBody
     public String addSubCategory(@RequestParam(value = "newMidCategory", required = false) String newMidCategory,
                                  @RequestParam(value = "newTopCategory", required = false) String newTopCategory) {
-        // 중분류 추가 로직 (DB 또는 서비스 호출)
         prodCategoryService.prodCateCreate(newMidCategory, newTopCategory);
         return "redirect:/Prod/Category/List";
     }
@@ -52,26 +51,18 @@ public class ProdCategoryController {
     // 대분류 선택 후 추가
     @PostMapping("/Prod/Category/Create")
     public String createSubCategory(CategoriesDto dto) {
-        System.out.println("컨트롤러 : " + dto);
+//        System.out.println("컨트롤러 : " + dto);
         prodCategoryService.prodCateCreateMid(dto);
 
         return "redirect:/Prod/Category/List";
     }
 
-//    // 상세 에서 수정 삭제까지 구현 해야함
-//    @GetMapping("/Prod/Category/Detail")
-//    public String ProdCategoryDetail(Model model, @ModelAttribute CategoriesDto categoriesDto) {
-//        CategoriesDto dto = prodCategoryService.prodCateDetails(categoriesDto);
-//        model.addAttribute("CateDetails", dto);
-//        return "jh_views/ProdCateDetail";
-//    }
-
     // 수정 및 삭제 폼
     @GetMapping("/Prod/Category/Modify")
     public String ProdCategoryModify(Model model, @ModelAttribute CategoriesDto categoriesDto) {
-        System.out.println("컨트롤러 수정 타겟 : " + categoriesDto);
+//        System.out.println("컨트롤러 수정 타겟 : " + categoriesDto);
         CategoriesDto dto = prodCategoryService.prodCateDetails(categoriesDto);
-        System.out.println("컨트롤러 수정: " + dto);
+//        System.out.println("컨트롤러 수정: " + dto);
         model.addAttribute("category", dto);
         return "jh_views/category/ProdCateModifyForm";
     }
@@ -79,7 +70,7 @@ public class ProdCategoryController {
     // 수정 act
     @PostMapping("/Prod/Category/ModifyAct")
     public String ProdCategoryModify(@ModelAttribute CategoriesDto categoriesDto) {
-        System.out.println("수정 액션 들어온 내용 :" + categoriesDto);
+//        System.out.println("수정 액션 들어온 내용 :" + categoriesDto);
         prodCategoryService.prodCateModify(categoriesDto);
         return "redirect:/Prod/Category/List";
     }

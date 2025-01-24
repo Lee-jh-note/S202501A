@@ -52,7 +52,6 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<ProductDto> ProdSearch(ProductDto productDto) {
-        System.out.println("다오 임플 서치 내용 : " + productDto);
         try {
             return sqlSession.selectList("ProdSearch", productDto);
         } catch (Exception e) {
@@ -132,6 +131,13 @@ public class ProductDaoImpl implements ProductDao {
         }
     }
 
-    // 페이징 새로
-
+    @Override
+    public int validProdName(String prodName) {
+        try {
+            return sqlSession.selectOne("validProdName", prodName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

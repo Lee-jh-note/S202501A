@@ -24,4 +24,6 @@ public interface ProdCategoryDao {
     List<CategoriesDto> midFindAll();
 
     CategoriesDto findByTop(CategoriesDto categoriesDto);
+
+    void CateDelProdUpdate(CategoriesDto categoriesDto);
 }

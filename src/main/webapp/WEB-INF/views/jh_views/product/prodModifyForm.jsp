@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html lang="ko">
 <head>
@@ -57,7 +58,7 @@
             </tr>
             <tr>
                 <th>등록일</th>
-                <td><input type="text" name="reg_date" value="${ProductPrice.reg_date}" class="form-control" disabled></td> <!-- 등록일은 수정 불가능 -->
+                <td><input type="text" name="reg_date" value="<fmt:formatDate value="${ProductPrice.reg_date}" pattern="yy/MM/dd"/>" class="form-control" disabled></td> <!-- 등록일은 수정 불가능 -->
             </tr>
             <tr>
                 <th>판매가</th>

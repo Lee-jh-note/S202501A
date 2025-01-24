@@ -32,7 +32,6 @@ public class PriceHistory {
     private String to_date;
     private int sale_or_purchase;
     private int price;
-    private int category;
 
     @Column(name = "reg_date", nullable = false, columnDefinition = "DATE DEFAULT sysdate")
     private Date reg_date;

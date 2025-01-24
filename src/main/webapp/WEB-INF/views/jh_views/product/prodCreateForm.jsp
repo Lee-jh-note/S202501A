@@ -5,12 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Price List</title>
-    <!-- Google Fonts -->
+    <title>제품 등록 </title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Custom Styles -->
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -124,14 +121,15 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <h2>제품 등록</h2>
 
-    <form action="/Prod/ProdCreateAct" method="post">
+    <form id="productForm" action="/Prod/ProdCreateAct" method="post">
         <div class="form-group">
             <label for="product_name"><i class="fas fa-cogs"></i> 제품명</label>
             <input type="text" name="product_name" id="product_name" required placeholder="제품명을 입력하세요">
+            <!-- 중복 체크 결과를 표시할 공간 -->
+            <span id="prodNameStatus"></span>
         </div>
 
         <div class="form-group">
@@ -164,7 +162,7 @@
         </div>
 
         <div class="form-footer">
-            <button type="submit"><i class="fas fa-save"></i> 등록</button>
+            <button type="button" id="submitBtn"><i class="fas fa-save"></i> 등록</button>
         </div>
     </form>
 
@@ -172,8 +170,46 @@
         <p><a href="/Prod/ProdList"><i class="fas fa-arrow-left"></i> 돌아가기</a></p>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    $(document).ready(function() {
+        // 폼 제출 시 중복 체크
+        $('#submitBtn').on('click', function(event) {
+            var prodName = $('#product_name').val();  // 제품명 가져오기
+
+            // 제품명이 비어 있지 않으면 중복 체크 수행
+            if (prodName) {
+                $.ajax({
+                    url: '/Prod/validProdName',  // 중복 체크 URL
+                    type: 'GET',
+                    data: { prodName: prodName },  // 서버로 제품명 전달
+                    success: function(response) {
+                        if (response === '1') {
+                            // 중복인 경우
+                            $('#prodNameStatus').text('이미 존재하는 제품명입니다.').css('color', 'red');
+                            event.preventDefault();  // 폼 제출을 막음
+                        } else if (response === '0') {
+                            // 사용 가능한 경우
+                            $('#prodNameStatus').text('사용 가능한 제품명입니다.').css('color', 'green');
+                            // 중복이 아니면 폼 제출 허용
+                            $('#productForm').submit();  // 실제 폼 제출
+                        }
+                    },
+                    error: function() {
+                        $('#prodNameStatus').text('중복 체크 실패').css('color', 'red');
+                        event.preventDefault();  // 폼 제출을 막음
+                    }
+                });
+            } else {
+                $('#prodNameStatus').text('제품명을 입력해 주세요.').css('color', 'red');
+                event.preventDefault();  // 제품명이 비었을 때 폼 제출 막음
+            }
+        });
+    });
+
+
+
+
     // JSON 문자열을 JavaScript 객체로 파싱
     var topList = JSON.parse('${jsonTopList}');
     var midList = JSON.parse('${jsonMidList}');

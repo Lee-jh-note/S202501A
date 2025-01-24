@@ -21,8 +21,7 @@ public class PriceController {
 
     private final PriceHistoryService priceHistoryService;
 
-    private final ProductService productService;
-
+    // 조회, 검색
     @GetMapping("/Prod/PriceList")
     public String priceList(
             @RequestParam(value = "name", required = false) String name,
@@ -36,7 +35,7 @@ public class PriceController {
         model.addAttribute("page", response.getPage());
         model.addAttribute("SName", name);
         model.addAttribute("SType", type);
-        return "jh_views/pricehistory/priceList";  // 가격 이력 목록 JSP 페이지
+        return "jh_views/pricehistory/priceList";
     }
 
     // 지나간 날짜에 대한 가격 수정
@@ -47,7 +46,7 @@ public class PriceController {
         map.put("price", model1);
         map.put("product", model2.getProduct_name());
         map.put("prodNo", model2.getProduct_no());
-        System.out.println(model2.getProduct_name());
+//        System.out.println(model2.getProduct_name());
         model.addAttribute("priceHistoryModel", map);
         return "jh_views/pricehistory/priceModifyForm";
     }
@@ -55,7 +54,7 @@ public class PriceController {
     // 지나간 날짜에 대한 가격 수정
     @PostMapping("/Prod/PriceModifyAct")
     public String priceModifyAct(PriceHistoryModel priceHistoryModel) {
-        System.out.println(priceHistoryModel);
+//        System.out.println(priceHistoryModel);
         priceHistoryService.oldPriceModify(priceHistoryModel);
         return "redirect:/Prod/PriceList";
     }

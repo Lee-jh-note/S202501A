@@ -86,4 +86,14 @@ public class ProdCategoryDaoImpl implements ProdCategoryDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void CateDelProdUpdate(CategoriesDto categoriesDto) {
+        try {
+            sqlSession.update("CateDelProdUpdate", categoriesDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }
