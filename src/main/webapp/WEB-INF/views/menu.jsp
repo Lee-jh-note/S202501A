@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="./css/menu.css">
-<link rel="stylesheet" href="./js/menu.js">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="<c:url value='/css/menu.css' />">
+<link rel="stylesheet" href="<c:url value='/js/menu.js' />">
 <div class="sidebar">
     <div class="logo">로고 자리</div>
     <div class="search-bar">
         <input id="search" type="text" placeholder="필터 메뉴 검색" placeholder="필터 메뉴 검색" onfocus="clearPlaceholder()" onblur="restorePlaceholder()">
-        <img src="./image/search.png" alt="아이콘3" class="icon1">
+        <img src="../image/search.png" alt="아이콘3" class="icon1">
     </div>
 
     <div class="menu-item">
@@ -43,8 +44,8 @@
         <input type="checkbox" name="menu-item" id="answer4">
         <label for="answer4">거래처 관리<em></em></label>
         <div class="submenu">
-            <p>거래처 조회</p>
-            <p>거래처 등록</p>
+            <p><a href="listClient">거래처 조회</a></p>
+            <p><a href="writeFormClient">거래처 등록</a></p>
         </div>
     </div>
     <div class="menu-item">
@@ -70,8 +71,7 @@
         <input type="checkbox" name="menu-item" id="answer7">
         <label for="answer7">채팅<em></em></label>
         <div class="submenu">
-            <p>1:1 채팅</p>
-            <p>그룹 채팅</p>
+            <p><a href="chat">1:1 채팅</a></p>
         </div>
     </div>
 </div>

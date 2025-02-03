@@ -12,8 +12,8 @@ public class ClientDTO {
     private String client_Ceo;       
     private String business_No;         
     private String client_Email;      
-    private int client_Tel;          
-    private int ceo_Tel;            
+    private String client_Tel;          
+    private String ceo_Tel;            
     private int client_Delete;   
     private String reg_Date;
     private String client_Type_Desc;
