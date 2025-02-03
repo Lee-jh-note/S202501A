@@ -29,6 +29,8 @@ public class EmpDaoImpl implements EmpDao {
 		return totEmpCount;
 	}
 
+	
+	
 	@Override
 	public List<Emp> listEmp(Emp emp) {
 		List<Emp> empList = null;
@@ -44,6 +46,10 @@ public class EmpDaoImpl implements EmpDao {
 		return empList;
 
 	}
+	
+	
+	
+	
 	//직원 상세조회
 	@Override
 	public Emp detailEmp(Long emp_No) {
@@ -59,6 +65,10 @@ public class EmpDaoImpl implements EmpDao {
 		}
 		return emp;
 	}
+	
+	
+	
+	
 	//직원 수정
 	@Override
 	public int updateEmp(Emp emp) {
@@ -72,6 +82,8 @@ public class EmpDaoImpl implements EmpDao {
 		}
 		return updateCount;
 	}
+	
+	
 	
 	// 유저 컨트롤러 동일
 	//직원 등록
@@ -136,6 +148,7 @@ public class EmpDaoImpl implements EmpDao {
 		return totEmpCount;
 	}
 
+	
 	@Override
 	public List<Emp> empSearchList3(Emp emp) {
 		List<Emp> empSearchList3 = null;

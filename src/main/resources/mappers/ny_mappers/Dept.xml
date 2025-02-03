@@ -8,7 +8,7 @@
 
 
 	<select id="ny11SelectDept" resultType="org.oracle.s202501a.dto.ny_dto.Dept">
-		select dept_no, dept_name
+		select *
 		from DEPT 
         
 	</select>

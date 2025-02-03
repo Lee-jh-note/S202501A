@@ -93,6 +93,9 @@ public class EmpController {
 	 
 	 return "redirect:listDept"; 
 	 }
+	 
+	 
+	 
 	
 	// 부서에 있는 직원 수를 반환하는 컨트롤러 메소드
 	 @RequestMapping(value="countEmpInDept")
@@ -102,14 +105,14 @@ public class EmpController {
 	 }
 	 
 	 
-	 // 부서 등록
+	 // 부서 등록1
 	 @RequestMapping(value = "writeFormDept")
 		public String writeFormDept(Model model) {
 			System.out.println("empController writeFormDept Start...");
 			return "ny_views/writeFormDept";
 
 	 }
-	 
+	 //부서 등록2
 	 @PostMapping(value = "writeDept")
 		public String writeDept(Dept dept, Model model) {
 			System.out.println("EmpController Start writeDept...");
@@ -117,24 +120,22 @@ public class EmpController {
 
 			int insertResult = es.insertDEPT(dept);
 			if (insertResult > 0)
-				return "redirect:listDept";
+				return "redirect:";
 			else {
 				model.addAttribute("msg", "입력 실패 확인해 보세요");
-				return "forward:writeFormDept";
+				return "redirect:/writeFormDept";
 			}
 		}
 
 	 
 	 
-	 
-	 
+	 // 세부내역
 	@GetMapping(value = "detailEmp")
 	public String detailEmp(Emp emp1, Model model) {
 		System.out.println("EmpController Start detailEmp...");
-
 		System.out.println("EmpController detailEmp emp1->" + emp1);
 		Emp emp = es.detailEmp(emp1.getEmp_No());
-		System.out.println("EmpController detailEmp emp2->" + emp);
+		System.out.println("EmpController detailEmp emp1->" + emp);
 
 		Dept dept = es.detailDept(emp.getDept_No());
 		System.out.println("EmpController detailEmp dept->" + dept);
@@ -147,17 +148,18 @@ public class EmpController {
 	}
 	
 	
-	//부서 수정 
+	//부서 수정 1
 		@GetMapping(value = "updateFormDept")
 		public String updateFormDept(Dept dept1, Model model) {
 			System.out.println("EmpController Start updateForm...");
+			
 			Dept dept = es.detailDept(dept1.getDept_No());
 			System.out.println("EmpController updateFormEmp emp->" + dept);
 			System.out.println(dept1.getDept_No());
 			
 			return "ny_views/updateFormDept";
 		}
-
+		// 부서 수정 2
 		@PostMapping(value = "updateDept")
 		public String updateDept(Dept dept, Model model) {
 			log.info("updateDept Start...");
@@ -166,10 +168,13 @@ public class EmpController {
 			return "forward:listDept";
 		}
 
-	//직원 수정 
+		
+		
+	//직원 수정 1 폼
 	@GetMapping(value = "updateFormEmp")
 	public String updateFormEmp(Emp emp1, Model model) {
 		System.out.println("EmpController Start updateForm...");
+		
 		Emp emp = es.detailEmp(emp1.getEmp_No());
 		System.out.println("EmpController updateFormEmp emp->" + emp);
 		System.out.println(emp1.getEmp_No());
@@ -197,20 +202,20 @@ public class EmpController {
 			emp.setHiredate(hiredate);
 		}
 		System.out.println("hiredate->" + hiredate);
-System.out.println("반환 지건 " + emp);
+		System.out.println("반환 지건 " + emp);
 		model.addAttribute("emp", emp);
 		return "ny_views/updateFormEmp";
 
 	}
 
-	
-	@PostMapping(value = "updateEmp")
+	//직원 수정 2
+	@PostMapping("updateEmp")
 	public String updateEmp(Emp emp, Model model) {
 		log.info("updateEmp Start..."); 
 		int updateCount = es.updateEmp(emp);
 		System.out.println("컨트롤러 " + emp);
 		System.out.println("empController es.updateEmp updateCount-->" + updateCount);
-
+		/* 0 이상 , 수정되었습니ㅏ */
 		/*
 		 * model.addAttribute("uptCnt", updateCount); // #서비스임플에서 업데이트된 개수
 		 * model.addAttribute("mt", "Message Test"); // # 메세지 테스트
@@ -290,7 +295,7 @@ System.out.println("반환 지건 " + emp);
 	 */
 
 	
-	// 업데이트 삭제 직원
+	//  삭제(업데이트)직원
 	@RequestMapping(value = "deleteEmp")
 	public String deleteEmp(Emp emp, Model model) {
 		log.info("deleteEmp Start...");

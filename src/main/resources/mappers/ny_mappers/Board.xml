@@ -6,13 +6,16 @@
 
 <mapper namespace="org.oracle.s202501a.mapper.BoardMapper">
 
+	<!-- 게시판 총 글 수 -->
 	<select id="nytotalBoard" resultType="int"> <!-- #Count(*)가 인트 :: 매퍼 아이디당 sql문 하나 -->
 		SELECT Count(*) FROM BOARD
-		WHERE board_Category = 0
 	</select>
+	<!--  	WHERE board_Category = 0 -->
 	
+	
+	<!-- 게시판 리스트 -->
 	 <select id="nylistBoard" parameterType="org.oracle.s202501a.dto.ny_dto.Board" resultType="org.oracle.s202501a.dto.ny_dto.Board">
-           <![CDATA[
+   <![CDATA[
     SELECT *
     FROM
     (
@@ -26,25 +29,97 @@
                 b.content, 
                 b.createdDate, 
                 b.title, 
-                b.board_Category, 
-                b.comment_Group, 
-                b.comment_Indent, 
-                b.comment_Step, 
                 b.hits,
                 e.emp_Name 
             FROM 
                 BOARD b
             LEFT JOIN EMP e ON b.emp_No = e.emp_No
             ORDER BY 
-            	b.board_No,
-                b.comment_Group DESC, 
-                b.comment_Step ASC
+            	b.board_No
         ) a
     )
     WHERE rn >= #{start}
       AND rn <= #{end}
     ]]>
 </select>
+
+
+	<!-- 게시판 글 상세조회 -->
+	<select id="nylistboardSelOne" parameterType="Long" resultType="org.oracle.s202501a.dto.ny_dto.Board">
+    <![CDATA[
+    SELECT
+        b.board_No, 
+        b.emp_No, 
+        b.modifiedDate, 
+        b.content, 
+        b.createdDate, 
+        b.title, 
+        
+  	 	b.board_Category, 
+        b.comment_Group, 
+        b.comment_Indent, 
+        b.comment_Step, 
+        b.hits,
+        e.emp_Name
+    FROM 
+        BOARD b
+    LEFT JOIN EMP e ON b.emp_No = e.emp_No
+    WHERE b.board_No = #{board_No}
+    ]]>
+</select>
+
+	<!-- 게시판 글 수정 -->
+
+<update id="nyUpdateBoard" parameterType="org.oracle.s202501a.dto.ny_dto.Board">
+    UPDATE BOARD
+    SET
+        modifiedDate = sysdate,  -- 수정 일자
+        content = #{content},        -- 내용
+        title = #{title}          -- 제목
+    WHERE board_No = #{board_No}    -- 수정할 게시판 번호
+</update>
+
+	
+	<!-- 게시판 글 삭제 -->
+	<delete id="nydeleteBoard" parameterType="Long"> 
+		delete from Board where 
+		board_No= #{board_No} 
+	</delete>
+	
+	
+	<!-- 게시판 글 등록 -->
+    <insert id="nyinsertBoard" parameterType="org.oracle.s202501a.dto.ny_dto.Board">
+	   INSERT INTO BOARD 
+    (
+        BOARD_NO, 
+        EMP_NO, 
+        MODIFIEDDATE, 
+        CONTENT, 
+        CREATEDDATE, 
+        TITLE, 
+        BOARD_CATEGORY, 
+        COMMENT_GROUP, 
+        COMMENT_INDENT, 
+        COMMENT_STEP, 
+        HITS
+    ) 
+    VALUES 
+    (
+        board_seq.nextval, 
+        #{emp_No}, 
+         sysdate, 
+        #{content}, 
+         sysdate, 
+        #{title}, 
+        0, 
+        board_seq.currval, 
+        #{comment_Indent}, 
+        #{comment_Step}, 
+        #{hits}
+    ) 
+	</insert>
+	
+	
 	
 	
 </mapper>

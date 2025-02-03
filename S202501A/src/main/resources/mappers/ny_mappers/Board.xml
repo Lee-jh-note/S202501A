@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="org.oracle.s202501a.mapper.BoardMapper">
+
+	<select id="nytotalBoard" resultType="int"> <!-- #Count(*)가 인트 :: 매퍼 아이디당 sql문 하나 -->
+		SELECT Count(*) FROM BOARD
+		WHERE board_Category = 0
+	</select>
+	
+	 <select id="nylistBoard" parameterType="org.oracle.s202501a.dto.ny_dto.Board" resultType="org.oracle.s202501a.dto.ny_dto.Board">
+           <![CDATA[
+    SELECT *
+    FROM
+    (
+        SELECT rownum rn, a.*
+        FROM
+        (
+            SELECT
+                b.board_No, 
+                b.emp_No, 
+                b.modifiedDate, 
+                b.content, 
+                b.createdDate, 
+                b.title, 
+                b.board_Category, 
+                b.comment_Group, 
+                b.comment_Indent, 
+                b.comment_Step, 
+                b.hits,
+                e.emp_Name 
+            FROM 
+                BOARD b
+            LEFT JOIN EMP e ON b.emp_No = e.emp_No
+            ORDER BY 
+            	b.board_No,
+                b.comment_Group DESC, 
+                b.comment_Step ASC
+        ) a
+    )
+    WHERE rn >= #{start}
+      AND rn <= #{end}
+    ]]>
+</select>
+	
+	
+</mapper>

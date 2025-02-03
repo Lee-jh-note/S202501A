@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class Board {
-    private int board_No;
+    private Long board_No;
     private Long emp_No; 
     private Timestamp modifiedDate;
     private String content;
