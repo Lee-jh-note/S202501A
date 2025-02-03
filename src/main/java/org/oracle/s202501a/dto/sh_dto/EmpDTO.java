@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmpDTO {
-  
       private Long   emp_No;       // 사원 번호
       private String emp_Name;     // 이름
       private Long   dept_No;      // 부서 번호
@@ -23,11 +22,10 @@ public class EmpDTO {
       private String username;
       private String roles;
       
-      
       private String birth;        // 생년월일
       private String hiredate;     // 입사일
       
       private int id;		     // 아이디 직원번호
       private String password;	// 비밀번호 (부서이름 + 생년월일)
-	
+    
 }

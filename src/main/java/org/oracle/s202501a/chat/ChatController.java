@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ChatController {
 
-	@RequestMapping("/chat")
+	@RequestMapping("*/chat")
 	public ModelAndView chat() {
 		System.out.println("ChatController chat Start...");
 		ModelAndView mv = new ModelAndView();
