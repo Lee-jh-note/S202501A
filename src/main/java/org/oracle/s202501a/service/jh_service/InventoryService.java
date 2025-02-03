@@ -8,6 +8,7 @@ import org.oracle.s202501a.dto.jh_dto.ClosingDto;
 import org.oracle.s202501a.dto.jh_dto.InvenPagingDto;
 import org.oracle.s202501a.dto.jh_dto.InventoryDto;
 import org.oracle.s202501a.dto.jh_dto.PagingJH;
+import org.oracle.s202501a.service.sh_service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +24,7 @@ public class InventoryService {
 
     private final InventoryDao inventoryDao;
     private final PagingService pagingService;
+    private final UserService userService;
 
 
     public InvenPagingDto getInventoryList(InventoryDto inventoryDto, String product_name, String yymm) {
@@ -83,7 +85,10 @@ public class InventoryService {
 
         String date = dto.getYymm().replace("-", "/").substring(2);
         dto.setYymm(date);
-        dto.setEmp_no(1); // 세션에서 가져와야하지만 임시로
+
+        long emp_no = userService.getSe().getEmp_No();
+        dto.setEmp_no((int)emp_no);
+//        dto.setEmp_no(1); // 세션에서 가져와야하지만 임시로
         inventoryDao.closing(dto);
     }
 
@@ -93,33 +98,35 @@ public class InventoryService {
         return inventoryDao.closingCheck(ym) == 0; // 반환 0 이면 트루 리턴 1 이면 펄스 리턴
     }
 
-    public InventoryDto InvenFindByProdName(Long prodNo) {
-        return inventoryDao.InvenFindByProdName(prodNo);
-    }
+//    public InventoryDto InvenFindByProdName(Long prodNo) {
+//        return inventoryDao.InvenFindByProdName(prodNo);
+//    }
 
     public void QuantityModify(Long prodNo, int quantity) {
 
-        System.out.println("서비스 수정 타겟 : " + prodNo + " / " + quantity);
+//        System.out.println("서비스 수정 타겟 : " + prodNo + " / " + quantity);
         // 기말 체크
         InventoryDto ClosingDto = inventoryDao.findStockByProdStock(prodNo, 1);
-        System.out.println("기말 : " + ClosingDto);
+//        System.out.println("기말 : " + ClosingDto);
         // 기초 체크
         InventoryDto BeginningDto = inventoryDao.findStockByProdStock(prodNo, 0);
-        System.out.println("기초 : " + BeginningDto);
+//        System.out.println("기초 : " + BeginningDto);
 
         if (ClosingDto != null && BeginningDto != null) {
             int closingQuantity = quantity - ClosingDto.getQuantity();
             ClosingDto.setQuantity(quantity);
             inventoryDao.quantityModify(ClosingDto);
 
-            BeginningDto.setQuantity(BeginningDto.getQuantity() + closingQuantity);
+            int result = Math.max((BeginningDto.getQuantity() + closingQuantity), 0);
+
+            BeginningDto.setQuantity(result);
             inventoryDao.quantityModify(BeginningDto);
         }
          else if (BeginningDto != null) {
             BeginningDto.setQuantity(quantity);
              inventoryDao.quantityModify(BeginningDto);
-        } else {
-             log.info("여기 오면 큰일남");
+//        } else {
+//             log.info("여기 오면 큰일남");
         }
 
     }
