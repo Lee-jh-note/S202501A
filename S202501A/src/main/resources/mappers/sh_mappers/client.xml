@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oracle.s202501a.mapper.ClientMapper">
+	<select id="clientTotal" resultType="int">
+		SELECT Count(*) FROM clients
+	</select>
+	<select id="shlistClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO" resultType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
+		<![CDATA[
+			SELECT *
+			FROM
+			(
+				SELECT rownum rn , a.*
+				FROM
+						(select * from clients order by client_no) a
+						 WHERE client_delete = 0
+			)
+			WHERE rn >= #{start}
+			AND   rn <= #{end}
+		]]>
+	</select>
+	<select id="shdetailClient" parameterType ="int" resultType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
+		SELECT * FROM clients where client_No = #{client_No}
+	</select>
+	
+	<update id="shupdateClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
+		UPDATE clients SET client_Name=#{client_Name}
+						  ,business_No=#{business_No}  
+						  ,client_Ceo=#{client_Ceo}  
+						  ,client_Email=#{client_Email}
+						  ,client_Tel=#{client_Tel}  
+						  ,ceo_Tel=#{ceo_Tel}
+						  ,reg_Date=#{reg_Date}  
+		WHERE client_No=#{client_No}					
+	</update>
+	
+	<select id="shListManger" resultType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
+	  SELECT DISTINCT CLIENT_TYPE, 
+	       CASE 
+	           WHEN CLIENT_TYPE = 1 THEN '매출처'
+	           WHEN CLIENT_TYPE = 0 THEN '매입처'
+	           ELSE '기타'
+	       END AS CLIENT_TYPE_DESC
+		FROM CLIENTS
+		WHERE CLIENT_TYPE IN (0, 1)
+
+	</select>
+
+	<insert id="shinsertClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
+		  INSERT INTO Clients (
+		  						CLIENT_NO,
+       							CLIENT_NAME, CLIENT_TYPE, CLIENT_CEO,
+        						BUSINESS_NO, CLIENT_EMAIL, CLIENT_TEL, CEO_TEL, CLIENT_DELETE, REG_DATE
+        						,EMP_NO
+						    ) VALUES (
+						    	CLIENT_NO_SEQ.nextval,
+						        #{client_Name}, #{client_Type}, #{client_Ceo},
+						        #{business_No}, #{client_Email}, #{client_Tel}, 
+						        #{ceo_Tel}, #{client_Delete}, TO_DATE(#{reg_Date}, 'YYYY-MM-DD')
+									       ,#{emp_No}
+								
+    )
+	</insert>
+	
+	<select id="condClientTotal" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO" resultType="int">
+		SELECT COUNT(*) FROM CLIENTS
+		<choose>
+			<when test="search == 's_client_Ceo'">
+				WHERE client_Ceo like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 's_client_Name'">
+				WHERE client_Name like '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+				WHERE client_Ceo like '%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="shClientSearchList3" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO" resultType="Client">
+		SELECT *
+		FROM 
+		(
+				SELECT rownum rn , a.*
+				FROM
+						(select *
+						 from clients
+						 <choose>
+						 	<when test="search == 's_client_Ceo'">
+						 		WHERE client_Ceo like '%' || #{keyword} || '%'
+						 	</when>
+						 	<when test="search == 's_client_Name'">
+						 		WHERE client_Name like '%' || #{keyword} || '%'
+						 	</when>
+						 	<otherwise>
+						 		WHERE client_Ceo like '%'
+						 	</otherwise>
+						 </choose>
+						 order by client_No
+						 ) a
+		)		
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
+		<!-- 직원 삭제여부를 1로 업데이트-->
+		<update id="shDeleteClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO"> 
+			UPDATE CLIENTS
+			SET 
+			    CLIENT_Delete = 1         
+			WHERE CLIENT_No = #{client_No} 
+		</update>
+</mapper>

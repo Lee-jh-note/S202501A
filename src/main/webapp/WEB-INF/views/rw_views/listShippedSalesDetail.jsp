@@ -48,7 +48,7 @@ th {
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="salesDetail" items="${shippedSalesDetailList}" varStatus="status">
+			<%-- 아직 오류남 <c:forEach var="salesDetail" items="${shippedSalesDetailList}" varStatus="status"> --%>
 				<tr>
 					<td>${status.count}</td>
 					<td>${salesDetail.req_delivery_date}</td>

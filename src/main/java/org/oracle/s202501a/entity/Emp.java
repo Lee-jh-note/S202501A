@@ -32,7 +32,7 @@ public class Emp implements Serializable {
 	      private String Position; 	   // 직급
 	      private String emp_Tel;      // 전화번호
 	      private String emp_Email;    // 이메일
-	      private String dept_Name;    // 부서 이름
+	     //없어도 된다 private String dept_Name;    // 부서 이름
 	      private String username;
 	      private String roles;
 	      

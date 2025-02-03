@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.oracle.s202501a.mapper.Purchase01Mapper">
+
+	<!-- 각각 상태는 0으로 넣어줌 -->
+	<insert id="yjInsertPurchase" parameterType="org.oracle.s202501a.dto.yj_dto.Purchase01">
+		INSERT INTO purchase (purchase_date, client_no, title, emp_no, req_delivery_date, remarks)
+    	VALUES (#{purchase_date}, #{client_no}, #{title}, #{emp_no}, #{req_delivery_date}, #{remarks})
+	</insert>
+	
+
+</mapper>

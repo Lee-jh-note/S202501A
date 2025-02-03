@@ -17,7 +17,7 @@ public class DeptDaoImpl implements DeptDao {
 	private final SqlSession session; 
 
 	
-	@Override  // 컨트롤writeFormEmp
+	@Override  //11 컨트롤writeFormEmp
 	public List<Dept> deptSelect() {
 		
 		List<Dept> deptList = null;
@@ -48,13 +48,13 @@ public class DeptDaoImpl implements DeptDao {
 		return dept;
 	}
 
-	//부서 선택시 리스트
+	//11 부서 선택시 리스트
 	@Override
 	public List<Dept> listDept(Dept dept) {
 		List<Dept> deptList = null;
 		System.out.println("DeptDaoImpl deptSelect Start..." );
 		try {
-			deptList = session.selectList("nySelectDept");
+			deptList = session.selectList("ny11SelectDept");
 		} catch (Exception e) {
 			System.out.println("DeptDaoImpl deptSelect Exception->"+e.getMessage());
 		}
@@ -89,13 +89,13 @@ public class DeptDaoImpl implements DeptDao {
 		    return count;
 	}
 
-	//부서 전체 보이게
+	// 11 부서 전체 보이게
 	@Override
 	public List<Dept> listDept3() {
 		List<Dept> deptList = null;
 		System.out.println("DeptDaoImpl deptSelect Start..." );
 		try {
-			deptList = session.selectList("nySelectDept");
+			deptList = session.selectList("ny11SelectDept");
 		} catch (Exception e) {
 			System.out.println("DeptDaoImpl deptSelect Exception->"+e.getMessage());
 		}

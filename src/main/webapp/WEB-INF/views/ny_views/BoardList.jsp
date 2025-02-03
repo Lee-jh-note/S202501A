@@ -73,7 +73,7 @@
                 <th>번호</th><th>이름</th><th>제목</th><th>날짜</th><th>히트</th>
             </tr>
             <c:forEach items="${listBoard}" var="board">
-                <tr class="clickable-row" data-href="content_view?board_No=${board.board_No}">
+                <tr class="clickable-row" data-href="BoardContent?board_No=${board.board_No}">
                     <td>${board.board_No}</td>
                     <td>${board.emp_Name}</td>
                     <td>${board.title}</td>
@@ -83,7 +83,7 @@
             </c:forEach>
         </table>
         <div style="text-align: right; margin-top: 20px;">
-            <a href="write_view">글작성</a>
+            <a href="writeFormBoard">글작성</a>
         </div>
     </div>
 </body>

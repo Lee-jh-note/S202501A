@@ -14,14 +14,14 @@
 <link rel="stylesheet" href="./css/board.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-function confirmDelete(dept_No, dept_Name) {
+function confirmDelete(dept_No, dept_Name) { /* 이미 리스트 모델로 데이터가 옴 */
     $.ajax({
         url: 'countEmpInDept',
         type: 'GET',
         data: { dept_No: dept_No },
         success: function(empCount) {
             var confirmMessage = dept_Name + "부서는 " + empCount + "명의 직원을 포함하고 있습니다.\n삭제를 진행하겠습니까?";
-            if (confirm(confirmMessage)) {
+            if (confirm(confirmMessage)) { /* deleteDept는 컨트롤러에 있는 메소드명 */
                 window.location.href = 'deleteDept?dept_No=' + dept_No;
             }
         },
