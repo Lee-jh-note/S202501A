@@ -98,6 +98,30 @@ public class InventoryDaoImpl implements InventoryDao {
         }
     }
 
+    @Override
+    public InventoryDto findStockByProdStock(Long prodNo, int stock) {
+        try {
+            InventoryDto dto = new InventoryDto();
+            dto.setProduct_no(prodNo);
+            dto.setStock_type(stock);
+            return sqlSession.selectOne("findStockByProdStock", dto);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void quantityModify(InventoryDto inventoryDto) {
+        try {
+            sqlSession.update("quantityModify", inventoryDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+
 //    @Override
 //    public void QuantityModify(InventoryDto dto) {
 //        try {

@@ -23,5 +23,9 @@ public interface InventoryDao {
 
     InventoryDto InvenFindByProdName(Long prodNo);
 
+    InventoryDto findStockByProdStock(Long prodNo, int stock);
+
+    void quantityModify(InventoryDto inventoryDto);
+
 //    void QuantityModify(InventoryDto dto);
 }

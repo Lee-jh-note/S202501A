@@ -11,7 +11,7 @@
         from (
 
         select i.yymm,
-        i.optimal_quantity, i.reg_date, p.product_name,
+        i.optimal_quantity, p.product_name,
         max(CASE WHEN h.sale_or_purchase = 0 THEN h.price END) AS pur_price,
         max(CASE WHEN h.sale_or_purchase = 1 THEN h.price END) AS sale_price,
         MAX(CASE WHEN i.stock_type = 0 THEN i.quantity END) AS beginning,
@@ -29,7 +29,7 @@
             AND p.product_name LIKE '%' || #{product_name} || '%'
         </if>
         and p.product_delete = 0
-        group by i.yymm, i.optimal_quantity, i.reg_date, p.product_name,c.title, p.product_no
+        group by i.yymm, i.optimal_quantity, p.product_name,c.title, p.product_no
         order by i.yymm) a )
         where rm between #{start} and #{end}
     </select>
@@ -39,7 +39,7 @@
         from ( select a.*, rownum rm
         from (
 
-        select i.yymm,i.optimal_quantity, i.reg_date, p.product_name,
+        select i.yymm,i.optimal_quantity, p.product_name,
         max(CASE WHEN h.sale_or_purchase = 0 THEN h.price END) AS pur_price,
         max(CASE WHEN h.sale_or_purchase = 1 THEN h.price END) AS sale_price,
         MAX(CASE WHEN i.stock_type = 0 THEN i.quantity END) AS beginning,
@@ -57,7 +57,7 @@
             AND p.product_name LIKE '%' || #{product_name} || '%'
         </if>
         and p.product_delete = 0
-        group by i.yymm, i.optimal_quantity, i.reg_date, p.product_name,c.title,p.product_no
+        group by i.yymm, i.optimal_quantity, p.product_name,c.title,p.product_no
         order by i.yymm) a )
     </select>
 
@@ -92,5 +92,21 @@
         WHERE yymm = #{yymm}
         AND CLOSING_TYPE = 2
     </select>
+
+    <select id="findStockByProdStock" resultType="InventoryDto" parameterType="InventoryDto">
+        select *
+        from inventory
+        where PRODUCT_NO = #{product_no}
+        and STOCK_TYPE = #{stock_type}
+        and yymm = to_char(sysdate, 'yy/mm')
+    </select>
+
+    <update id="quantityModify" parameterType="InventoryDto">
+        update inventory
+        set quantity = #{quantity}
+        where product_no = #{product_no}
+        and yymm = to_char(sysdate, 'yy/mm')
+        and stock_type = #{stock_type}
+    </update>
 
 </mapper>

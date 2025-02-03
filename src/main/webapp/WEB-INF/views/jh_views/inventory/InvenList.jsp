@@ -108,7 +108,6 @@
                     : (inventory.closing * inventory.pur_price)}" pattern="#,###"/></td> <!-- 재고총액 -->
                     <td>${inventory.optimal_quantity}</td>
                     <td>
-                        <!-- 수정 버튼 클릭 시 모달을 띄웁니다. -->
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"
                                 data-id="${inventory.product_no}" data-optimal_quantity="${inventory.optimal_quantity}">
                             최적수량 수정
@@ -119,7 +118,7 @@
             </tbody>
         </table>
 
-        <!-- 인벤토리 수정 폼 (오른쪽에 위치) -->
+<%--       재고조정--%>
         <div class="inventory-form" id="inventoryForm">
             <h3>재고 조정</h3>
             <form action="/Inven/QuantityModify" method="post">
@@ -161,7 +160,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="/Inven/OptimalModify" method="post">
-                        <input type="hidden" id="product_no" name="product_no"/>
+                        <input type="hidden" id="product_no" name="product_no" value=""/>
                         <div class="mb-3">
                             <label for="optimal_quantity" class="form-label">최적수량</label>
                             <input type="number" class="form-control" id="optimal_quantity" name="optimal_quantity"
@@ -292,9 +291,21 @@
     }
 
     // 페이지 로드 시 첫 번째 제품에 대한 수량을 설정
-    window.onload = function() {
+    window.onload = function () {
         updateQuantity(); // 처음 페이지 로드 시에도 수량을 업데이트
     }
+
+    // 모달이 열릴 때 데이터 속성 가져오기
+    $('#editModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // 버튼을 클릭한 시점의 요소
+        var productNo = button.data('id'); // data-id에서 product_no 값 가져오기
+        var optimalQuantity = button.data('optimal_quantity'); // data-optimal_quantity에서 최적수량 값 가져오기
+
+        // 모달 내에서 데이터를 처리
+        var modal = $(this);
+        modal.find('#product_no').val(productNo);  // product_no 숨겨진 input에 값 설정
+        modal.find('#optimal_quantity').val(optimalQuantity);  // 최적수량 input에 값 설정
+    });
 </script>
 </body>
 </html>

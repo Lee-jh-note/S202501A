@@ -98,9 +98,29 @@ public class InventoryService {
     }
 
     public void QuantityModify(Long prodNo, int quantity) {
-        InventoryDto dto = new InventoryDto();
-        dto.setProduct_no(prodNo);
-        dto.setQuantity(quantity);
-//        inventoryDao.QuantityModify(dto);
+
+        System.out.println("서비스 수정 타겟 : " + prodNo + " / " + quantity);
+        // 기말 체크
+        InventoryDto ClosingDto = inventoryDao.findStockByProdStock(prodNo, 1);
+        System.out.println("기말 : " + ClosingDto);
+        // 기초 체크
+        InventoryDto BeginningDto = inventoryDao.findStockByProdStock(prodNo, 0);
+        System.out.println("기초 : " + BeginningDto);
+
+        if (ClosingDto != null && BeginningDto != null) {
+            int closingQuantity = quantity - ClosingDto.getQuantity();
+            ClosingDto.setQuantity(quantity);
+            inventoryDao.quantityModify(ClosingDto);
+
+            BeginningDto.setQuantity(BeginningDto.getQuantity() + closingQuantity);
+            inventoryDao.quantityModify(BeginningDto);
+        }
+         else if (BeginningDto != null) {
+            BeginningDto.setQuantity(quantity);
+             inventoryDao.quantityModify(BeginningDto);
+        } else {
+             log.info("여기 오면 큰일남");
+        }
+
     }
 }
