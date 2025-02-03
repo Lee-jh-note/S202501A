@@ -1,60 +1,37 @@
 package org.oracle.s202501a.controller.yj_controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.oracle.s202501a.dto.sh_dto.EmpDTO;
 import org.oracle.s202501a.dto.yj_dto.PurchaseDetailsAll;
+import org.oracle.s202501a.service.sh_service.UserService;
 import org.oracle.s202501a.service.yj_service.Paging;
 import org.oracle.s202501a.service.yj_service.PurchaseDetailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
+@RequestMapping("purchaseDetail")
 public class PurchaseDetailController {
 	private final PurchaseDetailService ps;
 	
-	// 입고 예정 리스트("예정"이니까 상태가 0인 값들만 들어와야함. 매퍼에서 sql문 조절)
-	@RequestMapping(value = "listPurchaseDetailPlan")
-	public String listPurchaseDetailPlan(PurchaseDetailsAll purchase_details, Model model) {
-		System.out.println("PurchaseDetailController listPurchaseDetailPlan start,,");
-		
-		// 페이징
-		int totalPurchaseDetailPlan = ps.totalPurchaseDetailPlan();
-		if (purchase_details.getCurrentPage() == null) purchase_details.setCurrentPage("1");
-		Paging page = new Paging(totalPurchaseDetailPlan, purchase_details.getCurrentPage());
-		
-		purchase_details.setStart(page.getStart());
-		purchase_details.setEnd(page.getEnd());
-		
-		List<PurchaseDetailsAll> listPurchaseDetailPlan = ps.listPurchaseDetailPlan(purchase_details);
-		System.out.println("PurchaseDetailController listPurchaseDetailPlan listPurchaseDetailPlan.size()->"+listPurchaseDetailPlan.size());
-		
-		model.addAttribute("total",						totalPurchaseDetailPlan);
-		model.addAttribute("listPurchaseDetailPlan", 	listPurchaseDetailPlan);
-		model.addAttribute("page", 					page);	
-		
-		return "yj_views/listPurchaseDetailPlan";
-	}
+	// 세션과 연결된 UserService
+	private final UserService f;
 	
 	// 입고 예정리스트 검색 (기간, 제품, 거래처, 담당자)
-	@RequestMapping(value = "searchPurchaseDetailPlan")
-	public String searchPurchaseDetailPlan(PurchaseDetailsAll purchase_details, Model model) {
+	@RequestMapping(value = "listPurchaseDetailPlan")
+	public String listPurchaseDetailPlan(PurchaseDetailsAll purchase_details, Model model) {
 		System.out.println("PurchaseDetailController searchPurchaseDetailPlan start,,");
 		System.out.println("PurchaseDetailController searchPurchaseDetailPlan purchase_details ->" + purchase_details);
 		// Purchase_details "대기" 검색 Cnt
@@ -76,7 +53,7 @@ public class PurchaseDetailController {
 		model.addAttribute("listPurchaseDetailPlan", searchListPurchaseDetailPlan); // yj_views/listPurchase에서 listPurchase를 써서 forEach로 값들을 넣어줬기 때문에 "listPurchase" 맞춰줘야함
 		model.addAttribute("page", page);
 		
-		return "yj_views/listSearchPurchaseDetailPlan";
+		return "yj_views/listPurchaseDetailPlan";
 	}
 	
 	// 입고 예정리스트에서 상세로
@@ -89,6 +66,13 @@ public class PurchaseDetailController {
 		params.put("purchase_date", purchase_details.getPurchase_date());
 		params.put("client_no", purchase_details.getClient_no());
 		System.out.println("PurchaseDetailController detailPurchaseDetailPlan params->"+params);
+		
+		EmpDTO dto = f.getSe();
+		Long emp_no = dto.getEmp_No();
+		String emp_name = dto.getEmp_Name();
+		// 세션에서 가져온 담당자 - 현재 로그인 되어있는 담당자 - 입고 담당자
+		model.addAttribute("emp_no", emp_no);
+		model.addAttribute("emp_name", emp_name);
 		
 		// 정보 가져오기
 		// 정보 가져올때 매입일자, 거래처이름, 담당자 이름 가져오고,
@@ -110,7 +94,9 @@ public class PurchaseDetailController {
             @RequestParam(value = "checked", required = false) int[] checked,
             @RequestParam("purchase_date") String[] purchaseDates,
             @RequestParam("client_no") int[] clientNos,
-            @RequestParam("product_no") int[] productNos) {
+            @RequestParam("product_no") int[] productNos,
+            // 입고처리를 해주면서, 입고 담당자도 입고 처리를 할 때 로그인 되어있는 사원의 이름와 번호로 입력되도록!! 입고 담당자~
+            @RequestParam("emp_no") int currentNo) {
 
         try {
             List<Integer> checkedList = checked == null ? List.of() : Arrays.stream(checked).boxed().collect(Collectors.toList());
@@ -121,19 +107,27 @@ public class PurchaseDetailController {
                 boolean updateStatusSuccess;
                 if (isChecked) {
                     // 입고. 구매상세 상태 2로 변경
-                	updateStatusSuccess = ps.updatePurchaseDetailStatus(purchaseDates[i], clientNos[i], productNos[i], 2);
+                	updateStatusSuccess = ps.updatePurchaseDetailStatusManager(purchaseDates[i], clientNos[i], productNos[i], currentNo, 2);
                     if (updateStatusSuccess) {
-                        System.out.println("PurchaseDetailController purchaseDetailStore 입고 성공: " + purchaseDates[i] + " " + clientNos[i] + " " + productNos[i] + 2);
+                        System.out.println("PurchaseDetailController purchaseDetailStore 입고 성공: -매입일자: "+purchaseDates[i]+", 거래처번호: "+clientNos[i]+", 품목번호: "+productNos[i]+"담당자 번호: "+currentNo+"상태: "+2);
+                        
+//                        // 가마감 프로시저 호출 (입고 완료 시만 실행)
+//	                    boolean procedureSuccess = ps.callPur_inventory_prc(purchaseDates[i], clientNos[i], productNos[i], 1, currentNo);
+//	                    if (procedureSuccess) {
+//	                        System.out.println("가마감 프로시저 실행 완료: 품목번호=" + productNos[i]);
+//	                    } else {
+//	                        System.err.println("가마감 프로시저 실행 실패: 품목번호=" + productNos[i]);
+//	                    }
                     } else {
-                        System.err.println("PurchaseDetailController purchaseDetailStore 입고 실패: " + purchaseDates[i] + " " + clientNos[i] + " " + productNos[i] + 2);
+                        System.err.println("PurchaseDetailController purchaseDetailStore 입고 실패: -매입일자: "+purchaseDates[i]+", 거래처번호: "+clientNos[i]+", 품목번호: "+productNos[i]+"담당자 번호: "+currentNo+"상태: "+2);
                     }
                 } else {
                     // 미입고. 구매상세 상태 1
-                    updateStatusSuccess  = ps.updatePurchaseDetailStatus(purchaseDates[i], clientNos[i], productNos[i], 1);
+                    updateStatusSuccess  = ps.updatePurchaseDetailStatusManager(purchaseDates[i], clientNos[i], productNos[i], currentNo, 1);
                     if (updateStatusSuccess) {
-                        System.out.println("PurchaseDetailController purchaseDetailStore 미입고 성공: " + purchaseDates[i] + " " + clientNos[i] + " " + productNos[i]);
+                        System.out.println("PurchaseDetailController purchaseDetailStore 미입고 성공: -매입일자: "+purchaseDates[i]+", 거래처번호: "+clientNos[i]+", 품목번호: "+productNos[i]+"담당자 번호: "+currentNo+"상태: "+1);
                     } else {
-                        System.err.println("PurchaseDetailController purchaseDetailStore 미입고 실패: " + purchaseDates[i] + " " + clientNos[i] + " " + productNos[i]);
+                        System.err.println("PurchaseDetailController purchaseDetailStore 미입고 실패: -매입일자: "+purchaseDates[i]+", 거래처번호: "+clientNos[i]+", 품목번호: "+productNos[i]+"담당자 번호: "+currentNo+"상태: "+1);
                     }
                     allChecked = false;
                 }
@@ -158,38 +152,17 @@ public class PurchaseDetailController {
                     }
                 }
             }
-            return "redirect:/listPurchaseDetailPlan";
+            return "redirect:/purchaseDetail/listPurchaseDetailPlan";
         } catch (Exception e) {
             e.printStackTrace();
-            return "error";
+            throw new RuntimeException("트랜잭션 롤백 발생: " + e.getMessage(), e);
         }
     }
 	
-	// 입고 조회("입고"니까 구매상세의 상태가 2인 값들만 들어와야함!!)
-	@RequestMapping(value = "listPurchaseDetail")
-	public String listPurchaseDetail(PurchaseDetailsAll purchase_details, Model model) {
-		System.out.println("PurchaseDetailController listPurchaseDetail start,,");
-		
-		// 페이징
-		int totalPurchaseDetail = ps.totalPurchaseDetail();
-		if (purchase_details.getCurrentPage() == null) purchase_details.setCurrentPage("1");
-		Paging page = new Paging(totalPurchaseDetail, purchase_details.getCurrentPage());
-		
-		purchase_details.setStart(page.getStart());
-		purchase_details.setEnd(page.getEnd());
-		
-		List<PurchaseDetailsAll> listPurchaseDetail = ps.listPurchaseDetail(purchase_details);
-		System.out.println("PurchaseDetailController listPurchaseDetail listPurchaseDetail.size()->"+listPurchaseDetail.size());
-		
-		model.addAttribute("total",					totalPurchaseDetail);
-		model.addAttribute("listPurchaseDetail", 	listPurchaseDetail);
-		model.addAttribute("page", 					page);	
-		
-		return "yj_views/listPurchaseDetail";
-	}
+
 	
-	// 입고 조회 검색 (기간, 제품, 거래처, 담당자)
-	@RequestMapping(value = "searchPurchaseDetail")
+	// 입고 조회 검색 (기간, 제품, 거래처, 담당자)("입고"니까 구매상세의 상태가 2인 값들만 들어와야함!!)
+	@RequestMapping(value = "listPurchaseDetail")
 	public String searchPurchaseDetail(PurchaseDetailsAll purchase_details, Model model) {
 		System.out.println("PurchaseDetailController searchPurchaseDetail start,,");
 		System.out.println("PurchaseDetailController searchPurchaseDetail purchase_details->" + purchase_details);
@@ -212,7 +185,7 @@ public class PurchaseDetailController {
 		model.addAttribute("searchListPurchaseDetail", 	searchListPurchaseDetail);
 		model.addAttribute("page", 						page);
 		
-		return "yj_views/listSearchPurchaseDetail";
+		return "yj_views/listPurchaseDetail";
 	}
 	
 	// 입고 조회의 상세 화면
@@ -241,33 +214,9 @@ public class PurchaseDetailController {
 		return "yj_views/detailPurchaseDetail";
 	}
 	
-	// 미입고 조회("미입고"니까 구매상세의 상태가 1인 값들만 들어와야함!!)
+
+	// 미입고 조회 검색 (기간, 제품, 거래처, 담당자)("미입고"니까 구매상세의 상태가 1인 값들만 들어와야함!!)
 	@RequestMapping(value = "listPurchaseDetailNo")
-	public String listPurchaseDetailNo(PurchaseDetailsAll purchase_details, Model model) {
-		System.out.println("PurchaseDetailController listPurchaseDetailNo start,,");
-		
-		// 페이징
-		int totalPurchaseDetailNo = ps.totalPurchaseDetailNo();
-		if (purchase_details.getCurrentPage() == null) purchase_details.setCurrentPage("1");
-		Paging page = new Paging(totalPurchaseDetailNo, purchase_details.getCurrentPage());
-		
-		purchase_details.setStart(page.getStart());
-		purchase_details.setEnd(page.getEnd());
-		
-		List<PurchaseDetailsAll> listPurchaseDetailNo = ps.listPurchaseDetailNo(purchase_details);
-		System.out.println("PurchaseDetailController listPurchaseDetailNo listPurchaseDetailNo.size()->"+listPurchaseDetailNo.size());
-		
-		// 검색하고 나서 그 키워드들이 남아있기를 원해서 넣음 jsp에는 value로 값들 넣어둠(검색조건에)
-		model.addAttribute("searchKeyword", 		purchase_details);
-		model.addAttribute("total",					totalPurchaseDetailNo);
-		model.addAttribute("listPurchaseDetailNo", 	listPurchaseDetailNo);
-		model.addAttribute("page", 					page);	
-		
-		return "yj_views/listPurchaseDetailNo";
-	}
-	
-	// 미입고 조회 검색 (기간, 제품, 거래처, 담당자)
-	@RequestMapping(value = "searchPurchaseDetailNo")
 	public String searchPurchaseDetailNo(PurchaseDetailsAll purchase_details, Model model) {
 		System.out.println("PurchaseDetailController searchPurchaseDetailNo start,,");
 		System.out.println("PurchaseDetailController searchPurchaseDetailNo purchase_details->" + purchase_details);
@@ -288,7 +237,7 @@ public class PurchaseDetailController {
 		model.addAttribute("searchListPurchaseDetailNo", searchListPurchaseDetailNo);
 		model.addAttribute("page", page);
 		
-		return "yj_views/listSearchPurchaseDetailNo";
+		return "yj_views/listPurchaseDetailNo";
 	}
 	
 	// 미입고 조회의 상세 화면

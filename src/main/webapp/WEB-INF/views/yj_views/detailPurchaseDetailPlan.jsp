@@ -39,7 +39,7 @@
     color: #fff;
 }
 </style>
-<link rel="stylesheet" href="./css/board.css">
+<link rel="stylesheet" href="<c:url value='/css/board.css' />">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
@@ -52,8 +52,9 @@
 		<form action="purchaseDetailStore" method="post">
 		    <table>
 		        <tr><th>매입일자</th><td>${purchase_details.purchase_date}</td></tr>
-		        <tr><th>발주 담당자</th><td>${purchase_details.emp_name }</td></tr>
-		        <tr><th>입고 담당자</th><td>${purchase_details.emp_name }</td></tr>
+		        <tr><th>발주 담당자</th><td>${purchase_details.emp_name }</td></tr> <!-- 구매 테이블에서 가져온 담당자 이름 -->
+		        <tr><th>입고 담당자</th><td>${emp_name}<!-- 화면에 이름 표시 -->
+		        					<input type="hidden" name="emp_no" value="${emp_no}"><!-- emp_no 값을 숨겨서 전송 --></td></tr> <!-- 세션에서 가져온 담당자 이름 - 현재 로그인 되어있는 사원 -->
 		        <tr><th>거래처명</th><td>${purchase_details.client_name }</td></tr>
 		
 		        <table>

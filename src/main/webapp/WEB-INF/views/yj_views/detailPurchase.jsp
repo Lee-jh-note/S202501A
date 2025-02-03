@@ -11,7 +11,89 @@
 <head>
 <meta charset="UTF-8">
 <title>발주 상세</title>
-<link rel="stylesheet" href="./css/board.css">
+<style>
+    /* 모달 스타일 */
+    .modal-overlay {
+        display: none; /* 기본적으로 숨김 */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .modal-confirm {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-confirm p {
+        margin: 20px 0;
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .modal-actions button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .modal-actions .confirm {
+        background-color: #ff5e57;
+        color: #fff;
+    }
+
+    .modal-actions .cancel {
+        background-color: #ccc;
+        color: #000;
+    }
+</style>
+<script>
+    // 모달 열기
+    function openModal(message, onConfirm) {
+        document.querySelector(".modal-message").innerHTML = message;
+        document.querySelector(".modal-overlay").style.display = "block";
+
+        // 확인 버튼 이벤트 핸들러 설정
+        const confirmButton = document.querySelector(".confirm");
+        confirmButton.onclick = () => {
+            document.querySelector(".modal-overlay").style.display = "none";
+            if (typeof onConfirm === "function") {
+                onConfirm(); // 확인 콜백 호출
+            }
+        };
+
+        // 취소 버튼 클릭 시 모달 닫기
+        document.querySelector(".cancel").onclick = () => {
+            document.querySelector(".modal-overlay").style.display = "none";
+        };
+    }
+
+    // 삭제 버튼 클릭 시 모달 열기
+    function handleDelete() {
+        openModal("정말 삭제하시겠습니까?", () => {
+            // 삭제 로직 실행
+            location.href = "deletePurchase?purchase_date=${purchase.purchase_date}&client_no=${purchase.client_no}&status=${purchase.status}";
+        });
+    }
+</script>
+<link rel="stylesheet" href="<c:url value='/css/board.css' />">
 </head>
 <body>
     <div class="bb">
@@ -40,15 +122,27 @@
 		</table>
 		
 		<tr><td colspan="2">
-		    <input type="button" value="목록" 
-				onclick="history.back()">
-			<input type="button" value="수정" 
-				onclick="location.href='updateFormPurchase?purchase_date=${purchase.purchase_date}&client_no=${purchase.client_no}&status=${purchase.status}'">
-			<input type="button" value="삭제" 
-				onclick="location.href='deletePurchase?purchase_date=${purchase.purchase_date}&client_no=${purchase.client_no}&status=${purchase.status}'"></td>
-		</tr>
+		    <input type="button" value="목록" onclick="history.back()">
+		    
+		    <c:if test="${purchase.status == 0}">
+		        <input type="button" value="수정" 
+		            onclick="location.href='updateFormPurchase?purchase_date=${purchase.purchase_date}&client_no=${purchase.client_no}&status=${purchase.status}'">
+		        <input type="button" value="삭제" onclick="handleDelete()">
+		    </c:if>
+		</td></tr>
 	</table>
 	</div>
+	
+	    <!-- 모달 HTML -->
+    <div class="modal-overlay">
+        <div class="modal-confirm">
+            <p class="modal-message">정말 삭제하시겠습니까?</p>
+            <div class="modal-actions">
+                <button class="confirm">확인</button>
+                <button class="cancel">취소</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

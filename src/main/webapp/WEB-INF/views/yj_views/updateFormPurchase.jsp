@@ -11,12 +11,12 @@
 <meta charset="UTF-8">
 <title>발주 수정</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="./css/board.css">
+<link rel="stylesheet" href="<c:url value='/css/board.css' />">
 <script type="text/javascript">
     // getPrice 함수 추가 (insert 폼에서 복사)
     function getPrice(pProduct_no, selectElement) {
         $.ajax({
-            url: "<%=request.getContextPath()%>/getPrice",
+            url: "<%=request.getContextPath()%>/purchase/getPrice",
             data: { product_no: pProduct_no },
             dataType: "json",
             success: function(productPrice) {
@@ -154,14 +154,14 @@
         };
 
         $.ajax({
-            url: "<%=request.getContextPath()%>/updatePurchase",
+            url: "<%=request.getContextPath()%>/purchase/updatePurchase",
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(purchaseData),
             success: function(response) {
                 if (response.success) {
                     alert("발주서 수정 완료");
-                    window.location.href = "<%=request.getContextPath()%>/listPurchase";
+                    window.location.href = "<%=request.getContextPath()%>/purchase/listPurchase";
                 } else {
                     alert("발주 수정 실패: " + response.message);
                 }

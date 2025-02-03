@@ -26,7 +26,7 @@ public interface PurchaseService {
 	// 구매상세에서 가져와야하는 값 - 매입일자, 거래처명, 품목명, 단가, 수량
 	List<Purchase> 		detailPurchaseDetail(Map<String, Object> params);
 	// PurchaseController의 insertFormPurchase 담당자, 거래처, 제품 드롭다운
-	List<Purchase> 		listManager();
+//	List<Purchase> 		listManager();
 	List<Purchase> 		listClient();
 	List<Purchase> 		listProduct();
 	// PurchaseController의 insertPurchase

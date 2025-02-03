@@ -121,17 +121,17 @@ public class PurchaseDaoImpl implements PurchaseDao {
 	}
 
 	// PurchaseServiceImpl에서 각각 넘어옴 - 담당자, 거래처, 제품 드롭다운
-	@Override
-	public List<Purchase> listManager() {
-		List<Purchase> empList = null;
-		System.out.println("PurchaseDaoImpl listManager start,,");
-		try {
-			empList = session.selectList("yjListManager");
-		} catch (Exception e) {
-			System.out.println("PurchaseDaoImpl listManager Exception->"+e.getMessage());
-		}
-		return empList;
-	}
+//	@Override
+//	public List<Purchase> listManager() {
+//		List<Purchase> empList = null;
+//		System.out.println("PurchaseDaoImpl listManager start,,");
+//		try {
+//			empList = session.selectList("yjListManager");
+//		} catch (Exception e) {
+//			System.out.println("PurchaseDaoImpl listManager Exception->"+e.getMessage());
+//		}
+//		return empList;
+//	}
 	// PurchaseServiceImpl에서 각각 넘어옴 - 담당자, 거래처, 제품 드롭다운
 	@Override
 	public List<Purchase> listClient() {

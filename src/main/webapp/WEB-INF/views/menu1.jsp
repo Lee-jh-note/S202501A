@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 메뉴바 시작 -->
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: #395B7F;" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -44,9 +44,9 @@
         <div id="collapsePurSalDetail" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">입고:</h6>
-                <a class="collapse-item" href="/listPurchaseDetailPlan">입고 예정 리스트</a>
-                <a class="collapse-item" href="/listPurchaseDetail">입고 조회</a>
-                <a class="collapse-item" href="/listPurchaseDetailNo">미입고 조회</a>
+                <a class="collapse-item" href="/purchaseDetail/listPurchaseDetailPlan">입고 예정 리스트</a>
+                <a class="collapse-item" href="/purchaseDetail/listPurchaseDetail">입고 조회</a>
+                <a class="collapse-item" href="/purchaseDetail/listPurchaseDetailNo">미입고 조회</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">출고:</h6>
                 <a class="collapse-item" href="#">출고 예정 리스트</a>
@@ -66,8 +66,8 @@
         <div id="collapsePurSal" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">발주:</h6>
-                <a class="collapse-item" href="/insertFormPurchase">발주 등록</a>
-                <a class="collapse-item" href="/listPurchase">발주 조회</a>
+                <a class="collapse-item" href="/purchase/insertFormPurchase">발주 등록</a>
+                <a class="collapse-item" href="/purchase/listPurchase">발주 조회</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">수주:</h6>
                 <a class="collapse-item" href="#">수주 등록</a>

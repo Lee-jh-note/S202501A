@@ -16,30 +16,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 	private final PurchaseDetailDao pd;
-	
-	// 입고 예정 리스트("예정"이니까 상태가 0인 값들만 들어와야함. 매퍼에서 sql문 조절)
-	// PurchaseDetailController listPurchaseDetail
-	@Override
-	public int totalPurchaseDetailPlan() {
-		System.out.println("PurchaseDetailServiceImpl totalPurchaseDetailPlan start,,,");
-		int totalPurchaseDetailPlanCnt = pd.totalPurchaseDetailPlan();
-		System.out.println("PurchaseDetailServiceImpl totalPurchaseDetailPlan totPurchasePlanCnt->" + totalPurchaseDetailPlanCnt);
-		
-		return totalPurchaseDetailPlanCnt;
-	}
 
-	// PurchaseDetailController listPurchaseDetail
-	@Override
-	public List<PurchaseDetailsAll> listPurchaseDetailPlan(PurchaseDetailsAll purchase_details) {
-		List<PurchaseDetailsAll> listPurchaseDetailPlan = null;
-		System.out.println("PurchaseDetailServiceImpl listPurchaseDetailPlan start,,");
-		listPurchaseDetailPlan = pd.listPurchaseDetailPlan(purchase_details);
-		System.out.println("PurchaseDetailServiceImpl listPurchaseDetailPlan listPurchaseDetailPlan.size()->"+listPurchaseDetailPlan.size());
-		
-		return listPurchaseDetailPlan;
-	}
-
-	// 입고 예정리스트 검색 (기간, 제품, 거래처, 담당자)
+	// 입고 예정리스트 검색 (기간, 제품, 거래처, 담당자)("예정"이니까 상태가 0인 값들만 들어와야함. 매퍼에서 sql문 조절)
 	// PurchaseDetailController searchPurchaseDetail
 	@Override
 	public int searchTotalPurchaseDetailPlan(PurchaseDetailsAll purchase_details) {
@@ -90,35 +68,15 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 	
 	// 입고버튼- 구매상세 상태 변경
 	@Override
-	public boolean updatePurchaseDetailStatus(String purchaseDate, int clientNo, int productNo, int status) {
-		System.out.println("PurchaseDetailServiceImpl updatePurchaseDetailStatus 구매일자"+ purchaseDate +"거래처번호"+ clientNo +"품목번호"+ productNo +"상태"+ status);
-		int result = pd.updatePurchaseDetailStatus(purchaseDate, clientNo, productNo, status);
+	public boolean updatePurchaseDetailStatusManager(String purchaseDate, int clientNo, int productNo, int  currentNo, int status) {
+		System.out.println("PurchaseDetailServiceImpl updatePurchaseDetailStatus 구매일자"+ purchaseDate +"거래처번호"+ clientNo +"품목번호"+ productNo +"담당자"+ currentNo+ "상태"+ status);
+		int result = pd.updatePurchaseDetailStatusManager(purchaseDate, clientNo, productNo, currentNo, status);
 		return result > 0; // 업데이트 성공 여부
 	}
 	
-	
-	
-	// 입고 조회("입고"니까 상태가 2인 값들만 들어와야함!)
-	// PurchaseDetailController listPurchaseDetail
-	@Override
-	public int totalPurchaseDetail() {
-		System.out.println("PurchaseDetailServiceImpl totalPurchaseDetail start,,,");
-		int totalPurchaseDetailCnt = pd.totalPurchaseDetail();
-		System.out.println("PurchaseDetailServiceImpl totalPurchase totPurchaseCnt->" + totalPurchaseDetailCnt);
-		
-		return totalPurchaseDetailCnt;
-	}
-	@Override
-	public List<PurchaseDetailsAll> listPurchaseDetail(PurchaseDetailsAll purchase_details) {
-		List<PurchaseDetailsAll> listPurchaseDetail = null;
-		System.out.println("PurchaseDetailServiceImpl listPurchaseDetail start,,");
-		listPurchaseDetail = pd.listPurchaseDetail(purchase_details);
-		System.out.println("PurchaseDetailServiceImpl listPurchaseDetail listPurchaseDetail.size()->"+listPurchaseDetail.size());
-		
-		return listPurchaseDetail;
-	}
 
-	// 입고 조회 검색
+
+	// 입고 조회 검색("입고"니까 상태가 2인 값들만 들어와야함!)
 	// PurchaseDetailController searchPurchaseDetail
 	@Override
 	public int searchTotalPurchaseDetail(PurchaseDetailsAll purchase_details) {
@@ -159,25 +117,6 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 		return purchase_details_list;
 	}
 
-	// 미입고 조회 리스트
-	// PurchaseDetailController searchPurchaseDetailNo
-	@Override
-	public int totalPurchaseDetailNo() {
-		System.out.println("PurchaseDetailServiceImpl totalPurchaseDetailNo start,,,");
-		int totalPurchaseDetailNoCnt = pd.totalPurchaseDetailNo();
-		System.out.println("PurchaseDetailServiceImpl totalPurchaseDetailNo totalPurchaseDetailNoCnt->" + totalPurchaseDetailNoCnt);
-		
-		return totalPurchaseDetailNoCnt;
-	}
-	@Override
-	public List<PurchaseDetailsAll> listPurchaseDetailNo(PurchaseDetailsAll purchase_details) {
-		List<PurchaseDetailsAll> listPurchaseDetailNo = null;
-		System.out.println("PurchaseDetailServiceImpl listPurchaseDetailNo start,,");
-		listPurchaseDetailNo = pd.listPurchaseDetailNo(purchase_details);
-		System.out.println("PurchaseDetailServiceImpl listPurchaseDetailNo listPurchaseDetailNo.size()->"+listPurchaseDetailNo.size());
-		
-		return listPurchaseDetailNo;
-	}
 	
 	// 미입고 조회 검색
 	// PurchaseDetailController searchPurchaseDetailNo

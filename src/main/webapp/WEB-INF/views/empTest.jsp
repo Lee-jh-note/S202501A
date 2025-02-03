@@ -28,7 +28,7 @@
             <input type="date" id="startDate" name="startDate" value="${sysdate}"/>
 
             <label for="endDate">~</label>
-            <input type="date" id="endDate" tame="endDate" value="${sysdate}"/>
+            <input type="date" id="endDate" name="endDate" value="${sysdate}"/>
 
             <!-- 품목 -->
             <label for="product_name">품목</label>

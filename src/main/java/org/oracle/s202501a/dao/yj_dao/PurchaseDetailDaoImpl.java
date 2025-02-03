@@ -17,37 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class PurchaseDetailDaoImpl implements PurchaseDetailDao {
 	private final SqlSession session;
 	
-	// 입고 예정 리스트("예정"이니까 상태가 0인 값들만 들어와야함. 매퍼에서 sql문 조절)
-	// PurchaseDetailServiceImpl totalPurchaseDetail- 입고 총 갯수
-	@Override
-	public int totalPurchaseDetailPlan() {
-		int totalPurchaseDetailPlanCnt = 0;
-		System.out.println("PurchaseDetailDaoImpl totalPurchaseDetailPlan start,,");
-		try {
-			totalPurchaseDetailPlanCnt = session.selectOne("yjPurchaseDetailPlanTotal");
-			System.out.println("PurchaseDetailDaoImpl totalPurchaseDetailPlan totalPurchaseDetailPlanCnt->"+totalPurchaseDetailPlanCnt);
-		} catch (Exception e) {
-			System.out.println("PurchaseDetailDaoImpl totalPurchaseDetailPlan e.getMessage()->"+e.getMessage());
-		}
-		
-		return totalPurchaseDetailPlanCnt;
-	}
-	
-	// PurchaseDetailServiceImpl listPurchaseDetail - 입고 조회 리스트
-	@Override
-	public List<PurchaseDetailsAll> listPurchaseDetailPlan(PurchaseDetailsAll purchase_details) {
-		List<PurchaseDetailsAll> listPurchaseDetailPlan = null;
-		System.out.println("PurchaseDetailDaoImpl listPurchaseDetailPlan start,,");
-		try {
-			listPurchaseDetailPlan = session.selectList("yjListPurchaseDetailPlan", purchase_details);
-			System.out.println("PurchaseDetailDaoImpl listPurchaseDetailPlan listPurchaseDetailPlan.size()->"+listPurchaseDetailPlan.size());
-		} catch (Exception e) {
-			System.out.println("PurchaseDetailDaoImpl listPurchaseDetailPlan e.getMessage()->"+e.getMessage());
-		}
-		return listPurchaseDetailPlan;
-	}
-	
-	// 입고 예정리스트 검색 (기간, 제품, 거래처, 담당자)
+	// 입고 예정리스트 검색 (기간, 제품, 거래처, 담당자)("예정"이니까 상태가 0인 값들만 들어와야함. 매퍼에서 sql문 조절)
 	// PurchaseDetailServiceImpl searchTotalPurchaseDetail- 입고 검색 총 갯수
 	@Override
 	public int searchTotalPurchaseDetailPlan(PurchaseDetailsAll purchase_details) {
@@ -119,13 +89,14 @@ public class PurchaseDetailDaoImpl implements PurchaseDetailDao {
 	
 	// 입고버튼- 구매상세 상태 변경
 	@Override
-	public int updatePurchaseDetailStatus(String purchaseDate, int clientNo, int productNo, int status) {
-		System.out.println("PurchaseDetailDaoImpl updatePurchaseDetailStatus 구매일자"+ purchaseDate +"거래처번호"+ clientNo +"품목번호"+ productNo +"상태"+ status);
+	public int updatePurchaseDetailStatusManager(String purchaseDate, int clientNo, int productNo, int currentNo, int status) {
+		System.out.println("PurchaseDetailDaoImpl updatePurchaseDetailStatus 구매일자"+ purchaseDate +"거래처번호"+ clientNo +"품목번호"+ productNo +"담당자"+ currentNo+ "상태"+ status);
 		int result = 0;
 		var params = Map.of(
 				"purchaseDate", purchaseDate,
 				"clientNo", clientNo,
 				"productNo", productNo,
+				"currentNo", currentNo,
 				"status", status
 				);
 		result = session.update("yjUpdatePurchaseDetailStatus", params);
@@ -133,37 +104,8 @@ public class PurchaseDetailDaoImpl implements PurchaseDetailDao {
 	}
 	
 	
-	// 입고 조회 리스트("입고"니까 상태가 0인 값들만 들어와야함. 매퍼에서 sql문 조절)
-	// PurchaseDetailServiceImpl totalPurchaseDetail- 입고 총 갯수
-	@Override
-	public int totalPurchaseDetail() {
-		int totalPurchaseDetailCnt = 0;
-		System.out.println("PurchaseDetailDaoImpl totalPurchaseDetailCnt start,,");
-		try {
-			totalPurchaseDetailCnt = session.selectOne("yjPurchaseDetailTotal");
-			System.out.println("PurchaseDetailDaoImpl totalPurchaseDetail totalPurchaseDetailCnt->"+totalPurchaseDetailCnt);
-		} catch (Exception e) {
-			System.out.println("PurchaseDetailDaoImpl totalPurchaseDetail e.getMessage()->"+e.getMessage());
-		}
-		
-		return totalPurchaseDetailCnt;
-	}
-	// PurchaseDetailServiceImpl listPurchaseDetail - 입고 조회 리스트
-	@Override
-	public List<PurchaseDetailsAll> listPurchaseDetail(PurchaseDetailsAll purchase_details) {
-		List<PurchaseDetailsAll> listPurchaseDetail = null;
-		System.out.println("PurchaseDetailDaoImpl listPurchaseDetail start,,");
-		try {
-			listPurchaseDetail = session.selectList("yjListPurchaseDetail", purchase_details);
-			System.out.println("PurchaseDetailDaoImpl listPurchaseDetail listPurchaseDetail.size()->"+listPurchaseDetail.size());
-		} catch (Exception e) {
-			System.out.println("PurchaseDetailDaoImpl listPurchaseDetail e.getMessage()->"+e.getMessage());
-		}
-		return listPurchaseDetail;
-	}
 	
-	
-	// 입고 조회 검색
+	// 입고 조회 검색("입고"니까 상태가 0인 값들만 들어와야함. 매퍼에서 sql문 조절)
 	// PurchaseDetailServiceImpl searchTotalPurchaseDetail- 입고 검색 총 갯수
 	@Override
 	public int searchTotalPurchaseDetail(PurchaseDetailsAll purchase_details) {
@@ -218,33 +160,7 @@ public class PurchaseDetailDaoImpl implements PurchaseDetailDao {
 		return purchase_details_list;
 	}
 
-	// 미입고 조회 리스트
-	// PurchaseDetailServiceImpl listPurchaseDetailNo
-	@Override
-	public int totalPurchaseDetailNo() {
-		int totalPurchaseDetailNoCnt = 0;
-		System.out.println("PurchaseDetailDaoImpl totalPurchaseDetailNoCnt start,,");
-		try {
-			totalPurchaseDetailNoCnt = session.selectOne("yjPurchaseDetailNoTotal");
-			System.out.println("PurchaseDetailDaoImpl totalPurchaseDetailNo totalPurchaseDetailNoCnt->"+totalPurchaseDetailNoCnt);
-		} catch (Exception e) {
-			System.out.println("PurchaseDetailDaoImpl totalPurchaseDetailNo e.getMessage()->"+e.getMessage());
-		}
-		
-		return totalPurchaseDetailNoCnt;
-	}
-	@Override
-	public List<PurchaseDetailsAll> listPurchaseDetailNo(PurchaseDetailsAll purchase_details) {
-		List<PurchaseDetailsAll> listPurchaseDetailNo = null;
-		System.out.println("PurchaseDetailDaoImpl listPurchaseDetailNo start,,");
-		try {
-			listPurchaseDetailNo = session.selectList("yjListPurchaseDetailNo", purchase_details);
-			System.out.println("PurchaseDetailDaoImpl listPurchaseDetailNo listPurchaseDetailNo.size()->"+listPurchaseDetailNo.size());
-		} catch (Exception e) {
-			System.out.println("PurchaseDetailDaoImpl listPurchaseDetailNo e.getMessage()->"+e.getMessage());
-		}
-		return listPurchaseDetailNo;
-	}
+
 
 	// 미입고 조회 검색
 	// PurchaseDetailServiceImpl searchTotalPurchaseDetailNo

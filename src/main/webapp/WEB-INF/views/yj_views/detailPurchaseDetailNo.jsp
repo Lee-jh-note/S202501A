@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <!-- 다른점: 1. 타이틀 이름 -->
 <title>미입고 조회 상세</title>
-<link rel="stylesheet" href="./css/board.css">
+<link rel="stylesheet" href="<c:url value='/css/board.css' />">
 </head>
 <body>
     <div class="bb">

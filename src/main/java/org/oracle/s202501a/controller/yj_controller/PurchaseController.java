@@ -3,12 +3,13 @@ package org.oracle.s202501a.controller.yj_controller;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Iterator;
 
+import org.oracle.s202501a.dto.sh_dto.EmpDTO;
 import org.oracle.s202501a.dto.yj_dto.Purchase;
 import org.oracle.s202501a.dto.yj_dto.Purchase01;
 import org.oracle.s202501a.dto.yj_dto.PurchaseData;
 import org.oracle.s202501a.dto.yj_dto.Purchase_details;
+import org.oracle.s202501a.service.sh_service.UserService;
 import org.oracle.s202501a.service.yj_service.Paging;
 import org.oracle.s202501a.service.yj_service.PurchaseService;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.transaction.Transactional;
@@ -28,8 +28,12 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("purchase")
 public class PurchaseController {
 	private final PurchaseService ps;
+	
+	// 세션과 연결된 UserService
+	private final UserService f;
 	
 	// 발주 조회 페이지의 리스트(페이징작업까지)
 	@RequestMapping(value = "listPurchase")
@@ -65,27 +69,27 @@ public class PurchaseController {
 	@RequestMapping(value = "searchPurchase")
 	public String searchPurchase(Purchase purchase, Model model) {
 		System.out.println("PurchaseController searchPurchase start,,");
-		System.out.println("PurchaseController searchPurchase purchase->"+purchase);
+		System.out.println("PurchaseController searchPurchase purchase-> " + purchase);
 		// Purchase 전체 Cnt
 		int totalPurchase = ps.searchTotalPurchase(purchase);
-		System.out.println("PurchaseController searchPurchase totalPurchase->"+totalPurchase);
+		System.out.println("PurchaseController searchPurchase totalPurchase-> " + totalPurchase);
 		// 페이징,,
 		Paging page = new Paging(totalPurchase, purchase.getCurrentPage());
 		purchase.setStart(page.getStart()); // 시작시 1
 		purchase.setEnd(page.getEnd());		//  15
 		
-		System.out.println("Paging Info: start=" + page.getStart() + ", end=" + page.getEnd() +
-                ", currentPage=" + page.getCurrentPage() + ", totalPage=" + page.getTotalPage());
+		System.out.println("Paging Info: start = " + page.getStart() + ", end = " + page.getEnd() +
+                ", currentPage = " + page.getCurrentPage() + ", totalPage = " + page.getTotalPage());
 		System.out.println("Type of start: " + ((Object) page.getStart()).getClass().getName());
 
 
 		
-		System.out.println("PurchaseController searchPurchase page->"+page);
+		System.out.println("PurchaseController searchPurchase page-> " + page);
 
 		
 		List<Purchase> searchListPurchase = ps.searchListPurchase(purchase);
-		System.out.println("PurchaseController searchPurchase searchListPurchase searchListPurchase.size()"+searchListPurchase.size());
-		System.out.println("PurchaseController searchPurchase searchListPurchase->"+searchListPurchase);
+		System.out.println("PurchaseController searchPurchase searchListPurchase searchListPurchase.size()-> " + searchListPurchase.size());
+		System.out.println("PurchaseController searchPurchase searchListPurchase-> " + searchListPurchase);
 		
 		model.addAttribute("searchKeyword", purchase);
 		model.addAttribute("totalPurchase", totalPurchase);
@@ -95,6 +99,71 @@ public class PurchaseController {
 		return "yj_views/listSearchPurchase";
 	}
 	
+	
+//	// 발주 조회 페이지의 리스트(페이징작업까지)
+//	@RequestMapping(value = "listPurchase")
+//	public String listPurchase(Purchase purchase, Model model) {
+//		System.out.println("PurchaseController listPurchase start,,,");
+//		
+//		// 페이징 작업
+//		// 한페이지에 15줄씩 보이도록
+//		int totalPurchase = ps.totalPurchase();
+//		if(purchase.getCurrentPage() == null) purchase.setCurrentPage("1"); // null이 되면 1로 세팅
+//		Paging page = new Paging(totalPurchase, purchase.getCurrentPage()); // Paging.java로 넘어가서 어떻게 구성되어있는지 확인
+//		
+//		purchase.setStart(page.getStart()); // 시작시 1
+//		purchase.setEnd(page.getEnd());		//  15
+//		
+//		List<Purchase> listPurchase = ps.listPurchase(purchase);
+//		System.out.println("PurchaseController listPurchase listPurchase.size()->"+listPurchase.size());
+//		System.out.println("PurchaseController listPurchase listPurchase->"+listPurchase);
+//		
+//		// 발주일자- sysdate 넣기
+//	    String sysdate = java.time.LocalDate.now().toString();
+//	    model.addAttribute("sysdate", sysdate);
+//		
+//		model.addAttribute("total",			totalPurchase);
+//		model.addAttribute("listPurchase", 	listPurchase);
+//		model.addAttribute("page", 			page);		
+//		
+//		return "yj_views/listPurchase";
+//		
+//	}
+//	
+//	// 발주 검색 (기간, 제품, 거래처, 담당자)
+//	@RequestMapping(value = "searchPurchase")
+//	public String searchPurchase(Purchase purchase, Model model) {
+//		System.out.println("PurchaseController searchPurchase start,,");
+//		System.out.println("PurchaseController searchPurchase purchase->"+purchase);
+//		// Purchase 전체 Cnt
+//		int totalPurchase = ps.searchTotalPurchase(purchase);
+//		System.out.println("PurchaseController searchPurchase totalPurchase->"+totalPurchase);
+//		// 페이징,,
+//		Paging page = new Paging(totalPurchase, purchase.getCurrentPage());
+//		purchase.setStart(page.getStart()); // 시작시 1
+//		purchase.setEnd(page.getEnd());		//  15
+//		
+//		System.out.println("Paging Info: start=" + page.getStart() + ", end=" + page.getEnd() +
+//                ", currentPage=" + page.getCurrentPage() + ", totalPage=" + page.getTotalPage());
+//		System.out.println("Type of start: " + ((Object) page.getStart()).getClass().getName());
+//
+//
+//		
+//		System.out.println("PurchaseController searchPurchase page->"+page);
+//
+//		
+//		List<Purchase> searchListPurchase = ps.searchListPurchase(purchase);
+//		System.out.println("PurchaseController searchPurchase searchListPurchase searchListPurchase.size()"+searchListPurchase.size());
+//		System.out.println("PurchaseController searchPurchase searchListPurchase->"+searchListPurchase);
+//		
+//		model.addAttribute("searchKeyword", purchase);
+//		model.addAttribute("totalPurchase", totalPurchase);
+//		model.addAttribute("searchListPurchase", searchListPurchase); // yj_views/listPurchase에서 listPurchase를 써서 forEach로 값들을 넣어줬기 때문에 "listPurchase" 맞춰줘야함
+//		model.addAttribute("page", page);
+//		
+//		return "yj_views/listSearchPurchase";
+//	}
+//	
 	// 발주 상세 조회 - 발주서 안에 제품이 여러개 들어가면서 상세화면도 바뀜
 	@GetMapping(value = "detailPurchase")
 	public String detailPurchase(Purchase purchase1, Model model) {
@@ -128,9 +197,15 @@ public class PurchaseController {
 		// 제목은 입력, 매입일자는 sysdate, 담당자는 드롭다운(emp_name), 거래처는 드롭다운(client_name), 요청배송일 입력
 		// 비고 입력, 품목명 드롭다운(product_name), 단가는 품목명 선택하면 끌고와지게,,, 수량 입력, 총금액은 단가 * 수량
 		
-		// 담당자 드롭다운
-		List<Purchase> empList = ps.listManager();
-		model.addAttribute("empList", empList);
+		EmpDTO dto = f.getSe();
+		Long emp_no = dto.getEmp_No();
+		String emp_name = dto.getEmp_Name();
+	    model.addAttribute("emp_no", emp_no);
+	    model.addAttribute("emp_name", emp_name);
+		
+		// 담당자 드롭다운 - 기존 방법. 근데 담당자는 선택하는게 아니라 지금 로그인 되어있는 사원으로 이름이 떠야함. 따라서 session 사용으로 변경
+//		List<Purchase> empList = ps.listManager();
+//		model.addAttribute("empList", empList);
 		
 		// 거래처 드롭다운
 		List<Purchase> clientList = ps.listClient();
@@ -310,16 +385,16 @@ public class PurchaseController {
 		Purchase purchase = ps.detailPurchase(params);
 		System.out.println("PurchaseController purchase purchase->"+purchase);
 		
-		// 상태 확인 (DB 조회 후)
-		if (purchase == null) {
-		    System.out.println("PurchaseController updateFormPurchase: 해당 발주 정보가 존재하지 않음 purchase->"+purchase);
-		    model.addAttribute("errorMessage", "해당 발주 정보를 찾을 수 없습니다.");
-		    return "yj_views/errorPage";
-		} else if (!"0".equals(purchase.getStatus())) {
-		    System.out.println("PurchaseController updateFormPurchase: 상태가 0이 아님 purchase.getStatus()->"+purchase.getStatus());
-		    model.addAttribute("errorMessage", "수정할 수 없는 상태입니다. 상태가 0인 발주서만 수정 가능합니다.");
-		    return "yj_views/errorPage";
-		}
+//		// 상태 확인 (DB 조회 후)
+//		if (purchase == null) {
+//		    System.out.println("PurchaseController updateFormPurchase: 해당 발주 정보가 존재하지 않음 purchase->"+purchase);
+//		    model.addAttribute("errorMessage", "해당 발주 정보를 찾을 수 없습니다.");
+//		    return "yj_views/errorPage";
+//		} else if (!"0".equals(purchase.getStatus())) {
+//		    System.out.println("PurchaseController updateFormPurchase: 상태가 0이 아님 purchase.getStatus()->"+purchase.getStatus());
+//		    model.addAttribute("errorMessage", "수정할 수 없는 상태입니다. 상태가 0인 발주서만 수정 가능합니다.");
+//		    return "yj_views/errorPage";
+//		}
 		
 		// 구매 상세 테이블 조회
 		List<Purchase> purchase_detail = ps.detailPurchaseDetail(params);
@@ -397,7 +472,7 @@ public class PurchaseController {
 	public String deletePurchase(Purchase01 purchase, Model model) {
 		System.out.println("PurchaseController deletePurchase start");
 		System.out.println("PurchaseController deletePurchase purchase->"+purchase);
-		System.out.println("PurchaseController deletePurchase  purchase.getStatus()->"+ purchase.getStatus());
+//		System.out.println("PurchaseController deletePurchase  purchase.getStatus()->"+ purchase.getStatus());
 		
 		Map<String, Object> params = new HashMap<>();
 		try {
@@ -408,12 +483,12 @@ public class PurchaseController {
 			
 			// 상태 확인
 			// if 상태가 null이거나 0이면 삭제 불가!!
-			if (purchase == null || !"0".equals(purchase.getStatus())) {
-				// 상태가 0이 아니거나 데이터를 찾을 수 없는 경우 처리
-				System.out.println("PurchaseController deletePurchase: 상태가 0이 아님 또는 데이터 없음");
-				model.addAttribute("errorMessage", "삭제할 수 없는 상태입니다. 상태가 0인 발주서만 삭제 가능합니다.");
-				return "yj_views/errorPage"; // 오류 페이지로 이동
-			}
+//			if (purchase == null || !"0".equals(purchase.getStatus())) {
+//				// 상태가 0이 아니거나 데이터를 찾을 수 없는 경우 처리
+//				System.out.println("PurchaseController deletePurchase: 상태가 0이 아님 또는 데이터 없음");
+//				model.addAttribute("errorMessage", "삭제할 수 없는 상태입니다. 상태가 0인 발주서만 삭제 가능합니다.");
+//				return "yj_views/errorPage"; // 오류 페이지로 이동
+//			}
 			
 			int result1 = ps.deletePurchaseDetail(params);
 			// 구매상세 테이블 삭제에 성공하면,

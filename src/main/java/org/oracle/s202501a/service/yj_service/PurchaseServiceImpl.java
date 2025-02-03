@@ -95,14 +95,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	// PurchaseController의 insertFormPurchase - 담당자, 거래처, 제품 드롭다운
-	@Override
-	public List<Purchase> listManager() {
-		List<Purchase> empList = null;
-		System.out.println("PurchaseServiceImpl listManager start,,");
-		empList = pd.listManager();
-		System.out.println("PurchaseServiceImpl listManager empList.size()->"+empList.size());
-		return empList;
-	}
+//	@Override
+//	public List<Purchase> listManager() {
+//		List<Purchase> empList = null;
+//		System.out.println("PurchaseServiceImpl listManager start,,");
+//		empList = pd.listManager();
+//		System.out.println("PurchaseServiceImpl listManager empList.size()->"+empList.size());
+//		return empList;
+//	}
 	// PurchaseController의 insertFormPurchase - 담당자, 거래처, 제품 드롭다운
 	@Override
 	public List<Purchase> listClient() {
