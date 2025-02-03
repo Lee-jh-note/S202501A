@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("client")
 public class ClientController {
 	
 	private final ClientService cs;

@@ -78,13 +78,57 @@ public class InventoryDaoImpl implements InventoryDao {
     }
 
     @Override
-    public boolean closingCheck(String yymm) {
+    public int closingCheck(String yymm) {
         try {
             return sqlSession.selectOne("closingCheck", yymm);
         }
         catch (Exception e) {
             e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public InventoryDto InvenFindByProdName(Long prodNo) {
+        try {
+            return sqlSession.selectOne("InvenFindByProdName", prodNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public InventoryDto findStockByProdStock(Long prodNo, int stock) {
+        try {
+            InventoryDto dto = new InventoryDto();
+            dto.setProduct_no(prodNo);
+            dto.setStock_type(stock);
+            return sqlSession.selectOne("findStockByProdStock", dto);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void quantityModify(InventoryDto inventoryDto) {
+        try {
+            sqlSession.update("quantityModify", inventoryDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+
+//    @Override
+//    public void QuantityModify(InventoryDto dto) {
+//        try {
+//            sqlSession.update("QuantityModify", dto);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

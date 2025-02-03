@@ -19,5 +19,13 @@ public interface InventoryDao {
 
     void closing(ClosingDto dto);
 
-    boolean closingCheck(String yymm);
+    int closingCheck(String yymm);
+
+    InventoryDto InvenFindByProdName(Long prodNo);
+
+    InventoryDto findStockByProdStock(Long prodNo, int stock);
+
+    void quantityModify(InventoryDto inventoryDto);
+
+//    void QuantityModify(InventoryDto dto);
 }

@@ -31,7 +31,7 @@ public class ProductController {
 
         return "jh_views/ProdTest";
     }
-
+    // 리스트 조회, 검색
     @RequestMapping("/Prod/ProdList")
     public String prodList(Model model,
                            ProductDto productDto,
@@ -51,7 +51,7 @@ public class ProductController {
     // 등록
     @GetMapping("/Prod/ProdCreate")
     public String prodCreate(Model model) throws JsonProcessingException {
-        CategoriesDto category = prodCategoryService.ProdCateFindAll();
+        CategoriesDto category = prodCategoryService.prodCateFindAll();
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonTopList = objectMapper.writeValueAsString(category.getTopList());
@@ -66,7 +66,6 @@ public class ProductController {
     // 등록 액션
     @PostMapping("/Prod/ProdCreateAct")
     public String prodCreateAct(ProductPriceDto productPriceDtoDto, Model model) {
-        System.out.println("등록 들어오자마자 컨트롤러 : " + productPriceDtoDto);
         productService.createProduct(productPriceDtoDto);
         return "redirect:/Prod/ProdList";
     }
@@ -84,7 +83,7 @@ public class ProductController {
     public String prodModify(Model model, @RequestParam("productNo") Long productNo) throws JsonProcessingException {
 
         ProductPriceDto dto = productService.prodDetails(productNo);
-        CategoriesDto category = prodCategoryService.ProdCateFindAll();
+        CategoriesDto category = prodCategoryService.prodCateFindAll();
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonTopList = objectMapper.writeValueAsString(category.getTopList());
@@ -115,8 +114,16 @@ public class ProductController {
     // 상태 일괄 변경
     @PostMapping("/Prod/Status")
     public String status(@RequestParam(value = "product_no", required = false) List<Long>product_no) {
-        System.out.println("체크 들어오는지만 : " + product_no);
         productService.prodStatus(product_no);
         return "redirect:/Prod/ProdList"; // 수정 후 다시 리스트
+    }
+
+    // 제품 이름 중복체크
+    @GetMapping("/Prod/validProdName")
+    @ResponseBody
+    public String validProdName(@RequestParam("prodName") String prodName) {
+        // 1 = 중복
+        // 0 = 가능
+        return productService.validProdName(prodName);
     }
 }

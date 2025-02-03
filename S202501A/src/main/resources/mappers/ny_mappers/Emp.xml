@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="org.oracle.s202501a.mapper.EmpMapper">
+
+	<select id="nytotalEmp" resultType="int"> <!-- #Count(*)가 인트 :: 매퍼 아이디당 sql문 하나 -->
+		SELECT Count(*) FROM EMP
+		WHERE emp_Delete = 0
+	</select>
+	
+	
+	
+
+	<!-- 부서 보이게 직원 리스트 -->
+	<!-- emp테이블의 emp_no 순으로 dept_name도 보여지도록 -->
+	<!-- org.oracle.s202501a.dto.ny_dto. 이거 안붙이고싶으면 컨피규레이션에 두줄 붙이기 1223 4시간 
+		2분 -->
+	<select id="nylistEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp" resultType="org.oracle.s202501a.dto.ny_dto.Emp">
+ <![CDATA[
+    SELECT *
+    FROM
+    (
+        SELECT rownum rn, a.*
+        FROM
+        (
+            SELECT 
+                e.emp_no,        
+                e.emp_name,      
+                e.dept_no,       
+                e.position,      
+                e.emp_tel,       
+                e.emp_email,     
+                e.birth,         
+                e.hiredate,      
+                d.dept_name
+            FROM EMP e
+            LEFT JOIN DEPT d
+            ON e.dept_no = d.dept_no
+            WHERE e.emp_Delete = 0 -- 삭제되지 않은 직원만
+            ORDER BY e.emp_no
+        ) a
+    )
+    WHERE rn >= #{start}
+      AND rn <= #{end}
+  ]]>
+	</select>
+
+
+
+	<!-- 직원 상세조회 -->
+	<select id="nylistEmpSelOne" parameterType="Long"
+		resultType="org.oracle.s202501a.dto.ny_dto.Emp">
+  <![CDATA[
+    SELECT 
+        e.emp_no,        -- 사원 번호
+        e.emp_name,      -- 사원 이름
+        e.dept_no,       -- 부서 번호
+        e.position,      -- 직급
+        e.emp_tel,       -- 전화번호
+        e.emp_email,     -- 이메일
+        e.birth,         -- 생년월일
+        e.hiredate,      -- 입사일
+        e.emp_Delete,
+        d.dept_name,      -- 부서 이름
+        e.username,			  -- 아이디(사원번호)
+        e.Password  	 -- 비밀번호 (부서명 + 생년월일)
+      
+    FROM EMP e
+    LEFT JOIN DEPT d
+    ON e.dept_no = d.dept_no
+    WHERE e.emp_no = #{emp_No}  -- 특정 사원 번호 조건
+  ]]>
+	</select>
+
+
+
+	<!-- 직원 수정 -->
+	<!--#{} sql문 순서데로 적어야함. -->
+
+	<update id="nyUpdateEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp"> <!-- #{}의 이름과 디티오에 있는 컬럼명 같다면 알아서 들어옴 -->
+		
+		
+		UPDATE EMP
+		SET
+		emp_Name = #{emp_Name}, -- 직원 이름
+		dept_No = #{dept_No}, -- 부서 번호
+		position = #{position}, -- 직급
+		emp_Tel = #{emp_Tel}, -- 전화번호
+		emp_Email = #{emp_Email}, -- 이메일
+		birth = #{birth}, -- 생년월일
+		hiredate = #{hiredate} -- 입사일
+		WHERE emp_No = #{emp_No} -- 수정할 직원 번호
+
+	</update>
+	
+	
+<!--	
+// 유저컨트롤러 동일 
+// 직원 등록	
+<insert id="nyinsertEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp">
+    <selectKey keyProperty="EMP_NO_SEQ" resultType="Long" order="BEFORE">
+        select EMP_NO_SEQ.nextval from dual
+    </selectKey>
+    <![CDATA[
+    INSERT INTO EMP (
+        emp_No,
+        dept_No,       
+        emp_Name,      
+        emp_Tel,        전화번호 
+        emp_Email,      이메일 
+        password,      비밀번호 
+        birth,          생년월일 
+        hiredate,      입사일 
+        roles,          사용자 권한
+        position,       직급 
+        username,       아이디 
+        emp_Delete      삭제 여부 
+    ) VALUES (
+        EMP_NO_SEQ,
+        #{dept_No},           부서 번호 
+        #{emp_Name},          이름 
+        #{emp_Tel},           전화번호 
+        #{emp_Email},         이메일 
+        #{password},          비밀번호 (부서 명+ 생년월일('-'빼고 8자리)
+        #{birth},             생년월일 
+        #{hiredate},          입사일 
+        #{roles},             사용자 권한
+        #{position},          직급 
+        TO_CHAR(EMP_NO_SEQ),  아이디  
+        0                     삭제 여부 (1이 삭제) 
+    )
+    ]]>
+</insert>
+-->
+
+
+
+<!-- 직원 직급 선택 (등록 시)-->
+	<select id="nySelectPos" resultType="org.oracle.s202501a.dto.ny_dto.Emp">	
+ <![CDATA[
+    SELECT DISTINCT position
+    FROM emp
+    WHERE position IS NOT NULL
+    ORDER BY 
+      CASE 
+        WHEN position = '관리자' THEN 1
+        WHEN position = '부장' THEN 2
+        WHEN position = '대리' THEN 3
+        WHEN position = '사원' THEN 4
+        ELSE 5  -- 기타 직급은 마지막에 정렬
+      END
+  ]]>
+</select>
+
+	<!-- 직원 삭제여부를 1로 업데이트 -->
+	<update id="nyDelteUpdateEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp">
+		UPDATE EMP
+		SET
+		emp_Delete = 1
+		WHERE emp_No = #{emp_No}
+	</update>
+
+
+	<!-- 직원 삭제 -->
+	<!-- <delete id="nydeleteEmp" parameterType="int"> delete from EMP where 
+		emp_No=#{emp_No} </delete> -->
+
+
+	<!-- 직원 검색 -->
+	<select id="nycondEmpTotal" parameterType="org.oracle.s202501a.dto.ny_dto.Emp" resultType="int">
+		SELECT Count(*) FROM EMP
+		<choose>
+			<when test="search == 's_position'"> <!-- jsp에 들어간 이름명 -->
+				WHERE position like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 's_ename'">
+				WHERE emp_name like '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+				WHERE position like '%'
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="nySearchListEmp" parameterType="org.oracle.s202501a.dto.ny_dto.Emp"
+		resultType="org.oracle.s202501a.dto.ny_dto.Emp">
+		SELECT *
+		FROM
+		(
+		SELECT rownum rn , a.*
+		FROM
+		(select  e.emp_no,        
+                e.emp_name,      
+                e.dept_no,       
+                e.position,      
+                e.emp_tel,       
+                e.emp_email,     
+                e.birth,         
+                e.hiredate,      
+                d.dept_name
+		from EMP e
+		LEFT JOIN DEPT d
+        ON e.dept_no = d.dept_no
+		<choose>
+			<when test="search == 's_position'">
+				WHERE position like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 's_ename'">
+				WHERE emp_name like '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+				WHERE position like '%'
+			</otherwise>
+		</choose>
+		order by emp_no
+		) a
+		)
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+
+
+
+
+	<!-- 직원&부서 리스트 조인 테이블 조회 -->
+	<select id="nyListEmpDept" resultType="org.oracle.s202501a.dto.ny_dto.Emp">
+		select e.emp_No, e.emp_Name, e.emp_position, d.dept_Name, d.dept_Tel
+		from EMP e, DEPT d
+		where e.dept_no=d.dept_=No(+)
+		order by Emp_No
+	</select>
+
+</mapper>

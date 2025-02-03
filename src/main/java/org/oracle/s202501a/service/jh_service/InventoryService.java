@@ -26,13 +26,7 @@ public class InventoryService {
 
 
     public InvenPagingDto getInventoryList(InventoryDto inventoryDto, String product_name, String yymm) {
-        // 1. 기본값 처리 및 날짜 형식 변경
 
-        System.out.println("서비스 프로 네임 : " + product_name);
-        System.out.println("서비스 yymm : " + yymm);
-        if (inventoryDto.getCurrentPage() == null) {
-            inventoryDto.setCurrentPage("1");
-        }
         if (yymm != null && !yymm.isEmpty()) {
             String formattedYymm = yymm.substring(2).replace('-', '/');
             inventoryDto.setYymm(formattedYymm);
@@ -50,11 +44,11 @@ public class InventoryService {
         List<InventoryDto> list;
         PagingJH page;
 
-            total = searchCount(inventoryDto);
-            page = pagingService.getPagingInfo(total, inventoryDto.getCurrentPage());
-            inventoryDto.setStart(page.getStart());
-            inventoryDto.setEnd(page.getEnd());
-            list = invenSearchList(inventoryDto);
+        total = searchCount(inventoryDto);
+        page = pagingService.getPagingInfo(total, inventoryDto.getCurrentPage());
+        inventoryDto.setStart(page.getStart());
+        inventoryDto.setEnd(page.getEnd());
+        list = invenSearchList(inventoryDto);
 
         // 3. 응답 DTO 반환
         return new InvenPagingDto(list, page);
@@ -80,19 +74,53 @@ public class InventoryService {
     }
 
     public void invenCreate(InventoryDto inventoryDto) {
-        String date = inventoryDto.getYymm().replace("-","/").substring(2);
+        String date = inventoryDto.getYymm().replace("-", "/").substring(2);
         inventoryDto.setYymm(date);
         inventoryDao.invenCreate(inventoryDto);
     }
 
     public void closing(ClosingDto dto) {
-        String date = dto.getYymm().replace("-","/").substring(2);
+
+        String date = dto.getYymm().replace("-", "/").substring(2);
         dto.setYymm(date);
         dto.setEmp_no(1); // 세션에서 가져와야하지만 임시로
         inventoryDao.closing(dto);
     }
 
     public boolean closingCheck(String yymm) {
-       return inventoryDao.closingCheck(yymm);
+
+        String ym = yymm.substring(2).replace("-", "/");
+        return inventoryDao.closingCheck(ym) == 0; // 반환 0 이면 트루 리턴 1 이면 펄스 리턴
+    }
+
+    public InventoryDto InvenFindByProdName(Long prodNo) {
+        return inventoryDao.InvenFindByProdName(prodNo);
+    }
+
+    public void QuantityModify(Long prodNo, int quantity) {
+
+        System.out.println("서비스 수정 타겟 : " + prodNo + " / " + quantity);
+        // 기말 체크
+        InventoryDto ClosingDto = inventoryDao.findStockByProdStock(prodNo, 1);
+        System.out.println("기말 : " + ClosingDto);
+        // 기초 체크
+        InventoryDto BeginningDto = inventoryDao.findStockByProdStock(prodNo, 0);
+        System.out.println("기초 : " + BeginningDto);
+
+        if (ClosingDto != null && BeginningDto != null) {
+            int closingQuantity = quantity - ClosingDto.getQuantity();
+            ClosingDto.setQuantity(quantity);
+            inventoryDao.quantityModify(ClosingDto);
+
+            BeginningDto.setQuantity(BeginningDto.getQuantity() + closingQuantity);
+            inventoryDao.quantityModify(BeginningDto);
+        }
+         else if (BeginningDto != null) {
+            BeginningDto.setQuantity(quantity);
+             inventoryDao.quantityModify(BeginningDto);
+        } else {
+             log.info("여기 오면 큰일남");
+        }
+
     }
 }

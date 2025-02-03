@@ -16,11 +16,15 @@ import java.util.Date;
 @NoArgsConstructor
 @Table(name = "price_history")
 @ToString
+@SequenceGenerator( name = "price_seq",
+        sequenceName = "price_seq",
+        allocationSize = 1)
 public class PriceHistory {
 
     @Id
-    @GeneratedValue
     @Column(name = "price_code")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "price_seq")
     private Long id;
 
     private Long product_no;
@@ -28,7 +32,6 @@ public class PriceHistory {
     private String to_date;
     private int sale_or_purchase;
     private int price;
-    private int category;
 
     @Column(name = "reg_date", nullable = false, columnDefinition = "DATE DEFAULT sysdate")
     private Date reg_date;

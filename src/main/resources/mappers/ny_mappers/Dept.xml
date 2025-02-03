@@ -4,17 +4,12 @@
 
 
 <mapper namespace="org.oracle.s202501a.mapper.DeptMapper">
-
-
-
+	   
 	<select id="ny11SelectDept" resultType="org.oracle.s202501a.dto.ny_dto.Dept">
-		select dept_no, dept_name
+		select *
 		from DEPT 
         
 	</select>
-
-
-
 
 	<select id="nySelectDept" resultType="org.oracle.s202501a.dto.ny_dto.Dept">
 		select e.emp_no, e.emp_name

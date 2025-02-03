@@ -1,0 +1,124 @@
+
+/* 전체 div */
+.detail-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* 서브메뉴랑 버튼 들어있는 헤더 */
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.detail-submenu {
+    font-size: 12px;
+    color: #AAAAAA;
+    margin-bottom: 10px;
+}
+
+.detail-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.detail-title div {
+    width: 4px;
+    height: 32px;
+    background-color: #1E1E1E;
+}
+
+.detail-title h1 {
+    font-size: 16px;
+    color: black;
+    margin: 0;
+}
+
+.detail-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.detail-full-button{
+    padding: 8px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4e73df;
+    color: white;
+}
+
+.detail-empty-button{
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: white;
+    color: #4e73df;
+    border: 1px solid #4e73df;
+}
+
+.detail-gray-button{
+    padding: 8px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #898c89;
+    color: white;
+}
+
+/* 등록 테이블은 전체 div의 70프로 */
+.detail-header-content {
+    width: 70%;
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px; /* 아래 여백 */
+      }
+
+.detail-table * {
+    font-size: 12px;
+}
+
+.detail-table th,
+.detail-table td {
+          border: 1px solid #dadada;
+          padding: 10px;
+          vertical-align: middle; /* 세로 정렬 가운데 */
+}
+
+.detail-table th {
+    width: 120px;
+    background-color: #f5f5f5;
+    font-weight: normal;
+    color: #555;
+    white-space: nowrap;
+    text-align: left;
+}
+
+
+/* 품목 부분 헤더 - 품목정보-버튼 나란히 */
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.product-title {
+    font-weight: bold;
+}

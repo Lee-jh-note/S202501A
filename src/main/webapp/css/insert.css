@@ -1,0 +1,151 @@
+
+/* 전체 div */
+.insert-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* 서브메뉴랑 버튼 들어있는 헤더 */
+.insert-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.insert-submenu {
+    font-size: 12px;
+    color: #AAAAAA;
+    margin-bottom: 10px;
+}
+
+.insert-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.insert-title div {
+    width: 4px;
+    height: 32px;
+    background-color: #1E1E1E;
+}
+
+.insert-title h1 {
+    font-size: 16px;
+    color: black;
+    margin: 0;
+}
+
+.insert-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.insert-full-button{
+    padding: 8px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4e73df;
+    color: white;
+}
+
+.insert-empty-button{
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: white;
+    color: #4e73df;
+    border: 1px solid #4e73df;
+}
+
+.insert-gray-button{
+    padding: 8px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #898c89;
+    color: white;
+}
+
+.deleteRow {
+    padding: 8px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #898c89;
+    color: white;
+}
+
+/* 등록 테이블은 전체 div의 70프로 */
+.insert-header-content {
+    width: 70%;
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+.insert-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px; /* 아래 여백 */
+      }
+
+.insert-table * {
+    font-size: 12px;
+}
+
+.insert-table th,
+.insert-table td {
+          border: 1px solid #dadada;
+          padding: 10px;
+          vertical-align: middle; /* 세로 정렬 가운데 */
+}
+
+.insert-table th {
+    width: 120px;
+    background-color: #f5f5f5;
+    font-weight: normal;
+    color: #555;
+    white-space: nowrap;
+    text-align: left;
+}
+
+/* 입력, 셀렉트, 텍스트에어리어 공통 스타일 */
+.insert-table input[type="text"],
+.insert-table input[type="date"],
+.insert-table input[type="number"],
+.insert-table select,
+.insert-table textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #dadada;
+    border-radius: 4px;
+}
+
+.insert-table textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* 품목 부분 헤더 - 품목정보-버튼 나란히 */
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.product-title {
+    font-weight: bold;
+}

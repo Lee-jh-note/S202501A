@@ -29,7 +29,7 @@ public class EmpServiceImpl implements EmpService {
 	@Override
 	public List<Emp> listEmp(Emp emp) {
 		List<Emp> empList = null;
-		System.out.println("EmpServiceImpl istEmp Start...");
+		System.out.println("EmpServiceImpl listEmp Start...");
 		empList = ed.listEmp(emp);
 		System.out.println("EmpServiceImpl listEmp empList.size()->" + empList.size());
 
@@ -52,7 +52,7 @@ public class EmpServiceImpl implements EmpService {
 		return dept;
 	}
 
-	//직원 등록
+	//직원 수정
 	@Override
 	public int updateEmp(Emp emp) {
 		System.out.println("EmpServiceImpl update ...");
@@ -86,6 +86,7 @@ public class EmpServiceImpl implements EmpService {
 	 * System.out.println("EmpServiceImpl insert Start..."); result =
 	 * ed.insertEmp(emp); return result; }
 	 */
+	
 	//직원 삭제 (업데이트)
 	@Override
 	public int deleteEmp(Emp emp) {
@@ -153,7 +154,7 @@ public class EmpServiceImpl implements EmpService {
 		return deptList;
 	}
 
-	// 부서 리스트
+	// 부서 리스트 //등록 시 여기로 온다 => 근데 중복임
 	@Override
 	public List<Dept> listDept3() {
 		List<Dept> deptList = null;

@@ -1,0 +1,121 @@
+/* 전체 div */
+.list-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* 서브메뉴랑 버튼 들어있는 헤더 */
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+/* 조회기간 헤더 */
+.list-header2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+.list-submenu {
+    font-size: 12px;
+    color: #AAAAAA;
+    margin-bottom: 10px;
+}
+
+.list-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.list-title div {
+    width: 4px;
+    height: 32px;
+    background-color: #1E1E1E;
+}
+
+.list-title h1 {
+    font-size: 16px;
+    color: black;
+    margin: 0;
+}
+
+.list-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.list-full-button{
+    padding: 8px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #395B7F;
+    color: white;
+}
+
+.list-search-filters {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    /* 검색 아래 여백 */
+}
+
+/* 검색 버튼 */
+.list-gray-button {
+    background-color: #898c89;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.list-search-filters input[type="date"],
+.list-search-filters input[type="text"],
+.list-search-filters select {
+    padding: 3px 8px;
+    font-size: 12px;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.list-search-filters label {
+    font-size: 12px;
+}
+
+
+.list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.list-table th,
+.list-table td {
+    border: 1px solid #EEEEEE;
+    padding: 10px;
+    text-align: center;
+}
+
+.list-table th {
+    background-color: #F8F8F8;
+    color: #777;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.list-table td {
+    font-size: 12px;
+    color: black;
+}

@@ -27,10 +27,6 @@ public class ProductService {
 
     // 전체 리스트
     public ProdCatePagingDto getProdList(ProductDto productDto, String name, Integer type) {
-        if (productDto.getCurrentPage() == null) {
-            productDto.setCurrentPage("1");
-        }
-
         // 총 상품 수 조회
         int total = prodTotal();
 
@@ -40,7 +36,7 @@ public class ProductService {
         productDto.setEnd(page.getEnd());
 
         // 카테고리 정보 조회
-        CategoriesDto categoriesDto = prodCategoryService.ProdCateFindAll();
+        CategoriesDto categoriesDto = prodCategoryService.prodCateFindAll();
         List<CategoriesDto> cataDto = categoriesDto.getTopList();
 
         // 상품 검색 기능
@@ -101,11 +97,11 @@ public class ProductService {
             resultDto.setTitle(dto.getTitle());
 
             // sale_or_purchase 값에 따라 sale_price 또는 pur_price 값을 설정
-            if (dto.getSale_or_purchase() == 0) {
-                resultDto.setSale_price(dto.getPrice());  // sale_or_purchase == 0인 경우 sale_price에 값 설정
-            }
             if (dto.getSale_or_purchase() == 1) {
-                resultDto.setPur_price(dto.getPrice());   // sale_or_purchase == 1인 경우 pur_price에 값 설정
+                resultDto.setSale_price(dto.getPrice());  // sale_or_purchase == 1인 경우 sale_price에 값 설정
+            }
+            if (dto.getSale_or_purchase() == 0) {
+                resultDto.setPur_price(dto.getPrice());   // sale_or_purchase == 0인 경우 pur_price에 값 설정
             }
         }
         return resultDto;
@@ -132,14 +128,14 @@ public class ProductService {
         PriceHistoryModel purModel = new PriceHistoryModel();
         purModel.setProduct_no(dto.getProduct_no());
         purModel.setPrice(productPriceDto.getPur_price());
-        purModel.setSale_or_purchase(1);
+        purModel.setSale_or_purchase(0);
         priceHistoryService.priceModifyAct(purModel);
 
         // priceHistory 테이블 판매 가격 수정
         PriceHistoryModel saleModel = new PriceHistoryModel();
         saleModel.setProduct_no(dto.getProduct_no());
         saleModel.setPrice(productPriceDto.getSale_price());
-        saleModel.setSale_or_purchase(0);
+        saleModel.setSale_or_purchase(1);
         priceHistoryService.priceModifyAct(saleModel);
 
     }
@@ -177,5 +173,16 @@ public class ProductService {
 
     public List<ProductDto> getProdNoName(){
         return productDao.getProdNoName();
+    }
+
+    // 중복 검사
+    public String validProdName(String prodName) {
+        int result = productDao.validProdName(prodName);
+
+        if (result == 1) {
+            return "1"; // 중복
+        } else {
+            return "0"; // 미중복
+        }
     }
 }

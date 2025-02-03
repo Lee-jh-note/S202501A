@@ -14,6 +14,7 @@ public class BoardServiceImpl implements BoardService{
 
 	private final BoardDao bd;
 	
+	// 게시판 글 총 수 (글 15개씩)
 	@Override
 	public int totalBoard() {
 		System.out.println("BoardServiceImpl totalBoard Start ...");
@@ -22,7 +23,8 @@ public class BoardServiceImpl implements BoardService{
 		return totBoardCnt;
 	}
 
-
+	
+	//게시판 리스트 
 	@Override
 	public List<Board> listBoard(Board board) {
 		List<Board> boardList = null;
@@ -32,6 +34,52 @@ public class BoardServiceImpl implements BoardService{
 
 		return boardList;
 	}
+
+	
+	//세부 내역 글
+	@Override
+	public Board contents(Long board_No) {
+		System.out.println("BoardServiceImpl contents Start...");
+		Board board = null;
+		board = bd.contents(board_No);
+		System.out.println("BoardServiceImpl contents ...");
+		
+		return board;
+	}
+
+	
+	// 게시글 수정
+	@Override
+	public int updateBoard(Board board) {
+		System.out.println("BoardServiceImpl update ...");
+		int updateCount = 0;
+		updateCount = bd.updateBoard(board);
+		return updateCount;
+	}
+
+	
+	// 게시글 삭제
+	@Override
+	public int deleteBoard(Long board_No) {
+		int result = 0;
+		System.out.println("boardServiceImpl delete Start..." );
+		result =  bd.deleteBoard(board_No);
+		return result;
+	}
+
+	// 게시글 등록
+	@Override
+	public int insertBoard(Board board) {
+		int result = 0;
+		System.out.println("boardServiceImpl insertBoard Start...");
+		result = bd.insertBoard(board);
+		return result;
+	}
+	
+	// 댓글 등록
+	
+	
+	
 
 
 

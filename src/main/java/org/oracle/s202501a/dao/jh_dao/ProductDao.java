@@ -34,4 +34,6 @@ public interface ProductDao {
     List<ProductDto> ProdFindProdNo(List<Long> productNos);
 
     List<ProductDto> getProdNoName();
+
+    int validProdName(String prodName);
 }

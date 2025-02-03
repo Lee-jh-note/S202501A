@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<configuration>
+    <typeAliases>
+        <typeAlias alias="TestEmpDto" type="org.oracle.s202501a.dto.TestEmpDto" />
+        <typeAlias alias="Board" type="org.oracle.s202501a.dto.ny_dto.Board" />
+        
+        
+        <typeAlias alias="Client" type="org.oracle.s202501a.dto.sh_dto.ClientDTO" />
+        <typeAlias alias="Comm" type="org.oracle.s202501a.dto.sh_dto.CommDto" />
+
+        <typeAlias type="org.oracle.s202501a.dto.TestEmpDto" alias="TestEmpDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.ProductDto" alias="ProductDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.ProductPriceDto" alias="ProductPriceDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.InventoryDto" alias="InventoryDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.CategoriesDto" alias="CategoriesDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.SPRecodesDto" alias="SPRecodesDto"/>
+        <typeAlias type="org.oracle.s202501a.dto.jh_dto.ClosingDto" alias="ClosingDto"/>
+        
+        <typeAlias alias="Sales" 	  type="org.oracle.s202501a.dto.rw_dto.Sales" />
+        <typeAlias alias="SalesAll"   type="org.oracle.s202501a.dto.rw_dto.SalesAll" />
+    </typeAliases>
+</configuration>

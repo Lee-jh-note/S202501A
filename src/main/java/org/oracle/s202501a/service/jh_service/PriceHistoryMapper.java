@@ -15,13 +15,13 @@ public class PriceHistoryMapper {
     public static PriceHistoryModel toModel(PriceHistory priceHistory) {
         return new PriceHistoryModel(priceHistory.getId(), priceHistory.getProduct_no()
                 ,priceHistory.getFrom_date(), priceHistory.getTo_date(), priceHistory.getSale_or_purchase()
-                , priceHistory.getPrice(), priceHistory.getCategory(), priceHistory.getReg_date());
+                , priceHistory.getPrice(), priceHistory.getReg_date());
     }
     public static PriceHistory toEntity(PriceHistoryModel priceHistoryModel) {
         return new PriceHistory(priceHistoryModel.getId(), priceHistoryModel.getProduct_no(),
                 priceHistoryModel.getFrom_date(), priceHistoryModel.getTo_date(),
                 priceHistoryModel.getSale_or_purchase(), priceHistoryModel.getPrice()
-                , priceHistoryModel.getCategory(), priceHistoryModel.getReg_date());
+                , priceHistoryModel.getReg_date());
     }
     public static PriceHistoryProductModel toPriceProductFormObj(Object[] row) {
         Long id = (row[0] instanceof Long) ? (Long) row[0] : Long.valueOf((Integer) row[0]);

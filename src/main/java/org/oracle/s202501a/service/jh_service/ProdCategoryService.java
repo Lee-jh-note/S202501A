@@ -17,7 +17,7 @@ public class ProdCategoryService {
 
     private final ProdCategoryDao prodCategoryDao;
 
-    public CategoriesDto ProdCateFindAll() {
+    public CategoriesDto prodCateFindAll() {
         List<CategoriesDto> toplist = prodCategoryDao.topFindAll();
         List<CategoriesDto> midList = prodCategoryDao.midFindAll();
         CategoriesDto dto = new CategoriesDto();
@@ -27,20 +27,39 @@ public class ProdCategoryService {
 
     }
 
-    public void ProdCateCreate(CategoriesDto categoriesDto) {
-        prodCategoryDao.ProdCateCreate(categoriesDto);
+    public void prodCateCreate(String newMidCategory, String newTopCategory) {
+        CategoriesDto dto = new CategoriesDto();
+        dto.setTitle(newTopCategory);
+        dto.setContent(newMidCategory);
+        prodCategoryDao.ProdCateCreate(dto);
+        System.out.println(dto);
     }
 
-    public CategoriesDto ProdCateDetails(CategoriesDto categoriesDto) {
+    public CategoriesDto prodCateDetails(CategoriesDto categoriesDto) {
+        if (categoriesDto.getMid_category() == 0) {
+            return prodCategoryDao.findByTop(categoriesDto);
+        }
         return prodCategoryDao.ProdCateDetails(categoriesDto);
     }
 
 
-    public void ProdCateModify(CategoriesDto categoriesDto) {
+    public void prodCateModify(CategoriesDto categoriesDto) {
+
         prodCategoryDao.ProdCateModify(categoriesDto);
     }
 
-    public void ProdCateDelete(CategoriesDto categoriesDto) {
+    public void prodCateDelete(CategoriesDto categoriesDto) {
+
         prodCategoryDao.ProdCateDelete(categoriesDto);
+        prodCategoryDao.CateDelProdUpdate(categoriesDto);
+    }
+
+    public void addMidCategory(String category, String newSubCategory) {
+
+    }
+
+    public void prodCateCreateMid(CategoriesDto dto) {
+//        System.out.println("서비스 :" + dto);
+        prodCategoryDao.ProdCateCreate(dto);
     }
 }

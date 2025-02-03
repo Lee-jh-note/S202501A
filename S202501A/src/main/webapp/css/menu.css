@@ -1,0 +1,165 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+}
+
+.sidebar {
+    width: 180px;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+.menu-item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* 기본 상태: 글씨는 원래대로 */
+.menu-item input[type="checkbox"]:not(:checked) + label {
+    font-weight: normal;
+    color: #333232;
+}
+
+input[id*="answer"] {
+    display: none;
+}
+
+/*메뉴바 제목 */
+input[id*="answer"] + label {
+    display: block;
+    padding: 15px;
+    border-bottom: 0;
+    color: #333232;
+    background: #ffffff;
+    position: relative;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* 아래쪽 화살표 이미지 */
+input[id*="answer"] + label em {
+    position: absolute;
+    top: 40%;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    display: inline-block;
+    background: url(../image/chevron-down.png) 0 0 no-repeat;
+}
+
+/* 서브메뉴바 기능*/
+input[id*="answer"] + label + div {
+    max-height: 0;
+    transition: all .35s;
+    overflow: hidden;
+    background: #f9f9f9;
+    font-size: 10px;
+}
+
+/*p 태그 스타일*/
+input[id*="answer"] + label + div p {
+    display: block;
+    padding: 10px 15px;
+    margin: 0;
+    color: #555;
+    cursor: pointer;
+}
+
+/* 서브 메뉴 항목에 active 클래스 추가 시 글씨를 진하게 */
+.submenu p.active {
+    font-weight: bold;
+    color: #000000;
+}
+
+input[id*="answer"]:checked + label + div {
+    max-height: 200px;
+}
+
+input[id*="answer"]:checked + label em {
+    background: url('../image/chevron-up.png') 0 0 no-repeat; /* 위쪽 화살표 이미지 */
+}
+
+.logo {
+    height: 60px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    background-color: #ccc;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #ccc;
+}
+
+.search-bar {
+    position: relative;
+    width: 87%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 8px 8px 8px 30px; /* 왼쪽에 아이콘 공간을 남기기 위해 padding-left를 30px로 설정 */
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 10px;
+    box-sizing: border-box;
+    background-color: #ccc;
+}
+
+/* 돋보기 아이콘 */
+.icon1 {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+}
+
+
+/* 로그아웃 설정 아이콘 */
+.icons {
+    display: flex;
+    gap: 20px; /* 아이콘 사이의 간격 */
+}
+
+/* 로그아웃 설정 아이콘 */
+.icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.content {
+    margin-left: 250px;
+    margin-top: 60px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 메뉴 클릭 시 진해지는 효과 */
+.menu-item label.active {
+    font-weight: bold;
+    color: #000;
+}
+
+.submenu p.active {
+    font-weight: bold;
+    color: #000;
+}

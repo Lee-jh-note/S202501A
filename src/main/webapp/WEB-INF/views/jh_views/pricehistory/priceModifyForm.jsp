@@ -27,12 +27,12 @@
 
         <div class="form-group">
             <label for="from_date">시작 날짜</label>
-            <input type="text" id="from_date" name="from_date" class="form-control" value="${priceHistoryModel.price.from_date}" />
+            <input type="text" id="from_date" name="from_date" class="form-control" value="${priceHistoryModel.price.from_date}" readonly/>
         </div>
 
         <div class="form-group">
             <label for="to_date">종료 날짜</label>
-            <input type="text" id="to_date" name="to_date" class="form-control" value="${priceHistoryModel.price.to_date}" />
+            <input type="text" id="to_date" name="to_date" class="form-control" value="${priceHistoryModel.price.to_date}"readonly />
         </div>
 
         <div class="form-group">
