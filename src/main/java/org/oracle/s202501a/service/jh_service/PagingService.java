@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class PagingService {
 
     private static final int PAGE_BLOCK = 10; // 페이지 블록 크기
-    private static final int ROW_PAGE = 10;  // 한 페이지에 표시할 데이터 수
+    private static final int ROW_PAGE = 15;  // 한 페이지에 표시할 데이터 수
 
     public PagingJH getPagingInfo(int total, String currentPage) {
         int currentPageInt = (currentPage != null) ? Integer.valueOf(currentPage) : 1;

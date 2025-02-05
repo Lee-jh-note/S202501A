@@ -56,9 +56,9 @@
         p.product_name,
         ca.title
         FROM spm_recodes spm
-        LEFT JOIN product p ON p.product_no = spm.product_no
-        LEFT JOIN categories ca ON p.mid_category = ca.mid_category
-        LEFT JOIN emp e ON e.emp_no = spm.emp_no
+            JOIN product p ON p.product_no = spm.product_no
+            JOIN categories ca ON p.mid_category = ca.mid_category
+            JOIN emp e ON e.emp_no = spm.emp_no
         GROUP BY spm.yymmdd, spm.reg_date, spm.emp_no, e.emp_name, p.product_name, ca.title, spm.product_no
         ) a
         LEFT JOIN (
@@ -72,14 +72,14 @@
         GROUP BY spm.product_no, spm.yymmdd
         ) c ON a.yymmdd = c.yymmdd and a.product_no = c.product_no ) d
         where 1 = 1
-        and rm between #{start} and #{end}
         <if test="product_name != null and product_name != ''">
             AND product_name LIKE '%' || #{product_name} || '%'
         </if>
         <if test="yymmdd != null and yymmdd != ''">
             and to_char( to_date(yymmdd, 'yy/mm/dd'), 'yy/mm') LIKE '%' || #{yymmdd} || '%'
         </if>
-        order by yymmdd desc)
+        order by yymmdd desc, product_no)
+        where rownum between #{start} and #{end}
     </select>
 
     <select id="SPRecodesFindAllCnt" resultType="int">
@@ -120,9 +120,9 @@
         p.product_name,
         ca.title
         FROM spm_recodes spm
-        LEFT JOIN product p ON p.product_no = spm.product_no
-        LEFT JOIN categories ca ON p.mid_category = ca.mid_category
-        LEFT JOIN emp e ON e.emp_no = spm.emp_no
+             JOIN product p ON p.product_no = spm.product_no
+             JOIN categories ca ON p.mid_category = ca.mid_category
+             JOIN emp e ON e.emp_no = spm.emp_no
         GROUP BY spm.yymmdd, spm.reg_date, spm.emp_no, e.emp_name, p.product_name, ca.title, spm.product_no
         ) a
         LEFT JOIN (
@@ -142,7 +142,7 @@
         <if test="yymmdd != null and yymmdd != ''">
             and to_char( to_date(yymmdd, 'yy/mm/dd'), 'yy/mm') LIKE '%' || #{yymmdd} || '%'
         </if>
-        order by yymmdd desc)
+        order by yymmdd desc,product_no)
     </select>
 
 </mapper>

@@ -30,7 +30,7 @@
         </if>
         and p.product_delete = 0
         group by i.yymm, i.optimal_quantity, p.product_name,c.title, p.product_no
-        order by i.yymm) a )
+        order by i.yymm, p.product_no) a )
         where rm between #{start} and #{end}
     </select>
 
@@ -84,6 +84,13 @@
                 #{yymm, mode=IN, jdbcType=VARCHAR},
                 #{emp_no, mode=IN, jdbcType=INTEGER}
                ) }
+    </update>
+
+    <update id="dayClosing" parameterType="ClosingDto">
+        { CALL day_closing_pkg.DAY_CLOSING_MAIN(
+                #{yymm, mode=IN, jdbcType=VARCHAR},
+                #{emp_no, mode=IN, jdbcType=INTEGER}
+               )}
     </update>
 
     <select id="closingCheck" resultType="int">

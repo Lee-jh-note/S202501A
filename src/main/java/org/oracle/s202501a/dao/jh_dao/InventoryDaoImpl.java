@@ -122,6 +122,16 @@ public class InventoryDaoImpl implements InventoryDao {
 
     }
 
+    @Override
+    public int dayClosing(ClosingDto dto) {
+        try {
+            return sqlSession.update("dayClosing", dto);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 //    @Override
 //    public void QuantityModify(InventoryDto dto) {
 //        try {

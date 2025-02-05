@@ -8,6 +8,7 @@ import org.oracle.s202501a.dto.jh_dto.ClosingDto;
 import org.oracle.s202501a.dto.jh_dto.InvenPagingDto;
 import org.oracle.s202501a.dto.jh_dto.InventoryDto;
 import org.oracle.s202501a.dto.jh_dto.PagingJH;
+import org.oracle.s202501a.dto.sh_dto.EmpDTO;
 import org.oracle.s202501a.service.sh_service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -88,7 +89,6 @@ public class InventoryService {
 
         long emp_no = userService.getSe().getEmp_No();
         dto.setEmp_no((int)emp_no);
-//        dto.setEmp_no(1); // 세션에서 가져와야하지만 임시로
         inventoryDao.closing(dto);
     }
 
@@ -129,5 +129,15 @@ public class InventoryService {
 //             log.info("여기 오면 큰일남");
         }
 
+    }
+
+    public void dayClosing() {
+        ClosingDto dto = new ClosingDto();
+        String yymm = new SimpleDateFormat("yy/MM").format(new Date());
+        long emp_no = userService.getSe().getEmp_No();
+        dto.setEmp_no((int)emp_no);
+        dto.setYymm(yymm);
+
+        inventoryDao.dayClosing(dto);
     }
 }

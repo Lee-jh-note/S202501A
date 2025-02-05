@@ -99,6 +99,7 @@ public class ProductController {
     // 수정 액션
     @PostMapping("/Prod/ProdModifyAct")
     public String prodModifyAct(ProductPriceDto productPriceDtoDto, Model model) {
+        System.out.println("수정");
         productService.prodModify(productPriceDtoDto);
         return "redirect:/Prod/ProdList"; // 수정 후 다시 리스트로
 
@@ -107,6 +108,7 @@ public class ProductController {
     //제품 삭제
     @PostMapping("/Prod/ProdDelete")
     public String prodDelete(ProductDto productDto, Model model) {
+        System.out.println("삭제");
         productService.prodDelete(productDto);
         return "redirect:/Prod/ProdList"; // 삭제 후 다시 리스트로
     }

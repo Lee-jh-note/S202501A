@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -32,6 +31,8 @@ public class SPRecodesController {
         model.addAttribute("name", response.getProductName());
 
         return "jh_views/recodes/recodeList";
+
+
     }
 
 }

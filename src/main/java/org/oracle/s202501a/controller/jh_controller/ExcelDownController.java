@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,13 +24,13 @@ public class ExcelDownController {
     private final ExcelService excelService;
 
     @GetMapping("/excel/sprecodes")
-    public ResponseEntity<byte[]> excelInven() throws IOException {
+    public ResponseEntity<byte[]> excelInven(@RequestParam(value = "yymmdd", required = false) String yymmdd) throws IOException {
 
-        byte[] excelFile = excelService.createSPRecodesExcel();
+        byte[] excelFile = excelService.createSPRecodesExcel(yymmdd);
 
         // HTTP 응답 헤더 설정
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=sample.xlsx");
+        headers.add("Content-Disposition", "attachment; filename=판매실적.xlsx");
         headers.add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
         // 엑셀 파일을 HTTP 응답으로 반환

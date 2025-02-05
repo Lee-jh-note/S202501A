@@ -27,5 +27,7 @@ public interface InventoryDao {
 
     void quantityModify(InventoryDto inventoryDto);
 
+    int dayClosing(ClosingDto dto);
+
 //    void QuantityModify(InventoryDto dto);
 }

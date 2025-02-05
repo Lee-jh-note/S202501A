@@ -42,6 +42,8 @@ public class SPRecodesService {
         // 검색 조건이 있을 경우, 필터링된 데이터 조회
         if (productName != null && !productName.isEmpty()) {
             spRecodesDto.setProduct_name((productName));
+        } else {
+            spRecodesDto.setProduct_name("");
         }
 
         // 총 갯수 조회
@@ -58,7 +60,7 @@ public class SPRecodesService {
         return new SPRecodesPagingDto(list, page, yymmdd, productName);
     }
 
-    public int SPRecodesFindAllCnt(SPRecodesDto spRecodesDto){
+    public int SPRecodesFindAllCnt(SPRecodesDto spRecodesDto) {
         return spRecodesDao.SPRecodesFindAllCnt(spRecodesDto);
     }
 }

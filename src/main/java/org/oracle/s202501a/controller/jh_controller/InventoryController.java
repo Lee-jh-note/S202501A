@@ -95,4 +95,11 @@ public class InventoryController {
 
         return "redirect:/Inven/InvenList";
     }
+
+    @GetMapping("/Inven/DayClosing")
+    @ResponseBody
+    public String DayClosing() {
+         inventoryService.dayClosing();
+         return "";
+    }
 }

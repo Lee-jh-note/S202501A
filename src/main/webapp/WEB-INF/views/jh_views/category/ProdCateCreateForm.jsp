@@ -14,6 +14,24 @@
     <!-- jQuery (required for Bootstrap's JavaScript) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .bt1 {
+            padding: 8px 12px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4e73df;
+            color: white;
+        }
+        .bt{
+            padding: 8px 12px;
+            font-size: 12px;
+            background-color: #1c294e;
+            border: none;
+
+        }
+    </style>
 </head>
 <body>
 
@@ -40,25 +58,24 @@
         </div>
 
         <div class="form-group mt-3">
-            <button type="submit" class="btn btn-primary">저장</button>
+            <button type="submit" class="bt btn btn-primary">저장</button>
+<button type="button" class="bt1 btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">대분류 및 중분류 등록</button>
         </div>
-
     </form>
 </div>
-<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">새로운 대분류 및 중분류 생성</button>
 
 <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addCategoryModalLabel">새로운 대분류 및 중분류 생성</h5>
+                <h5 class="modal-title" id="addCategoryModalLabel">대분류 및 중분류 등록</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <label for="newTopCategory">새로운 대분류 이름</label>
+                <label for="newTopCategory">대분류 입력</label>
                 <input type="text" class="form-control" id="newTopCategory" name="newTopCategory" required="">
 
-                <label for="newMidCategoryModal" class="mt-2">새로운 중분류 이름</label>
+                <label for="newMidCategoryModal" class="mt-2">중분류 입력</label>
                 <input type="text" class="form-control" id="newMidCategoryModal" name="newMidCategoryModal" required="">
             </div>
             <div class="modal-footer">
@@ -104,7 +121,7 @@
                     $('#addCategoryModal').modal('hide');  // 모달 닫기
 
                     // 리스트 페이지로 리다이렉션
-                    window.location.href = '/Prod/Category/List';  // 리스트 페이지로 이동
+                    window.location.href = '/Prod/Category/Create';  // 리스트 페이지로 이동
                 },
                 error: function(xhr, status, error) {
                     alert("오류 발생: " + error);

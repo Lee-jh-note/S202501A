@@ -19,12 +19,14 @@ public class ExcelService {
 
     private final SPRecodesService spRecodesService;
 
-    public byte[] createSPRecodesExcel() throws IOException {
+    public byte[] createSPRecodesExcel(String yymmdd) throws IOException {
 
         SPRecodesDto dto = new SPRecodesDto();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         dto.setStart(1);
         dto.setEnd(999999);
+        String tyymmdd = yymmdd.substring(2).replace('-', '/');
+        dto.setYymmdd(tyymmdd);
         List<SPRecodesDto> dtos = spRecodesService.SPRecodesFindAll(dto);
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("판매 실적");
@@ -62,8 +64,6 @@ public class ExcelService {
             dataRow.createCell(11).setCellValue(sdf.format(dtos.get(i).getReg_date()));
 
         }
-            // 각 열의 너비 자동 조정
-
         sheet.autoSizeColumn(0); // 날짜 열
         sheet.autoSizeColumn(1); // 대분류 열
         sheet.autoSizeColumn(2); // 제품 코드 열
