@@ -8,9 +8,6 @@ import org.oracle.s202501a.dto.yj_dto.PurchaseDetailsAll;
 
 public interface PurchaseExcelService {
 
-	// PurchaseExcelController  ResponseEntity<byte[]> purchaseExcel() - 발주 리스트 엑셀
-	byte[] purchaseExcel() throws IOException;
-
 	// PurchaseExcelController  ResponseEntity<byte[]> purchaseSearchExcel(Purchase purchase) - 발주 검색 엑셀
 	byte[] purchaseSearchExcel(Purchase purchase) throws IOException;
 

@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.query.Page;
 import org.oracle.s202501a.dto.ny_dto.Dept;
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("empDept")
 public class EmpController {
 	private final EmpService es;
 	private final ClientService cs;
@@ -120,7 +123,7 @@ public class EmpController {
 
 			int insertResult = es.insertDEPT(dept);
 			if (insertResult > 0)
-				return "redirect:";
+				return "redirect:/empDept/listDept";
 			else {
 				model.addAttribute("msg", "입력 실패 확인해 보세요");
 				return "redirect:/writeFormDept";
@@ -159,6 +162,7 @@ public class EmpController {
 			
 			return "ny_views/updateFormDept";
 		}
+		
 		// 부서 수정 2
 		@PostMapping(value = "updateDept")
 		public String updateDept(Dept dept, Model model) {
@@ -220,8 +224,8 @@ public class EmpController {
 		 * model.addAttribute("uptCnt", updateCount); // #서비스임플에서 업데이트된 개수
 		 * model.addAttribute("mt", "Message Test"); // # 메세지 테스트
 		 */
-
-		return "forward:listEmp";
+		
+		return  "redirect:detailEmp?emp_No="+emp.getEmp_No();
 	}
 	
 	// 유
@@ -342,5 +346,24 @@ public class EmpController {
 		return "ny_views/list";
 	}
 
+   @ResponseBody // ajax를 json으로 보내기
+   @GetMapping(value = "deptConfirm")
+   public Map<String, Object> deptConfirm(Dept dept1) {
+      System.out.println("PurchaseController confirm start,,");
+
+      Dept dept = es.deptConfirm(dept1.getDept_No());
+
+      Map<String, Object> response = new HashMap<>();
+
+      if (dept != null) {
+         System.out.println("deptConfirm 부서번호 중복된.. ");
+         response.put("isDuplicate", true);
+      } else {
+         System.out.println("deptConfirm 부서번호 중복 안됨.. ");
+         response.put("isDuplicate", false);
+      }
+
+      return response;
+   }
 
 }

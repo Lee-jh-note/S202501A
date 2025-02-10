@@ -30,45 +30,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("purchase")
 public class PurchaseController {
+	
 	private final PurchaseService ps;
 	
 	// 세션과 연결된 UserService
 	private final UserService f;
 	
-	// 발주 조회 페이지의 리스트(페이징작업까지)
-	@RequestMapping(value = "listPurchase")
-	public String listPurchase(Purchase purchase, Model model) {
-		System.out.println("PurchaseController listPurchase start,,,");
-		
-		// 페이징 작업
-		// 한페이지에 15줄씩 보이도록
-		int totalPurchase = ps.totalPurchase();
-		if(purchase.getCurrentPage() == null) purchase.setCurrentPage("1"); // null이 되면 1로 세팅
-		Paging page = new Paging(totalPurchase, purchase.getCurrentPage()); // Paging.java로 넘어가서 어떻게 구성되어있는지 확인
-		
-		purchase.setStart(page.getStart()); // 시작시 1
-		purchase.setEnd(page.getEnd());		//  15
-		
-		List<Purchase> listPurchase = ps.listPurchase(purchase);
-		System.out.println("PurchaseController listPurchase listPurchase.size()->"+listPurchase.size());
-		System.out.println("PurchaseController listPurchase listPurchase->"+listPurchase);
-		
-		// 발주일자- sysdate 넣기
-	    String sysdate = java.time.LocalDate.now().toString();
-	    model.addAttribute("sysdate", sysdate);
-		
-		model.addAttribute("total",			totalPurchase);
-		model.addAttribute("listPurchase", 	listPurchase);
-		model.addAttribute("page", 			page);		
-		
-		return "yj_views/listPurchase";
-		
-	}
-	
 	// 발주 검색 (기간, 제품, 거래처, 담당자)
-	@RequestMapping(value = "searchPurchase")
+	@RequestMapping(value = "listPurchase")
 	public String searchPurchase(Purchase purchase, Model model) {
-		System.out.println("PurchaseController searchPurchase start,,");
 		System.out.println("PurchaseController searchPurchase purchase-> " + purchase);
 		// Purchase 전체 Cnt
 		int totalPurchase = ps.searchTotalPurchase(purchase);
@@ -78,92 +48,21 @@ public class PurchaseController {
 		purchase.setStart(page.getStart()); // 시작시 1
 		purchase.setEnd(page.getEnd());		//  15
 		
-		System.out.println("Paging Info: start = " + page.getStart() + ", end = " + page.getEnd() +
-                ", currentPage = " + page.getCurrentPage() + ", totalPage = " + page.getTotalPage());
-		System.out.println("Type of start: " + ((Object) page.getStart()).getClass().getName());
-
-
-		
 		System.out.println("PurchaseController searchPurchase page-> " + page);
 
-		
 		List<Purchase> searchListPurchase = ps.searchListPurchase(purchase);
 		System.out.println("PurchaseController searchPurchase searchListPurchase searchListPurchase.size()-> " + searchListPurchase.size());
 		System.out.println("PurchaseController searchPurchase searchListPurchase-> " + searchListPurchase);
 		
 		model.addAttribute("searchKeyword", purchase);
-		model.addAttribute("totalPurchase", totalPurchase);
-		model.addAttribute("searchListPurchase", searchListPurchase); // yj_views/listPurchase에서 listPurchase를 써서 forEach로 값들을 넣어줬기 때문에 "listPurchase" 맞춰줘야함
+		model.addAttribute("total", totalPurchase);
+		model.addAttribute("listPurchase", searchListPurchase); // yj_views/listPurchase에서 listPurchase를 써서 forEach로 값들을 넣어줬기 때문에 "listPurchase" 맞춰줘야함
 		model.addAttribute("page", page);
 		
-		return "yj_views/listSearchPurchase";
+		return "yj_views/listPurchase";
 	}
 	
-	
-//	// 발주 조회 페이지의 리스트(페이징작업까지)
-//	@RequestMapping(value = "listPurchase")
-//	public String listPurchase(Purchase purchase, Model model) {
-//		System.out.println("PurchaseController listPurchase start,,,");
-//		
-//		// 페이징 작업
-//		// 한페이지에 15줄씩 보이도록
-//		int totalPurchase = ps.totalPurchase();
-//		if(purchase.getCurrentPage() == null) purchase.setCurrentPage("1"); // null이 되면 1로 세팅
-//		Paging page = new Paging(totalPurchase, purchase.getCurrentPage()); // Paging.java로 넘어가서 어떻게 구성되어있는지 확인
-//		
-//		purchase.setStart(page.getStart()); // 시작시 1
-//		purchase.setEnd(page.getEnd());		//  15
-//		
-//		List<Purchase> listPurchase = ps.listPurchase(purchase);
-//		System.out.println("PurchaseController listPurchase listPurchase.size()->"+listPurchase.size());
-//		System.out.println("PurchaseController listPurchase listPurchase->"+listPurchase);
-//		
-//		// 발주일자- sysdate 넣기
-//	    String sysdate = java.time.LocalDate.now().toString();
-//	    model.addAttribute("sysdate", sysdate);
-//		
-//		model.addAttribute("total",			totalPurchase);
-//		model.addAttribute("listPurchase", 	listPurchase);
-//		model.addAttribute("page", 			page);		
-//		
-//		return "yj_views/listPurchase";
-//		
-//	}
-//	
-//	// 발주 검색 (기간, 제품, 거래처, 담당자)
-//	@RequestMapping(value = "searchPurchase")
-//	public String searchPurchase(Purchase purchase, Model model) {
-//		System.out.println("PurchaseController searchPurchase start,,");
-//		System.out.println("PurchaseController searchPurchase purchase->"+purchase);
-//		// Purchase 전체 Cnt
-//		int totalPurchase = ps.searchTotalPurchase(purchase);
-//		System.out.println("PurchaseController searchPurchase totalPurchase->"+totalPurchase);
-//		// 페이징,,
-//		Paging page = new Paging(totalPurchase, purchase.getCurrentPage());
-//		purchase.setStart(page.getStart()); // 시작시 1
-//		purchase.setEnd(page.getEnd());		//  15
-//		
-//		System.out.println("Paging Info: start=" + page.getStart() + ", end=" + page.getEnd() +
-//                ", currentPage=" + page.getCurrentPage() + ", totalPage=" + page.getTotalPage());
-//		System.out.println("Type of start: " + ((Object) page.getStart()).getClass().getName());
-//
-//
-//		
-//		System.out.println("PurchaseController searchPurchase page->"+page);
-//
-//		
-//		List<Purchase> searchListPurchase = ps.searchListPurchase(purchase);
-//		System.out.println("PurchaseController searchPurchase searchListPurchase searchListPurchase.size()"+searchListPurchase.size());
-//		System.out.println("PurchaseController searchPurchase searchListPurchase->"+searchListPurchase);
-//		
-//		model.addAttribute("searchKeyword", purchase);
-//		model.addAttribute("totalPurchase", totalPurchase);
-//		model.addAttribute("searchListPurchase", searchListPurchase); // yj_views/listPurchase에서 listPurchase를 써서 forEach로 값들을 넣어줬기 때문에 "listPurchase" 맞춰줘야함
-//		model.addAttribute("page", page);
-//		
-//		return "yj_views/listSearchPurchase";
-//	}
-//	
+
 	// 발주 상세 조회 - 발주서 안에 제품이 여러개 들어가면서 상세화면도 바뀜
 	@GetMapping(value = "detailPurchase")
 	public String detailPurchase(Purchase purchase1, Model model) {
@@ -199,7 +98,7 @@ public class PurchaseController {
 		
 		EmpDTO dto = f.getSe();
 		Long emp_no = dto.getEmp_No();
-		String emp_name = dto.getEmp_Name();
+		String emp_name = dto.getEmpName();
 	    model.addAttribute("emp_no", emp_no);
 	    model.addAttribute("emp_name", emp_name);
 		
@@ -481,42 +380,19 @@ public class PurchaseController {
 			params.put("client_no", purchase.getClient_no());
 			System.out.println("PurchaseController deletePurchase params->"+params);
 			
-			// 상태 확인
-			// if 상태가 null이거나 0이면 삭제 불가!!
-//			if (purchase == null || !"0".equals(purchase.getStatus())) {
-//				// 상태가 0이 아니거나 데이터를 찾을 수 없는 경우 처리
-//				System.out.println("PurchaseController deletePurchase: 상태가 0이 아님 또는 데이터 없음");
-//				model.addAttribute("errorMessage", "삭제할 수 없는 상태입니다. 상태가 0인 발주서만 삭제 가능합니다.");
-//				return "yj_views/errorPage"; // 오류 페이지로 이동
-//			}
-			
-			int result1 = ps.deletePurchaseDetail(params);
-			// 구매상세 테이블 삭제에 성공하면,
-			if (result1 > 0) {
-				System.out.println("PurchaseController deletePurchase 삭제 성공(구매상세 테이블)");
-				int result2 = ps.deletePurchase(params);
-				// 구매 테이블 삭제에 성공하면,
-				if (result2 > 0) {
-					System.out.println("PurchaseController deletePurchase 삭제 성공(구매 테이블까지)");
-					// 구매 테이블 삭제에 실패하면
-				}else {
-					System.out.println("PurchaseController deletePurchase 삭제 실패(구매 테이블)");
-					model.addAttribute("errorMessage", "삭제 실패(구매 테이블만)");
-					return "yj_views/errorPage"; // 오류 페이지로 이동
-				}
-				// 구매상세 테이블 삭제에 실패하면
-			}else {
-				model.addAttribute("errorMessage", "삭제 실패(구매 상세 테이블도)");
-				System.out.println("PurchaseController deletePurchase 삭제 실패(구매 상세 테이블)");
-				System.out.println("PurchaseController deletePurchase result1: " + result1);
-				return "yj_views/errorPage"; // 오류 페이지로 이동
-			}
-			
+			// 구매 상세 삭제
+			int deleteDetailCount = ps.deletePurchaseDetail(params);
+	        if (deleteDetailCount <= 0) throw new Exception("deleteDetailCount <= 0 : 구매 상세 삭제 실패(client_no: " + purchase.getClient_no() + ", purchase_date: " + purchase.getPurchase_date() + ")");
+	        
+	        // 구매 정보 삭제
+	        int deletePurchaseCount  = ps.deletePurchase(params);
+	        if (deletePurchaseCount <= 0) throw new Exception("deletePurchaseCount <= 0 : 구매 정보 삭제 실패(client_no: " + purchase.getClient_no() + ", purchase_date: " + purchase.getPurchase_date() + ")");
+
 			return "redirect:listPurchase";
 			
 		} catch (Exception e) {
 	        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly(); // 롤백해주기- 구매만 삭제되었을 수 있어서
-	        model.addAttribute("errorMessage", "삭제 실패");
+	        model.addAttribute("errorMessage", "삭제 실패: " + e.getMessage());
 			return "yj_views/errorPage";
 		}
 	}

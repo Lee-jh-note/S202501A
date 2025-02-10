@@ -30,8 +30,8 @@
         console.log("AJAX 응답:", response);
         
         // 가져온 이름을 span에 표시
-        if (response.emp_Name) {
-            $("#empNameSpan").html("<strong>" + response.emp_Name + "</strong> 님, 반갑습니다! 😊");
+        if (response.empName) {
+            $("#empNameSpan").html("<strong>" + response.empName + "</strong> 님, 반갑습니다! 😊");
         }
     },
       error: function(xhr, status, error) {
@@ -39,5 +39,4 @@
       }
     });
   });
-<<<<<<< HEAD
 </script>

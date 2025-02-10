@@ -20,8 +20,11 @@
 			AND   rn <= #{end}
 		]]>
 	</select>
-	<select id="shdetailClient" parameterType ="int" resultType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
-		SELECT * FROM clients where client_No = #{client_No}
+	<select id="shdetailClient" parameterType ="int" resultType="org.oracle.s202501a.dto.sh_dto.ClientDTO">	
+		SELECT *
+		FROM  clients c
+		join emp e on e.emp_no = c.emp_no
+		where c.client_no = #{client_No}
 	</select>
 	
 	<update id="shupdateClient" parameterType="org.oracle.s202501a.dto.sh_dto.ClientDTO">
@@ -110,4 +113,10 @@
 			    CLIENT_Delete = 1         
 			WHERE CLIENT_No = #{client_No} 
 		</update>
+		
+		<select id="getEmpList" resultType="org.oracle.s202501a.dto.ny_dto.Emp" >
+		    SELECT emp_No, emp_Name FROM EMP WHERE roles = 'ROLE_SALES'
+		</select> 
+		
+		
 </mapper>

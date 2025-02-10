@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("board")
 public class BoardController {
 	private final BoardService bs;
 
@@ -55,17 +56,22 @@ public class BoardController {
 		return "ny_views/BoardList";
 	}
 
-	// 게시판 상세조회
+	// 게시판 상세조회 / 조회수
 	@GetMapping("BoardContent")
 	public String contents(Board board1, Model model) {
 		System.out.println("EmpController Start ContentView...");
 
+		 // 조회수 증가
+	    bs.increaseHit(board1.getBoard_No());
+		
+	    
+	    // 게시글 상세 조회
 		Board board = bs.contents(board1.getBoard_No());
 		System.out.println("EmpController ContentView ->" + board);
 
 		model.addAttribute("board", board);
 
-		
+		// 로그인한 사용자 정보 가져오기
 	 	SecurityContext securityContext = SecurityContextHolder.getContextHolderStrategy().getContext();
     	Authentication authentication = securityContext.getAuthentication();
     	System.out.println("HomeController home authentication->"+authentication);
@@ -73,11 +79,18 @@ public class BoardController {
         EmpDTO empDTO = (EmpDTO) authentication.getPrincipal();
        	System.out.println("HomeController home empDTO->"+empDTO);
        	model.addAttribute("empDTO", empDTO);
-		
+        
+       	// 해당 게시글의 댓글 리스트 조회
+       	List<Board> listReply = bs.listReply(board);
+		System.out.println("BoardController list listReply.size()=>" + listReply.size());
+		System.out.println("BoardController list listReply=>" + listReply);
+       	model.addAttribute("listReply", listReply);
+
 		
 		return "ny_views/BoardContent";
 	}
 
+	
 	// 게시글 수정1 (폼)
 	@GetMapping("updateBoardForm")
 	public String updateForm(Board board1, Model model) {
@@ -100,7 +113,8 @@ public class BoardController {
 		int updateCount = bs.updateBoard(board);
 		System.out.println(board);
 
-		return "forward:BoardList";
+		return "redirect:BoardContent?board_No="+board.getBoard_No();
+
 
 	}
 
@@ -144,28 +158,90 @@ public class BoardController {
 	 }
 		
 		
-	// 댓글 등록
+		// 댓글 등록 뷰 
+		// 삭제 대상 
+		@RequestMapping(value ="BoardContent")
+		public String replyContent(Board board,Model model) { 
+			 System.out.println("BoardController Start replyContents...");
+			   	SecurityContext securityContext = SecurityContextHolder.getContextHolderStrategy().getContext();
+		    	Authentication authentication = securityContext.getAuthentication();
+		    	System.out.println("HomeController home authentication->"+authentication);
+		       	System.out.println("HomeController home authentication.getName()->"+authentication.getName());
+		        EmpDTO empDTO = (EmpDTO) authentication.getPrincipal();
+		       	System.out.println("HomeController home empDTO->"+empDTO);
+		       	
+		       	List<Board> listReply = bs.listReply(board);
+				System.out.println("BoardController list listReply.size()=>" + listReply.size());
 
-			
-	
+				// 리스트
+				List<Board> listBoard = bs.listBoard(board);
+				System.out.println("BoardController list listBoard.size()=>" + listBoard.size());
+
+
+		       	
+		       	model.addAttribute("empDTO", empDTO);
+		       	
+		       	model.addAttribute("listReply", listReply);
+		       	model.addAttribute("listBoard", listBoard);
+		       	
+		       	
+		        return "ny_views/BoardContent";
+		}
 		
 		
+		// 댓글 등록 	
+		@RequestMapping(value ="reply")
+		public String reply (Board board, Model model) {
+			 System.out.println("controller board/reply start");
+			 System.out.println("reply start board->"+board);
+			 
+
+			// 로그인한 사용자 정보 가져오기
+		 	SecurityContext securityContext = SecurityContextHolder.getContextHolderStrategy().getContext();
+	    	Authentication authentication = securityContext.getAuthentication();
+	    	//System.out.println("BoardController reply authentication->"+authentication);
+	        EmpDTO empDTO = (EmpDTO) authentication.getPrincipal();
+	       	System.out.println("BoardController reply empDTO->"+empDTO);
+	       	board.setEmp_No(empDTO.getEmp_No());
+	       	// model.addAttribute("empDTO", empDTO);
+		        
+			 
+			 
+			 // model.addAttribute("Board", board);
+			// bs.breply(model);
+			 bs.breply(board);
+			 
+			 System.out.println("controller reply end board->"+board);
+
+			 // 원글에 대한 조회 => .getComment_Group
+			 return "redirect:BoardContent?board_No="+board.getComment_Group();
+		}
+
+
+		// 댓글 수정
+		@PostMapping("updateReply")
+		public String updateReply(Board board, Model model) {
+		    System.out.println("BoardController Start updateReply...");
+		    System.out.println("BoardController updateReply board->" + board);
+
+		    int updateCount = bs.updateReply(board);
+		    System.out.println("updateCount -> " + updateCount);
+
+		    return "redirect:BoardContent?board_No=" + board.getComment_Group();  
+		}
+
+		// 댓글 삭제
+		@RequestMapping(value = "deleteReply")
+		public String deleteReply(Board board, Model model) {
+		    System.out.println("BoardController Start deleteReply...");
+		    System.out.println("BoardController deleteReply board->" + board);
+
+		    int result = bs.deleteReply(board.getBoard_No());
+		    System.out.println("deleteCount -> " + result);
+             //   게시글의 번호로 돌아가도록
+		    return "redirect:BoardContent?board_No=" + board.getComment_Group();
+		}
+
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
- 
 
 	 }

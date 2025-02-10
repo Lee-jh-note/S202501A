@@ -20,44 +20,28 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class PurchaseExcelServiceImpl implements PurchaseExcelService {
-	
-	private final PurchaseService purchaseService;
-	
-	private final PurchaseDetailService purchaseDetailService;
-	
-
-	// 발주 리스트 엑셀 생성
-	@Override
-	public byte[] purchaseExcel() throws IOException {
-
-		// 검색 조건이 없을 때
-		Purchase purchase = new Purchase();
-		purchase.setStart(1);
-		purchase.setEnd(999999);
-		
-		// PurchaseService 통해서 DB에서 필요한 데이터 가져오기
-		List<Purchase> listPurchase = purchaseService.listPurchase(purchase);
-		
-		return generatePurchaseExcel(listPurchase, "발주 리스트");
-	}
-	
-	// 발주 검색 결과 엑셀 생성
-	// 검색 키워드가 있는 것들은 jsp에서 param으로 값들 전달, purchase로 받기
-	@Override
-	public byte[] purchaseSearchExcel(Purchase purchase) throws IOException {
-		
-		purchase.setStart(1);
-		purchase.setEnd(999999);
-		System.out.println("PurchaseExcelServiceImpl purchaseSearchExcel 엑셀 검색조건 "+ purchase);
-		
-		
-		List<Purchase> searchPurchaseList = purchaseService.searchListPurchase(purchase);
-		
+   
+   private final PurchaseService purchaseService;
+   
+   private final PurchaseDetailService purchaseDetailService;
+   
+   // 발주 검색 결과 엑셀 생성
+   // 검색 키워드가 있는 것들은 jsp에서 param으로 값들 전달, purchase로 받기
+   @Override
+   public byte[] purchaseSearchExcel(Purchase purchase) throws IOException {
+      
+      purchase.setStart(1);
+      purchase.setEnd(999999);
+      System.out.println("PurchaseExcelServiceImpl purchaseSearchExcel 엑셀 검색조건 "+ purchase);
+      
+      
+      List<Purchase> searchPurchaseList = purchaseService.searchListPurchase(purchase);
+      
         return generatePurchaseExcel(searchPurchaseList, "발주 검색 결과");
-	}
-	
-	
-	// 발주 엑셀 공통 - 매입일자, 제목, 거래처명, 담당자, 상품수, 총수량, 총금액, 상태, 요청배송일
+   }
+   
+   
+   // 발주 엑셀 공통 - 매입일자, 제목, 거래처명, 담당자, 상품수, 총수량, 총금액, 상태, 요청배송일
     private byte[] generatePurchaseExcel(List<Purchase> purchases, String sheetName) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet(sheetName);
@@ -105,17 +89,17 @@ public class PurchaseExcelServiceImpl implements PurchaseExcelService {
     }
     
 
-	// PurchaseExcelController  ResponseEntity<byte[]> purchaseDetailPlanExcel(PurchaseDetailsAll purchase_details) - 입고예정 엑셀
+   // PurchaseExcelController  ResponseEntity<byte[]> purchaseDetailPlanExcel(PurchaseDetailsAll purchase_details) - 입고예정 엑셀
     // 매입일자, 거래처명, 발주 담당자, 상품수, 총수량, 총금액, 상태, 요청배송일
-	@Override
-	public byte[] purchaseDetailPlanExcel(PurchaseDetailsAll purchase_details) throws IOException {
-		
-		purchase_details.setStart(1);
-		purchase_details.setEnd(999999);
-		
-		
-		List<PurchaseDetailsAll> purchaseDetailPlan = purchaseDetailService.searchListPurchaseDetailPlan(purchase_details);
-		
+   @Override
+   public byte[] purchaseDetailPlanExcel(PurchaseDetailsAll purchase_details) throws IOException {
+      
+      purchase_details.setStart(1);
+      purchase_details.setEnd(999999);
+      
+      
+      List<PurchaseDetailsAll> purchaseDetailPlan = purchaseDetailService.searchListPurchaseDetailPlan(purchase_details);
+      
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("입고 예정 리스트");
 
@@ -157,34 +141,34 @@ public class PurchaseExcelServiceImpl implements PurchaseExcelService {
         workbook.close();
 
         return outputStream.toByteArray();
-	}
-	
+   }
+   
 
-	// PurchaseExcelController  ResponseEntity<byte[]> purchaseDetailExcel(PurchaseDetailsAll purchase_details) - 입고 조회 엑셀
-	@Override
-	public byte[] purchaseDetailExcel(PurchaseDetailsAll purchase_details) throws IOException {
-		
-		purchase_details.setStart(1);
-		purchase_details.setEnd(999999);
-		
-		List<PurchaseDetailsAll> purchaseDetail = purchaseDetailService.searchListPurchaseDetail(purchase_details);
-		
+   // PurchaseExcelController  ResponseEntity<byte[]> purchaseDetailExcel(PurchaseDetailsAll purchase_details) - 입고 조회 엑셀
+   @Override
+   public byte[] purchaseDetailExcel(PurchaseDetailsAll purchase_details) throws IOException {
+      
+      purchase_details.setStart(1);
+      purchase_details.setEnd(999999);
+      
+      List<PurchaseDetailsAll> purchaseDetail = purchaseDetailService.searchListPurchaseDetail(purchase_details);
+      
         return generatePurchaseDetailExcel(purchaseDetail, "입고 조회");
-	}
+   }
 
-	// PurchaseExcelController  ResponseEntity<byte[]> purchaseDetailNoExcel(PurchaseDetailsAll purchase_details) - 미입고 조회 엑셀
-	@Override
-	public byte[] purchaseDetailNoExcel(PurchaseDetailsAll purchase_details) throws IOException {
-		
-		purchase_details.setStart(1);
-		purchase_details.setEnd(999999);
-		
-		List<PurchaseDetailsAll> purchaseDetailNo = purchaseDetailService.searchListPurchaseDetailNo(purchase_details);
-		
+   // PurchaseExcelController  ResponseEntity<byte[]> purchaseDetailNoExcel(PurchaseDetailsAll purchase_details) - 미입고 조회 엑셀
+   @Override
+   public byte[] purchaseDetailNoExcel(PurchaseDetailsAll purchase_details) throws IOException {
+      
+      purchase_details.setStart(1);
+      purchase_details.setEnd(999999);
+      
+      List<PurchaseDetailsAll> purchaseDetailNo = purchaseDetailService.searchListPurchaseDetailNo(purchase_details);
+      
         return generatePurchaseDetailExcel(purchaseDetailNo, "미입고 조회");
-	}
-	
-	// 입고 엑셀 공통 - 매입일자, 거래처명, 담당자, 상품수, 총수량, 총금액, 상태
+   }
+   
+   // 입고 엑셀 공통 - 매입일자, 거래처명, 담당자, 상품수, 총수량, 총금액, 상태
     private byte[] generatePurchaseDetailExcel(List<PurchaseDetailsAll> purchase_details, String sheetName) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet(sheetName);
@@ -226,5 +210,5 @@ public class PurchaseExcelServiceImpl implements PurchaseExcelService {
 
         return outputStream.toByteArray();
     }
-	
+   
 }

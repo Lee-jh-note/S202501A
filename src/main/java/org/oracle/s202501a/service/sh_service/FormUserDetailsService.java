@@ -27,7 +27,10 @@ public class FormUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	       Emp emp = userRepository.findByUsername(username);
+        System.out.println("FormUserDetailsService loadUserByUsername username->"+username);
+	       Emp emp = userRepository.findByUsername(username)
+	       		.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username));
+	       System.out.println("FormUserDetailsService emp->"+emp);
 	        if (emp == null) {
 	            throw new UsernameNotFoundException("No user found with username: " + username);
 	        }

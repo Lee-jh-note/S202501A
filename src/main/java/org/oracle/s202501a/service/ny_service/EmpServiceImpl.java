@@ -182,6 +182,16 @@ public class EmpServiceImpl implements EmpService {
 		return updateDeptCount;
 
 	}
+	
+   // 부서 중복 확인
+   @Override
+   public Dept deptConfirm(Long deptNo) {
+      System.out.println("DeptServiceImpl deptConfirm Start...");
+      Dept dept = null;
+      dept = dd.deptConfirm(deptNo);
+
+      return dept;
+   }
 
 }
 

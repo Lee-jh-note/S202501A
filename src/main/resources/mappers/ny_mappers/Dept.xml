@@ -65,6 +65,11 @@
 	<!-- <delete id="nydeleteEmp" parameterType="int"> delete from EMP where 
 		emp_No=#{emp_No} </delete> -->
 
-
+	   
+   <select id="nydeptConfirm" parameterType="long" resultType="org.oracle.s202501a.dto.ny_dto.Dept">
+      select *
+      from dept
+      where dept_no = #{dept_No}
+   </select>
 
 </mapper>

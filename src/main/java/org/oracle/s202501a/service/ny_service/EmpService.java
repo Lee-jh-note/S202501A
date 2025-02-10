@@ -45,6 +45,8 @@ public interface EmpService {
 	int insertDEPT(Dept dept); //부서 등록
 
 	int updateDept(Dept dept); //부서 수정
+	
+	Dept deptConfirm(Long deptNo); // 부서 중복 확인
 
 
 }

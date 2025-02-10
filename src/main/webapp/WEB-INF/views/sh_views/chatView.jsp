@@ -6,114 +6,126 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<style>
-	* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
+<title>채팅</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
 
-/* 메인 컨테이너 */
-.container {
-    width: 80%;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-}
+    body {
+        background-color: #f4f4f4;
+    }
 
-/* 제목 */
-.container h1 {
-    text-align: center;
-    color: #FFBB00;
-    margin-bottom: 15px;
-    font-size: 24px;
-    font-weight: bold;
-}
+    .container {
+        width: 90%;
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 15px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
 
-/* 채팅창 */
-.chating {
-    width: 100%;
-    height: 450px;
-    overflow-y: auto;
-    border-radius: 8px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: #f4f4f4;
-    border: 1px solid #ddd;
-}
+    .container h1 {
+        text-align: center;
+        color: #3d3d3d;
+        font-size: 24px;
+        font-weight: bold;
+    }
 
-/* 메시지 스타일 */
-.chating p {
-    max-width: 70%;
-    padding: 12px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    line-height: 1.5;
-}
+    .chating {
+        width: 100%;
+        height: 450px;
+        overflow-y: auto;
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: #fff;
+        border: 1px solid #ddd;
+    }
 
-/* 내 메시지 */
-.chating .me {
-    align-self: flex-end;
-    background-color: #007bff;
-    color: white;
-    text-align: right;
-}
+    .chating p {
+        max-width: 70%;
+        padding: 10px 15px;
+        border-radius: 15px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
 
-/* 상대방 메시지 */
-.chating .others {
-    align-self: flex-start;
-    background-color: #e0e0e0;
-    color: #333;
-    text-align: left;
-}
+    .chating .me {
+        align-self: flex-end;
+        background-color: #fae100;
+        color: #000;
+        text-align: right;
+    }
 
-/* 메시지 입력 영역 */
-#yourMsg {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    margin-top: 15px;
-}
+    .chating .others {
+        align-self: flex-start;
+        background-color: #ececec;
+        color: #333;
+        text-align: left;
+    }
 
-#sendMsg {
-    flex: 1;
-    height: 50px;
-    padding: 15px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    background: #fff;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 90%;
-}
+    #yourMsg {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        margin-top: 15px;
+        gap: 10px;
+    }
 
-/* 버튼 스타일 */
-button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #007bff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-left: 10px;
-}
+    #sendMsg, #userName {
+        width: 100%;
+        height: 45px;
+        padding: 12px;
+        font-size: 15px;
+        border-radius: 20px;
+        border: 1px solid #0056b3;
+        background: #fff;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-button:hover {
-    background: #0056b3;
-}
-	
-	</style>
-</head>
+    .send-btn, .start-btn {
+        width: 100%;
+        padding: 12px 18px;
+        border: none;
+        border-radius: 20px;
+        background: #0056b3;
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .send-btn:hover, .start-btn:hover {
+        background: #f1d600;
+    }
+
+    #yourName {
+        margin-top: 15px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .inputTable {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .inputTable th, .inputTable td {
+        padding: 10px;
+        text-align: center;
+    }
+
+</style>
 <script type="text/javascript">
     var ws;
 
@@ -157,7 +169,7 @@ button:hover {
                 }
             } else if (jsonMsg.type === "message") {
                 if (jsonMsg.sessionId === $("#sessionId").val()) {
-                    $("#chating").append("<p class='me'>나: " + jsonMsg.msg + "</p>");
+                    $("#chating").append("<p class='me'> " + jsonMsg.msg + "</p>");
                 } else {
                     $("#chating").append("<p class='others'>" + jsonMsg.userName + ": " + jsonMsg.msg + "</p>");
                 }
@@ -229,44 +241,45 @@ button:hover {
         ws.send(JSON.stringify(option));
         $('#sendMsg').val("");
     }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("sendMsg").addEventListener("keydown", function(event) {
+            if (event.key === "Enter" && !event.repeat) {
+                event.preventDefault();
+                send();
+            }
+        });
+    });
+
 </script>
+</head>
 <body>
-	<div id="container" class="container">
-		<h1>채팅</h1>
-		<input type="hidden" id="sessionId" value="">
-		<div id="meName"></div>
-		<div id="chating" class="chating">
-		</div>
-		<div id="member" class="member">
-		</div>
-		
-		<div id="yourName">
-			<table class="inputTable">
-				<tr>
-					<th>사용자명</th>
-					<th><input type="text" name="userName" id="userName"></th>
-					<th><button onclick="chatName()" id="startBtn">이름 등록</button></th>
-				</tr>
-			</table>
-		</div>
-		<div id="yourNameDel">
-			<table class="deleteTable">
-				<tr>
-					<th>사용자명 삭제</th>
-					<!-- <th><input type="text" name="userName" id="userName"></th> -->
-					<th><button onclick="sendUser('Delete')" id="startBtn">이름 삭제</button></th>
-				</tr>
-			</table>
-		</div>
-		<div id="yourMsg">
-			<table class="inputTable">
-				<tr>
-					<th>메시지</th>
-					<th><input id="sendMsg" placeholder="보내실 메시지를 입력하세요."></th>
-					<th><button onclick="send()" id="sendBtn">보내기</button></th>
-				</tr>
-			</table>
-		</div>
-	</div>
+    <div class="container">
+        <h1>채팅</h1>
+        <input type="hidden" id="sessionId" value="">
+        <div id="meName"></div>
+
+        <div id="chating" class="chating"></div>
+
+        <div id="member" class="member"></div>
+
+        <div id="yourName">
+            <table class="inputTable">
+                <tr>
+                    <td><input type="text" name="userName" id="userName" placeholder="사용자명을 입력하세요."></td>
+                    <td><button onclick="chatName()" class="start-btn">이름 등록</button></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="yourMsg">
+            <table class="inputTable">
+                <tr>
+                    <td><input id="sendMsg" placeholder="메시지를 입력하세요."></td>
+                    <td><button onclick="send()" class="send-btn">내용 전송</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

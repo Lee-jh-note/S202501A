@@ -1,6 +1,6 @@
 package org.oracle.s202501a.configuration;
 	
-import org.oracle.s202501a.security.FormAccessDeniedHandler	;
+import org.oracle.s202501a.security.FormAccessDeniedHandler	;		
 //import org.oracle.s202501a.security.FormAccessDeniedHandler;	
 import org.springframework.context.annotation.Bean;		
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,6 @@ public class SecurityConfig {
 	private final AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
 	private final AuthenticationSuccessHandler successHandler;
 	private final AuthenticationFailureHandler failureHandler;
-	
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
