@@ -19,28 +19,6 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	private final PurchaseDao pd;
 
-	// PurchaseController의 listPurchase- totalPurchase- 발주 총 갯수
-	@Override
-	public int totalPurchase() {
-		System.out.println("PurchaseServiceImpl totalPurchase start,,");
-		int totPurchaseCnt = pd.totalPurchase();
-		System.out.println("PurchaseServiceImpl totalPurchase totPurchaseCnt->"+totPurchaseCnt);
-		
-		return totPurchaseCnt;
-	}
-
-	// PurchaseController의 listPurchase- listPurchase- 발주 조회 리스트
-	@Override
-	public List<Purchase> listPurchase(Purchase purchase) {
-		List<Purchase> listPurchases = null;
-		System.out.println("PurchaseServiceImpl listPurchase start,,");
-		listPurchases = pd.listPurchase(purchase);
-		System.out.println("ddddddddddddddddd"+purchase);
-		System.out.println("PurchaseServiceImpl listPurchase listPurchases.size()->"+listPurchases.size());
-		
-		return listPurchases;
-	}
-	
 	// PurchaseController의 searchPurchase searchTotalPurchase- 발주 검색 총 갯수
 	@Override
 	public int searchTotalPurchase(Purchase purchase) {

@@ -15,7 +15,6 @@
     + 발주서는 구매 테이블과 구매상세 테이블 한번에 등록(function insertPurchase())으로 수정. ajax를 사용하여 구매 테이블의 정보를 purchase에, 구매 상세 테이블의 정보를 purchaseDetails에 담아서 넘김.
     - 등록이 되고 나면 발주 조회 페이지로 다시 넘어가도록 설계.-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="<c:url value='/css/board.css' />">
     <script type="text/javascript">
         let isDuplicateChecked = false;
 
@@ -342,12 +341,77 @@
                     insertPurchase();
                 })
             });
+            
+            // 바이트 수 제한 관련 코드 추가 (제목 50바이트, 비고 300바이트, 수량 제한)
+            function getByteLength(str) {
+                let byteCount = 0;
+                for (let i = 0; i < str.length; i++) {
+                    let char = str.charAt(i);
+                    byteCount += (char.charCodeAt(0) > 127) ? 3 : 1; // 한글(3바이트), 영문/숫자(1바이트)
+                }
+                return byteCount;
+            }
+
+            // 제목 입력 길이 제한 (최대 50바이트)
+            $('input[name="title"]').on('input', function () {
+                let maxBytes = 50;
+                let inputText = this.value;
+                let byteCount = getByteLength(inputText);
+                
+                while (byteCount > maxBytes) {
+                    inputText = inputText.substring(0, inputText.length - 1);
+                    byteCount = getByteLength(inputText);
+                }
+
+                if (this.value !== inputText) {
+                    alert("제목은 최대 50바이트까지 입력 가능합니다. (한글 약 16~17자)");
+                    this.value = inputText;
+                }
+            });
+
+            // 비고 입력 시 바이트 수 제한 (최대 300바이트)
+            $('textarea[name="remarks"]').on('input', function () {
+                let maxBytes = 300;
+                let inputText = this.value;
+                let byteCount = getByteLength(inputText);
+                
+                while (byteCount > maxBytes) {
+                    inputText = inputText.substring(0, inputText.length - 1);
+                    byteCount = getByteLength(inputText);
+                }
+
+                if (this.value !== inputText) {
+                    alert("비고는 최대 300바이트까지 입력 가능합니다. (한글 약 100자)");
+                    this.value = inputText;
+                }
+            });
+
+            // 수량 입력 제한 (1~99,999,999)
+            $(document).on('input', '.quantity', function () {
+                let value = parseInt(this.value);
+                if (value > 99999999) {
+                    alert("수량은 최대 99,999,999까지 입력 가능합니다.");
+                    this.value = 99999999;
+                } else if (value < 1 || isNaN(value)) {
+                    alert("수량은 1 이상 입력해야 합니다.");
+                    this.value = 1;
+                }
+            });
         });
         let nextIndex = 0; // Purchase_details의 index를 저장할 변수
     </script>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
     <link href="../css/insert.css" rel="stylesheet">
+    <style type="text/css">
+    .insert-table td{
+		color: black;
+	}
+	/* 거래처명 select 필드의 너비를 80%로 설정 */
+	.insert-table select[name="client_no"] {
+	    width: 70%;
+	}
+	</style>
 </head>
 
 <body id="page-top">
@@ -370,9 +434,8 @@
                             </div>
                         </div>
                         <div class="insert-buttons">
-                            <a href=/listPurchase>
-                                <button class="insert-empty-button">취소</button>
-                            </a>
+                            <button class="insert-empty-button" type="button" 
+                            	onclick="location.href='/purchase/listPurchase'">취소</button>
                             <button class="insert-full-button" id="btn" type="button" onclick="insertPurchase()">확인</button>
                         </div>
                     </div>
@@ -390,38 +453,27 @@
                             </tr>
                             <tr>
                                 <th>매입일자</th>
-                                <td>
-                                    <input type="date" name="purchase_date" required="required" value="${sysdate}"
-                                           readonly/>
-                                </td>
+                                	<td><input type="date" name="purchase_date" required="required" value="${sysdate}" readonly/></td>
                                 <th>담당자</th>
-                                <td>
-                                    <!-- 화면에 이름 표시 -->
-                                    <span>${emp_name}</span>
-                                    <!-- emp_no 값을 숨겨서 전송 -->
-                                    <input type="hidden" name="emp_no" value="${emp_no}">
-                                </td>
+	                                <!-- 화면에 이름 표시 -->
+	                                <td><span>${emp_name}</span>
+	                                    <!-- emp_no 값을 숨겨서 전송 -->
+	                                    <input type="hidden" name="emp_no" value="${emp_no}"></td>
                             </tr>
                             <tr>
                                 <th>요청배송일</th>
-                                <td>
-                                    <input type="date" name="req_delivery_date" required="required"/>
-                                </td>
+                                	<td><input type="date" name="req_delivery_date" required="required"/></td>
                                 <th>거래처명</th>
-                                <td>
-                                    <select name="client_no" value="${client_no}">
-                                        <c:forEach var="client" items="${clientList}">
-                                            <option value="${client.client_no}"${client.client_no == client_no ? 'selected' : ''}>${client.client_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <input type="button" class="insert-gray-button" value="중복확인" onclick="chk()">
-                                </td>
+                                	<td><select name="client_no" value="${client_no}">
+	                                        <c:forEach var="client" items="${clientList}">
+	                                            <option value="${client.client_no}"${client.client_no == client_no ? 'selected' : ''}>${client.client_name}</option>
+	                                        </c:forEach>
+                                    	</select>
+                                    	<input type="button" class="insert-gray-button" value="중복확인" onclick="chk()"></td>
                             </tr>
                             <tr>
                                 <th>비고</th>
-                                <td colspan="3">
-                                    <textarea id="note" name="remarks" value="${purchase.remarks}"></textarea>
-                                </td>
+                                <td colspan="3"><textarea id="note" name="remarks"></textarea></td>
                             </tr>
                         </table>
 
@@ -446,6 +498,7 @@
                             <!-- 동적 행들이 들어갈 공간 -->
                             </tbody>
                         </table>
+                	</div>
                 </form>
             </div>
             <!-- End of Main Content -->

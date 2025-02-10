@@ -4,49 +4,6 @@
 
 <mapper namespace="org.oracle.s202501a.mapper.PurchaseMapper">
 
-	<!-- 발주 총 갯수 - 페이징 처리해야해서 필요함 -->
-	<select id="yjPurchaseTotal" resultType="int">
-		select Count(*) from purchase
-		where purchase_date = TRUNC(sysdate)
-	</select>
-	
-	<!-- 발주 리스트 -->
-	<!-- 최신 발주 정보가 먼저 뜰지, 오래된게 먼저 뜰지 정해야함 -->
-	<!-- 발주서 안에 여러 상품을 넣을 수 있도록 수정하면서, 발주리스트에 총상품, 총수량, 총금액을 넣음. -->
-	<!-- 따라서 count와 sum으로 나타내도록 product_count, total_quantity, total_price 알리아스 설정 및 그것에 따른 Purchase dto에 필드 설정해줌 -->
-	<!-- 그리고 상태값은 공통 테이블을 조인해와서 표기. Purchase dto에 int로 있던 status를 String으로 바꿔줌 -->
-	<select id="yjListPurchase" parameterType="org.oracle.s202501a.dto.yj_dto.Purchase" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
-        select *
-		from (
-		    select rownum rn, a.*
-		    from (
-		            select pur.purchase_date, 
-		            MIN(pur.title) title, 
-		            MIN(c.client_name) client_name, 
-		            MIN(e.emp_name) emp_name, 
-		            c.client_no,
-		            COUNT(pd.product_no) AS product_count,
-		            SUM(pd.quantity) AS total_quantity,
-		            SUM(NVL(pd.price, 0) * NVL(pd.quantity, 0)) AS total_price,
-		            MIN(pur.req_delivery_date) req_delivery_date,
-		            MIN(CASE pur.status
-		                WHEN 0 THEN '대기'
-		                WHEN 1 THEN '부분입고'
-		                WHEN 2 THEN '완료'
-		                ELSE '알 수 없음'
-		                END) AS status
-		            from purchase pur
-		            left join clients c on pur.client_no = c.client_no
-		            left join emp e on pur.emp_no = e.emp_no
-		            left join purchase_details pd on pur.purchase_date = pd.purchase_date 
-		                                       and pur.client_no = pd.client_no
-		            left join product pro on pd.product_no = pro.product_no
-		            where pur.purchase_date = TRUNC(sysdate)
-		            GROUP BY c.client_no, pur.purchase_date
-		            order by pur.purchase_date) a
-		            )
-		where rn between #{start} and #{end}
-	</select>
 	
 	<!-- 발주 검색을 위한 총 갯수 -->
 	<select id="yjSearchTotalPurchase" parameterType="org.oracle.s202501a.dto.yj_dto.Purchase" resultType="int">
@@ -105,6 +62,12 @@
 		    )
 	</select>
 	
+	
+	<!-- 발주 리스트 -->
+	<!-- 최신 발주 정보가 먼저 뜰지, 오래된게 먼저 뜰지 정해야함 -->
+	<!-- 발주서 안에 여러 상품을 넣을 수 있도록 수정하면서, 발주리스트에 총상품, 총수량, 총금액을 넣음. -->
+	<!-- 따라서 count와 sum으로 나타내도록 product_count, total_quantity, total_price 알리아스 설정 및 그것에 따른 Purchase dto에 필드 설정해줌 -->
+	<!-- 그리고 상태값은 공통 테이블을 조인해와서 표기. Purchase dto에 int로 있던 status를 String으로 바꿔줌 -->
 	<!-- 발주 검색 -->
 	<select id="yjSearchListPurchase" parameterType="org.oracle.s202501a.dto.yj_dto.Purchase" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
 		SELECT *
@@ -161,7 +124,7 @@
 				</if>
 
 				GROUP BY c.client_no, pur.purchase_date
-		        ORDER BY pur.purchase_date
+		        ORDER BY pur.purchase_date desc
 		    ) b
 		)
 		WHERE rn BETWEEN #{start} AND #{end}

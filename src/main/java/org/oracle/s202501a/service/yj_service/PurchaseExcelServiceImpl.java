@@ -25,22 +25,6 @@ public class PurchaseExcelServiceImpl implements PurchaseExcelService {
 	
 	private final PurchaseDetailService purchaseDetailService;
 	
-
-	// 발주 리스트 엑셀 생성
-	@Override
-	public byte[] purchaseExcel() throws IOException {
-
-		// 검색 조건이 없을 때
-		Purchase purchase = new Purchase();
-		purchase.setStart(1);
-		purchase.setEnd(999999);
-		
-		// PurchaseService 통해서 DB에서 필요한 데이터 가져오기
-		List<Purchase> listPurchase = purchaseService.listPurchase(purchase);
-		
-		return generatePurchaseExcel(listPurchase, "발주 리스트");
-	}
-	
 	// 발주 검색 결과 엑셀 생성
 	// 검색 키워드가 있는 것들은 jsp에서 param으로 값들 전달, purchase로 받기
 	@Override

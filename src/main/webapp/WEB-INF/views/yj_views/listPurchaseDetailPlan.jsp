@@ -8,139 +8,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>입고 예정 리스트</title>
+    <!-- 엑셀 다운로드 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<style>
-		body {
-			font-family: 'Inter', sans-serif;
-			margin: 0;
-			padding: 0;
-			background-color: white;
-		}
-
-		/* 전체 div */
-		.wrapper {
-			width: 90%;
-			max-width: 1200px;
-			margin: 20px auto;
-			padding: 20px;
-		}
-
-		/* 서브메뉴랑 버튼 들어있는 헤더 */
-		.header {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding-bottom: 5px;
-		}
-
-		/* 조회기간 헤더 */
-		.header2 {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding-bottom: 5px;
-		}
-
-		.submenu {
-			font-size: 12px;
-			color: #AAAAAA;
-			margin-bottom: 10px;
-		}
-
-		.title {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			margin-bottom: 20px;
-		}
-
-		.title div {
-			width: 4px;
-			height: 32px;
-			background-color: #1E1E1E;
-		}
-
-		.title h1 {
-			font-size: 16px;
-			color: black;
-			margin: 0;
-		}
-
-		.buttons {
-			display: flex;
-			gap: 10px;
-		}
-
-		.full-button{
-			padding: 8px 12px;
-			font-size: 12px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			background-color: #4e73df;
-			color: white;
-		}
-
-		.search-filters {
-			display: flex;
-			gap: 10px;
-			align-items: center;
-			/* 검색 아래 여백 */
-		}
-
-		/* 검색 버튼 */
-		.gray-button {
-			background-color: #898c89;
-			color: white;
-			border: none;
-			padding: 8px 12px;
-			border-radius: 4px;
-			font-size: 12px;
-			cursor: pointer;
-		}
-
-		.search-filters input[type="date"],
-		.search-filters input[type="text"],
-		.search-filters select {
-			padding: 3px 8px;
-			font-size: 12px;
-			height: 30px;
-			border: 1px solid #ddd;
-			border-radius: 4px;
-		}
-
-		.search-filters label {
-			font-size: 12px;
-		}
-
-
-		.table {
-			width: 100%;
-			border-collapse: collapse;
-			margin-top: 10px;
-		}
-
-		.table th,
-		.table td {
-			border: 1px solid #EEEEEE;
-			padding: 10px;
-			text-align: center;
-		}
-
-		.table th {
-			background-color: #F8F8F8;
-			color: #777;
-			font-size: 12px;
-			font-weight: 400;
-		}
-
-		.table td {
-			font-size: 12px;
-			color: black;
-		}
-	</style>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../css/list.css" rel="stylesheet">
+
+<!-- 엑셀 다운로드 및 인쇄 기능 -->
+<script>
+
+	<!-- 전체 선택 기능 추가 -->
+	window.onload = function () {
+	    let selectAllCheckbox = document.getElementById("selectAll");
+	    let checkboxes = document.querySelectorAll(".selectRow");
+
+	    if (selectAllCheckbox) {
+	        // 전체 선택 체크박스 클릭 시 모든 체크박스 상태 변경
+	        selectAllCheckbox.addEventListener("click", function () {
+	            checkboxes.forEach(checkbox => {
+	                checkbox.checked = selectAllCheckbox.checked;
+	            });
+	        });
+
+	        // 개별 체크박스 클릭 시 전체 선택 체크박스 상태 업데이트
+	        checkboxes.forEach(checkbox => {
+	            checkbox.addEventListener("change", function () {
+	                let allChecked = document.querySelectorAll(".selectRow:checked").length === checkboxes.length;
+	                selectAllCheckbox.checked = allChecked; // 모든 체크박스가 선택되었을 때만 selectAll 체크
+	            });
+	        });
+	    }
+	};
+
+
+	function exportToExcel() {
+	    let table = document.getElementById("purchaseTable"); // 테이블 요소 가져오기
+	    let selectedRows = document.querySelectorAll(".selectRow:checked"); // 체크된 항목 가져오기
+	
+	    if (selectedRows.length === 0) { // 선택된 항목이 없을 경우 경고창 표시
+	        alert("다운로드할 항목을 선택하세요.");
+	        return;
+	    }
+	
+	    let data = []; // XLSX 변환을 위한 데이터 배열
+	    let headerRow = [];
+	
+	    // 테이블 헤더 추출 (첫 번째 컬럼인 체크박스 제외)
+	    table.querySelectorAll("th").forEach((th, index) => {
+	        if (index > 0) { // 체크박스 컬럼 제외
+	            headerRow.push(th.innerText.trim()); // 헤더 추가
+	        }
+	    });
+	    data.push(headerRow); // 헤더 추가
+	
+	    // 선택된 행 데이터 추출
+	    selectedRows.forEach(checkbox => {
+	        let row = checkbox.closest("tr"); // 체크박스가 포함된 행 가져오기
+	        let rowData = [];
+	
+	        row.querySelectorAll("td").forEach((td, index) => {
+	            if (index > 0) { // 체크박스 컬럼 제외
+	                let cellText = td.textContent.trim();
+	
+	                // 총금액처럼 쉼표가 포함된 숫자는 숫자로 변환
+	                if (cellText.includes(",")) {
+	                    cellText = cellText.replace(/,/g, ""); // 쉼표 제거
+	                }
+	
+	                rowData.push(cellText);
+	            }
+	        });
+	
+	        data.push(rowData); // 데이터 행 추가
+	    });
+	
+	    // 워크북하고 시트
+	    let ws = XLSX.utils.aoa_to_sheet(data); // 배열을 엑셀 시트로 변환
+	    let wb = XLSX.utils.book_new(); // 새 엑셀 파일 생성
+	    XLSX.utils.book_append_sheet(wb, ws, "Purchase Data"); // 워크북에 시트 추가
+	
+	    // 엑셀 파일 다운로드
+	    XLSX.writeFile(wb, "purchase_data.xlsx");
+	}
+
+
+    function printSelectedRows() {
+        let selectedRows = document.querySelectorAll(".selectRow:checked"); // 체크된 항목 가져오기
+
+        if (selectedRows.length === 0) { // 선택된 항목이 없을 경우 경고창 표시
+            alert("인쇄할 항목을 선택하세요.");
+            return;
+        }
+
+        let printWindow = window.open("", "", "width=800,height=600"); // 새로운 창 열기 (인쇄용)
+        printWindow.document.write("<html><head><title>인쇄</title>"); // 새로운 HTML 문서 작성 시작
+        printWindow.document.write("<link href='../css/list.css' rel='stylesheet' media='print'>"); // 외부 CSS 연결
+        // 외부 CSS 걸어줬더니 인쇄는 제대로 나오는데 인쇄 미리보기는 제대로 안나옴
+
+        
+        printWindow.document.write("</head><body>");
+
+        printWindow.document.write("<table style='border-collapse: collapse; border: 1px solid #777; font-size: 12px;'><tr style='border: 1px solid #777;'>"); // 테이블 시작
+        let headers = document.querySelectorAll("#purchaseTable th"); // 원본 테이블 헤더 가져오기
+        headers.forEach(th => {
+            printWindow.document.write("<th style='border: 1px solid #777;'>" + th.innerText + "</th>"); // 헤더 추가
+        });
+        printWindow.document.write("</tr>");
+
+        selectedRows.forEach(checkbox => {
+            let row = checkbox.parentNode.parentNode; // 체크박스가 포함된 행 가져오기
+            printWindow.document.write("<tr style='border: 1px solid #777;'>");
+            row.querySelectorAll("td").forEach(td => {
+                printWindow.document.write("<td style='border: 1px solid #777;'>" + td.innerText + "</td>"); // 각 열 데이터 추가
+            });
+            printWindow.document.write("</tr>");
+        });
+
+        printWindow.document.write("</table></body></html>"); // 테이블 종료 및 HTML 문서 닫기
+        printWindow.document.close();
+
+        // 새 창이 로드된 후 인쇄 실행
+        printWindow.addEventListener('load', function() {
+            printWindow.print();
+        });
+    }
+</script>
+
 </head>
 
 <body id="page-top">
@@ -151,30 +146,36 @@
         <div id="content">
             <%@ include file="../header1.jsp" %>
 
-            <div class="wrapper">
-                <div class="header">
+            <div class="list-wrapper">
+                <div class="list-header">
                     <div>
-                        <div class="submenu">물류 관리 > 입고 예정 리스트</div>
-                        <div class="title">
+                        <div class="list-submenu">물류 관리 > 입고 예정 리스트</div>
+                        <div class="list-title">
                             <div></div>
                             <h1>입고 예정 리스트</h1>
                         </div>
                     </div>
-                    <div class="buttons">
+                    <div class="list-buttons">
+                    	<!-- 엑셀 다운로드 및 인쇄 기능 -->	
+                        <button class="list-full-button" onclick="exportToExcel()">
+                            <i class="fa-solid fa-file-excel"></i> 엑셀 선택 다운로드
+                        </button>
+                    
                         <a href="/excel/purchaseDetailPlanExcel?startDate=${param.startDate}&endDate=${param.endDate}&client_name=${param.client_name}&req_delivery_date=${param.req_delivery_date}">
-                            <button class="full-button">
-                                <i class="fa-solid fa-file-excel"></i> 엑셀 다운로드
+                            <button class="list-full-button">
+                                <i class="fa-solid fa-file-excel"></i> 엑셀 전체 다운로드
                             </button>
                         </a>
-                        <button id="printSelection" class="full-button">
+                        
+                        <button id="printSelection" class="list-full-button" onclick="printSelectedRows()">
                             <i class="fa-solid fa-print"></i> 인쇄
                         </button>
                     </div>
                 </div>
-                <div class="header2">
+                <div class="list-header2">
                     <div></div>
                     <!-- 검색영역을 .search-filters 로 감싸기 -->
-                    <div class="search-filters">
+                    <div class="list-search-filters">
                         <form action="listPurchaseDetailPlan" method="get"
                               style="display: flex; gap: 10px; align-items: center;">
 
@@ -195,21 +196,22 @@
 							<input type="date" id="req_delivery_date" name="req_delivery_date"  value="${searchKeyword.req_delivery_date}"/>
 
                             <!-- 검색 버튼 -->
-                            <button type="submit" class="gray-button">조회</button>
+                            <button type="submit" class="list-gray-button">조회</button>
                         </form>
                     </div>
                 </div>
 
-                <%-- <c:set var="num" value="${page.total-page.start+1 }"></c:set> --%>
-                <c:set var="num" value="${page.start}"/>
+                <c:set var="num" value="${page.total-page.start+1 }"></c:set>
+                <%-- <c:set var="num" value="${page.start}"/> --%>
 
-                <table class="table">
+                <table class="list-table" id="purchaseTable">
                     <thead>
-                    <tr><th >NO</th><th>매입일자</th><th>거래처명</th><th>발주 담당자</th><th>상품수</th><th>총수량</th><th>총금액</th><th>처리상태</th><th>요청배송일</th></tr>
+                    <tr><th><input type="checkbox" id="selectAll"></th><th>NO</th><th>매입일자</th><th>거래처명</th><th>발주 담당자</th><th>상품수</th><th>총수량</th><th>총금액</th><th>처리상태</th><th>요청배송일</th></tr>
                     </thead>
                     <tbody>
                     <c:forEach var="purchase_details" items="${listPurchaseDetailPlan}">
 						<tr>
+							<td><input type="checkbox" class="selectRow"></td>
 							<td>${num}</td>
 							<td>${purchase_details.purchase_date}</td>
 									<!-- 다른점: 6. 페이지 이동 -->
@@ -221,7 +223,7 @@
 							<td>${purchase_details.status}</td>
 							<td>${purchase_details.req_delivery_date.substring(0,10)}</td>
 						</tr>
-						<c:set var="num" value="${num + 1}"></c:set>
+						<c:set var="num" value="${num - 1}"></c:set>
 					</c:forEach>
                     </tbody>
                 </table>

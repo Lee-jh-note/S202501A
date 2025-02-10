@@ -15,37 +15,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PurchaseDaoImpl implements PurchaseDao {
 	private final SqlSession session;
-
-	// PurchaseServiceImpl totalPurchase- 발주 총 갯수
-	@Override
-	public int totalPurchase() {
-		int totPurchaseCnt = 0;
-		System.out.println("PurchaseDaoImpl totalPurchase start,,");
-		try {
-			totPurchaseCnt = session.selectOne("yjPurchaseTotal");
-			System.out.println("PurchaseDaoImpl totalPurchase totPurchaseCnt->"+totPurchaseCnt);
-		} catch (Exception e) {
-			System.out.println("PurchaseDaoImpl totalPurchase e.getMessage()->"+e.getMessage());
-		}
-		
-		return totPurchaseCnt;
-	}
-
-	// PurchaseServiceImpl listPurchase- 발주 조회 리스트
-	@Override
-	public List<Purchase> listPurchase(Purchase purchase) {
-		List<Purchase> listPurchases = null;
-		System.out.println("PurchaseDaoImpl listPurchase start,,");
-		try {
-			// 									MapperId- 내이름 붙여서 , 파라미터 - 안되면 다 붙이기
-			listPurchases = session.selectList("org.oracle.s202501a.mapper.PurchaseMapper.yjListPurchase", purchase);
-			System.out.println("ddddddddddddddddd"+purchase);
-			System.out.println("PurchaseDaoImpl listPurchase listPurchases.size()->"+listPurchases.size());
-		} catch (Exception e) {
-			System.out.println("PurchaseDaoImpl listPurchase e.getMessage()->"+e.getMessage());
-		}
-		return listPurchases;
-	}
 	
 	// PurchaseServiceImpl searchTotalPurchase- 발주 검색 총 갯수
 	@Override
