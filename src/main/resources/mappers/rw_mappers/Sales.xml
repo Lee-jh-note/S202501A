@@ -4,150 +4,184 @@
 
 <mapper namespace="org.oracle.s202501a.mapper.SalesMapper">
 
-    <!-- 등록 -->
-    <!-- 수주 등록 -->
-    <insert id="createSales">
-        INSERT INTO SALES (sales_Date, client_No, title, emp_No, status, req_Delivery_Date, remarks)
-        VALUES (#{sales_Date}, #{client_No}, #{title}, #{emp_No}, '대기', #{req_Delivery_Date}, #{remarks})
-    </insert>
-
-    <!-- 수주 품목 등록 -->
-    <insert id="insertSalesProduct">
-        INSERT INTO SALES_DETAIL (sales_Date, client_No, product_No, quantity, price, emp_No)
-		VALUES (#{sales_Date}, #{client_No}, #{product_No}, #{quantity}, #{price}, #{emp_No})
-    </insert>
-    
-    <select id="salesProductPrice" parameterType="int" resultType="int">
-         SELECT NVL(p.price, 0)
-         FROM PRODUCT p
-         JOIN PRICE_HISTORY ph on p.product_no = ph.product_no
-         WHERE p.product_no = #{product_no}
-             AND ph.sale_or_purchase = 1
-             AND to_date = '99/12/31'
-    </select>
-    
-	<!-- 거래처 번호 → 거래처 이름 -->
-	<select id="getClientNameByNo" resultType="string" parameterType="int">
-	    SELECT client_Name FROM CLIENTS WHERE client_No = #{client_No}
+	<!-- 등록 -->
+	<!-- 수주 정보 등록 (상태 status 는 기본값 0)  -->
+	<insert id="createSales" parameterType="org.oracle.s202501a.dto.rw_dto.Sales">
+	    INSERT INTO SALES (sales_date, client_no, title, emp_no, req_delivery_date, remarks)
+	    VALUES (#{sales_date}, #{client_no}, #{title}, #{emp_no}, #{req_delivery_date}, #{remarks})
+	</insert>
+	   
+	<!-- 수주 제품 등록 emp_no 포함??? 에러남 참조무결성제약조건 오류 insert시 제외하고 출고시점에 업뎃  --> 				
+	<insert id="createSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetails">
+		INSERT INTO SALES_DETAILS (sales_date, client_no, product_no, quantity, price)
+		VALUES (#{sales_date}, #{client_no}, #{product_no}, #{quantity}, #{price})
+	</insert> 
+	   
+	<!-- 거래처 목록 조회 (드롭다운)  -->
+	<select id="getClientList" resultType="org.oracle.s202501a.dto.rw_dto.SalesAll">
+	    SELECT client_no, client_name FROM CLIENTS
+	</select>
+	   
+	<!-- 제품 목록 조회 (드롭다운)  --> 
+	<select id="getProductList" resultType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll">
+	    SELECT product_no, product_name FROM PRODUCT 
+	</select>
+	   
+	<!-- 담당자 목록 조회 (드롭다운) 임시용/세션에서 불러올건데 그전까지만 사용예정  -->
+	<select id="getEmpList" resultType="org.oracle.s202501a.dto.rw_dto.SalesAll">
+	    SELECT emp_no, emp_name FROM EMP 
+	    WHERE dept_no = 10
+	</select>
+	 
+	<!-- 제품 선택 시 단가 자동설정 (가격관리 테이블 PRICE_HISTORY 의 sale_or_purchase 컬럼의 매출가 1만 가져옴)  --> 
+	<select id="getProductPrice" resultType="int"> 
+		 SELECT NVL(ph.price, 0)
+		 FROM PRODUCT p
+		 JOIN PRICE_HISTORY ph ON p.product_no = ph.product_no
+		 WHERE p.product_no = #{product_no}
+		     AND ph.sale_or_purchase = 1
+		     AND ph.to_date = '99/12/31'
+	</select>
+		
+	<!-- 중복 확인 (같은 날짜, 같은 거래처) -->
+	<select id="checkDuplicateSales" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM SALES 
+	    WHERE client_no = #{client_no} 
+    AND TO_DATE(sales_date, 'YYYY-MM-DD') = TO_DATE(#{sales_date}, 'YYYY-MM-DD')
+	</select>
+		
+		
+		<!-- 조회 -->
+	<!-- 전체 수주 수 조회 -->
+	<select id="totalSales" parameterType="org.oracle.s202501a.dto.rw_dto.SalesAll" resultType="int">
+	       SELECT COUNT(DISTINCT s.sales_date || '_' || s.client_no)
+		    FROM SALES s
+		    LEFT JOIN CLIENTS c ON s.client_no = c.client_no
+		    LEFT JOIN SALES_DETAILS sd ON s.sales_date = sd.sales_date AND s.client_no = sd.client_no
+		    LEFT JOIN EMP e ON s.emp_no = e.emp_no		    
+		    WHERE 1=1 
+	    <!-- 기간(매출일자) 검색 -->
+	    <if test="startDate != null and startDate.trim() != ''">
+	        AND s.sales_date >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+	    </if>
+	    <if test="endDate != null and endDate.trim() != ''">
+	        AND s.sales_date &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+	    </if>
+	    <!-- 거래처명 검색 -->
+	    <if test="client_name != null and client_name.trim() != ''">
+	        AND LOWER(c.client_name) LIKE LOWER('%' || #{client_name} || '%')
+	    </if> 
+	    <!-- 처리상태 검색 -->
+	    <if test="status != null and status.trim() != ''">
+	        AND s.status = #{status}
+	    </if>
 	</select>
 	
-	<!-- 품목 번호 → 품목 이름 -->
-	<select id="getProductNameByNo" resultType="string" parameterType="int">
-	    SELECT product_Name FROM PRODUCT WHERE product_No = #{product_No}
+	<!-- 수주 목록 조회 -->
+	<select id="listSales" parameterType="org.oracle.s202501a.dto.rw_dto.SalesAll" resultType="org.oracle.s202501a.dto.rw_dto.SalesAll">
+		 SELECT * FROM (
+		    SELECT ROW_NUMBER() OVER (ORDER BY s.sales_date DESC) AS rn, 
+		           s.sales_date, c.client_no, 
+		           MIN(s.title) AS title, 
+		           MIN(c.client_name) AS client_name, 
+		           MIN(e.emp_name) AS emp_name,
+		           COUNT(sd.product_no) AS count, 
+		           SUM(NVL(sd.quantity, 0)) AS totalQuantity, 
+		           SUM(NVL(sd.price, 0) * NVL(sd.quantity, 0)) AS totalPrice, 
+		           TO_CHAR(MIN(s.req_delivery_date), 'YYYY-MM-DD') AS req_delivery_date, 
+		           MIN(CASE s.status 
+		                   WHEN 0 THEN '대기'
+		                   WHEN 1 THEN '부분출고'
+		                   WHEN 2 THEN '출고'
+		                   ELSE '알 수 없음'
+		               END) AS status 
+		    FROM SALES s
+		    LEFT JOIN CLIENTS c ON s.client_no = c.client_no
+		    LEFT JOIN SALES_DETAILS sd ON s.sales_date = sd.sales_date AND s.client_no = sd.client_no
+		    LEFT JOIN EMP e ON s.emp_no = e.emp_no		    
+		    WHERE 1=1 
+	    <!-- 기간(매출일자) 검색 -->
+	    <if test="startDate != null and startDate.trim() != ''">
+	        AND s.sales_date >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+	    </if>
+	    <if test="endDate != null and endDate.trim() != ''">
+	        AND s.sales_date &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+	    </if>
+	    <!-- 거래처명 검색 -->
+	    <if test="client_name != null and client_name.trim() != ''">
+	        AND LOWER(c.client_name) LIKE LOWER('%' || #{client_name} || '%')
+	    </if> 
+	    <!-- 처리상태 검색 -->
+	    <if test="status != null and status.trim() != ''">
+	         AND s.status = #{status}
+	    </if>
+	         GROUP BY s.sales_date, c.client_no, s.status
+	       ) 
+	       WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	    
+	 <!-- 수주 상세조회 -->
+	<select id="infoSales" parameterType="org.oracle.s202501a.dto.rw_dto.SalesAll" resultType="org.oracle.s202501a.dto.rw_dto.SalesAll">
+	    SELECT 
+	        s.title, s.sales_date, e.emp_name, c.client_name, s.remarks, c.client_no,
+	    	TO_CHAR(s.req_delivery_date, 'YYYY-MM-DD') AS req_delivery_date,
+	    	s.status -- 처리상태 0(대기)일때만 수정,삭제 버튼 보이게하기위해
+	    FROM SALES s
+	    LEFT JOIN CLIENTS c ON s.client_no = c.client_no
+	    LEFT JOIN EMP e ON s.emp_no = e.emp_no
+	    WHERE s.sales_date = #{sales_date} AND s.client_no = #{client_no}
 	</select>
 	
-	<!-- 담당자 번호 → 담당자 이름 -->
-	<select id="getEmpNameByNo" resultType="string" parameterType="int">
-	    SELECT emp_Name FROM EMP WHERE emp_No = #{emp_No}
-	</select>
-
-    <!-- 조회 -->
-    <!-- 전체 수주 수 조회 -->
-    <select id="totalSales" parameterType="SalesAll" resultType="int">
-        SELECT COUNT(*)
-        FROM SALES s
-        LEFT JOIN CLIENTS c ON s.client_no = c.client_no
-        WHERE 1=1
-        <if test="startDate != null and startDate != ''"> AND s.sales_date >= #{startDate} </if>
-        <if test="endDate != null and endDate != ''"> AND s.sales_date &lt;= #{endDate} </if>
-        <if test="client_Name != null and client_Name != ''"> 
-            AND LOWER(c.client_name) LIKE LOWER('%' || #{client_Name} || '%') 
-        </if>
-        <if test="status != null and status != ''"> AND s.status = #{status} </if>	
-    </select>
-
-    <!-- 수주 목록 조회 -->
-    <select id="listSales" parameterType="SalesAll"
-        resultType="org.oracle.s202501a.dto.rw_dto.SalesAll">
-        SELECT * FROM (
-            SELECT ROW_NUMBER() OVER (ORDER BY s.sales_date DESC) AS rn, s.sales_date, 
-                   c.client_no, MIN(s.title) AS title, MIN(c.client_name) AS client_name, 
-                   MIN(e.emp_name) AS emp_name,
-                   COUNT(NVL(sd.product_no, 0)) AS count, -- 상품 개수
-                   SUM(NVL(sd.quantity, 0)) AS totalQuantity, -- 총수량
-                   SUM(NVL(sd.price, 0) * NVL(sd.quantity, 0)) AS totalPrice, -- 총금액
-                   TO_CHAR(MIN(s.req_delivery_date), 'YYYY-MM-DD') AS req_Delivery_Date, -- 요청배송일 (시간 제거)
-                   CASE 
-                       WHEN MIN(s.status) = 0 THEN '대기'
-                       WHEN MIN(s.status) = 1 THEN '부분출고'
-                       WHEN MIN(s.status) = 2 THEN '완료'
-                       ELSE '알 수 없음'
-                   END AS status -- 상태 값 변환
-            FROM sales s
-            LEFT JOIN clients c ON s.client_no = c.client_no
-            LEFT JOIN emp e ON s.emp_no = e.emp_no
-            LEFT JOIN sales_details sd ON s.sales_date = sd.sales_date AND s.client_no = sd.client_no
-            WHERE 1=1
-            <if test="startDate != null and startDate != ''"> AND s.sales_date >= #{startDate} </if>
-            <if test="endDate != null and endDate != ''"> AND s.sales_date &lt;= #{endDate} </if>
-            <if test="client_Name != null and client_Name != ''"> 
-                AND LOWER(c.client_name) LIKE LOWER('%' || #{client_Name} || '%') 
-            </if> 
-            <if test="status != null and status != ''"> AND s.status = #{status} </if>
-            GROUP BY s.sales_date, c.client_no
-        ) WHERE rn BETWEEN #{start} AND #{end}
-    </select>
-
-    <!-- 거래처 목록 조회 -->
-    <select id="getClientList" resultType="org.oracle.s202501a.dto.rw_dto.SalesAll">
-        SELECT client_No, client_Name FROM CLIENTS
-    </select>
-
-    <!-- 품목 목록 조회 -->
-    <select id="getProductList" resultType="org.oracle.s202501a.dto.rw_dto.SalesProduct">
-        SELECT 
-            p.product_No, p.product_Name, sd.price 
-        FROM PRODUCT p
-        JOIN sales_details sd
-        ON p.product_No = sd.product_No
-    </select>
-
-    <!-- 상세조회 -->
-    <!-- 수주 상세 조회 -->
-    <select id="infoSales" parameterType="map" resultType="org.oracle.s202501a.dto.rw_dto.SalesAll">
-        SELECT
-            s.client_no, s.title, s.sales_date, TO_CHAR(s.req_delivery_date, 'YYYY-MM-DD') AS req_Delivery_Date,
-            e.emp_name, c.client_name, s.remarks,
-            p.product_name, sd.price, sd.quantity,
-            (sd.quantity * sd.price) AS totalPrice
-        FROM SALES s
-        LEFT JOIN CLIENTS c ON s.client_no = c.client_no
-        LEFT JOIN EMP e ON s.emp_no = e.emp_no
-        LEFT JOIN SALES_DETAILS sd ON s.sales_date = sd.sales_date AND s.client_no = sd.client_no
-        LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
-        WHERE s.sales_date = #{sales_Date} AND s.client_no = #{client_No}
-    </select>
-
-    <!-- 제품 상세 조회 -->
-    <select id="getSalesProduct" parameterType="map" resultType="org.oracle.s202501a.dto.rw_dto.SalesAll">
-        SELECT
-            sd.sales_Date, sd.client_no, p.product_no, p.product_name, sd.price, sd.quantity,
-            (sd.quantity * sd.price) AS totalPrice
-        FROM SALES_DETAILS sd
-        LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
-        WHERE sd.sales_date = #{sales_Date} AND sd.client_no = #{client_No}
-    </select>
-
-    <!-- 수정 -->
-    <!-- 수주 정보 수정 (처리 상태가 '대기'인 경우만 가능)-->
-    <update id="updateSales" parameterType="SalesAll">
-        UPDATE SALES
-        SET req_delivery_date = TO_DATE(#{req_Delivery_Date}, 'YYYY-MM-DD'),
-            remarks = #{remarks}
-        WHERE sales_date = #{sales_Date} 
-          AND client_no = #{client_No}
-          AND status = 0 -- 대기 상태일 때만 수정 가능
-    </update>
-
-    <!-- 삭제 -->
-    <!-- 수주 삭제 (처리 상태가 '대기'인 경우만 가능) 등록 정상화되면 삭제쿼리 재검토 후 코드 주석풀고 수정하기-->
-    <!--
-    <delete id="deleteSalesDetail" parameterType="map">
-        DELETE FROM SALES_DETAILS 
-        WHERE sales_date = #{sales_Date} AND client_no = #{client_No}AND status = 0;
-        DELETE FROM SALES 
-        WHERE sales_date = #{sales_Date} AND client_no = #{client_No} AND status = 0;
-    </delete>
-    -->
-
+	<!-- 수주 품목 상세조회 -->
+	<select id="infoSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll" resultType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll">
+	        SELECT
+	            p.product_name, sd.price, sd.quantity,
+	            (sd.quantity * sd.price) AS totalPrice
+	        FROM SALES_DETAILS sd
+	        LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
+	        WHERE sd.sales_date = #{sales_date} AND sd.client_no = #{client_no}
+	</select>    
+	
+	    
+	<!-- 
+	    수정
+	    수주 정보 수정 (처리 상태가 '대기'인 경우만 가능)???
+	    <update id="updateSales" parameterType="org.oracle.s202501a.dto.rw_dto.SalesAll">
+	        UPDATE SALES
+	        SET title = #{title}, 
+	        	req_delivery_date = TO_DATE(#{req_delivery_date}, 'YYYY-MM-DD'),
+	            remarks = #{remarks}
+	        WHERE sales_date = #{sales_date} 
+	          AND client_no = #{client_no}
+	          AND status = 0 
+	    </update>
+	 -->
+	 
+	<update id="updateSales" parameterType="org.oracle.s202501a.dto.rw_dto.SalesAll">
+	    UPDATE SALES
+	    SET title = #{title},
+	        req_delivery_date = #{req_delivery_date},
+	        remarks = #{remarks}
+	    WHERE sales_date = #{sales_date} AND client_no = #{client_no}
+	</update>
+	 
+	
+	<!-- 수주 품목 삭제 (처리 상태가 '대기'인 경우만 가능)  -->
+	<delete id="deleteSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetails">
+	    DELETE FROM SALES_DETAILS 
+	    WHERE sales_date = #{sales_date} 
+	    AND client_no = #{client_no}
+	    AND status = 0
+	</delete>
+	
+	<!-- 수주 정보 삭제 (처리 상태가 '대기'인 경우만 가능) 품목 삭제 후 정보 삭제 -->
+	<delete id="deleteSales" parameterType="org.oracle.s202501a.dto.rw_dto.SalesAll">
+	DELETE FROM SALES 
+	     WHERE sales_date = #{sales_date} 
+	     AND client_no = #{client_no} 
+	     AND status = 0
+	</delete>
+         
+        
 </mapper>

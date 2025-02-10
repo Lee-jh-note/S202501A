@@ -1,24 +1,19 @@
 package org.oracle.s202501a.controller.rw_controller;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.oracle.s202501a.dto.rw_dto.Sales;
 import org.oracle.s202501a.dto.rw_dto.SalesAll;
-import org.oracle.s202501a.dto.rw_dto.SalesProduct;
+import org.oracle.s202501a.dto.rw_dto.SalesDetailsAll;
 import org.oracle.s202501a.service.rw_service.Paging;
 import org.oracle.s202501a.service.rw_service.SalesService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,208 +28,241 @@ public class SalesController {
 
 	private final SalesService salesService;
 
-	// ============================================
-	// 수주(Sales) 등록(Create)
-	// ============================================
+	// =============================================================
+	//                             등록
+	// =============================================================
 
-	// 수주서 등록 페이지로 이동 (거래처&제품 목록 제공)
+	// 수주 등록 페이지로 이동 (거래처 목록 & 제품 목록 & 담당자 목록(임시) 조회)
 	@GetMapping("/createSales")
 	public String createSalesPage(Model model) {
 		System.out.println("SalesController createSalesPage Start...");
 
 		// 거래처 목록 조회(드롭다운)
 		List<SalesAll> clientList = salesService.getClientList();
-		// 제품 목록 조회(드롭다운)
-		List<SalesProduct> productList = salesService.getProductList();
-
 		log.debug("조회된 거래처 목록: {}", clientList);
+		// 제품 목록 조회(드롭다운)
+		List<SalesDetailsAll> productList = salesService.getProductList();
 		log.debug("조회된 제품 목록: {}", productList);
+		// 담당자 목록 조회(드롭다운) - 임시용
+		List<SalesAll> empList = salesService.getEmpList();
+		log.debug("조회된 담당자 목록: {}", empList);
 
 		// 조회된 데이터 모델에 추가
 		model.addAttribute("clientList", clientList);
 		model.addAttribute("productList", productList);
+		model.addAttribute("empList", empList);
 
-		// 수주서 등록 페이지로 이동
+		// 수주 등록 페이지로 이동
 		return "rw_views/createSales";
 	}
-	
-	   // 품목 선택 시 단가 자동 설정
-	   @ResponseBody
-	   @RequestMapping(value = "getProductPrice")
-	   public int getProductPrice(SalesAll sales, Model model) {
-	      System.out.println("SalesController getPrice product_no->"+sales.getProduct_No());
-	      int productPrice = salesService.productPrice(sales.getProduct_No());
-	      System.out.println("SalesController getPrice productPrice->"+productPrice);
-	      return productPrice;
-	   }
 
-	// 수주서 등록 처리 (AJAX 요청)
+	
+	// 수주 등록 (수주 정보 & 품목 정보) - AJAX 요청
+	@ResponseBody
 	@PostMapping("/createSales")
-	public ResponseEntity<Map<String, Object>> createSales(@RequestBody SalesAll sales) {
+	public Map<String, Object> createSales(@RequestBody SalesAll sales) {
+		System.out.println("SalesController createSales Start...");
+
 		log.info("수주 등록 요청: {}", sales);
 
-		Map<String, Object> response = new HashMap<>();
+		Map<String, Object> resultMap  = new HashMap<>();
 
 		try {
-			// 매출일자 오늘 날짜로 자동 설정
-//	        sales.setSales_Date(LocalDate.now().toString());
-
-			// 수주 기본 정보 저장(수주서 상단)
+			// 수주 정보 + 품목 등록
 			int result = salesService.createSales(sales);
 
-			if (result > 0 && sales.getProductList() != null) {
-				// 수주 품목 정보 저장(수주서 하단)
-				for (SalesProduct product : sales.getProductList()) {
-					product.setSales_Date(sales.getSales_Date()); // 매출일자 연결
-					product.setClient_No(sales.getClient_No()); // 거래처번호 연결
-					salesService.insertSalesProduct(product); // 개별 품목 저장
-				}
-			}
-			// 성공 응답 메시지
-			response.put("status", "success");
-			response.put("message", "수주서 등록 완료");
-
-		} catch (Exception e) {
-			log.error("수주 등록 오류: {}", e.getMessage(), e);
-			// 실패 응답 메시지
-			response.put("status", "fail");
-			response.put("message", "수주서 등록 실패");
-		}
+	        // 응답 메시지
+	        if (result > 0) {
+	            resultMap.put("status", "success");
+	            resultMap.put("message", "수주서 등록 완료");
+	        } else {
+	            resultMap.put("status", "fail");
+	            resultMap.put("message", "수주서 등록 실패");
+	        }
+	    } catch (Exception e) {
+	        log.error("수주 등록 오류: {}", e.getMessage(), e);
+	        resultMap.put("status", "fail");
+	        resultMap.put("message", "수주서 등록 중 오류 발생");
+	    }
+		
 		// JSON 응답 반환
-		return ResponseEntity.ok(response);
+		return resultMap;
 	}
 
-	// ============================================
-	// 수주 목록 조회 (조회 기능)
-	// ============================================
-
-	// 수주 목록 조회 (검색 포함)
-	@RequestMapping(value = "listSales")
-	public String listSales(SalesAll sales, Model model) {
-		log.info("listSales 조회 요청: {}", sales);
-
-		// 오늘 날짜 기본값 설정
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String today = sdf.format(new Date());
-
-		if (sales.getStartDate() == null || sales.getStartDate().trim().isEmpty()) {
-			sales.setStartDate(today);
-		}
-		if (sales.getEndDate() == null || sales.getEndDate().trim().isEmpty()) {
-			sales.setEndDate(today);
-		}
-
-		log.debug("조회기간: {} ~ {}", sales.getStartDate(), sales.getEndDate());
-		log.debug("거래처명: {}", sales.getClient_Name());
-		log.debug("처리상태: {}", sales.getStatus());
-
-		// 전체 데이터 개수 조회
-		int totalSales = salesService.totalSales(sales);
-
-		// 페이징 처리
-		Paging page = new Paging(totalSales, sales.getCurrentPage());
-		sales.setStart(page.getStart());
-		sales.setEnd(page.getEnd());
-
-		log.debug("Paging 설정: start={}, end={}", sales.getStart(), sales.getEnd());
-
-		// 수주 목록 조회
-		List<SalesAll> listSales = salesService.listSales(sales);
-		log.info("조회된 수주 개수: {}", listSales.size());
-
-		model.addAttribute("totalSales", totalSales);
-		model.addAttribute("listSales", listSales);
-		model.addAttribute("page", page);
-		model.addAttribute("sales", sales);
-
-		return "rw_views/listSales";
-	}
-
-	// ============================================
-	// 수주 상세 조회 (상세조회 기능)
-	// ============================================
-
-	// 수주 상세 조회
-	@GetMapping("/infoSales")
-	public String infoSales(@RequestParam("sales_Date") String sales_Date, @RequestParam("client_No") int client_No,
-			Model model) {
-		log.info("infoSales 조회 시작: sales_Date={}, client_No={}", sales_Date, client_No);
-
-		SalesAll infoSales = salesService.getInfoSales(sales_Date, client_No);
-		List<SalesProduct> salesProduct = salesService.getSalesProduct(sales_Date, client_No);
-
-		if (infoSales == null) {
-			log.warn("infoSales 데이터 없음!");
-		}
-		if (salesProduct == null || salesProduct.isEmpty()) {
-			log.warn("salesProduct 데이터 없음!");
-		}
-
-		model.addAttribute("infoSales", infoSales);
-		model.addAttribute("SalesProduct", salesProduct);
-
-		return "rw_views/infoSales";
-	}
-
-	// ============================================
-	// 수주 수정 (수정 기능)
-	// ============================================
-
-	// 수주 수정 페이지 이동
-	@GetMapping("/updateSales")
-	public String updateSalesPage(@RequestParam("sales_Date") String sales_Date,
-			@RequestParam("client_No") int client_No, Model model) {
-		log.info("updateSales 페이지 진입: sales_Date={}, client_No={}", sales_Date, client_No);
-
-		SalesAll infoSales = salesService.getInfoSales(sales_Date, client_No);
-		List<SalesProduct> salesProduct = salesService.getSalesProduct(sales_Date, client_No);
-
-		log.debug("조회된 infoSales: {}", infoSales);
-		log.debug("조회된 salesProduct: {}", salesProduct);
-
-		model.addAttribute("infoSales", infoSales);
-		model.addAttribute("salesProduct", salesProduct);
-
-		return "rw_views/updateSales";
-	}
-
-	// 수주 수정 처리
-	@PostMapping("/updateSales")
+	// 제품 선택 시 단가 자동설정
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> updateSales(@RequestBody SalesAll sales) {
+	@GetMapping("/getProductPrice")
+	public int getProductPrice(@RequestParam("product_no") int product_no) {
+		System.out.println("SalesController getProductPrice Start...");
+
+		log.info("선택한 제품번호: product_no={}", product_no);
+		
+		int productPrice = salesService.getProductPrice(product_no);
+		
+		log.info("조회된 제품 단가: {}", productPrice);
+		return productPrice;
+	}
+	
+	// 중복확인 (sales_date와 client_no 비교해서 같은 날짜에 같은 거래처 수주가 없는지 수주 등록 전 미리 확인)
+	@ResponseBody 
+	@GetMapping("/checkDuplicateSales")
+    public Map<String, Boolean> checkDuplicateSales(@RequestParam("client_no") String client_no, 
+    												@RequestParam("sales_date") String sales_date) {
+    	System.out.println("SalesController checkDuplicateSales Start...");
+        
+        log.debug("중복 체크 요청: client_no={}, sales_date={}", client_no, sales_date);
+
+        boolean isDuplicate = salesService.checkDuplicateSales(client_no, sales_date);
+        
+        log.info("중복 여부 확인: {}", isDuplicate);
+
+        // 결과 반환
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("isDuplicate", isDuplicate); // JSON 응답
+        
+        log.info("중복 확인 결과: {}", isDuplicate);
+        
+        return result;
+    }
+    
+
+	// =============================================================
+	//                             조회
+	// =============================================================
+	
+    // 수주 목록 조회 (검색 조건 적용)
+    @GetMapping("/listSales")
+    public String listSales(SalesAll sales, Model model) {
+    	System.out.println("SalesController listSales Start...");
+    	
+        log.info("수주 목록 조회 요청: {}", sales);
+
+        // 서비스에서 페이징 포함된 리스트 가져오기 (totalSales 값도 설정됨)
+        List<SalesAll> listSales = salesService.listSales(sales);
+        log.info("수주 목록 개수: {}", listSales.size());
+
+        // totalSales를 sales에서 가져와서 사용
+        Paging page = new Paging(sales.getCount(), sales.getCurrentPage());
+
+        // 모델에 데이터 추가
+        model.addAttribute("listSales", listSales);
+        model.addAttribute("page", page); // 페이징 정보 추가
+        model.addAttribute("params", sales); // 검색 조건 유지
+
+        return "rw_views/listSales";
+    }
+	
+
+	// 수주 상세 조회 (수주 정보 + 수주 품목 상세)
+	@GetMapping("/infoSales")
+	public String infoSales(SalesAll sales, Model model) {
+		System.out.println("SalesController infoSales Start...");
+
+        log.info("수주 상세조회 요청: {}", sales);
+
+        // 서비스에서 수주 상세 정보 가져오기
+	    SalesAll infoSales = salesService.infoSales(sales);
+
+        // 서비스에서 수주 품목 목록 가져오기
+	    List<SalesDetailsAll> infoSalesDetails = salesService.infoSalesDetails(sales);
+
+	    // 모델에 데이터 추가
+	    model.addAttribute("infoSales", infoSales);
+	    model.addAttribute("infoSalesDetails", infoSalesDetails);
+
+	    return "rw_views/infoSales";
+	}
+
+	// =============================================================
+	//                             수정
+	// =============================================================		
+	
+	// 수주 수정 페이지 이동 (처리 상태가 '대기'인 경우만 가능)
+    @GetMapping("/updateSales")
+    public String updateSalesPage(SalesAll sales, Model model) {
+        log.info("updateSales 페이지 이동: {}", sales);
+
+        // 수주 기본 정보 조회
+        SalesAll infoSales = salesService.infoSales(sales);
+        log.debug("조회된 infoSales: {}", infoSales);
+
+        // 수주 상세 정보 조회
+        List<SalesDetailsAll> infoSalesDetails = salesService.infoSalesDetails(sales);
+        log.debug("조회된 infoSalesDetails: {}", infoSalesDetails);
+        
+		// 제품 목록 조회(드롭다운)
+		List<SalesDetailsAll> productList = salesService.getProductList();
+		log.debug("조회된 제품 목록: {}", productList);
+
+        // 모델에 데이터 추가        
+        model.addAttribute("infoSales", infoSales);
+        model.addAttribute("infoSalesDetails", infoSalesDetails);
+		model.addAttribute("productList", productList);
+
+        return "rw_views/updateSales";
+    }
+
+	// 수주 정보 수정 (처리 상태가 '대기'인 경우만 가능)
+	@ResponseBody
+	@PostMapping("/updateSales")
+	public Map<String, Object> updateSales(@RequestBody SalesAll sales) {
+		System.out.println("SalesController updateSales Start...");
+
 		log.info("수주 수정 요청: {}", sales);
 
-		Map<String, Object> response = new HashMap<>();
-		int updateResult = salesService.updateSales(sales);
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    try {
+	        int updateResult = salesService.updateSales(sales);
 
-		if (updateResult > 0) {
-			response.put("status", "success");
-			response.put("message", "수주 수정 성공");
-		} else {
-			response.put("status", "fail");
-			response.put("message", "수주 수정 실패");
-		}
+	        if (updateResult > 0) {
+	            resultMap.put("status", "success");
+	            resultMap.put("message", "수주 수정 성공");
+	        } else {
+	            resultMap.put("status", "fail");
+	            resultMap.put("message", "수주 수정 실패");
+	        }
+	    } catch (Exception e) {
+	        log.error("수주 수정 오류 발생: {}", e.getMessage(), e);
+	        resultMap.put("status", "fail");
+	        resultMap.put("message", "수정 중 오류 발생");
+	    }
 
-		return ResponseEntity.ok(response);
+	    return resultMap;
 	}
+	
 
-	// ============================================
-	// 수주 삭제 (삭제 기능)
-	// ============================================
 
-	// 수주 삭제
-//    @PostMapping("/deleteSales")
-//    @ResponseBody
-//    public ResponseEntity<Map<String, Object>> deleteSales(@RequestParam("sales_Date") String sales_Date,
-//                                                           @RequestParam("client_No") int client_No) {
-//        log.info("수주 삭제 요청: sales_Date={}, client_No={}", sales_Date, client_No);
-//
-//        int deleteResult = salesService.deleteSales(sales_Date, client_No);
-//        Map<String, Object> response = new HashMap<>();
-//
-//        response.put("status", deleteResult > 0 ? "success" : "fail");
-//        response.put("message", deleteResult > 0 ? "수주 삭제 성공" : "수주 삭제 실패");
-//
-//        return ResponseEntity.ok(response);
-//    }
+	// =============================================================
+	//                             삭제
+	// =============================================================
+
+	// 수주 삭제 (처리 상태가 '대기'인 경우만 가능)- 품목 삭제 후 수주 정보 삭제
+    @PostMapping("/deleteSales")
+    public String deleteSales(SalesAll sales) {
+    	System.out.println("SalesController deleteSales Start...");
+    	
+        try {
+            // 수주 삭제 (수주 품목 먼저 삭제 후 수주 정보 삭제)
+            int deleteSalesCount = salesService.deleteSales(sales);
+    	    log.info("수주 삭제 완료 (deleteSalesCount={})", deleteSalesCount); 
+    	    
+            // 삭제가 성공하면 수주 목록 페이지로 리다이렉트
+            return "redirect:/listSales";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            
+            // 에러 발생 시 에러 페이지로 이동 
+            return "rw_views/errorPage";
+        }
+    }
+
+
+    // 에러페이지 test
+    @GetMapping("/errorPage")
+    public String showErrorPage() {
+        return "rw_views/errorPage";  
+    }
+    
 }
