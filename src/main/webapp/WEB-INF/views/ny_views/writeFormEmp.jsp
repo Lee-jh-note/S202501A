@@ -59,7 +59,7 @@
         <table>
                 <tr>
                     <th>이름</th>
-                    <td><input type="text" name="emp_Name" required="required"></td>
+                    <td><input type="text" name="empName" required="required"></td>
                 </tr>
                 <tr>
                     <th>부서</th>
@@ -85,7 +85,7 @@
                 </tr>
                 <tr>
                     <th>이메일</th>
-                    <td><input type="text" name="emp_Email" required="required"></td>
+                    <td><input type="text" name="empEmail" required="required"></td>
                 </tr>
                 <tr>
                     <th>생년월일</th>

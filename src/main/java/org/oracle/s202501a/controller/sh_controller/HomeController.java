@@ -64,9 +64,9 @@ public class HomeController {
 			if (dto == null) {
 				dto = new EmpDTO();
 				dto.setEmp_No(0L);
-				dto.setEmp_Name("비로그인");
+				dto.setEmpName("비로그인");
 			}
-			
+
 			System.out.printf("AJAX로 요청 받은 EmpDTO: {}", dto);
 			return dto;  // JSON 형태로 반환
 		}

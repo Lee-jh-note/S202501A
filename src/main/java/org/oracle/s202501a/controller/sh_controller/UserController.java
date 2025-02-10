@@ -35,7 +35,7 @@ public class UserController {
 	    System.out.println("EmpController writeEmp passwd->" + passwd);
 	    empDto.setPassword(passwd);
 
-	    String username = empDto.getEmp_Email();
+	    String username = empDto.getEmpEmail();
 
 	    System.out.println("EmpController writeEmp username->" + username);
 	    empDto.setUsername(username);
@@ -47,7 +47,7 @@ public class UserController {
 		System.out.println("UserController @PostMapping signup accountDto2 emp->"+emp);
 		userService.createUser(emp);
 		
-		return "redirect:/";
+		return "redirect:/listEmp";
 		
 
 	}
