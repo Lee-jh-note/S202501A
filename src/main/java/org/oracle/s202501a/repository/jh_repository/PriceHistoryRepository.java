@@ -1,8 +1,6 @@
 package org.oracle.s202501a.repository.jh_repository;
 
 import org.oracle.s202501a.entity.jh_entity.PriceHistory;
-import org.oracle.s202501a.model.jh_model.PriceHistoryProductModel;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

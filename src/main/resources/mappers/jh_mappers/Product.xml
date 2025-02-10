@@ -120,7 +120,6 @@
         from product
         where product_name = #{product_name}
     </select>
-
 </mapper>
 
 
