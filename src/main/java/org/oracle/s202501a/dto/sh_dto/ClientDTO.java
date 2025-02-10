@@ -6,7 +6,8 @@ import lombok.Data;
 @Data
 public class ClientDTO {
     private int client_No;        
-    private int emp_No;           
+    private int emp_No;
+    private String emp_Name;
     private String client_Name;      
     private int client_Type;      
     private String client_Ceo;       

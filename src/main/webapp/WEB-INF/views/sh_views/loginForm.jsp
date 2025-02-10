@@ -24,7 +24,8 @@ ${loginUrl}
 	ID : <input type="text" name="j_username"> <br />
 	PW : <input type="text" name="j_password"> <br />
 	<input type="submit" value="LOGIN"> <br />
+	
+	
 </form>
-
 </body>
 </html>

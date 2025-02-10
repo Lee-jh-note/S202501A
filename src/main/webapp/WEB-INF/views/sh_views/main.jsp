@@ -31,9 +31,6 @@
 	          <a class="nav-link active" aria-current="page" href="login">로그인</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="writeFormEmp">직원등록</a>
-	        </li>
-	        <li class="nav-item">
 	          <a class="nav-link active" aria-current="page" href="logout">로그아웃</a>
 	        </li>
 	      </ul>

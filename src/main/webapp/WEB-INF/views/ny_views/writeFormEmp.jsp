@@ -88,11 +88,11 @@
                 </tr>
                 <tr>
                     <th>권한</th>
-	                <td><select name="roles">
-	                            <c:forEach var="role" items="${roleList}">
-	                                <option value="${role.content}">${role.content}</option>
-	                            </c:forEach>
-	                        </select>
+                   <td><select name="roles">
+                               <c:forEach var="role" items="${roleList}">
+                                   <option value="${role.content}">${role.content}</option>
+                               </c:forEach>
+                           </select>
                     </td>
                 </tr>
                 <tr>

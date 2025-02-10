@@ -1,6 +1,6 @@
 package org.oracle.s202501a.chat;
 
-import java.util.HashMap;	
+import java.util.HashMap;		
 import java.util.Iterator;
 
 
@@ -168,7 +168,7 @@ public class ChatHandler extends TextWebSocketHandler {
 		// session Server 등록 --> Socket Server가 Client에게 전송
 		session.sendMessage(new TextMessage(jsonObject.toJSONString()));
 		
-		
+	
 	}
 	
 	// 3. 웹소켓이 종료되면 동작

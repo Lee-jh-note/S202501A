@@ -26,9 +26,9 @@
 
     // 총금액 함수
     function calculateTotal(row) {
-    	// 가격 받아오기
+       // 가격 받아오기
         const price = parseInt(row.find('.productPrice').val()) || 0;
-    	// 수량 받아오기
+       // 수량 받아오기
         const quantity = parseInt(row.find('.quantity').val()) || 0;
         const total = price * quantity;
         row.find('.total').val(total);
@@ -39,12 +39,12 @@
         $(this).closest('tr').remove();
     });
     
- 	// 수량 입력하면 calculateTotal() 함수 실행시켜서 총금액 받아오기
+    // 수량 입력하면 calculateTotal() 함수 실행시켜서 총금액 받아오기
     $(document).on('input', '.quantity', function() {
       calculateTotal($(this).closest('tr'));
     });
- 	
- 	// 물품 선택할 때 단가 가져오는
+    
+    // 물품 선택할 때 단가 가져오는
     $(document).on('change', '.productSelect', function() {
         getPrice(this.value, this);
     });
@@ -52,18 +52,18 @@
     // 기존 물품 나타내기
     $(document).ready(function() {
         <c:forEach var="detail" items="${purchase_detail}" varStatus="status">
-        	var newRow = `
+           var newRow = `
                 <tr>
                     <td>
                         <select name="product_no" class="productSelect">
                             <c:forEach var="product" items="${productList}">
-	                            <option value="${product.product_no}"
-	                                <c:if test="${detail.product_no == product.product_no}">
-	                                    selected="selected"
-	                                </c:if>
-	                            	>
-	                                ${product.product_name}
-	                            </option>
+                               <option value="${product.product_no}"
+                                   <c:if test="${detail.product_no == product.product_no}">
+                                       selected="selected"
+                                   </c:if>
+                                  >
+                                   ${product.product_name}
+                               </option>
                             </c:forEach>
                         </select>
                     </td>
@@ -120,7 +120,7 @@
             nextIndex++;
         });
         
-    	// 바이트 수 제한 관련 코드 추가 (제목 50바이트, 비고 300바이트, 수량 제한)
+       // 바이트 수 제한 관련 코드 추가 (제목 50바이트, 비고 300바이트, 수량 제한)
         function getByteLength(str) {
             let byteCount = 0;
             for (let i = 0; i < str.length; i++) {
@@ -179,7 +179,7 @@
     let nextIndex = 0;
 
     function updatePurchase() {
-    	// 구매 따로
+       // 구매 따로
         let purchase = {};
         purchase.purchase_date = $('input[name="purchase_date"]').val();
         purchase.client_no = $('input[name="client_no"]').val();
@@ -207,7 +207,7 @@
         let productNumbers = [];
         let isValidDetails = true;
         
-     	// 물품을 한줄도 추가하지 않은 경우
+        // 물품을 한줄도 추가하지 않은 경우
         if ($('#dynamicRows tr').length === 0) {
             alert("물품을 추가해주세요.");
             return false;
@@ -218,25 +218,25 @@
             let productNo = $(this).find('.productSelect').val();
             let quantity = $(this).find('.quantity').val();
             
-         	// 품목 선택 여부 검사
+            // 품목 선택 여부 검사
             if (!productNo) {
                 alert((index + 1) + "번째 행의 품목을 선택해주세요.");
                 $(this).find('.productSelect').focus();
                 isValidDetails = false;
                 return false;
             }
-         	
-         	// 중복 검사
+            
+            // 중복 검사
             if (productNumbers.includes(productNo)) {
                 alert((index + 1) + "번째 행의 품목이 중복되었습니다.");
                 $(this).find('.productSelect').focus();
                 isValidDetails = false;
                 return false;
             }
-         	
+            
             productNumbers.push(productNo); // 중복 검사 통과 후 배열에 추가
             
-         	// 수량 유효성 검사
+            // 수량 유효성 검사
             if (!quantity || isNaN(quantity) || quantity <= 0) {
                 alert((index + 1) + "번째 행의 수량을 올바르게 입력해주세요.");
                 $(this).find('.quantity').focus();
@@ -284,8 +284,8 @@
 <link href="../css/insert.css" rel="stylesheet">
 <style type="text/css">
   .insert-table td{
-	color: black;
-	}
+   color: black;
+   }
 </style>
 </head>
 
@@ -311,8 +311,8 @@
                         </div>
                         <div class="insert-buttons">
                             <button class="insert-empty-button" type="button" 
-                            	onclick="history.back()">
-                            	취소</button>
+                               onclick="history.back()">
+                               취소</button>
                             <button class="insert-full-button" id="btn" type="button" onclick="updatePurchase()">수정</button>
                         </div>
                     </div>
@@ -321,10 +321,10 @@
                     <div class="insert-header-content">
                         <c:if test="${msg!=null}">${msg}</c:if>
                         <!-- 발주 정보 테이블 -->
-                       	<%-- <input type="hidden" name="status" value="${purchase.status }"> 상태는 전부 0으로 넣어줄거임 - 수정 데이터는 짜피 상태가 0일때만 할 수 있는거라--%>
-			            <input type="hidden" name="purchase_date" value="${purchase.purchase_date}">
-			            <input type="hidden" name="client_no" value="${purchase.client_no}">
-			            <input type="hidden" name="emp_no" value="${purchase.emp_no}">
+                          <%-- <input type="hidden" name="status" value="${purchase.status }"> 상태는 전부 0으로 넣어줄거임 - 수정 데이터는 짜피 상태가 0일때만 할 수 있는거라--%>
+                     <input type="hidden" name="purchase_date" value="${purchase.purchase_date}">
+                     <input type="hidden" name="client_no" value="${purchase.client_no}">
+                     <input type="hidden" name="emp_no" value="${purchase.emp_no}">
                         <table class="insert-table">
                             <tr>
                                 <th>제목</th>
@@ -334,15 +334,15 @@
                             </tr>
                             <tr>
                                 <th>매입일자</th>
-                                	<td>${purchase.purchase_date}</td> <%-- 화면 표시용 - input은 hidden으로 해서 위에서 넣음--%>
+                                   <td>${purchase.purchase_date}</td> <%-- 화면 표시용 - input은 hidden으로 해서 위에서 넣음--%>
                                 <th>담당자</th>
-	                                <td>${purchase.emp_name}</td> <%-- 화면 표시용 - input은 hidden으로 해서 위에서 넣음--%>
+                                   <td>${purchase.emp_name}</td> <%-- 화면 표시용 - input은 hidden으로 해서 위에서 넣음--%>
                             </tr>
                             <tr>
                                 <th>요청배송일</th>
-                                	<td><input type="date" name="req_delivery_date" value="${purchase.req_delivery_date}" required="required"></td>
+                                   <td><input type="date" name="req_delivery_date" value="${purchase.req_delivery_date}" required="required"></td>
                                 <th>거래처명</th>
-                                	<td>${purchase.client_name}</td> <%-- 화면 표시용 - input은 hidden으로 해서 위에서 넣음--%>
+                                   <td>${purchase.client_name}</td> <%-- 화면 표시용 - input은 hidden으로 해서 위에서 넣음--%>
                             </tr>
                             <tr>
                                 <th>비고</th>
@@ -371,7 +371,7 @@
                             <!-- 동적 행들이 들어갈 공간 -->
                             </tbody>
                         </table>
-                	</div>
+                   </div>
                 </form>
             </div>
             <!-- End of Main Content -->
