@@ -1,0 +1,63 @@
+.main-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+.main-header {
+    background-color: #FDFEFF;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    position: relative;
+}
+.main-header h1 {
+    font-size: 18px;
+    margin: 0;
+    color: #000000;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.main-header p {
+    font-size: 14px;
+    color: #666;
+}
+.main-header img {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    align-self: flex-end;
+    position: relative;
+    top: 20px; /* 이미지 내리기기 */
+}
+.main-table {
+    margin-top: 20px;
+}
+.main-table h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    color: #000000;
+}
+.main-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.main-table table th,
+.main-table table td {
+    border: 1px solid #EEEEEE;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+}
+.main-table table th {
+    background-color: #f8f8f8;
+    color: #777;
+    font-weight: 400;
+}
+.main-table table td {
+	color: black;
+}

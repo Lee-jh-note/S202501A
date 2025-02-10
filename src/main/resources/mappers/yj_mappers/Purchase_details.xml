@@ -94,7 +94,7 @@
 			        </if>
 			        
 		            GROUP BY pd.purchase_date, c.client_no
-			        order by pd.purchase_date
+			        order by pd.purchase_date desc
 			    ) a
 			)
 			WHERE rn BETWEEN #{start} AND #{end}
@@ -230,7 +230,7 @@
 			        </if>
 
 		            GROUP BY pd.purchase_date, c.client_no
-			        order by pd.purchase_date
+			        order by pd.purchase_date desc
 			    ) a
 			)
 			WHERE rn BETWEEN #{start} AND #{end}
@@ -347,7 +347,7 @@
 			        </if>
 			        
 		            GROUP BY pd.purchase_date, c.client_no
-			        order by pd.purchase_date
+			        order by pd.purchase_date desc
 			    ) a
 			)
 			WHERE rn BETWEEN #{start} AND #{end}

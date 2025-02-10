@@ -9,10 +9,6 @@ import org.oracle.s202501a.dto.yj_dto.Purchase_details;
 
 public interface PurchaseService {
 
-	// PurchaseController의 listPurchase- totalPurchase- 발주 총 갯수
-	int 				totalPurchase();
-	// PurchaseController의 listPurchase- listPurchase- 발주 조회 리스트
-	List<Purchase> 		listPurchase(Purchase purchase);
 	// PurchaseController의 searchPurchase searchTotalPurchase- 발주 검색 총 갯수
 	int 				searchTotalPurchase(Purchase purchase);
 	// PurchaseController의 searchPurchase searchListPurchase- 발주 검색 리스트

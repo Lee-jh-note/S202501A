@@ -4,7 +4,7 @@
 <ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: #395B7F;" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/mainPage">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-fw fa-box"></i>
         </div>

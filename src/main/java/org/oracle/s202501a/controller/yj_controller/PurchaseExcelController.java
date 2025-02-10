@@ -16,23 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PurchaseExcelController {
 	private final PurchaseExcelService ps;
-	
-	// 발주 리스트 엑셀 다운로드
-    @GetMapping("excel/purchaseExcel")
-    public ResponseEntity<byte[]> purchaseExcel() throws IOException {
-
-        byte[] excelFile = ps.purchaseExcel();
-
-        // HTTP 응답 헤더 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=Purchase_Order.xlsx");
-        headers.add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-
-        // 엑셀 파일을 HTTP 응답으로 반환
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(excelFile);
-    }
     
     // 발주 검색 결과 엑셀 다운로드
     @GetMapping("excel/purchaseSearchExcel")
@@ -43,7 +26,7 @@ public class PurchaseExcelController {
 
         // HTTP 응답 헤더 설정
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=Order_Search.xlsx");
+        headers.add("Content-Disposition", "attachment; filename=Purchase_Order.xlsx");
         headers.add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
         // 엑셀 파일을 HTTP 응답으로 반환
