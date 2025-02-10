@@ -156,17 +156,17 @@
                     </div>
                     <div class="list-buttons">
                     	<!-- 엑셀 다운로드 및 인쇄 기능 -->	
-                        <button class="list-full-button" onclick="exportToExcel()">
+                        <button class="btn list-full-button" onclick="exportToExcel()">
                             <i class="fa-solid fa-file-excel"></i> 엑셀 선택 다운로드
                         </button>
                         
                         <a href="/excel/purchaseDetailNoExcel?startDate=${param.startDate}&endDate=${param.endDate}&client_name=${param.client_name}">
-                            <button class="list-full-button">
+                            <button class="btn list-full-button">
                                 <i class="fa-solid fa-file-excel"></i> 엑셀 전체 다운로드
                             </button>
                         </a>
                         
-                        <button id="printSelection" class="list-full-button" onclick="printSelectedRows()">
+                        <button id="printSelection" class="btn list-full-button" onclick="printSelectedRows()">
                             <i class="fa-solid fa-print"></i> 인쇄
                         </button>
                     </div>
@@ -191,7 +191,7 @@
                                    placeholder="거래처 입력"/>
 
                             <!-- 검색 버튼 -->
-                            <button type="submit" class="list-gray-button">조회</button>
+                            <button type="submit" class="btn list-gray-button">조회</button>
                         </form>
                     </div>
                 </div>

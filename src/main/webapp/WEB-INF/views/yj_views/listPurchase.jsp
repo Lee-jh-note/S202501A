@@ -156,16 +156,16 @@
                     </div>
                     <div class="list-buttons">
                     	<!-- 엑셀 다운로드 및 인쇄 기능 -->	
-                        <button class="list-full-button" onclick="exportToExcel()">
+                        <button class="btn list-full-button" onclick="exportToExcel()">
                             <i class="fa-solid fa-file-excel"></i> 엑셀 선택 다운로드
                         </button>
                         
                         <a href="/excel/purchaseSearchExcel?startDate=${param.startDate}&endDate=${param.endDate}&client_name=${param.client_name}&status=${param.status}" >
-                            <button class="list-full-button">
+                            <button class="btn list-full-button">
                                 <i class="fa-solid fa-file-excel"></i> 엑셀 전체 다운로드
                             </button>
                         </a>
-                        <button id="printSelection" class="list-full-button" onclick="printSelectedRows()">
+                        <button id="printSelection" class="btn list-full-button" onclick="printSelectedRows()">
                             <i class="fa-solid fa-print"></i> 인쇄
                         </button>
                     </div>
@@ -198,7 +198,7 @@
 								<option value="2" ${searchKeyword.status == '2' ? 'selected' : ''}>완료</option>
                             </select>
 
-                            <button type="submit" class="list-gray-button">조회</button>
+                            <button type="submit" class="btn list-gray-button">조회</button>
                         </form>
                     </div>
                 </div>

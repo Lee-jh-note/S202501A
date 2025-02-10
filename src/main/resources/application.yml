@@ -7,7 +7,7 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521/xe
-    username: jrw
+    username: pjt
     password: tiger
 
 #  # 파일 사이즈 관리

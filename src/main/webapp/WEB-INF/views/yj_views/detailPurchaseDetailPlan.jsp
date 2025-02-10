@@ -119,8 +119,8 @@
 	                        </div>
 	                    </div>
 	                    <div>
-	                        <input class="detail-empty-button" type="button" value="목록" onclick="history.back()">
-	                        <input class="detail-full-button" type="button"  value="입고" onclick="handleStore()">
+	                        <input class="btn detail-empty-button" type="button" value="목록" onclick="history.back()">
+	                        <input class="btn detail-full-button" type="button"  value="입고" onclick="handleStore()">
 	                    </div>
 	                </div>
 	
@@ -181,8 +181,8 @@
                 <div class="modal-confirm">
                     <p class="modal-message">정말 입고처리 하시겠습니까?</p>
                     <div class="modal-actions">
-                        <button class="confirm">확인</button>
-                        <button class="cancel">취소</button>
+                        <button class="btn confirm">확인</button>
+                        <button class="btn cancel">취소</button>
                     </div>
                 </div>
             </div>

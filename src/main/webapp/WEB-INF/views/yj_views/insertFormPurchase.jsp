@@ -325,7 +325,7 @@
                     <td><input type="text" name="price" class="productPrice" placeholder="단가" readonly></td>
                     <td><input type="number" name="quantity" class="quantity" placeholder="수량" required></td>
                     <td><input type="number" class="total" placeholder="총 금액" readonly></td>
-                    <td><button type="button" class="deleteRow">삭제</button></td>
+                    <td><button type="button" class="btn deleteRow">삭제</button></td>
                 </tr>
             `;
                 $('#dynamicRows').append(newRow);
@@ -434,9 +434,9 @@
                             </div>
                         </div>
                         <div class="insert-buttons">
-                            <button class="insert-empty-button" type="button" 
+                            <button class="btn insert-empty-button" type="button" 
                             	onclick="location.href='/purchase/listPurchase'">취소</button>
-                            <button class="insert-full-button" id="btn" type="button" onclick="insertPurchase()">확인</button>
+                            <button class="btn insert-full-button" id="btn" type="button" onclick="insertPurchase()">확인</button>
                         </div>
                     </div>
 
@@ -469,7 +469,7 @@
 	                                            <option value="${client.client_no}"${client.client_no == client_no ? 'selected' : ''}>${client.client_name}</option>
 	                                        </c:forEach>
                                     	</select>
-                                    	<input type="button" class="insert-gray-button" value="중복확인" onclick="chk()"></td>
+                                    	<input type="button" class="btn insert-gray-button" value="중복확인" onclick="chk()"></td>
                             </tr>
                             <tr>
                                 <th>비고</th>
@@ -480,7 +480,7 @@
                         <!-- 품목 정보 헤더 + '추가' 버튼 -->
                         <div class="product-header">
                             <div class="product-title">품목 정보</div>
-                            <button class="insert-gray-button" id="addRow">추가</button>
+                            <button class="btn insert-gray-button" id="addRow">추가</button>
                         </div>
 
                         <!-- 품목 정보 테이블 -->

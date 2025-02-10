@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div>
-                        <input class="detail-empty-button" type="button" value="목록" onclick="history.back()">
+                        <input class="btn detail-empty-button" type="button" value="목록" onclick="history.back()">
                     </div>
                 </div>
 

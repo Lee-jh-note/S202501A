@@ -127,12 +127,12 @@
                         </div>
                     </div>
                     <div>
-                        <input class="detail-empty-button" type="button" value="목록" onclick="history.back()">
+                        <input class="btn detail-empty-button" type="button" value="목록" onclick="history.back()">
 
                         <c:if test="${purchase.status == 0}">
-                            <input class="detail-full-button" type="button" value="수정"
+                            <input class="btn detail-full-button" type="button" value="수정"
                                    onclick="location.href='updateFormPurchase?purchase_date=${purchase.purchase_date}&client_no=${purchase.client_no}&status=${purchase.status}'">
-                            <input class="detail-full-button" type="button" value="삭제" onclick="handleDelete()">
+                            <input class="btn detail-full-button" type="button" value="삭제" onclick="handleDelete()">
                         </c:if>
                     </div>
                 </div>
@@ -192,8 +192,8 @@
                 <div class="modal-confirm">
                     <p class="modal-message">정말 삭제하시겠습니까?</p>
                     <div class="modal-actions">
-                        <button class="confirm">확인</button>
-                        <button class="cancel">취소</button>
+                        <button class="btn confirm">확인</button>
+                        <button class="btn cancel">취소</button>
                     </div>
                 </div>
             </div>
