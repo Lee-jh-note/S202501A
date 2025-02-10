@@ -85,7 +85,7 @@
                     <form action="/board/writeBoard" method="post">
                      <!-- 로그인한 사용자의 사원 번호를 hidden input으로 전달 -->
             <input type="hidden" name="emp_No" value="${empDTO.emp_No}">
-            <input type="hidden" name="emp_Name" value="${empDTO.emp_Name}">
+            <input type="hidden" name="empName" value="${empDTO.empName}">
                     
                         <table class="detail-table">
                             <!-- 제목 & 작성자 -->
@@ -96,7 +96,7 @@
                                 </td>
                                 <th>작성자</th>
                                 <td colspan="1">
-                                     <span>${empDTO.emp_Name}</span> 
+                                     <span>${empDTO.empName}</span> 
                                 </td>
                             </tr>
 
