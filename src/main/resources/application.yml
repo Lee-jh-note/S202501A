@@ -8,7 +8,7 @@ spring:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521/xe
     username: pjt
-    password: tiger
+    password: 123
 
 #  # 파일 사이즈 관리
 #  servlet:
@@ -36,18 +36,18 @@ spring:
       prefix: /WEB-INF/views/
       suffix: .jsp
 
-#  # gmail Transfer SMTP
-# 메일 셋팅
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username:
-#    password:
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls.enable: true
+  # gmail Transfer SMTP
+  # 메일 셋팅
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: didtmdghks234@gmail.com
+    password: ahjf eqvq laqi luue
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
 
 # 마이바티스 매퍼 설정
 mybatis:

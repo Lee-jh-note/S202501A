@@ -69,7 +69,7 @@ public class PurchaseDetailController {
 		
 		EmpDTO dto = f.getSe();
 		Long emp_no = dto.getEmp_No();
-		String emp_name = dto.getEmp_Name();
+		String emp_name = dto.getEmpName();
 		// 세션에서 가져온 담당자 - 현재 로그인 되어있는 담당자 - 입고 담당자
 		model.addAttribute("emp_no", emp_no);
 		model.addAttribute("emp_name", emp_name);

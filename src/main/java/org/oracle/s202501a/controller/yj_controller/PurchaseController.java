@@ -98,7 +98,7 @@ public class PurchaseController {
 		
 		EmpDTO dto = f.getSe();
 		Long emp_no = dto.getEmp_No();
-		String emp_name = dto.getEmp_Name();
+		String emp_name = dto.getEmpName();
 	    model.addAttribute("emp_no", emp_no);
 	    model.addAttribute("emp_name", emp_name);
 		

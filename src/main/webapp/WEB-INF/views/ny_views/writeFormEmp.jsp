@@ -52,7 +52,7 @@
                     <!-- 등록 테이블은 전체 div의 70프로 -->
                     <div class="insert-header-content">
                     <table class="insert-table">
-                   <tr><th>이름</th><td>       <input  type="text"    name="emp_Name"          required="required"></td></tr>
+                   <tr><th>이름</th><td>       <input  type="text"    name="empName"          required="required"></td></tr>
                    <tr><th>부서</th>
                     <td><select name="dept_No">
                             <c:forEach var="emp" items="${deptList}">
@@ -76,7 +76,7 @@
                 </tr>
                 <tr>
                     <th>이메일</th>
-                    <td><input type="text" name="emp_Email" required="required"></td>
+                    <td><input type="text" name="empEmail" required="required"></td>
                 </tr>
                 <tr>
                     <th>생년월일</th>

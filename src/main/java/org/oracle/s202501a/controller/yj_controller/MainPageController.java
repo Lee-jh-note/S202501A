@@ -38,7 +38,7 @@ public class MainPageController {
 		
 		// 세션 받아오기
 		EmpDTO dto = f.getSe();
-		String emp_name = dto.getEmp_Name();
+		String emp_name = dto.getEmpName();
 		String position = dto.getPosition();
 		Long emp_no = dto.getEmp_No();
 		String hiredate = dto.getHiredate().substring(0,10);
