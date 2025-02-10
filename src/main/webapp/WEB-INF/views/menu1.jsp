@@ -20,13 +20,13 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBoard"
            aria-expanded="true" aria-controls="collapseBoard">
             <i class="fas fa-fw fa-clipboard"></i>
-            <span>공지사항</span>
+            <span>게시판</span>
         </a>
         <div id="collapseBoard" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">게시판:</h6>
-                <a class="collapse-item" href="#">공지 게시판</a>
-                <a class="collapse-item" href="#">자유 게시판</a>
+                <a class="collapse-item" href="/notice/NoticeList">공지 게시판</a>
+                <a class="collapse-item" href="/board/BoardList">자유 게시판</a>
             </div>
         </div>
     </li>
@@ -49,9 +49,9 @@
                 <a class="collapse-item" href="/purchaseDetail/listPurchaseDetailNo">미입고 조회</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">출고:</h6>
-                <a class="collapse-item" href="#">출고 예정 리스트</a>
-                <a class="collapse-item" href="#">출고 조회</a>
-                <a class="collapse-item" href="#">미출고 조회</a>
+                <a class="collapse-item" href="/listPreSalesDetails">출고 예정 리스트</a>
+                <a class="collapse-item" href="/listGoSalesDetails">출고 조회</a>
+                <a class="collapse-item" href="/listNoSalesDetails">미출고 조회</a>
             </div>
         </div>
     </li>
@@ -70,8 +70,8 @@
                 <a class="collapse-item" href="/purchase/listPurchase">발주 조회</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">수주:</h6>
-                <a class="collapse-item" href="#">수주 등록</a>
-                <a class="collapse-item" href="#">수주 조회</a>
+                <a class="collapse-item" href="/createSales">수주 등록</a>
+                <a class="collapse-item" href="/listSales">수주 조회</a>
             </div>
         </div>
     </li>
@@ -86,8 +86,8 @@
         <div id="collapseClient" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">거래처:</h6>
-                <a class="collapse-item" href="#">거래처 조회</a>
-                <a class="collapse-item" href="#">거래처 등록</a>
+                <a class="collapse-item" href="/client/listClient">거래처 조회</a>
+                <a class="collapse-item" href="/client/writeFormClient">거래처 등록</a>
             </div>
         </div>
     </li>
@@ -103,8 +103,11 @@
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">제품:</h6>
-                <a class="collapse-item" href="#">제품 등록</a>
-                <a class="collapse-item" href="#">재고 관리</a>
+                <a class="collapse-item" href="/Prod/ProdList">제품 조회</a>
+                <a class="collapse-item" href="/Prod/ProdCreate">제품 등록</a>
+                <a class="collapse-item" href="/Prod/PriceList">가격 변동 내역</a>
+                <a class="collapse-item" href="/Inven/InvenList">재고 관리</a>
+                <a class="collapse-item" href="/Recodes/List">실적 관리</a>
             </div>
         </div>
     </li>
@@ -120,8 +123,10 @@
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">인사:</h6>
-                <a class="collapse-item" href="#">직원 등록</a>
-                <a class="collapse-item" href="#">직원 조회</a>
+                <a class="collapse-item" href="/empDept/writeFormEmp">직원 등록</a>
+                <a class="collapse-item" href="/empDept/listEmp">직원 조회</a>
+                <a class="collapse-item" href="/empDept/listDept3">부서 조회</a>
+
             </div>
         </div>
     </li>
@@ -139,8 +144,7 @@
         <div id="collapseChat" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">채팅:</h6>
-                <a class="collapse-item" href="#">1:1 채팅</a>
-                <a class="collapse-item" href="#">그룹 채팅</a>
+                <a class="collapse-item" href="/chat">채팅</a>
             </div>
         </div>
     </li>

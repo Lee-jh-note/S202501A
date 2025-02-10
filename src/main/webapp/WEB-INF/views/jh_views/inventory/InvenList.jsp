@@ -49,7 +49,7 @@
 </head>
 <body id="page-top">
 <div id="wrapper">
-    <%@ include file="../../menujh.jsp" %>
+    <%@ include file="../../menu1.jsp" %>
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <%@ include file="../../header1.jsp" %>
