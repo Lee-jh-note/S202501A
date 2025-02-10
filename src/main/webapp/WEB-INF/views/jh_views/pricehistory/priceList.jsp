@@ -45,8 +45,8 @@
                             <label for="type">매입/매출</label>
                             <select name="type" id="type">
                                 <option value="">전체</option>
-                                <option value="1" ${param.type == '0' ? 'selected' : ''}>매입</option>
-                                <option value="0" ${param.type == '1' ? 'selected' : ''}>매출</option>
+                                <option value="0" ${param.type == '0' ? 'selected' : ''}>매입</option>
+                                <option value="1" ${param.type == '1' ? 'selected' : ''}>매출</option>
                             </select>
 
                             <button type="submit" class="list-gray-button">검색</button>
@@ -71,7 +71,7 @@
                         <tr>
                             <td>${price.product_name}</td>
                             <td>${price.from_date}</td>
-                            <td>${price.to_date}</td>
+                            <td>${price.to_date == '99/12/31' ? '미정' : price.to_date}</td>
                             <td>
                                 <c:choose>
                                     <c:when test="${price.sale_or_purchase == 1}">매출가</c:when>

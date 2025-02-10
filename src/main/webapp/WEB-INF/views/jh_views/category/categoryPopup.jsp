@@ -9,12 +9,12 @@
     <title>카테고리 관리</title> <!-- Bootstrap CSS 추가 -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-
         table {
             margin: auto;
             width: auto;
-            border: 1px solid;
+            border-collapse: collapse; /* 셀 간 테두리가 겹치지 않도록 설정 */
             table-layout: auto;
+            border: 1px solid #555555; /* 테이블의 외부 테두리 설정 */
             border-radius: 5px;
         }
 
@@ -24,7 +24,7 @@
             text-align: center;
             align-content: center;
             font-size: 12px;
-            text-decoration: none;
+            border: 1px solid #555555; /* 각 셀의 테두리 설정 */
         }
 
         .top {
@@ -36,7 +36,6 @@
             background-color: #f4f4f4;
             text-decoration: none;
         }
-
     </style>
 </head>
 <body>
@@ -61,12 +60,16 @@
             </c:forEach>
             <c:forEach var="topCategory" items="${topList}">
                 <tr>
-                    <th colspan="${maxMidCount}" class="top">
-                        <a href="/Prod/Category/Modify?top_category=${topCategory.top_category}"
-                           class="text-decoration-none">${topCategory.title}</a>
+                    <th>
+                        대분류
                     </th>
+                    <td colspan="${maxMidCount}" class="top" ><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}"
+                           class="text-decoration-none">${topCategory.title}</a></td>
                 </tr>
                 <tr>
+                    <th>
+                        중분류
+                    </th>
                     <c:set var="midCount" value="0"/>
                     <c:forEach var="midCategory" items="${midList}">
                         <c:if test="${midCategory.top_category == topCategory.top_category}">

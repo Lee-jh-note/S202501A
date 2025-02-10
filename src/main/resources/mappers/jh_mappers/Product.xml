@@ -35,7 +35,7 @@
         SELECT *
         FROM (SELECT p.product_no, c.content, c.title, p.product_name, p.status, p.description,   rownum rm
         FROM product p
-        z JOIN CATEGORIES c ON c.mid_category = p.mid_category
+         JOIN CATEGORIES c ON c.mid_category = p.mid_category
         where 1 = 1
           and PRODUCT_DELETE = 0
         AND p.product_name LIKE '%' || #{product_name} || '%'

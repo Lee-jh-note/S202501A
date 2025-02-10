@@ -20,7 +20,8 @@ public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long
             "FROM product p " +
             "JOIN price_history h ON p.product_no = h.product_no " +
             "WHERE p.product_name like '%' || ?1 || '%' " +
-            "order by p.PRODUCT_NO)" +
+            "and p.PRODUCT_DELETE = 0 " +
+            "order by h.to_date desc, h.FROM_DATE desc )" +
             "WHERE rm between ?2 and ?3", nativeQuery = true)
     List<Object[]> findByProductName(String productName, int start, int end);
 
@@ -29,7 +30,8 @@ public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long
             "FROM product p " +
             "JOIN price_history h ON p.product_no = h.product_no " +
             "WHERE p.product_name like '%' || ?1 || '%' " +
-            "order by p.PRODUCT_NO)", nativeQuery = true)
+            "and p.PRODUCT_DELETE = 0 " +
+            "order by h.to_date desc, h.FROM_DATE desc )", nativeQuery = true)
     int countByProductName(String productName);
 
     @Query(value = "select * from " +
@@ -38,7 +40,9 @@ public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long
             "JOIN price_history h ON p.product_no = h.product_no " +
             "WHERE 1=1 " +
             "AND p.product_name LIKE '%' || :product_name || '%' " +
-            "AND h.sale_or_purchase = :sale_or_purchase)" +
+            "AND h.sale_or_purchase = :sale_or_purchase " +
+            "and p.PRODUCT_DELETE = 0 " +
+            "order by h.TO_DATE desc, h.FROM_DATE desc ) " +
             "where rm between :start and :end ", nativeQuery = true)
     List<Object[]> findByProdNameType(@Param("product_name") String product_name,
                                       @Param("sale_or_purchase") Integer sale_or_purchase,
@@ -51,7 +55,8 @@ public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long
             "JOIN price_history h ON p.product_no = h.product_no " +
             "WHERE 1=1 " +
             "AND p.product_name LIKE '%' || :product_name || '%' " +
-            "AND h.sale_or_purchase = :sale_or_purchase)", nativeQuery = true)
+            "AND h.sale_or_purchase = :sale_or_purchase " +
+            "and p.PRODUCT_DELETE = 0 ) ", nativeQuery = true)
     int countByProdNameType(@Param("product_name") String product_name, @Param("sale_or_purchase") Integer sale_or_purchase);
 
     @Query(value = "select * from" +
@@ -59,7 +64,9 @@ public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long
             "FROM product p " +
             "JOIN price_history h ON p.product_no = h.product_no " +
             "WHERE 1=1 " +
-            "AND h.sale_or_purchase = :sale_or_purchase)" +
+            "AND h.sale_or_purchase = :sale_or_purchase " +
+            "and p.PRODUCT_DELETE = 0 " +
+            "order by h.TO_DATE desc, h.FROM_DATE desc ) " +
             "where rm between :strat and :end", nativeQuery = true)
     List<Object[]> findByProdType(@Param("sale_or_purchase") Integer sale_or_purchase,
                                   @Param("start") int start, @Param("end") int end);
@@ -69,7 +76,8 @@ public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long
             "FROM product p " +
             "JOIN price_history h ON p.product_no = h.product_no " +
             "WHERE 1=1 " +
-            "AND h.sale_or_purchase = :sale_or_purchase)", nativeQuery = true)
+            "AND h.sale_or_purchase = :sale_or_purchase " +
+            "and p.PRODUCT_DELETE = 0) ", nativeQuery = true)
     int countByProdType(@Param("sale_or_purchase") Integer sale_or_purchase);
 
 
@@ -92,7 +100,8 @@ public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long
             "select PRICE_CODE, p.product_name, p.PRODUCT_NO, FROM_DATE, TO_DATE, SALE_OR_PURCHASE, PRICE, h.REG_DATE, rownum rm " +
             "from price_history h " +
             "join product p on p.product_no = h.product_no " +
-            "order by PRODUCT_NO)" +
+            "where p.PRODUCT_DELETE = 0  " +
+            "order by TO_DATE desc, h.FROM_DATE desc )" +
             "where rm between :start and :end", nativeQuery = true)
     List<Object[]> findAll(@Param("start") int start, @Param("end") int end);
 

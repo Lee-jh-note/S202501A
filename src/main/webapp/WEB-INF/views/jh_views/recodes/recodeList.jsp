@@ -113,10 +113,12 @@
 </div>
 <script>
     function confirmDownload(yymmdd) {
+
             var year = yymmdd.substring(2, 4);
             var month = yymmdd.substring(5, 7);
 
             var formattedDate = year + '/' + month;
+
             var message = formattedDate + " 월의 실적을 받으시겠습니까?";
 
             return confirm(message);
