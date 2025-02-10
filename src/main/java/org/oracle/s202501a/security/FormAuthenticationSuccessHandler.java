@@ -20,12 +20,12 @@ public class FormAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
     private final RequestCache requestCache = new HttpSessionRequestCache();
     //  Spring Security가 화면 이동에 대한 규칙을 정의하는 부분을 만든 인터페이스
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-    
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
     		Authentication authentication) throws IOException, ServletException {
     	// TODO Auto-generated method stub
-        setDefaultTargetUrl("/");
+        setDefaultTargetUrl("/mainPage");
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
