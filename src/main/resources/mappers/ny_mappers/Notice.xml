@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="org.oracle.s202501a.mapper.NoticeMapper"> 
+
+
+
+<!-- 공지사항 총 글 수 -->
+   <select id="nytotalNotice" resultType="int">
+      SELECT Count(*) FROM BOARD
+       WHERE BOARD_CATEGORY = 1
+   </select>
+      
+      
+ <!--  공지사항 리스트 (BOARD_CATEGORY = 1) -->      
+ <select id="nylistNotice" parameterType="org.oracle.s202501a.dto.ny_dto.Notice" resultType="org.oracle.s202501a.dto.ny_dto.Notice">      
+       <![CDATA[
+        SELECT *
+        FROM
+        (
+            SELECT rownum rn, a.*
+            FROM
+            (
+                SELECT
+                    b.board_No, 
+                    b.emp_No, 
+                    b.modifiedDate, 
+                    b.content, 
+                    b.createdDate, 
+                    b.title, 
+                    b.hits,
+                    e.emp_Name 
+                FROM 
+                    BOARD b
+                LEFT JOIN EMP e ON b.emp_No = e.emp_No
+                WHERE b.BOARD_CATEGORY = 1  
+                ORDER BY 
+                    b.board_No desc
+            ) a
+        )
+        WHERE rn >= #{start}
+          AND rn <= #{end}
+    ]]>
+    </select>
+    
+ <!--   게시판 조회수 -->
+<update id="nyntincreaseHit" parameterType="Long">
+    UPDATE  BOARD
+    SET Hits = Hits + 1 
+    WHERE board_No = #{board_No}
+    AND BOARD_CATEGORY = 1  
+</update>        
+     
+ <!--  공지사항 글 상세조회 (BOARD_CATEGORY = 0) -->    
+      <select id="nylistNoticeSelOne" parameterType="Long" resultType="org.oracle.s202501a.dto.ny_dto.Notice">
+    <![CDATA[
+    
+    SELECT
+            b.board_No, 
+            b.emp_No, 
+            b.modifiedDate, 
+            b.content, 
+            b.createdDate, 
+            b.title, 
+            b.hits,
+            e.emp_Name
+        FROM 
+            BOARD b
+        LEFT JOIN EMP e ON b.emp_No = e.emp_No
+        WHERE b.board_No = #{board_No}
+          AND b.BOARD_CATEGORY = 1  
+    ]]>
+    </select>
+    
+   <!--  공지사항 글 수정 (BOARD_CATEGORY = 1인 글만 수정 가능) -->
+    <update id="nyUpdateNotice" parameterType="org.oracle.s202501a.dto.ny_dto.Notice">
+        UPDATE BOARD
+        SET
+            modifiedDate = sysdate,  
+            content = #{content},    
+            title = #{title}         
+        WHERE board_No = #{board_No}  
+          AND BOARD_CATEGORY = 1  
+    </update>      
+    
+    
+    
+    <!--  공지사항 글 삭제 (BOARD_CATEGORY = 1인 글만 삭제 가능) -->
+    <delete id="nydeleteNotice" parameterType="Long">
+        DELETE FROM BOARD 
+        WHERE board_No = #{board_No}
+          AND BOARD_CATEGORY = 1  
+    </delete>
+    
+    
+      <!--  게시판 글 등록 (새 글의 BOARD_CATEGORY는 1으로 설정) -->
+    <insert id="nyinsertNotice" parameterType="org.oracle.s202501a.dto.ny_dto.Notice">
+        INSERT INTO BOARD 
+        (
+            BOARD_NO, 
+            EMP_NO, 
+            MODIFIEDDATE, 
+            CONTENT, 
+            CREATEDDATE, 
+            TITLE, 
+            BOARD_CATEGORY,       
+            HITS
+        ) 
+        VALUES 
+        (
+            board_seq.nextval, 
+            #{emp_No}, 
+            sysdate, 
+            #{content}, 
+            sysdate, 
+            #{title}, 
+            1,          
+            #{hits}
+        ) 
+    </insert>
+  
+           
+</mapper>

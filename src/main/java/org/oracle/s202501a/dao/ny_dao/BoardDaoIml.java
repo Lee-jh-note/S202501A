@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.oracle.s202501a.dto.ny_dto.Board;
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,7 +53,7 @@ public class BoardDaoIml implements BoardDao{
 	public Board contents(Long board_No) {
 		System.out.println("BoardDaoImpl detail start..");
 		Board board = new Board();
-
+		
 		try {
 			//
 			board = session.selectOne("nylistboardSelOne", board_No); // #기본키여서 셀렉트원?
@@ -104,16 +105,91 @@ public class BoardDaoIml implements BoardDao{
 		int result = 0;
 		System.out.println("BoardDaoImpl insertBoard Start...");
 		try {
-			System.out.println("BoardDaoImpl insertBoard Dept->"+board);
+			System.out.println("BoardDaoImpl insertBoard ->"+board);
 			result = session.insert("nyinsertBoard", board);
 		} catch (Exception e) {
 			System.out.println("BoardDaoImpl insertBoard Exception->" + e.getMessage());
 		}
 		return result;
 	}
+
+	
+	//게시판 조회 
+		@Override
+	    public void increaseHit(Long board_No) {
+	        System.out.println("BoardDAOImpl Start increaseHit... board_No: " + board_No);
+	        int result =0;
+	        result = session.update("nyincreaseHit", board_No);
+	        System.out.println("BoardDAOImpl Start increaseHit result: " + result);
+	    }
+
+	
+	//댓글 리스트
+	@Override
+	public List<Board> listReply(Board board) {
+		List<Board> listReply = null;
+		System.out.println("BoardDaoImpl listReply Start..." );
+		try {
+			listReply = session.selectList("nylistReply", board.getComment_Group());
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl listReply kk Exception->"+e.getMessage());
+		}
+		return listReply;
+
+	}
 	
 	
 	//댓글 등록
-	
-	
+	@Override
+	public int breply(Board board) {
+	       System.out.println("BoardDaoImpl breply board->"+board);
+	        int result = 0;
+	        int comment_Step = 0;
+	        try {
+	        	comment_Step = session.selectOne("nyGetMaxStep", board);
+	        	board.setComment_Step(comment_Step);
+	            result = session.insert("nyInsertComment", board);
+	        } catch (Exception e) {
+	            System.out.println("BoardDaoImpl breply Exception->" + e.getMessage());
+	        }
+			 System.out.println("breply Dao  board->"+board);
+
+	        return result;
+	    }
+
+
+	//댓글 수정
+	@Override
+	public int updateReply(Board board) {
+	       System.out.println("BoardDaoImpl breply board->"+board);
+	        int result = 0;
+	        int comment_Step = 0;
+	        try {
+//	        	comment_Step = session.selectOne("nyGetMaxStep", board);
+//	        	board.setComment_Step(comment_Step);
+	            result = session.update("nyupdateReply", board);
+	        } catch (Exception e) {
+	            System.out.println("BoardDaoImpl breply Exception->" + e.getMessage());
+	        }
+	        return result;
+	}
+
+
+	//댓글 삭제
+	@Override
+	public int deleteReply(Long board_No) {
+	    System.out.println("BoardDaoImpl breply board->"+board_No);
+        int result = 0;
+        try {
+            result = session.delete("nydeleteReply", board_No);
+        } catch (Exception e) {
+            System.out.println("BoardDaoImpl breply Exception->" + e.getMessage());
+        }
+        return result;
+	}
+
+
+
+
+
 }

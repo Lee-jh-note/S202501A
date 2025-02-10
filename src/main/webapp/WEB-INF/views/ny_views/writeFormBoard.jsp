@@ -1,117 +1,133 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ include file="../header.jsp"%>
-<%@ include file="../footer.jsp"%>
-<%@ include file="../menu.jsp"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>게시글 작성</title>
+    <title>게시판 등록</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../css/detail.css" rel="stylesheet">
+
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0 auto;
-            width: 80%;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
-        .content-detail {
-            margin: 50px auto;
-            width: 80%;
-        }
-        .content-detail table {
+        /* 기존 테이블 스타일 유지 */
+        .detail-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 50px;
-            table-layout: fixed;
         }
-        .content-detail th, .content-detail td {
-            border: 1px solid #ddd;
+
+        .detail-table th, .detail-table td {
+            border: 1px solid #dadada;
             padding: 10px;
-            text-align: left;
-            word-wrap: break-word;
+            vertical-align: middle;
         }
-        .content-detail th {
-            background-color: #f4f4f4;
-            width: 20%;
+
+        /* 입력 필드 스타일 */
+        .detail-table input, 
+        .detail-table textarea {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
-        .content-detail td {
-            background-color: #fff;
+
+        .detail-table textarea {
+            min-height: 200px;
+            resize: vertical;
         }
-        .button-group {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .button-group button {
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .button-group button:hover {
-            background-color: #45a049;
-        }
-        .button-group .cancel-button {
-            background-color: #f44336;
-        }
-        .button-group .cancel-button:hover {
-            background-color: #e53935;
+
+        /* 테이블 열 너비 조정 */
+        .detail-table th:nth-child(1),
+        .detail-table td:nth-child(1) { width: 10%; } /* 제목 */
+
+        .detail-table th:nth-child(2),
+        .detail-table td:nth-child(2) { width: 40%; } /* 제목 내용 */
+
+        .detail-table th:nth-child(3),
+        .detail-table td:nth-child(3) { width: 10%; } /* 작성자 */
+
+        .detail-table th:nth-child(4),
+        .detail-table td:nth-child(4) { width: 30%; } /* 작성자 이름 (30%) */
+
+        /* 버튼을 오른쪽 정렬 */
+        .detail-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
         }
     </style>
 </head>
-<body>
 
-    <h1>게시글 작성</h1>
+<body id="page-top">
+<div id="wrapper">
+    <%@ include file="../menu1.jsp" %>
 
-    <!-- 게시글 작성 폼 -->
-    <div class="content-detail">
-        <form action="/writeBoard" method="post">
-            <!-- 로그인한 사용자의 사원 번호를 hidden input으로 전달 -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <%@ include file="../header1.jsp" %>
+
+            <div class="detail-wrapper">
+                <div class="detail-header">
+                    <div>
+                        <div class="detail-submenu">게시판 > 자유게시판</div>
+                        <div class="detail-title">
+                            <div></div>
+                            <h1>자유게시글 등록</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-header-content">
+                    <form action="/board/writeBoard" method="post">
+                     <!-- 로그인한 사용자의 사원 번호를 hidden input으로 전달 -->
             <input type="hidden" name="emp_No" value="${empDTO.emp_No}">
             <input type="hidden" name="emp_Name" value="${empDTO.emp_Name}">
+                    
+                        <table class="detail-table">
+                            <!-- 제목 & 작성자 -->
+                            <tr>
+                                <th>제목</th>
+                                <td colspan="2">
+                                    <input type="text" name="title" required>
+                                </td>
+                                <th>작성자</th>
+                                <td colspan="1">
+                                     <span>${empDTO.emp_Name}</span> 
+                                </td>
+                            </tr>
 
-            <table>
-                <tr>
-                    <th>작성자</th>
-                    <td>
-                        <span>${empDTO.emp_Name}</span> <!-- 화면에만 표시 -->
-                    </td>
-                </tr>
-                <tr>
-                    <th>제목</th>
-                    <td>
-                        <input type="text" name="title" placeholder="제목을 입력하세요" style="width: 100%; padding: 5px;" required>
-                    </td>
-                </tr>
-                <tr>
-                    <th>내용</th>
-                    <td>
-                        <textarea name="content" placeholder="내용을 입력하세요" rows="10" style="width: 100%; padding: 5px;" required></textarea>
-                    </td>
-                </tr>
-            </table>
+                            <!-- 내용 -->
+                            <tr>
+                                <th>내용</th>
+                                <td colspan="5">
+                                    <textarea name="content" required></textarea>
+                                </td>
+                            </tr>
+                        </table>
 
-            <!-- 버튼 영역 -->
-            <div class="button-group">
-                <button type="submit">등록하기</button>
-                <a href="/BoardList" class="cancel-button" style="text-decoration: none; padding: 10px 20px; border-radius: 5px; background-color: #f44336; color: white; font-size: 14px;">취소</a>
+                        <!-- 버튼 -->
+                        <div class="detail-buttons">
+                            <button type="submit" class="detail-full-button">등록</button>
+                            <button type="button" class="detail-full-button" onclick="history.back()">취소</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
+
+        <%@ include file="../footer1.jsp" %>
     </div>
+</div>
+
+<!-- jQuery -->
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../js1/sb-admin-2.min.js"></script>
 
 </body>
 </html>

@@ -131,6 +131,19 @@ public class DeptDaoImpl implements DeptDao {
 	}
 
 
+	@Override
+	public Dept deptConfirm(Long deptNo) {
+		Dept dept = new Dept();
+      try {
+         dept = session.selectOne("nydeptConfirm", deptNo);
+      } catch (Exception e) {
+         System.out.println("DeptDaoImpl deptConfirm Exception->"+e.getMessage());
+      }
+      return dept;
+	}
+
+
+
 
 
 

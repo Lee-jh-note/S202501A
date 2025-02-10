@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자유 게시판 </title>
+    <title>공지사항</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
@@ -85,14 +85,14 @@
             <div class="list-wrapper">
                 <div class="list-header">
                     <div>
-                        <div class="list-submenu">게시판 > 자유게시판</div>
+                        <div class="list-submenu">게시판 > 공지사항</div>
                         <div class="list-title">
                             <div></div>
-                            <h1>자유게시판</h1>
+                            <h1>공지사항</h1>
                         </div>
                     </div>
                     <div class="list-buttons">
-                        <input type="button" value="등록" class="list-full-button" onclick="location.href='writeFormBoard'">
+                        <input type="button" value="등록" class="list-full-button" onclick="location.href='writeFormNotice'">
                     </div>
                 </div>
                 <div class="list-header2">
@@ -119,17 +119,18 @@
                         <th>글쓴이</th>
                         <th>작성일</th>
                         <th>조회수</th>
+                        
                     </tr>
                     </thead>
               <tbody>
-    <c:set var="num" value="${fn:length(listBoard)}"/> <!-- 총 개수 가져오기 -->
-    <c:forEach var="board" items="${listBoard}" varStatus="status">
-        <tr class="clickable-row" data-href="BoardContent?board_No=${board.board_No}">
+    <c:set var="num" value="${fn:length(listNotice)}"/> <!-- 총 개수 가져오기 -->
+    <c:forEach var="notice" items="${listNotice}" varStatus="status">
+        <tr class="clickable-row" data-href="NoticeContent?board_No=${notice.board_No}">
             <td>${num - status.index}</td> <!-- 역순으로 번호 표시 -->
-            <td>${board.title}</td>
-            <td>${board.emp_Name}</td>
-            <td><fmt:formatDate value="${board.createdDate}" pattern="yyyy-MM-dd HH:mm"/></td>
-            <td>${board.hits}</td>
+            <td>${notice.title}</td>
+            <td>${notice.emp_Name}</td>
+            <td><fmt:formatDate value="${notice.createdDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+            <td>${notice.hits}</td>
         </tr>
     </c:forEach>
 </tbody>
@@ -138,13 +139,13 @@
 
                 <div style="text-align: center; margin-top: 20px;">
                     <c:if test="${page.startPage > page.pageBlock }">
-				         <a href="BoardList?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+				         <a href="NoticeList?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
 				      </c:if>
 				      <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-				         <a href="BoardList?currentPage=${i}">[${i}]</a>
+				         <a href="NoticeList?currentPage=${i}">[${i}]</a>
 				      </c:forEach>
 				      <c:if test="${page.endPage < page.totalPage }">
-				         <a href="BoardList?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+				         <a href="NoticeList?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
 				      </c:if>
 
                 </div>

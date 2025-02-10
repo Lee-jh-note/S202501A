@@ -17,4 +17,5 @@ public interface DeptDao {
 	int countEmpInDept(Long dept_No);
 	int insertDept(Dept dept);
 	int updateDept(Dept dept);
+	Dept deptConfirm(Long deptNo);
 }

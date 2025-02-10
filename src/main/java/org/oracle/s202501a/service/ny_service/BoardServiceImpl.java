@@ -5,6 +5,7 @@ import java.util.List;
 import org.oracle.s202501a.dao.ny_dao.BoardDao;
 import org.oracle.s202501a.dto.ny_dto.Board;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import lombok.RequiredArgsConstructor;
 
@@ -75,12 +76,61 @@ public class BoardServiceImpl implements BoardService{
 		result = bd.insertBoard(board);
 		return result;
 	}
+
+	//게시글 조회
+	
+	
+	@Override
+	public void increaseHit(Long board_No) {
+	System.out.println("BoardServiceImpl Start increaseHit...");
+	 bd.increaseHit(board_No);
+	}
+
+	
+	
+	// 댓글 리스트
+	@Override
+	public List<Board> listReply(Board board) {
+		List<Board> listReply = null;
+		listReply = bd.listReply(board);
+		System.out.println("BoardServiceImpl listReply boardList.size()->" + listReply.size());
+
+		
+		return listReply;
+	}
 	
 	// 댓글 등록
-	
-	
-	
+	@Override
+	public int breply(Board board) {
+		int result = 0;
+		System.out.println("BoardServiceImpl addCommentboard->"+board);
+		result = bd.breply(board);
+		return  result;
+		
+	}
 
+	@Override
+	public int updateReply(Board board) {
+		 System.out.println("BoardServiceImpl Start updateReply...");
+		int result = 0;
+		result = bd.updateReply(board);
+	    return result;
+	}
+
+
+
+	@Override
+	public int deleteReply(Long board_No) {
+		System.out.println("BoardServiceImpl Start deleteReply...");
+		int result = 0;
+		result=bd.deleteReply(board_No);
+		return result;
+	}
 
 
 }
+ 
+	
+	
+
+

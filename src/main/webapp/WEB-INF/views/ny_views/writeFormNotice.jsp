@@ -6,20 +6,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>자유게시판 수정</title>
+    <title>게시판 등록</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
     <link href="../css/detail.css" rel="stylesheet">
 
     <style>
-        
-          pre {
-          font-family: inherit; /* 부모 요소의 폰트 스타일을 그대로 상속 */
-          font-size: 12px;  /* 부모 요소의 폰트 크기 유지 */
-          color: black;
-          white-space: pre-wrap; /* 자동 줄바꿈 적용 (줄바꿈 유지) */
-      }
         /* 기존 테이블 스타일 유지 */
         .detail-table {
             width: 100%;
@@ -42,22 +35,29 @@
         }
 
         .detail-table textarea {
-            min-height: 200px; /* 내용 칸의 최소 높이 설정 */
-            resize: vertical; /* 세로 크기 조절 가능 */
+            min-height: 200px;
+            resize: vertical;
         }
 
+        /* 테이블 열 너비 조정 */
+        .detail-table th:nth-child(1),
+        .detail-table td:nth-child(1) { width: 10%; } /* 제목 */
 
-    /* 버튼을 오른쪽 정렬 */
-    .detail-buttons {
-        display: flex;
-        justify-content: flex-end; /* 오른쪽 정렬 */
-        gap: 10px; /* 버튼 간격 */
-        margin-top: 10px;
-    }
-    </style>
-    <style type="text/css">
-        .detail-table td {
-            color: black;
+        .detail-table th:nth-child(2),
+        .detail-table td:nth-child(2) { width: 40%; } /* 제목 내용 */
+
+        .detail-table th:nth-child(3),
+        .detail-table td:nth-child(3) { width: 10%; } /* 작성자 */
+
+        .detail-table th:nth-child(4),
+        .detail-table td:nth-child(4) { width: 30%; } /* 작성자 이름 (30%) */
+
+        /* 버튼을 오른쪽 정렬 */
+        .detail-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -70,51 +70,48 @@
         <div id="content">
             <%@ include file="../header1.jsp" %>
 
-            <!-- 전체 div -->
             <div class="detail-wrapper">
                 <div class="detail-header">
                     <div>
-                        <div class="detail-submenu">게시판 > 자유게시판</div>
+                        <div class="detail-submenu">게시판 > 공지사항</div>
                         <div class="detail-title">
                             <div></div>
-                            <h1>자유게시글 수정</h1>
+                            <h1>자유게시글 등록</h1>
                         </div>
                     </div>
                 </div>
 
                 <div class="detail-header-content">
-                    <form action="/board/updateBoard" method="post">
-                        <input type="hidden" name="board_No" value="${board.board_No}">
-
+                    <form action="/notice/writeNotice" method="post">
+                     <!-- 로그인한 사용자의 사원 번호를 hidden input으로 전달 -->
+            <input type="hidden" name="emp_No" value="${empDTO.emp_No}">
+            <input type="hidden" name="emp_Name" value="${empDTO.emp_Name}">
+                    
                         <table class="detail-table">
-                            <!-- 제목 수정 가능 -->
+                            <!-- 제목 & 작성자 -->
                             <tr>
                                 <th>제목</th>
-                                <td colspan="5">
-                                    <input type="text" name="title" value="${board.title}" required>
+                                <td colspan="2">
+                                    <input type="text" name="title" required>
+                                </td>
+                                <th>작성자</th>
+                                <td colspan="1">
+                                     <span>${empDTO.emp_Name}</span> 
                                 </td>
                             </tr>
 
-                            <!-- 내용 수정 가능 -->
+                            <!-- 내용 -->
                             <tr>
                                 <th>내용</th>
                                 <td colspan="5">
-                                    <textarea name="content" required>${board.content}</textarea>
+                                    <textarea name="content" required></textarea>
                                 </td>
-                            </tr>
-
-                            <!-- 작성일 & 수정일 -->
-                            <tr class="date-row">
-                                <th>작성일</th>
-                                <td colspan="2"><fmt:formatDate value="${board.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                                <th>수정일</th>
-                                <td colspan="2"><fmt:formatDate value="${board.modifiedDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                             </tr>
                         </table>
 
                         <!-- 버튼 -->
                         <div class="detail-buttons">
-                            <button type="submit" class="detail-full-button">저장</button>
+                            <button type="submit" class="detail-full-button">등록</button>
                             <button type="button" class="detail-full-button" onclick="history.back()">취소</button>
                         </div>
                     </form>

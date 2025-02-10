@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>자유게시판 수정</title>
+    <title>게시판 수정</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
@@ -74,24 +74,24 @@
             <div class="detail-wrapper">
                 <div class="detail-header">
                     <div>
-                        <div class="detail-submenu">게시판 > 자유게시판</div>
+                        <div class="detail-submenu">게시판 > 공지사항</div>
                         <div class="detail-title">
                             <div></div>
-                            <h1>자유게시글 수정</h1>
+                            <h1>게시글 수정</h1>
                         </div>
                     </div>
                 </div>
 
                 <div class="detail-header-content">
-                    <form action="/board/updateBoard" method="post">
-                        <input type="hidden" name="board_No" value="${board.board_No}">
+                    <form action="/notice/updateNotice" method="post">
+                        <input type="hidden" name="board_No" value="${notice.board_No}">
 
                         <table class="detail-table">
                             <!-- 제목 수정 가능 -->
                             <tr>
                                 <th>제목</th>
                                 <td colspan="5">
-                                    <input type="text" name="title" value="${board.title}" required>
+                                    <input type="text" name="title" value="${notice.title}" required>
                                 </td>
                             </tr>
 
@@ -99,16 +99,16 @@
                             <tr>
                                 <th>내용</th>
                                 <td colspan="5">
-                                    <textarea name="content" required>${board.content}</textarea>
+                                    <textarea name="content" required>${notice.content}</textarea>
                                 </td>
                             </tr>
 
                             <!-- 작성일 & 수정일 -->
                             <tr class="date-row">
                                 <th>작성일</th>
-                                <td colspan="2"><fmt:formatDate value="${board.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                <td colspan="2"><fmt:formatDate value="${notice.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                                 <th>수정일</th>
-                                <td colspan="2"><fmt:formatDate value="${board.modifiedDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                <td colspan="2"><fmt:formatDate value="${notice.modifiedDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                             </tr>
                         </table>
 
