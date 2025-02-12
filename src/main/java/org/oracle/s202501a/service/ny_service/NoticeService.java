@@ -13,6 +13,9 @@ public interface NoticeService {
 	
 	int updateNotice(Notice notice); //공지 수정
 	int deleteNotice(Long board_No); // 공지 삭제
-	int insertNotice(Notice notice); 
+	int insertNotice(Notice notice);
+	int condTotalNotice(Notice notice);
+	List<Notice> listSearchNotice(Notice notice);
+	
 
 }

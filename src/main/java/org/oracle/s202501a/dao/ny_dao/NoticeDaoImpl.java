@@ -124,5 +124,34 @@ public class NoticeDaoImpl implements NoticeDao  {
 			}
 			return result;
 		}
+
+
+
+		  @Override
+		    public int condTotalNotice(Notice notice) {
+		        int totNoticeCount = 0;
+		        System.out.println("NoticeDaoImpl Start condTotalNotice...");
+
+		        try {
+		            totNoticeCount = session.selectOne("nyCondNoticeTotal", notice);
+		            System.out.println("NoticeDaoImpl condTotalNotice totNoticeCount->" + totNoticeCount);
+		        } catch (Exception e) {
+		            System.out.println("NoticeDaoImpl condTotalNotice Exception->" + e.getMessage());
+		        }
+		        return totNoticeCount;
+		    }
+
+		    @Override
+		    public List<Notice> noticeSearchList(Notice notice) {
+		        List<Notice> noticeSearchList = null;
+		        System.out.println("NoticeDaoImpl noticeSearchList Start ...");
+
+		        try {
+		            noticeSearchList = session.selectList("nySearchListNotice", notice);
+		        } catch (Exception e) {
+		            System.out.println("NoticeDaoImpl noticeSearchList Exception->" + e.getMessage());
+		        }
+		        return noticeSearchList;
+		    }
 	
 }

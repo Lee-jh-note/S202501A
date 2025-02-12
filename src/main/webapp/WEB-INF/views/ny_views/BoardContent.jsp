@@ -11,7 +11,10 @@
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
     <link href="../css/detail.css" rel="stylesheet">
+    
+    
     <style>
+
         /* 모달 스타일 */
         .modal-overlay {
             display: none; /* 기본적으로 숨김 */
@@ -198,12 +201,23 @@
 
 /* 댓글 내용 */
 .comment-text {
-    margin-top: 5px;
+     margin-top: 3px; /* 위쪽 여백 최소화 */
+    padding: 3px 5px; /* 내부 패딩 줄이기 */
+    line-height: 1.6; /* 줄 간격 조정 */
     word-break: break-word; /* 긴 단어 줄바꿈 */
-      font-family: inherit;
-        font-size: 14px;
-        color: black;
+     font-family: inherit;
+       
 }
+
+
+/* 댓글 내용에서 스크롤바 제거 */
+.comment-text pre {
+    overflow: hidden; /* 스크롤바 숨김 */
+    white-space: pre-wrap; /* 자동 줄바꿈 */
+    word-wrap: break-word; /* 긴 단어도 줄바꿈 */
+}
+
+
 
 /* 댓글 버튼 정렬 */
 .comment-buttons {
@@ -232,12 +246,7 @@
     padding: 5px 10px;
 }
 
-    pre {
-   font-family: inherit; /* 부모 요소의 폰트 스타일을 그대로 상속 */
-   font-size: 12px;  /* 부모 요소의 폰트 크기 유지 */
-   color: black;
-   white-space: pre-wrap; /* 자동 줄바꿈 적용 (줄바꿈 유지) */
-}    
+   
     </style>
     
     <style type="text/css">
@@ -263,14 +272,17 @@
                             <h1>자유게시글 상세</h1>
                         </div>
                     </div>
+                   
                    <div class="detail-buttons">
-                        <input class="detail-empty-button" type="button" value="목록" onclick="location.href='BoardList'">
-                            <input class="detail-full-button" type="button" value="수정"
+                        <input class="btn detail-empty-button" type="button" value="목록" onclick="location.href='BoardList'">
+                             <c:if test="${board.emp_No eq empDTO.emp_No}">
+                             <input class="btn detail-full-button" type="button" value="수정"
                             onclick="location.href='updateBoardForm?board_No=${board.board_No}'">
-                            <input class="detail-full-button" type="button" value="삭제" onclick="handleDeleteBoard('${board.board_No}')">
-
+                            <input class="btn detail-full-button" type="button" value="삭제" onclick="handleDeleteBoard('${board.board_No}')">
+                    </c:if>
                     </div>
-   
+  				
+  					 
                 </div>
 
                 <div class="detail-header-content">
@@ -282,8 +294,8 @@
                         </tr>
                        
                         <tr class="date-row">
-                             <th>작성일</th><td colspan="2"><fmt:formatDate value="${board.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                            <th>수정일</th><td colspan="3"><fmt:formatDate value="${board.modifiedDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>                                       
+                             <th>작성일</th><td colspan="2"><fmt:formatDate value="${board.createdDate}" pattern="yyyy-MM-dd"/></td>
+                            <th>수정일</th><td colspan="3"><fmt:formatDate value="${board.modifiedDate}" pattern="yyyy-MM-dd"/></td>                                       
                          </tr>
                        
                      	<tr> 
@@ -314,7 +326,7 @@
 
                         <!-- 댓글 내용 -->
                         <div class="comment-text" id="commentText-${board.board_No}">
-                            ${board.content}
+                            <pre>${board.content}</pre>
                         </div>
 
                         <!-- 수정 폼 (기본 숨김) -->
@@ -323,16 +335,16 @@
                                 <input type="hidden" name="board_No" value="${board.board_No}">
                                 <input type="hidden" name="comment_Group" value="${board.comment_Group}">
                                 <textarea name="content" rows="2" required>${board.content}</textarea>
-                                <button type="submit" class="detail-gray-button">저장</button>
-                                <button type="button" class="detail-gray-button" onclick="cancelEdit('${board.board_No}')">취소</button>
+                                <button type="submit" class="btn detail-gray-button">저장</button>
+                                <button type="button" class="btn detail-gray-button" onclick="cancelEdit('${board.board_No}')">취소</button>
                             </form>
                         </div>
 
                         <!-- 본인만 수정 및 삭제 가능 -->
                         <c:if test="${board.emp_No eq empDTO.emp_No}">
                             <div class="comment-buttons" id="commentButtons-${board.board_No}">
-                                <button type="button" class="detail-gray-button" onclick="editComment('${board.board_No}')">수정</button>
-                                <button type="button" class="detail-gray-button" onclick="handleDeleteReply('${board.board_No}', '${board.comment_Group}')">삭제</button>
+                                <button type="button" class="btn detail-gray-button" onclick="editComment('${board.board_No}')">수정</button>
+                                <button type="button" class="btn detail-gray-button" onclick="handleDeleteReply('${board.board_No}', '${board.comment_Group}')">삭제</button>
                             </div>
                         </c:if>
                     </li>
@@ -352,8 +364,8 @@
 		        style="width:100%; height:120px; min-height:120px; resize:vertical; font-size:14px; padding:10px;"
 		        placeholder="댓글을 입력하세요..." required></textarea>
 		
-		    <button type="submit" class="detail-gray-button" id="commentSubmit">댓글 작성</button>
-		    <button type="button" class="detail-gray-button" id="cancelEdit" style="display: none;" onclick="cancelEdit()">취소</button>
+		    <button type="submit" class="btn detail-gray-button" id="commentSubmit">댓글 작성</button>
+		    <button type="button" class="btn detail-gray-button" id="cancelEdit" style="display: none;" onclick="cancelEdit()">취소</button>
 	  </form>
 
     </div>

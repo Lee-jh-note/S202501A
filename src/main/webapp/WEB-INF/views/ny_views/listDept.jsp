@@ -15,6 +15,25 @@
 
 
 <style>
+    .list-empty-button{
+    	padding: 8px 12px;
+    	font-size: 12px;
+    	border-radius: 4px;
+    	cursor: pointer;
+   		background-color: white;
+   		color: #4e73df;
+    	border: 1px solid #4e73df;
+	}
+
+  .detail-gray-button{
+   		 padding: 8px 12px;
+    	font-size: 12px;
+    	border: none;
+    	border-radius: 4px;
+    	cursor: pointer;
+    	background-color: #898c89;
+   		 color: white;
+	}
     /* 모달 스타일 */
     .modal-overlay {
         display: none; /* 기본적으로 숨김 */
@@ -67,9 +86,6 @@
         color: #000;
     }
 </style>
-
-
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -182,15 +198,15 @@ function openModal(message, onConfirm) {
             <div class="list-wrapper">
                 <div class="list-header">
                     <div>
-                        <div class="list-submenu">인사 관리 > 부서 조회</div>
+                        <div class="list-submenu">인사관리 > 부서 조회</div>
                         <div class="list-title">
                             <div></div>
                             <h1>부서 조회</h1>
                         </div>
                     </div>
                     <div class="list-buttons">
-                    <input type="button" value="목록" class="list-full-button" onclick="history.back()">
-                        <input type="button" value="등록" class="list-full-button" onclick="location.href='writeFormDept'">
+                    <input type="button" value="목록" class="btn list-empty-button" onclick="history.back()">
+                        <input type="button" value="등록" class="btn list-full-button" onclick="location.href='writeFormDept'">
                     </div>
                 </div>
                 <div class="list-header2">
@@ -218,9 +234,9 @@ function openModal(message, onConfirm) {
                 				<td>${dept.dept_Name}</td>
                 				<td>${dept.dept_Tel}</td>
 								<td> 
-								<button onclick="confirmDelete(${dept.dept_No}, 
-								'${dept.dept_Name}')">삭제</button>
-                    			<input type="button" value="수정" onclick="editRow(this)"></td>
+								<button onclick="confirmDelete(${dept.dept_No} , 
+								'${dept.dept_Name}')" class="btn detail-gray-button" >삭제</button>
+                    			<input type="button" class="btn detail-gray-button" value="수정" onclick="editRow(this)"></td>
                        			</tr>
                 
                     </c:forEach>

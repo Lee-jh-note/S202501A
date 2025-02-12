@@ -111,8 +111,8 @@
 
                         <!-- 버튼 -->
                         <div class="detail-buttons">
-                            <button type="submit" class="detail-full-button">등록</button>
-                            <button type="button" class="detail-full-button" onclick="history.back()">취소</button>
+                            <button type="submit" class="btn detail-full-button">등록</button>
+                            <button type="button" class="btn detail-full-button" onclick="history.back()">취소</button>
                         </div>
                     </form>
                 </div>

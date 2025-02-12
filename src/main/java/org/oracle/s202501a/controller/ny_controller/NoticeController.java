@@ -146,5 +146,33 @@ public class NoticeController {
 					return "redirect:NoticeList";
 				 
 			 }
+				
+				// 제목 검색 (listSearchNotice)
+			    @RequestMapping(value = "listSearchNotice")
+			    public String listSearchNotice(Notice notice, Model model) {
+			        System.out.println("NoticeController Start listSearchNotice...");
+			        System.out.println("NoticeController listSearchNotice notice->" + notice);
+
+			        int totalNotice = ns.condTotalNotice(notice);
+			        System.out.println("NoticeController listSearchNotice totalNotice=>" + totalNotice);
+
+			        Paging page = new Paging(totalNotice, notice.getCurrentPage());
+			        notice.setStart(page.getStart());
+			        notice.setEnd(page.getEnd());
+			        System.out.println("NoticeController listSearchNotice page=>" + page);
+
+			        List<Notice> listSearchNotice = ns.listSearchNotice(notice);
+
+			        System.out.println("NoticeController listSearchNotice listSearchNotice.size()=>" + listSearchNotice.size());
+			        System.out.println("NoticeController listSearchNotice listSearchNotice=>" + listSearchNotice);
+
+			        model.addAttribute("totalNotice", totalNotice);
+			        model.addAttribute("listNotice", listSearchNotice);
+			        model.addAttribute("page", page);
+
+			        return "ny_views/NoticeList";
+			    }	
+				
+				
 	
 }

@@ -349,7 +349,7 @@ public class EmpController {
    @ResponseBody // ajax를 json으로 보내기
    @GetMapping(value = "deptConfirm")
    public Map<String, Object> deptConfirm(Dept dept1) {
-      System.out.println("PurchaseController confirm start,,");
+      System.out.println("EmpController confirm start,,");
 
       Dept dept = es.deptConfirm(dept1.getDept_No());
 
@@ -365,5 +365,28 @@ public class EmpController {
 
       return response;
    }
+   
+   
+   
+   @ResponseBody // ajax를 json으로 보내기
+   @GetMapping(value = "empConfirm")
+   public Map<String, Object> deptConfirm(Emp emp1) {
+      System.out.println("EmpController confirm start,,");
 
-}
+      Emp emp = es.empConfirm(emp1.getEmp_Name());
+
+      Map<String, Object> response = new HashMap<>();
+
+      if (emp != null) {
+         System.out.println("empConfirm 중복된 이름.. ");
+         response.put("isDuplicate", true);
+      } else {
+         System.out.println("empConfirm 중복되지 않은 이름.. ");
+         response.put("isDuplicate", false);
+      }
+
+      return response;
+   }
+
+} 
+   

@@ -12,15 +12,36 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-    function chk() {
-        if (!frm.emp_No.value) {
-            alert("사번을 입력한 후에 확인하세요");
-            frm.emp_No.focus();
-            return false;
-        } else {
-            location.href = "confirm?emp_No=" + frm.emp_No.value;
-        }
+function chk() {
+    if (!frm.Emp_name.value) {
+        alert("직원이름 입력한 후에 확인하세요");
+        frm.Emp_name.focus();
+        return false;
     }
+    
+    $.ajax({
+        url: "<%=request.getContextPath()%>/empDept/empConfirm",
+        type: "GET",
+        data: {
+            emp_Name: frm.Emp_name.value
+        },
+        dataType: "json",
+        success: function (response) {
+            if (response.isDuplicate) {
+                alert("동일한 이름 존재. 소문자 알파벳을 뒤에 붙이시오");
+                isDuplicateChecked = false;
+            } else {
+                alert("이름 등록 가능");
+                isDuplicateChecked = true; // 중복 확인을 위해 isDuplicateChecked
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX 오류:", textStatus, errorThrown);
+            alert("중복 확인 중 오류가 발생했습니다.");
+        }
+    });
+    
+}   
 </script>
 </head>
 <body id="page-top">
@@ -43,16 +64,16 @@
                             </div>
                         </div>
                         <div class="insert-buttons">
-                            <button class="insert-empty-button" type="button" onclick="location.href='/empDept/listEmp'">취소</button>
+                            <button class="btn insert-empty-button" type="button" onclick="location.href='/empDept/listEmp'">취소</button>
 
-                            <button class="insert-full-button" id="btn" type="submit">확인</button>
+                            <button class="btn insert-full-button" id="btn" type="submit">확인</button>
                         </div>
                     </div>
 
                     <!-- 등록 테이블은 전체 div의 70프로 -->
                     <div class="insert-header-content">
                     <table class="insert-table">
-                   <tr><th>이름</th><td>       <input  type="text"    name="empName"          required="required"></td></tr>
+                   <tr><th>이름</th><td>    <input  type="String"     name="Emp_name"  required="required">   <input type="button" class="btn insert-gray-button" value="중복확인" onclick="chk()"></td></tr>
                    <tr><th>부서</th>
                     <td><select name="dept_No">
                             <c:forEach var="emp" items="${deptList}">

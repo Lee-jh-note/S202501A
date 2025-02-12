@@ -9,7 +9,7 @@
 <!-- 게시판 총 글 수 -->
    <select id="nytotalBoard" resultType="int">
       SELECT Count(*) FROM BOARD
-       WHERE BOARD_CATEGORY = 0 
+       WHERE BOARD_CATEGORY = 0 AND COMMENT_STEP =0
       
    </select>
    
@@ -231,6 +231,13 @@
     WHERE board_No = #{board_No}
       AND BOARD_CATEGORY = 0  
 </delete>
+
+
+
+
+
+
+
 
 
 </mapper>

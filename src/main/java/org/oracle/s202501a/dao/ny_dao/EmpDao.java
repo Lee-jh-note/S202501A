@@ -15,6 +15,7 @@ public interface EmpDao {
 	int condTotalEmp(Emp emp);
 	List<Emp> empSearchList3(Emp emp);
 	List<Emp> empPosSelect();
+	Emp empConfirm(String emp_Name);
 	
 	
 }

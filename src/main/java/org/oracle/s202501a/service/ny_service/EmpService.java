@@ -47,6 +47,7 @@ public interface EmpService {
 	int updateDept(Dept dept); //부서 수정
 	
 	Dept deptConfirm(Long deptNo); // 부서 중복 확인
+	Emp empConfirm(String emp_Name); // 이름 중복 확인
 
 
 }

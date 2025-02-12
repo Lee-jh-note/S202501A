@@ -232,5 +232,11 @@
 		where e.dept_no=d.dept_=No(+)
 		order by Emp_No
 	</select>
+	   
+   <select id="nyempConfirm" parameterType="String" resultType="org.oracle.s202501a.dto.ny_dto.Emp">
+      select *
+      from emp
+      where emp_name = #{emp_name}
+   </select>
 
 </mapper>

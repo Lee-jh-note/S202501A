@@ -35,6 +35,7 @@
                         <input type="button" value="등록" class="list-full-button" onclick="location.href='writeFormEmp'">
                     </div>
                 </div>
+                
                 <div class="list-header2">
                     <div></div>
                     <!-- 검색영역을 .search-filters 로 감싸기 -->
