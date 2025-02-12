@@ -276,8 +276,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // 테이블 사이즈 조정 함수
     function toggleTableSize() {
@@ -380,18 +378,13 @@
 
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="../../../../js1/sb-admin-2.min.js"></script>
-<!-- Bootstrap Bundle -->
-<script src="../../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin -->
-<script src="../../../../vendor/jquery-easing/jquery.easing.min.js"></script>
 </body>
 </html>

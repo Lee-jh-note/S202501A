@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 메뉴바 시작 -->
 <!-- Sidebar -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<%--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
+<%--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>--%>
 <ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: #395B7F;" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -85,7 +85,8 @@
             <i class="fas fa-fw fa-city"></i>
             <span>거래처 관리</span>
         </a>
-        <div id="collapseClient" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseClient" class="collapse" aria-labelledby="headingTwo"
+             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">거래처:</h6>
                 <a class="collapse-item" href="/client/listClient">거래처 조회</a>
@@ -139,7 +140,7 @@
     <!-- 채팅 -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseChat"
-           aria-expanded="true" aria-controls="collapseChat">
+           aria-expanded="true" aria-controls="collapseChat" >
             <i class="fas fa-fw fa-comments"></i>
             <span>채팅</span>
         </a>
@@ -159,5 +160,6 @@
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
 </ul>
+
 <!-- End of Sidebar -->
 <!-- 메뉴바 끝 -->

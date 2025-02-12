@@ -22,16 +22,6 @@
             text-decoration: none;
             color: black;
         }
-        .list-table a {
-            color: black !important;
-            text-decoration: none;
-        }
-
-        .list-table a:hover {
-            color: #555555;
-            font-weight: bold;
-        }
-
 
         .button-group {
             /*display: flex;*/
@@ -86,10 +76,10 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li><a class="dropdown-item" href="javascript:void(0);"
-                                       onclick="window.open('/Prod/Category/List', 'Popup', 'width=800,height=500,scrollbars=yes');">분류
+                                       onclick="window.open('/Sales/Category/List', 'Popup', 'width=800,height=500,scrollbars=yes');">분류
                                     목록</a></li>
                                 <li><a class="dropdown-item" href="javascript:void(0);"
-                                       onclick="window.open('/Prod/Category/Create', 'Popup', 'width=800,height=500,scrollbars=yes');">분류
+                                       onclick="window.open('/Sales/Category/Create', 'Popup', 'width=800,height=500,scrollbars=yes');">분류
                                     생성</a></li>
                             </ul>
                         </div>
@@ -203,12 +193,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="../../../../js1/sb-admin-2.min.js"></script>
-
-<script src="../../../../vendor/jquery/jquery.min.js"></script>
-
-<script src="../../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
 </body>
 </html>
