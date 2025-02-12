@@ -138,7 +138,7 @@ thead th { text-align: center; }
 			
 			<!-- 상태가 '0'(대기)일 때만 수정/삭제 버튼 표시 -->
 		    <c:if test="${infoSales.status == '0'}">
-		        <button type="button" onclick="location.href='/updateSales?sales_date=${infoSales.sales_date}&client_no=${infoSales.client_no}'">수정</button>
+		        <button type="button" onclick="location.href='/sales/updateSales?sales_date=${infoSales.sales_date}&client_no=${infoSales.client_no}'">수정</button>
 		        <button type="button" onclick="openDeleteSalesModal()">삭제</button>
  			<!-- alert 방식 <button type="button" onclick="confirmDeleteSales()">삭제</button> -->
 		    </c:if> 
@@ -201,7 +201,7 @@ function deleteSales() {
     // 서버로 보낼 데이터전송 폼 동적 생성
     const form = document.createElement('form');
     form.method = 'POST'; // POST 전송방식
-    form.action = '/deleteSales';
+    form.action = '/sales/deleteSales';
     
     // sales_date 값 넣은 input1 생성
     const inputSalesDate = document.createElement('input');
@@ -230,7 +230,7 @@ function deleteSales() {
     setTimeout(() => {
         document.body.appendChild(form);
         form.submit();
-    }, 2000); // 2초 후에 이동
+    }, 1000); // 1초 후에 이동
 }
 </script>
 </body>

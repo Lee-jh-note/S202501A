@@ -2,7 +2,6 @@ package org.oracle.s202501a.dao.rw_dao;
 
 import java.util.List;
 
-import org.oracle.s202501a.dto.rw_dto.SalesAll;
 import org.oracle.s202501a.dto.rw_dto.SalesDetailsAll;
 
 public interface SalesDetailsDao {
@@ -15,8 +14,8 @@ public interface SalesDetailsDao {
     
     
     // 출고/미출고 처리(상태 변경)
-    int 					updateSalesStatus(SalesAll sales); // 수주 상태 변경
-    int 					updateSalesDetailsStatus(SalesDetailsAll salesDetails); // 수주상세 상태 변경
+    int 					updateSalesStatus(String sales_date, int client_no, int status); // 수주 상태 변경
+    int 					updateSalesDetailsStatus(String sales_date, int client_no, int product_no, int emp_no, int status); // 수주상세 상태 변경
 
     
     // 출고 (수주 상태: 출고)

@@ -6,14 +6,16 @@ import java.util.Map;
 
 import org.oracle.s202501a.dto.rw_dto.SalesAll;
 import org.oracle.s202501a.dto.rw_dto.SalesDetailsAll;
+import org.oracle.s202501a.dto.sh_dto.EmpDTO;
 import org.oracle.s202501a.service.rw_service.Paging;
 import org.oracle.s202501a.service.rw_service.SalesService;
+import org.oracle.s202501a.service.sh_service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,11 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-//@RequestMapping("/sales")
+@RequestMapping("sales")
 public class SalesController {
 
 	private final SalesService salesService;
-
+	private final UserService userService;
+	
+//	private final 
 	// =============================================================
 	//                             등록
 	// =============================================================
@@ -42,15 +46,23 @@ public class SalesController {
 		log.debug("조회된 거래처 목록: {}", clientList);
 		// 제품 목록 조회(드롭다운)
 		List<SalesDetailsAll> productList = salesService.getProductList();
-		log.debug("조회된 제품 목록: {}", productList);
-		// 담당자 목록 조회(드롭다운) - 임시용
-		List<SalesAll> empList = salesService.getEmpList();
-		log.debug("조회된 담당자 목록: {}", empList);
+		log.debug("조회된 제품 목록: {}", productList);		
+//		// 담당자 목록 조회(드롭다운) - 임시용
+//		List<SalesAll> empList = salesService.getEmpList();
+//		log.debug("조회된 담당자 목록: {}", empList);
+		
+		// 세션에서 가져온 담당자 (현재 로그인 되어있는 직원) - 수주담당자
+		EmpDTO dto = userService.getSe();
+		Long emp_no = dto.getEmp_No();
+		String emp_name = dto.getEmpName();
 
 		// 조회된 데이터 모델에 추가
 		model.addAttribute("clientList", clientList);
 		model.addAttribute("productList", productList);
-		model.addAttribute("empList", empList);
+//		model.addAttribute("empList", empList);
+		model.addAttribute("emp_no",emp_no);
+		model.addAttribute("emp_name",emp_name);
+
 
 		// 수주 등록 페이지로 이동
 		return "rw_views/createSales";
@@ -248,7 +260,7 @@ public class SalesController {
     	    log.info("수주 삭제 완료 (deleteSalesCount={})", deleteSalesCount); 
     	    
             // 삭제가 성공하면 수주 목록 페이지로 리다이렉트
-            return "redirect:/listSales";
+            return "redirect:/sales/listSales";
             
         } catch (Exception e) {
             e.printStackTrace();

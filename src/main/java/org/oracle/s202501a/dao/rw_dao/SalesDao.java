@@ -1,9 +1,7 @@
 package org.oracle.s202501a.dao.rw_dao;
 
 import java.util.List;
-import java.util.Map;
 
-import org.oracle.s202501a.dto.rw_dto.Sales;
 import org.oracle.s202501a.dto.rw_dto.SalesAll;
 import org.oracle.s202501a.dto.rw_dto.SalesDetails;
 import org.oracle.s202501a.dto.rw_dto.SalesDetailsAll;
@@ -12,11 +10,11 @@ public interface SalesDao {
 
     // 등록
     int 					createSales(SalesAll sales); // 수주 정보 등록
-    int 					createSalesDetails(SalesDetails details); // 수주 품목 등록
+    int 					createSalesDetails(SalesDetailsAll salesDetails); // 수주 품목 등록
 		
     List<SalesAll> 			getClientList(); // 거래처 목록 조회 (드롭다운)
     List<SalesDetailsAll> 	getProductList(); // 제품 목록 조회 (드롭다운)
-    List<SalesAll>      	getEmpList(); // 담당자 목록 조회 (드롭다운) - 임시용
+//    List<SalesAll>      	getEmpList(); // 담당자 목록 조회 (드롭다운) - 임시용
 	int 					getProductPrice(int product_No); // 품목 선택 시 단가 자동설정
 	int 					checkDuplicateSales(String client_no, String sales_date); // 중복확인 (같은 날짜에 같은 거래처 여부 확인)
 

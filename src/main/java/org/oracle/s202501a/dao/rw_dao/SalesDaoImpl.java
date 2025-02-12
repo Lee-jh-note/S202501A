@@ -37,7 +37,7 @@ public class SalesDaoImpl implements SalesDao {
 
 	// 수주 품목 등록 
 	@Override
-	public int createSalesDetails(SalesDetails details) {
+	public int createSalesDetails(SalesDetailsAll details) {
 		try {
 			return sqlSession.insert("createSalesDetails", details);
 		} catch (Exception e) {
@@ -68,16 +68,16 @@ public class SalesDaoImpl implements SalesDao {
 		}
 	}
 
-	// 담당자 목록 조회 (드롭다운) -임시용
-	@Override
-	public List<SalesAll> getEmpList() {
-		try {
-			return sqlSession.selectList("getEmpList");
-		} catch (Exception e) {
-			log.error("getEmpList 실패: {}", e.getMessage(), e);
-			return List.of(); // 빈 리스트 반환
-		}
-	}
+//	// 담당자 목록 조회 (드롭다운) -임시용
+//	@Override
+//	public List<SalesAll> getEmpList() {
+//		try {
+//			return sqlSession.selectList("getEmpList");
+//		} catch (Exception e) {
+//			log.error("getEmpList 실패: {}", e.getMessage(), e);
+//			return List.of(); // 빈 리스트 반환
+//		}
+//	}
 	
 	// 품목 선택 시 단가 자동설정
 	@Override

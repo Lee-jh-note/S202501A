@@ -2,7 +2,6 @@ package org.oracle.s202501a.service.rw_service;
 
 import java.util.List;
 
-import org.oracle.s202501a.dto.rw_dto.SalesAll;
 import org.oracle.s202501a.dto.rw_dto.SalesDetailsAll;
 
 public interface SalesDetailsService {
@@ -13,11 +12,9 @@ public interface SalesDetailsService {
     List<SalesDetailsAll> 	infoPreSalesDetailsList(SalesDetailsAll salesDetails); // 출고 예정 품목 상세조회
     
     
-    // 출고/미출고 처리(상태 변경)
-//    int 					updateSalesStatus(SalesAll sales); // 수주 상태 변경
-//    int 					updateSalesDetailsStatus(SalesDetailsAll salesDetails); // 수주상세 상태 변경
-//	boolean 				updateSalesDetailsStatus(SalesAll sales, int[] productNos, String[] detailStatuses);
-	boolean 				updateSalesStatus(SalesAll sales, int[] productNos, String[] detailStatuses);
+    // 출고/미출고 처리 (상태 변경)
+	boolean 				updateSalesStatus(int[] checked, String[] salesDates, int[] clientNos, int[] productNos, int emp_no);
+//	boolean 				updateSalesStatus(int[] statuses, String[] salesDates, int[] clientNos, int[] productNos, int emp_no);
 
     
     // 출고 (수주 상태: 출고)
