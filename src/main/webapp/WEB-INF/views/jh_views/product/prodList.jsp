@@ -7,9 +7,9 @@
     <title>Product List</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/list.css" rel="stylesheet">
+    <link href="/../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/../css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/../css/list.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -22,6 +22,16 @@
             text-decoration: none;
             color: black;
         }
+        .list-table a {
+            color: black !important;
+            text-decoration: none;
+        }
+
+        .list-table a:hover {
+            color: #555555;
+            font-weight: bold;
+        }
+
 
         .button-group {
             /*display: flex;*/
@@ -142,7 +152,7 @@
                 <!-- 페이지 네비게이션 -->
                 <div class="text-center mt-3">
                     <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                        <a href="/Prod/ProdList?name=${name}&type=${type}&currentPage=${i}"
+                        <a href="/all/Prod/ProdList?name=${name}&type=${type}&currentPage=${i}"
                            class="btn btn-link">${i}</a>
                     </c:forEach>
                 </div>
@@ -182,7 +192,7 @@
         var category = document.getElementById("category").value;  // 대분류
 
         // URL에 쿼리 문자열을 추가하여 서버로 전달
-        var url = "/Prod/ProdList?name=" + encodeURIComponent(productName) + "&type=" + encodeURIComponent(category);
+        var url = "/all/Prod/ProdList?name=" + encodeURIComponent(productName) + "&type=" + encodeURIComponent(category);
 
         // 페이지 리디렉션 (서버에서 데이터를 처리하여 해당 URL로 이동)
         window.location.href = url;

@@ -32,7 +32,7 @@ public class ProductController {
         return "jh_views/ProdTest";
     }
     // 리스트 조회, 검색
-    @RequestMapping("/Prod/ProdList")
+    @RequestMapping("/all/Prod/ProdList")
     public String prodList(Model model,
                            ProductDto productDto,
                            @RequestParam(value = "name", required = false) String name,
@@ -79,7 +79,7 @@ public class ProductController {
     }
 
     // 수정 폼 이동
-    @GetMapping("Prod/ProdModify")
+    @GetMapping("/Prod/ProdModify")
     public String prodModify(Model model, @RequestParam("productNo") Long productNo) throws JsonProcessingException {
 
         ProductPriceDto dto = productService.prodDetails(productNo);

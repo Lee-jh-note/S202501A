@@ -1,5 +1,9 @@
 server:
   port: 8353
+  servlet:
+    jsp:
+      init-parameters:
+        development=true: # jsp 라이브 서버
 
 
 
@@ -7,10 +11,11 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521/xe
-    username: pjt
-    password: tiger
+    username: pjttest
+    password: test
 
-#  # 파일 사이즈 관리
+
+  #  # 파일 사이즈 관리
 #  servlet:
 #    multipart:
 #      max-file-size: 10MB

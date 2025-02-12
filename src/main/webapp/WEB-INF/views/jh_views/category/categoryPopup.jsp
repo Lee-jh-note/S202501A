@@ -1,119 +1,133 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>카테고리 관리</title> <!-- Bootstrap CSS 추가 -->
+    <title>카테고리 관리</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
-        table {
-            margin: auto;
-            width: auto;
-            border-collapse: collapse; /* 셀 간 테두리가 겹치지 않도록 설정 */
-            table-layout: auto;
-            border: 1px solid #555555; /* 테이블의 외부 테두리 설정 */
-            border-radius: 5px;
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
         }
 
-        td, th {
-            padding: 10px;
-            min-width: 100px;
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
             text-align: center;
-            align-content: center;
-            font-size: 12px;
-            border: 1px solid #555555; /* 각 셀의 테두리 설정 */
+            border: 1px solid #ddd;
+            font-size: 14px;
+            min-width: 100px;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: white;
+            color: #3b5998;
         }
 
         .top {
-            text-align: center;
+            background-color: #f2f2f2;
+            font-weight: bold;
         }
 
-        .mid {
-            border: 1px solid #555555;
-            background-color: #f4f4f4;
+        a {
+            color: #000000;
             text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #2f8efd;
+            text-decoration: underline;
+        }
+
+        .card {
+            margin-bottom: 15px;
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-<div class="container mt-4"><h3 class="text-center mb-4">카테고리 목록</h3> <!-- 분류 생성 버튼 -->
-    <div>
-        <table class="tb1">
-            <tbody>
+<div class="container">
+    <h3 class="text-center mb-4">카테고리 목록</h3>
 
-            <c:set var="maxMidCount" value="0"/>
-
-            <!-- 최대 중분류 개수 구하기 -->
-            <c:forEach var="topCategory" items="${topList}">
-                <c:set var="midCount" value="0"/>
-                <c:forEach var="midCategory" items="${midList}">
-                    <c:if test="${midCategory.top_category == topCategory.top_category}">
-                        <c:set var="midCount" value="${midCount + 1}"/>
-                    </c:if>
-                </c:forEach>
-                <c:if test="${midCount > maxMidCount}">
-                    <c:set var="maxMidCount" value="${midCount}"/>
-                </c:if>
-            </c:forEach>
-            <c:forEach var="topCategory" items="${topList}">
-                <tr>
-                    <th>
-                        대분류
-                    </th>
-                    <td colspan="${maxMidCount}" class="top" ><a href="/Prod/Category/Modify?top_category=${topCategory.top_category}"
-                           class="text-decoration-none">${topCategory.title}</a></td>
-                </tr>
-                <tr>
-                    <th>
-                        중분류
-                    </th>
-                    <c:set var="midCount" value="0"/>
-                    <c:forEach var="midCategory" items="${midList}">
-                        <c:if test="${midCategory.top_category == topCategory.top_category}">
-                            <td class="mid">
-                                <a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}"
-                                   class="text-decoration-none">${midCategory.content}</a>
-                            </td>
-                            <c:set var="midCount" value="${midCount + 1}"/>
-                        </c:if>
-                    </c:forEach>
-
-                    <!-- 중분류가 부족한 경우 빈 td 추가 -->
-                    <c:forEach begin="1" end="${maxMidCount - midCount}">
-                        <td class="mid"></td>
-                    </c:forEach>
-                </tr>
-            </c:forEach>
-
-            </tbody>
-        </table>
+    <div class="row">
+        <c:forEach var="topCategory" items="${topList}">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <a href="javascript:void(0);" onclick="toggleMidCategories('${topCategory.top_category}')">
+                                ${topCategory.title}
+                        </a>
+                    </div>
+                    <div class="card-body" id="midCategories_${topCategory.top_category}" style="display: none;">
+                        <table class="table">
+                            <tbody>
+                            <c:set var="count" value="0"/>
+                            <tr>
+                                <c:forEach var="midCategory" items="${midList}">
+                                <c:if test="${midCategory.top_category == topCategory.top_category}">
+                                <td>
+                                    <a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}">
+                                            ${midCategory.content}
+                                    </a>
+                                </td>
+                                <c:set var="count" value="${count + 1}"/>
+                                <c:if test="${count % 2 == 0}">
+                            </tr><tr>
+                                </c:if>
+                                </c:if>
+                                </c:forEach>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
     </div>
-</div> <!-- Bootstrap JS, Popper.js, jQuery 추가 -->
+</div>
 
 <script>
-    // td 갯수에 맞게 테이블의 크기를 조정하는 JavaScript 코드
-    function resizeTable() {
-        const table = document.getElementById('tb1');
-        const rows = table.getElementsByTagName('tr');
-        let maxColumns = 0;
-
-        // 각 행에서 td 갯수를 세서 가장 많은 td가 있는 행의 갯수를 찾음
-        for (let row of rows) {
-            const columns = row.getElementsByTagName('td');
-            maxColumns = Math.max(maxColumns, columns.length);
+    function toggleMidCategories(topCategory) {
+        var row = document.getElementById("midCategories_" + topCategory);
+        if (row.style.display === "none") {
+            row.style.display = "block";
+        } else {
+            row.style.display = "none";
         }
-
-        // 테이블의 너비를 td 갯수에 맞게 설정
-        table.style.width = (maxColumns * 50) + 'px';  // 각 td가 100px 너비로 가정
     }
-
-    // 페이지가 로드된 후 테이블 크기 조정
-    window.onload = resizeTable;
 </script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

@@ -87,11 +87,8 @@
         <%@ include file="../../footer1.jsp" %>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-
-
     $(document).ready(function () {
         // 폼 제출 시 중복 체크
         $('#submitBtn').on('click', function (event) {

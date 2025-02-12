@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 메뉴바 시작 -->
 <!-- Sidebar -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: #395B7F;" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -103,7 +105,7 @@
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">제품:</h6>
-                <a class="collapse-item" href="/Prod/ProdList">제품 조회</a>
+                <a class="collapse-item" href="/all/Prod/ProdList">제품 조회</a>
                 <a class="collapse-item" href="/Prod/ProdCreate">제품 등록</a>
                 <a class="collapse-item" href="/Prod/PriceList">가격 변동 내역</a>
                 <a class="collapse-item" href="/Inven/InvenList">재고 관리</a>
@@ -156,8 +158,6 @@
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
-
-
 </ul>
 <!-- End of Sidebar -->
 <!-- 메뉴바 끝 -->
