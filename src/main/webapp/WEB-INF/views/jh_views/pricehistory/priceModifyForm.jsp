@@ -8,9 +8,9 @@
     <!-- Bootstrap CSS 추가 -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/detail.css" rel="stylesheet">
+    <link href="/../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/../css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/../css/detail.css" rel="stylesheet">
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -19,7 +19,7 @@
         <div id="content">
             <%@ include file="../../header1.jsp" %>
 
-            <form method="POST" action="/Prod/PriceModifyAct">
+            <form method="POST" action="/Sales/PriceModifyAct">
                 <div class="detail-wrapper">
 
                     <div class="detail-header">
@@ -82,7 +82,7 @@
                                 </td>
                         </table>
                         <div class="detail-buttons">
-                            <a href="/Prod/PriceList" class="btn btn-secondary">돌아가기</a>
+                            <a href="/All/Sales/PriceList" class="btn btn-secondary">돌아가기</a>
                             <button type="submit" class="btn btn-dark">수정</button>
                         </div>
                     </div>

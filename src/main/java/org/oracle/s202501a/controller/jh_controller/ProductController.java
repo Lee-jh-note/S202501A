@@ -23,16 +23,10 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    private final ProductDao productDao;
     private final ProdCategoryService prodCategoryService;
 
-    @GetMapping("/tttt")
-    public String prodMain(Model model) {
-
-        return "jh_views/ProdTest";
-    }
     // 리스트 조회, 검색
-    @RequestMapping("/all/Prod/ProdList")
+    @RequestMapping("/All/Sales/ProdList")
     public String prodList(Model model,
                            ProductDto productDto,
                            @RequestParam(value = "name", required = false) String name,
@@ -49,7 +43,7 @@ public class ProductController {
     }
 
     // 등록
-    @GetMapping("/Prod/ProdCreate")
+    @GetMapping("/Sales/ProdCreate")
     public String prodCreate(Model model) throws JsonProcessingException {
         CategoriesDto category = prodCategoryService.prodCateFindAll();
 
@@ -64,14 +58,14 @@ public class ProductController {
     }
 
     // 등록 액션
-    @PostMapping("/Prod/ProdCreateAct")
+    @PostMapping("/Sales/ProdCreateAct")
     public String prodCreateAct(ProductPriceDto productPriceDtoDto, Model model) {
         productService.createProduct(productPriceDtoDto);
         return "redirect:/Prod/ProdList";
     }
 
     // 상세 페이지
-    @GetMapping("/Prod/ProdDetails")
+    @GetMapping("/All/Sales/ProdDetails")
     public String prodDetails(@RequestParam("productNo") Long productNo, Model model) {
         ProductPriceDto dto = productService.prodDetails(productNo);
         model.addAttribute("ProductPrice", dto);
@@ -79,7 +73,7 @@ public class ProductController {
     }
 
     // 수정 폼 이동
-    @GetMapping("/Prod/ProdModify")
+    @GetMapping("/Sales/ProdModify")
     public String prodModify(Model model, @RequestParam("productNo") Long productNo) throws JsonProcessingException {
 
         ProductPriceDto dto = productService.prodDetails(productNo);
@@ -97,7 +91,7 @@ public class ProductController {
     }
 
     // 수정 액션
-    @PostMapping("/Prod/ProdModifyAct")
+    @PostMapping("/Sales/ProdModifyAct")
     public String prodModifyAct(ProductPriceDto productPriceDtoDto, Model model) {
         System.out.println("수정");
         productService.prodModify(productPriceDtoDto);
@@ -106,7 +100,7 @@ public class ProductController {
     }
 
     //제품 삭제
-    @PostMapping("/Prod/ProdDelete")
+    @PostMapping("/Sales/ProdDelete")
     public String prodDelete(ProductDto productDto, Model model) {
         System.out.println("삭제");
         productService.prodDelete(productDto);
@@ -114,14 +108,14 @@ public class ProductController {
     }
 
     // 상태 일괄 변경
-    @PostMapping("/Prod/Status")
+    @PostMapping("/Sales/Status")
     public String status(@RequestParam(value = "product_no", required = false) List<Long>product_no) {
         productService.prodStatus(product_no);
         return "redirect:/Prod/ProdList"; // 수정 후 다시 리스트
     }
 
     // 제품 이름 중복체크
-    @GetMapping("/Prod/validProdName")
+    @GetMapping("/Sales/validProdName")
     @ResponseBody
     public String validProdName(@RequestParam("prodName") String prodName) {
         // 1 = 중복

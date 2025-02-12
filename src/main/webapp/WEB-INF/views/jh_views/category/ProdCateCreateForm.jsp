@@ -37,7 +37,7 @@
 
 <div class="container">
     <h2>분류 등록</h2>
-    <form action="/Prod/Category/Create" method="post">
+    <form action="/Sales/Category/Create" method="post">
         <!-- 대분류 입력 필드 -->
         <div class="form-group">
             <label for="category">대분류 선택</label>
@@ -103,7 +103,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/Prod/Category/add',
+                url: '/Sales/Category/add',
                 data: {
                     newTopCategory: newTopCategory,
                     newMidCategory: newMidCategory
@@ -121,7 +121,7 @@
                     $('#addCategoryModal').modal('hide');  // 모달 닫기
 
                     // 리스트 페이지로 리다이렉션
-                    window.location.href = '/Prod/Category/Create';  // 리스트 페이지로 이동
+                    window.location.href = '/Sales/Category/Create';  // 리스트 페이지로 이동
                 },
                 error: function(xhr, status, error) {
                     alert("오류 발생: " + error);

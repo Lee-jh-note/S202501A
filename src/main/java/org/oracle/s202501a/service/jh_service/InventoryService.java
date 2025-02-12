@@ -104,13 +104,13 @@ public class InventoryService {
 
     public void QuantityModify(Long prodNo, int quantity) {
 
-//        System.out.println("서비스 수정 타겟 : " + prodNo + " / " + quantity);
+        System.out.println("서비스 수정 타겟 : " + prodNo + " / " + quantity);
         // 기말 체크
         InventoryDto ClosingDto = inventoryDao.findStockByProdStock(prodNo, 1);
-//        System.out.println("기말 : " + ClosingDto);
+        System.out.println("기말 : " + ClosingDto);
         // 기초 체크
         InventoryDto BeginningDto = inventoryDao.findStockByProdStock(prodNo, 0);
-//        System.out.println("기초 : " + BeginningDto);
+        System.out.println("기초 : " + BeginningDto);
 
         if (ClosingDto != null && BeginningDto != null) {
             int closingQuantity = quantity - ClosingDto.getQuantity();
@@ -125,8 +125,8 @@ public class InventoryService {
          else if (BeginningDto != null) {
             BeginningDto.setQuantity(quantity);
              inventoryDao.quantityModify(BeginningDto);
-//        } else {
-//             log.info("여기 오면 큰일남");
+        } else {
+             log.info("여기 오면 큰일남");
         }
 
     }
@@ -137,6 +137,9 @@ public class InventoryService {
         long emp_no = userService.getSe().getEmp_No();
         dto.setEmp_no((int)emp_no);
         dto.setYymm(yymm);
+
+        System.out.println("Tyymm : " + yymm);
+        System.out.println("Temp_no : " + emp_no);
 
         inventoryDao.dayClosing(dto);
     }

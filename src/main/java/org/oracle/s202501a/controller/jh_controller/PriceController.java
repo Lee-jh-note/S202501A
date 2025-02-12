@@ -22,7 +22,7 @@ public class PriceController {
     private final PriceHistoryService priceHistoryService;
 
     // 조회, 검색
-    @GetMapping("/Prod/PriceList")
+    @GetMapping("/All/Sales/PriceList")
     public String priceList(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "type", required = false) Integer type,
@@ -39,7 +39,7 @@ public class PriceController {
     }
 
     // 지나간 날짜에 대한 가격 수정
-    @GetMapping("/Prod/PriceModify")
+    @GetMapping("/Sales/PriceModify")
     public String priceModify(Model model, PriceHistoryProductModel model2) {
         PriceHistoryModel model1 = priceHistoryService.findById(model2.getId());
         Map<String, Object> map = new HashMap<>();
@@ -52,10 +52,10 @@ public class PriceController {
     }
 
     // 지나간 날짜에 대한 가격 수정
-    @PostMapping("/Prod/PriceModifyAct")
+    @PostMapping("/Sales/PriceModifyAct")
     public String priceModifyAct(PriceHistoryModel priceHistoryModel) {
 //        System.out.println(priceHistoryModel);
         priceHistoryService.oldPriceModify(priceHistoryModel);
-        return "redirect:/Prod/PriceList";
+        return "redirect:/All/Sales/PriceList";
     }
 }

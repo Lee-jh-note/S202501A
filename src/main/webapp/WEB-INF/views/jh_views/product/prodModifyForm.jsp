@@ -20,7 +20,7 @@
         <div id="content">
             <%@ include file="../../header1.jsp" %>
 
-            <form action="/Prod/ProdModifyAct" method="post">
+            <form action="/Sales/ProdModifyAct" method="post">
                 <div class="detail-wrapper">
 
                     <div class="detail-header">

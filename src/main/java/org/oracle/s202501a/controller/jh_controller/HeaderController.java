@@ -15,7 +15,7 @@ public class HeaderController {
     private final UserService userService;
 
     @ResponseBody
-    @GetMapping("/headerData")
+    @GetMapping("/All/headerData")
     public String headerData() {
         return userService.getSe().getEmpName() == null ? "" : userService.getSe().getEmpName();
     }

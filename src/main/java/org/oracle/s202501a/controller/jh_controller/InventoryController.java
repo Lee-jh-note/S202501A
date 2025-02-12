@@ -20,7 +20,7 @@ public class InventoryController {
     private final ProductService productService;
 
     // 조회, 검색
-    @GetMapping("/Inven/InvenList")
+    @GetMapping("/All/Logistics/InvenList")
     public String invenList(Model model,
                             InventoryDto inventoryDto,
                             @RequestParam(value = "product_name", required = false) String product_name,
@@ -40,14 +40,14 @@ public class InventoryController {
     }
 
     // 적정 수량 수정
-    @PostMapping("/Inven/OptimalModify")
+    @PostMapping("/Logistics/OptimalModify")
     public String optimalModify(@RequestParam(value = "product_no", required = false) Long product_no,
                                 @RequestParam("optimal_quantity") int optimal) {
 
         System.out.println(product_no+ " 타겟 수량 : " + optimal);
         inventoryService.optimalModify(product_no, optimal);
 
-        return "redirect:/Inven/InvenList";
+        return "redirect:/All/Logistics/InvenList";
     }
 
 //    // 재고 수기 등록
@@ -59,22 +59,22 @@ public class InventoryController {
 //    }
 
     // 수기 등록 액션
-    @PostMapping("/Inven/Inven/CreateAct")
+    @PostMapping("/Logistics/Inven/CreateAct")
     public String createAct(InventoryDto inventoryDto) {
         inventoryService.invenCreate(inventoryDto);
-        return "redirect:/Inven/InvenList";
+        return "redirect:/All/Inven/InvenList";
     }
 
     // 마감 처리
-    @PostMapping("/Inven/Inven/Closing")
+    @PostMapping("/Logistics/Inven/Closing")
     public String closing(ClosingDto Dto) {
 
         inventoryService.closing(Dto);
-        return "redirect:/Inven/InvenList";
+        return "redirect:/All/Inven/InvenList";
     }
 
     // 마감 진행 확인
-    @GetMapping("/Inven/Inven/ClosingCheck")
+    @GetMapping("/Logistics/Inven/ClosingCheck")
     @ResponseBody
     public String closingCheck(@RequestParam(name = "yymm") String yymm) {
         boolean isClosed = inventoryService.closingCheck(yymm);
@@ -87,16 +87,16 @@ public class InventoryController {
     }
 
 //    @ResponseBody
-    @PostMapping("/Inven/QuantityModify")
+    @PostMapping("/Logistics/QuantityModify")
     public String QuantityModify(@RequestParam("prodNo") Long prodNo,
                                  @RequestParam("quantity") int quantity) {
 
         inventoryService.QuantityModify(prodNo, quantity);
 
-        return "redirect:/Inven/InvenList";
+        return "redirect:/All/Logistics/InvenList";
     }
 
-    @GetMapping("/Inven/DayClosing")
+    @GetMapping("/Logistics/DayClosing")
     @ResponseBody
     public String DayClosing() {
          inventoryService.dayClosing();

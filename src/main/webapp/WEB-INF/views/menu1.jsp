@@ -51,9 +51,9 @@
                 <a class="collapse-item" href="/purchaseDetail/listPurchaseDetailNo">미입고 조회</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">출고:</h6>
-                <a class="collapse-item" href="/listPreSalesDetails">출고 예정 리스트</a>
-                <a class="collapse-item" href="/listGoSalesDetails">출고 조회</a>
-                <a class="collapse-item" href="/listNoSalesDetails">미출고 조회</a>
+                <a class="collapse-item" href="/salesDetails/listPreSalesDetails">출고 예정 리스트</a>
+                <a class="collapse-item" href="/salesDetails/listGoSalesDetails">출고 조회</a>
+                <a class="collapse-item" href="/salesDetails/listNoSalesDetails">미출고 조회</a>
             </div>
         </div>
     </li>
@@ -72,8 +72,8 @@
                 <a class="collapse-item" href="/purchase/listPurchase">발주 조회</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">수주:</h6>
-                <a class="collapse-item" href="/createSales">수주 등록</a>
-                <a class="collapse-item" href="/listSales">수주 조회</a>
+                <a class="collapse-item" href="/sales/createSales">수주 등록</a>
+                <a class="collapse-item" href="/sales/listSales">수주 조회</a>
             </div>
         </div>
     </li>
@@ -105,11 +105,11 @@
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">제품:</h6>
-                <a class="collapse-item" href="/all/Prod/ProdList">제품 조회</a>
-                <a class="collapse-item" href="/Prod/ProdCreate">제품 등록</a>
-                <a class="collapse-item" href="/Prod/PriceList">가격 변동 내역</a>
-                <a class="collapse-item" href="/Inven/InvenList">재고 관리</a>
-                <a class="collapse-item" href="/Recodes/List">실적 관리</a>
+                <a class="collapse-item" href="/All/Sales/ProdList">제품 조회</a>
+                <a class="collapse-item" href="/Sales/ProdCreate">제품 등록</a>
+                <a class="collapse-item" href="/All/Sales/PriceList">가격 변동 내역</a>
+                <a class="collapse-item" href="/All/Logistics/InvenList">재고 관리</a>
+                <a class="collapse-item" href="/All/Recodes/List">실적 관리</a>
             </div>
         </div>
     </li>

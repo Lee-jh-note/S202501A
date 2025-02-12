@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="list-buttons">
-                        <a href="/Prod/ProdCreate" class="btn list-full-button">제품 등록</a>
+                        <a href="/Sales/ProdCreate" class="btn list-full-button">제품 등록</a>
                         <div class="dropdown">
                             <button class="btn dropdown-toggle list-full-button" type="button"
                                     id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -115,7 +115,7 @@
                             <button id="searchButton" class="list-gray-button">조회</button>
                             <button type="button" id="submitBtn" class="list-status-button">상태 변경</button>
                         </div>
-                        <form id="statusForm" action="/Prod/Status" method="post" onsubmit="return validateForm()"
+                        <form id="statusForm" action="/Sales/Status" method="post" onsubmit="return validateForm()"
                               style="margin: 0">
                             <table class="list-table">
                                 <thead>
@@ -133,7 +133,7 @@
                                     <tr>
                                         <td>${product.product_no}</td>
                                         <td>
-                                            <a href="/Prod/ProdDetails?productNo=${product.product_no}">${product.product_name}</a>
+                                            <a href="/All/Sales/ProdDetails?productNo=${product.product_no}">${product.product_name}</a>
                                         </td>
                                         <td>${product.description}</td>
                                         <td>${product.status == 0 ? '비활성' : '활성'}</td>
@@ -152,7 +152,7 @@
                 <!-- 페이지 네비게이션 -->
                 <div class="text-center mt-3">
                     <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                        <a href="/all/Prod/ProdList?name=${name}&type=${type}&currentPage=${i}"
+                        <a href="/All/Sales/ProdList?name=${name}&type=${type}&currentPage=${i}"
                            class="btn btn-link">${i}</a>
                     </c:forEach>
                 </div>
@@ -192,7 +192,7 @@
         var category = document.getElementById("category").value;  // 대분류
 
         // URL에 쿼리 문자열을 추가하여 서버로 전달
-        var url = "/all/Prod/ProdList?name=" + encodeURIComponent(productName) + "&type=" + encodeURIComponent(category);
+        var url = "/All/Sales/ProdList?name=" + encodeURIComponent(productName) + "&type=" + encodeURIComponent(category);
 
         // 페이지 리디렉션 (서버에서 데이터를 처리하여 해당 URL로 이동)
         window.location.href = url;

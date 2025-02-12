@@ -51,7 +51,7 @@
 
 <script>
     $.ajax({
-        url: '/headerData',
+        url: '/All/headerData',
         type: 'GET',
         success: function (data) {
             $('#userName').text(data);

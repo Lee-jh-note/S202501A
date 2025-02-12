@@ -32,7 +32,7 @@
 
 
     <!-- 카테고리 수정 폼 -->
-    <form action="/Prod/Category/ModifyAct" method="post" class="d-flex flex-column">
+    <form action="/Sales/Category/ModifyAct" method="post" class="d-flex flex-column">
         <button type="submit" class="bt1 align-self-end">수정</button>
         <div class="mb-3">
             <div>
@@ -51,7 +51,7 @@
     </form>
     <div class="d-flex gap-2">
 
-        <form id="deleteCategoryForm" action="/Prod/Category/Delete" method="post" onsubmit="return confirmDelete();">
+        <form id="deleteCategoryForm" action="/Sales/Category/Delete" method="post" onsubmit="return confirmDelete();">
             <input type="hidden" name="top_category" value="${category.top_category}">
             <input type="hidden" name="mid_category" value="${category.mid_category}">
             <button type="submit" class="bt btn btn-danger">삭제</button>
@@ -75,7 +75,7 @@
         // 중분류가 없거나 0일 경우 경고 메시지
         if (!midCategory || midCategory == "0") {
             alert("중분류를 먼저 삭제해주세요.");
-            location.href = "/Prod/Category/List";
+            location.href = "/All/Sales/Category/List";
             return false; // 폼 제출 막음
         }
 

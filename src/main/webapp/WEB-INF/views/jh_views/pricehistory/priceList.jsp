@@ -9,9 +9,9 @@
     <title>Price List</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/list.css" rel="stylesheet">
+    <link href="/../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/../css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/../css/list.css" rel="stylesheet">
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -36,7 +36,7 @@
                 <div class="list-header2">
                     <div></div>
                     <div class="list-search-filters">
-                        <form action="/Prod/PriceList" method="get"
+                        <form action="/All/Sales/PriceList" method="get"
                               style="display: flex; gap: 10px; align-items: center;">
 
                             <label for="name">제품명</label>
@@ -83,13 +83,13 @@
                                 <c:choose>
                                     <c:when test="${price.to_date == '99/12/31'}">
                                         <!-- '99/12/31'이면 ProdModify로 이동 -->
-                                        <a href="/Prod/ProdModify?productNo=${price.product_no}" class="price-link">
+                                        <a href="/Sales/ProdModify?productNo=${price.product_no}" class="price-link">
                                             <fmt:formatNumber value="${price.price}" pattern="#,###"/>
                                         </a>
                                     </c:when>
                                     <c:otherwise>
                                         <!-- 그 외에는 PriceModify로 이동 -->
-                                        <a href="/Prod/PriceModify?id=${price.id}&product_no=${price.product_no}&product_name=${price.product_name}"
+                                        <a href="/Sales/PriceModify?id=${price.id}&product_no=${price.product_no}&product_name=${price.product_name}"
                                            class="price-link">
                                             <fmt:formatNumber value="${price.price}" pattern="#,###"/>
                                         </a>
@@ -104,7 +104,7 @@
                 <!-- 페이지 네비게이션 -->
                 <div class="text-center mt-3">
                     <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                        <a href="/Prod/PriceList?name=${SName}&type=${SType}&currentPage=${i}"
+                        <a href="/All/Sales/PriceList?name=${SName}&type=${SType}&currentPage=${i}"
                            class="btn btn-link">${i}</a>
                     </c:forEach>
                 </div>

@@ -96,7 +96,7 @@
                                 <c:forEach var="midCategory" items="${midList}">
                                 <c:if test="${midCategory.top_category == topCategory.top_category}">
                                 <td>
-                                    <a href="/Prod/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}">
+                                    <a href="/Sales/Category/Modify?top_category=${topCategory.top_category}&mid_category=${midCategory.mid_category}">
                                             ${midCategory.content}
                                     </a>
                                 </td>

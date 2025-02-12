@@ -10,9 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/list.css" rel="stylesheet">
+    <link href="/../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/../css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/../css/list.css" rel="stylesheet">
     <style>
         .table-container {
             display: flex;
@@ -88,7 +88,7 @@
                     <div></div>
                     <!-- 검색 폼 추가 -->
                     <div class="list-search-filters">
-                        <form action="/Inven/InvenList" method="get"
+                        <form action="/All/Logistics/InvenList" method="get"
                               style="display: flex; gap: 10px; align-items: center;">
                             <!-- 년월 검색 -->
                             <div>
@@ -159,7 +159,7 @@
                     <%--       재고조정--%>
                     <div class="inventory-form" id="inventoryForm">
                         <h4 style="text-align: center">재고 조정</h4>
-                        <form action="/Inven/QuantityModify" method="post">
+                        <form action="/Logistics/QuantityModify" method="post">
                             <div class="mb-3">
                                 <label for="product_name" class="form-label">제품명</label>
                                 <select id="product_name" name="prodNo" class="form-control"
@@ -187,7 +187,7 @@
                 <div class="text-center mt-3">
 
                     <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                        <a href="/Inven/InvenList?yymm=${type}&product_name=${name}&currentPage=${i}"/>${i}</a>
+                        <a href="/All/Logistics/InvenList?yymm=${type}&product_name=${name}&currentPage=${i}"/>${i}</a>
                     </c:forEach>
                 </div>
 
@@ -202,7 +202,7 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="/Inven/OptimalModify" method="post">
+                                <form action="/Logistics/OptimalModify" method="post">
                                     <input type="hidden" id="product_no" name="product_no" value=""/>
                                     <div class="mb-3">
                                         <label for="optimal_quantity" class="form-label">최적수량</label>
@@ -228,7 +228,7 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="/Inven/Inven/CreateAct" method="post">
+                                <form action="/Logistics/Inven/CreateAct" method="post">
                                     <div class="form-group">
                                         <label for="yymm">기준 년월</label>
                                         <input type="text" name="yymm" id="yymm" class="form-control"
@@ -299,7 +299,7 @@
         var yymm = document.getElementById("yymm").value;
 
         $.ajax({
-            url: '/Inven/Inven/ClosingCheck',
+            url: '/Logistics/Inven/ClosingCheck',
             method: 'GET',
             data: {yymm: yymm},
             success: function (response) {
@@ -307,7 +307,7 @@
                     if (confirm(yymm + " 날짜로 마감을 진행하시겠습니까?")) {
                         var form = document.createElement('form');
                         form.method = 'POST';
-                        form.action = '/Inven/Inven/Closing';
+                        form.action = '/Logistics/Inven/Closing';
 
                         var input = document.createElement('input');
                         input.type = 'hidden';
@@ -319,8 +319,12 @@
                         form.submit();
                         alert(yymm + "월 마감 완료되었습니다.");
                     }
+                    else if (response === "0") {
+                        alert("이미 마감처리된 내역입니다.");
+
+                    }
                 } else {
-                    alert("이미 마감처리된 내역입니다.");
+                    alert("권한이 없습니다.");
                 }
             },
             error: function (xhr, status, error) {
@@ -362,11 +366,17 @@
     // 일 마감처리
     $(document).ready(function() {
         $("#dayClosingLink").click(function() {
-            alert("내역이 업데이트되었습니다.");
-            // 페이지 리다이렉션
-            window.location.href = "/Inven/InvenList";
+            $.ajax({
+                url: "/Logistics/DayClosing",
+                type: "GET",
+                success: function(response) {
+                    alert("내역이 업데이트되었습니다.");
+                    window.location.href = "/All/Logistics/InvenList";
+                }
+            });
         });
     });
+
 
 
 </script>

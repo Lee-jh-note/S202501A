@@ -9,9 +9,9 @@
     <title>실적</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/list.css" rel="stylesheet">
+    <link href="/../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/../css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/../css/list.css" rel="stylesheet">
     <style>
         input[type="month"] {
             padding: 3px 8px;
@@ -49,7 +49,7 @@
                 <div class="list-header2">
                     <div></div>
                     <div class="list-search-filters">
-                        <form action="/Recodes/List" method="get"
+                        <form action="/All/Recodes/List" method="get"
                               style="display: flex; gap: 10px; align-items: center;">
                             <label for="searchMonth" class="form-label">년/월 </label>
                             <input type="month" id="searchMonth" name="yymmdd"
@@ -102,7 +102,7 @@
 
                 <div class="text-center mt-3">
                     <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                        <a href="/Recodes/List?currentPage=${i}&yymmdd=${yymmdd}&product_name=${param.product_name}"
+                        <a href="/All/Recodes/List?currentPage=${i}&yymmdd=${yymmdd}&product_name=${param.product_name}"
                            class="btn btn-link">${i}</a>
                     </c:forEach>
                 </div>

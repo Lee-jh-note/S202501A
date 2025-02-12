@@ -41,12 +41,16 @@ public class SecurityConfig {
                                 .requestMatchers("/css/**", "/images/**", "/js/**", "/favicon.*", "/*/icon-*"
                                         , "/WEB-INF/views/**", "/vendor/**", "/css1/**").permitAll()
                                 .requestMatchers("/", "/writeFormEmp3", "/login", "/error").permitAll()
-                                .requestMatchers("/Sales").hasAuthority("ROLE_SALES")
-                                .requestMatchers("/Logistics").hasAuthority("ROLE_LOGISTICS")
-                                .requestMatchers("/HR").hasAuthority("ROLE_HR")
-//                                .requestMatchers("/all/**").authenticated()// /all/~ url 은 로그인된 모든 사용자 접근 허용
-                                .requestMatchers("/Prod/**").hasAnyAuthority("ROLE_LOGISTICS")
-//							.requestMatchers("/**").permitAll()
+                                .requestMatchers("/Sales/**").hasAnyAuthority("ROLE_SALES", "ROLE_MANAGERMENT")
+                                .requestMatchers("/Logistics/**").hasAnyAuthority("ROLE_SALES", "ROLE_MANAGERMENT")
+                                .requestMatchers("/HR/**")
+                                .permitAll()
+//                                .hasAuthority("ROLE_HR")
+                                .requestMatchers("/All/**").authenticated()// /all/~ url 은 로그인된 모든 사용자 접근 허용
+                                .requestMatchers("/mainPage").permitAll()
+//                                .requestMatchers("/**")
+//                                .permitAll()
+//                                .hasAuthority("ROLE_MANAGERMENT")
 //                            .requestMatchers("/admanager").access(new WebExpressionAuthorizationManager("hasRole('ADMIN') or hasRole('MANAGER')"))
                                 .anyRequest().authenticated()
                 )

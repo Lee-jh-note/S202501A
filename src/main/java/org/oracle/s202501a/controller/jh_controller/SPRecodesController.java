@@ -18,7 +18,7 @@ public class SPRecodesController {
 
     private final SPRecodesService spRecodesService;
 
-    @GetMapping("/Recodes/List")
+    @GetMapping("/All/Recodes/List")
     public String recodeList(Model model, SPRecodesDto spRecodesDto,
                              @RequestParam(value = "yymmdd", required = false) String yymmdd,
                              @RequestParam(value = "product_name", required = false) String productName) {

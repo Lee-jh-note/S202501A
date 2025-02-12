@@ -30,7 +30,7 @@
 
             <div class="insert-wrapper">
 
-                <form id="productForm" action="/Prod/ProdCreateAct" method="post">
+                <form id="productForm" action="/Sales/ProdCreateAct" method="post">
 
                     <div class="insert-header">
                         <div>
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div>
-                            <a href="/Prod/ProdList" class="insert-empty-button"> 취소</a>
+                            <a href="/All/Sales/ProdList" class="insert-empty-button"> 취소</a>
                             <button type="submit" id="submitBtn" class="insert-full-button"> 등록</button>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
             // 제품명이 비어 있지 않으면 중복 체크 수행
             if (prodName) {
                 $.ajax({
-                    url: '/Prod/validProdName',  // 중복 체크 URL
+                    url: '/Sales/validProdName',  // 중복 체크 URL
                     type: 'GET',
                     data: {prodName: prodName},  // 서버로 제품명 전달
                     success: function (response) {

@@ -23,7 +23,7 @@ public class ExcelDownController {
 
     private final ExcelService excelService;
 
-    @GetMapping("/excel/sprecodes")
+    @GetMapping("/All/excel/sprecodes")
     public ResponseEntity<byte[]> excelInven(@RequestParam(value = "yymmdd", required = false) String yymmdd) throws IOException {
 
         byte[] excelFile = excelService.createSPRecodesExcel(yymmdd);

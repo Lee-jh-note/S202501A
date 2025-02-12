@@ -65,8 +65,8 @@
                     </table>
 
                     <div class="detail-buttons">
-                        <a href="/Prod/ProdList" class="btn btn-facebook">돌아가기</a>
-                        <a href="/Prod/ProdModify?productNo=${ProductPrice.product_no}"
+                        <a href="/All/Sales/ProdList" class="btn btn-facebook">돌아가기</a>
+                        <a href="/Sales/ProdModify?productNo=${ProductPrice.product_no}"
                            class="btn btn-dark">수정</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                                 data-product-no="${ProductPrice.product_no}">
@@ -89,7 +89,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
                                     <!-- 삭제 확인 버튼 -->
-                                    <form id="deleteForm" action="/Prod/ProdDelete" method="post"
+                                    <form id="deleteForm" action="/Sales/ProdDelete" method="post"
                                           style="display:inline;">
                                         <input type="hidden" name="product_no" id="modalProductNo">
                                         <button type="submit" class="btn btn-danger">삭제</button>
