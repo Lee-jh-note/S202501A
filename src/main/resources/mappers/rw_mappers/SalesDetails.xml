@@ -115,7 +115,8 @@
 <!-- 수주상세 상태 변경 -->
 	<update id="updateSalesDetailsStatus">
 		UPDATE SALES_DETAILS
-		SET status = #{status}
+		SET status = #{status},
+			emp_no = #{emp_no}
 		WHERE sales_date = #{sales_date} 
 			AND client_no = #{client_no} 
 			AND product_no = #{product_no}
@@ -205,6 +206,7 @@
         FROM SALES_DETAILS sd
         LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
         WHERE sd.sales_date = #{sales_date} AND sd.client_no = #{client_no}
+            	 AND sd.status = 2
 </select>
 
 
@@ -290,6 +292,8 @@
         FROM SALES_DETAILS sd
         LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
         WHERE sd.sales_date = #{sales_date} AND sd.client_no = #{client_no}
+            AND sd.status = 1
+        
 </select>
 
 </mapper>

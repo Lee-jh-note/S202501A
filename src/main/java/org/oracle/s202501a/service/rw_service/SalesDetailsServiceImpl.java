@@ -1,9 +1,10 @@
 package org.oracle.s202501a.service.rw_service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.oracle.s202501a.dao.rw_dao.SalesDetailsDao;
-import org.oracle.s202501a.dto.rw_dto.SalesAll;
 import org.oracle.s202501a.dto.rw_dto.SalesDetailsAll;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,82 +94,88 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
 	//                      출고/미출고 처리 (상태 변경)
 	// =============================================================
     
-//    // 수주 상태 변경
+    // 수주 상태 변경 (수주 상태 + 수주상세 상태)
+    @Override
+    public boolean updateSalesStatus(int[] checked, String[] salesDates, int[] clientNos, int[] productNos, int emp_no) {
+        System.out.println("SalesServiceImpl updateSalesStatus Start...");
+
+        List<Integer> checkedList = checked == null ? List.of() 
+                : Arrays.stream(checked).boxed().collect(Collectors.toList());
+        
+        // 모든 품목이 출고 상태인지 확인(수주 상태를 수주상세 상태에 따라 결정하니까)
+        boolean allChecked = true; 
+
+        for (int i = 0; i < salesDates.length; i++) {
+            boolean isChecked = checkedList.contains(i);
+            int status = isChecked ? 2 : 1; // 2: 출고, 1: 미출고
+            
+            // 수주상세 상태 업데이트        
+            int result = salesDetailsDao.updateSalesDetailsStatus(salesDates[i], clientNos[i], productNos[i], emp_no, status);
+
+            if (result <= 0) {
+                throw new RuntimeException("수주상세 상태 업데이트 실패: " + productNos[i]);
+            }
+            
+            // 상태가 출고(2)가 아닌 경우
+            if (!isChecked) {
+                allChecked = false;
+            }
+        }  
+
+        // 수주 상태 결정: 모든 품목이 출고이면 2(완료), 아니면 1(부분출고)
+        int salesStatus = allChecked ? 2 : 1; // 
+        
+        // 수주 상태 업데이트 실행
+        int updateSalesCount = salesDetailsDao.updateSalesStatus(salesDates[0], clientNos[0], salesStatus);
+        log.info("수주 상태 변경 완료: {}", updateSalesCount);
+
+        if (updateSalesCount <= 0) {
+            throw new RuntimeException("수주 상태 업데이트 실패");
+        }
+
+        return true;
+    }
+    
+
 //    @Override
-//    public int updateSalesStatus(SalesAll sales) {
-//        log.info("수주 상태 변경 시작: {}", sales);
-//        salesDetailsDao.updateSalesStatus(sales);
-//        log.info("수주 상태 변경 완료: {}", sales);
-//		return 0;
-//    }
-//    
-//    // 수주상세 상태 변경
-//    @Override
-//    public int updateSalesDetailsStatus(SalesDetailsAll salesDetails) {
-//        log.info("출고 상태 변경 시작...");
-//        boolean allShipped = true;
+//    public boolean updateSalesStatus(int[] statuses, String[] salesDates, int[] clientNos, int[] productNos, int emp_no) {
+//        System.out.println("SalesServiceImpl updateSalesStatus Start...");
+//        
+//        log.info("수주 상태 변경 요청: salesDates={}, clientNos={}, productNos={}, emp_no={}, statuses={}",
+//                 Arrays.toString(salesDates), Arrays.toString(clientNos), Arrays.toString(productNos), emp_no, Arrays.toString(statuses));
 //
-//        for (SalesDetailsAll details : salesDetailsList) {
-//            salesDetailsDao.updateSalesDetailsStatus(details);
-//            log.info("출고 상태 업데이트 완료: {}", details);
+//        // 모든 품목이 출고 상태인지 확인 (수주 상태를 결정하는 데 필요)
+//        boolean allShipped = true; 
 //
-//            // 하나라도 미출고면 전체 상태는 '부분 출고'가 됨
-//            if (!"출고".equals(details.getStatus())) {
+//        for (int i = 0; i < salesDates.length; i++) {
+//            int status = statuses[i]; // 라디오 버튼을 통해 받은 상태값 그대로 사용 (1: 미출고, 2: 출고)
+//
+//            // 수주 상세 상태 업데이트 (품목별 상태를 DB에 반영)
+//            int result = salesDetailsDao.updateSalesDetailsStatus(salesDates[i], clientNos[i], productNos[i], emp_no, status);
+//
+//            if (result <= 0) {
+//                throw new RuntimeException("수주상세 상태 업데이트 실패: " + productNos[i]);
+//            }
+//
+//            // 하나라도 미출고(1) 상태가 있으면 전체 수주 상태를 '부분출고(1)'로 설정
+//            if (status != 2) {
 //                allShipped = false;
 //            }
 //        }
 //
-//        // 전체 수주 상태 업데이트 (부분 출고 / 전체 출고)
-//        if (!salesDetailsList.isEmpty()) {
-//            SalesDetailsAll firstItem = salesDetailsList.get(0);
-//            String newStatus = allShipped ? "전체출고" : "부분출고";
-//            firstItem.setStatus(newStatus);
-//            updateSalesStatus(firstItem);
+//        // 모든 품목이 출고(2) 상태이면, 전체 수주 상태도 '출고 완료(2)'로 설정
+//        int salesStatus = allShipped ? 2 : 1; 
+//
+//        // 수주 상태 업데이트 실행 (전체 상태 반영)
+//        int updateSalesCount = salesDetailsDao.updateSalesStatus(salesDates[0], clientNos[0], salesStatus);
+//        log.info("수주 상태 변경 완료: {}", updateSalesCount);
+//
+//        if (updateSalesCount <= 0) {
+//            throw new RuntimeException("수주 상태 업데이트 실패");
 //        }
+//
+//        return true;
 //    }
-    
-
-    
-    @Override
-    public boolean updateSalesStatus(SalesAll sales, int[] productNos, String[] detailStatuses) {
-        int detailUpdateCount = 0;
-        boolean allShipped = true;  // 모든 품목이 "출고" 상태인지 체크
-        
-        if (productNos != null && detailStatuses != null && productNos.length == detailStatuses.length) {
-            for (int i = 0; i < productNos.length; i++) {
-                SalesDetailsAll detail = new SalesDetailsAll();
-                // 헤더의 공통 정보 설정
-                detail.setSales_date(sales.getSales_date());
-                detail.setClient_no(sales.getClient_no());
-                // 각 품목의 정보
-                detail.setProduct_no(productNos[i]);
-                detail.setStatus(detailStatuses[i]);  // "출고" 또는 "미출고"
-                
-                // 수주상세 업데이트 호출
-                detailUpdateCount += salesDetailsDao.updateSalesDetailsStatus(detail);
-                
-                // 하나라도 "출고"가 아니라면 전체는 모두 출고된 것이 아님
-                if (!"출고".equals(detailStatuses[i])) {
-                    allShipped = false;
-                }
-            }
-        }
-        
-        // 헤더 상태 결정: 모든 품목이 "출고"이면 "출고완료", 그렇지 않으면 "부분출고"
-        if (allShipped) {
-            sales.setStatus("출고완료");
-        } else {
-            sales.setStatus("부분출고");
-        }
-        
-        // 헤더(수주) 업데이트 호출
-        int headerUpdateCount = salesDetailsDao.updateSalesStatus(sales);
-        
-        // 전체 업데이트가 성공했는지 반환
-        return (headerUpdateCount > 0) && (productNos != null && detailUpdateCount == productNos.length);
-    }
-
-
 
 
 	// =============================================================
@@ -308,6 +315,7 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
 	   
 	    return infoNoSalesDetailsList;
     }
+
 
 
 

@@ -29,7 +29,7 @@ public class SalesAll {
     // Product 테이블   
     private String product_name; // 제품명
 
-    // 	private int sale_or_purchase; 판매상세 dto에만????
+    // private int sale_or_purchase; 판매상세 dto에만????
 
     // Clients 테이블
     private String client_name;	// 거래처명
@@ -37,8 +37,11 @@ public class SalesAll {
     // Emp 테이블
     private String emp_name; // 담당자   
     
-    // 품목 목록
-    private List<SalesDetails> productList; // 수주 등록 시 함꼐 저장되는 품목 목록 
+    // 제품 목록
+    private List<SalesDetailsAll> productList; // 수주 등록 시 함꼐 저장되는 제품 목록 
+    
+    // 수주상세 목록
+    private List<SalesDetailsAll> salesDetailsList; // 수주 및 품목 상태 업데이트 시 이용
     
     // 검색 필터
     private String startDate; // 조회 시작일

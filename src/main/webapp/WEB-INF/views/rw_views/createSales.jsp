@@ -75,7 +75,7 @@ function chkClient() {
     }
 
     $.ajax({
-        url: "/checkDuplicateSales",
+        url: "/sales/checkDuplicateSales",
         type: "GET",
         data: { client_no: client_no, sales_date: sales_date },
         dataType: "json",
@@ -128,7 +128,7 @@ function getProductPrice(selectElement) {
     if (!productNo) return;
 
     $.ajax({
-        url: "/getProductPrice",
+        url: "/sales/getProductPrice",
         type: "GET",
         data: { product_no: productNo },
         dataType: "json",
@@ -159,8 +159,8 @@ function submitForm(event) {
 
     let salesData = {
         title: $("#title").val().trim(),
-        salesDate: $("#sales_date").val(),
-        emp_no: $("#emp_name").val(),
+        sales_date: $("#sales_date").val(),
+        emp_no: $("#emp_no").val(),
         req_delivery_date: $("#req_delivery_date").val(),
         client_no: $("#client_no").val(),
         remarks: ($("#remarks").val() || "").trim(),
@@ -193,13 +193,13 @@ function submitForm(event) {
     
     // AJAX를 통해 수주서 등록 요청 전송
     $.ajax({
-        url: "/createSales",
+        url: "/sales/createSales",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(salesData),
         success: function () {
             alert("수주서 등록 성공!");
-            window.location.href = "/listSales";
+            window.location.href = "/sales/listSales";
         },
         error: function (xhr, status, error) {
             alert("수주서 등록 실패: " + error);
@@ -226,12 +226,14 @@ function submitForm(event) {
 				</tr>
 				<tr>
 					<th>담당자</th>
-					<td><select id="emp_name" name="emp_name" required>
+					<td><input type="hidden" id="emp_no" name="emp_no" value="${emp_no }">${emp_name}</td>
+					
+					<%-- <select id="emp_name" name="emp_name" required>
 							<option value="">-- 선택 --</option>
 							<c:forEach var="emp" items="${empList}">
 								<option value="${emp.emp_no}">${emp.emp_name}</option>
 							</c:forEach>
-					</select></td>
+					</select> </td>--%>
 				</tr>
 				<tr>
 					<th>요청배송일</th>

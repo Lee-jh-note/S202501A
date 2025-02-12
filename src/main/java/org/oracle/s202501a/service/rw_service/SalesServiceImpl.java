@@ -43,7 +43,7 @@ public class SalesServiceImpl implements SalesService {
 
             // 수주 품목 저장 (SALES_DETAILS 테이블)
             if (sales.getProductList() != null && !sales.getProductList().isEmpty()) {
-                for (SalesDetails salesDetails : sales.getProductList()) {
+                for (SalesDetailsAll salesDetails : sales.getProductList()) {
                     // 수주 정보 등록 후 sales_date, client_no를 각 품목에 설정함
                 	salesDetails.setSales_date(sales.getSales_date());
                 	salesDetails.setClient_no(sales.getClient_no());
@@ -87,16 +87,16 @@ public class SalesServiceImpl implements SalesService {
 	    return productList;
 	}
 	
-	// 담당자 목록 조회 (드롭다운) -임시용
-	@Override
-	public List<SalesAll> getEmpList() {
-		System.out.println("SalesServiceImpl getEmpList Start...");
-
-	    List<SalesAll> empList = salesDao.getEmpList();
-	    log.debug("조회된 담당자 목록: {}", empList);
-	    
-	    return empList;
-	}
+//	// 담당자 목록 조회 (드롭다운) -임시용
+//	@Override
+//	public List<SalesAll> getEmpList() {
+//		System.out.println("SalesServiceImpl getEmpList Start...");
+//
+//	    List<SalesAll> empList = salesDao.getEmpList();
+//	    log.debug("조회된 담당자 목록: {}", empList);
+//	    
+//	    return empList;
+//	}
 	
 	// 품목 선택 시 단가 자동설정
 	@Override
@@ -225,7 +225,7 @@ public class SalesServiceImpl implements SalesService {
 
         // 새 수주 품목 재등록  
         if (sales.getProductList() != null && !sales.getProductList().isEmpty()) {
-            for (SalesDetails details : sales.getProductList()) {
+            for (SalesDetailsAll details : sales.getProductList()) {
                 // 수주 정보 등록 후 매출일자와 거래처 번호 설정
             	details.setSales_date(sales.getSales_date());
             	details.setClient_no(sales.getClient_no());
@@ -240,56 +240,6 @@ public class SalesServiceImpl implements SalesService {
         return result;
     }
 
-//	// 수주 정보 수정 (처리 상태가 '대기'인 경우만 가능)
-//	@Override
-//	public int updateSales(SalesAll sales) {
-//		System.out.println("SalesServiceImpl updateSales Start...");
-//
-//		log.info("수주 수정 요청: {}", sales);
-//		
-//	    // 상태 확인 (대기가 아닐 경우 수정 불가)
-//	    if (sales == null || !"0".equals(sales.getStatus())) {
-//	        throw new RuntimeException("수정할 수 없는 상태입니다. (처리 상태: " + (sales != null ? sales.getStatus() : "null") + ")");
-//	    }
-//
-//	    // 수주 정보 업데이트
-//	    int updateSales = salesDao.updateSales(sales);
-//	    log.info("수주 수정 완료, updateSales={}", updateSales);
-//
-//	    return updateSales;
-//	}
-//
-//
-//	// 수주 품목 수정 (처리 상태가 '대기'인 경우만 가능) - 기존품목 삭제 후 재등록(기존 코드 재활용)
-//	@Override
-//	   public int updateSalesDetails(List<SalesDetails> salesDetailsList) {
-//		System.out.println("SalesServiceImpl updateSalesDetails Start...");
-//		
-//		   if (salesDetailsList == null || salesDetailsList.isEmpty()) {
-//		        log.warn("수정할 품목 정보 없음.");
-//		        return 0;
-//		    }
-//
-//		    // 삭제기준이 되는 정보 가져옴(첫번째 품목의 매출일자와 거래처정보를 기준으로 하기)
-//		    SalesDetails firstDetail = salesDetailsList.get(0);
-//		    SalesDetails deleteFilter = new SalesDetails();
-//		    deleteFilter.setSales_Date(firstDetail.getSales_Date());
-//		    deleteFilter.setClient_No(firstDetail.getClient_No());
-//
-//		    // 기존 품목 전부 삭제
-//		    log.info("기존 품목 삭제 요청: {}", deleteFilter);
-//		    salesDao.deleteSalesDetails(deleteFilter);
-//
-//		    // 새로운 품목 등록
-//		    int insertCount = 0;
-//		    for (SalesDetails details : salesDetailsList) {
-//		        log.debug("새로운 품목 등록: {}", details);
-//		        insertCount += salesDao.createSalesDetails(details);
-//		    }
-//
-//		    log.info("수주 품목 수정 완료 (등록된 품목 개수: {})", insertCount);
-//		    return insertCount;
-//		}
 
 	
 	// =============================================================

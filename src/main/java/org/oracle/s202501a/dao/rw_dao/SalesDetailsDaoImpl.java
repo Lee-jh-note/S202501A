@@ -1,9 +1,9 @@
 package org.oracle.s202501a.dao.rw_dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.oracle.s202501a.dto.rw_dto.SalesAll;
 import org.oracle.s202501a.dto.rw_dto.SalesDetailsAll;
 import org.springframework.stereotype.Repository;
 
@@ -72,9 +72,14 @@ public class SalesDetailsDaoImpl implements SalesDetailsDao {
 
     // 수주 상태 변경
     @Override
-    public int updateSalesStatus(SalesAll sales) {
+    public int updateSalesStatus(String sales_date, int client_no, int status) {
+        var params = Map.of(
+                "sales_date", sales_date,
+                "client_no", client_no,
+                "status", status
+        );
         try {
-            return sqlSession.update("updateSalesStatus", sales);
+            return sqlSession.update("updateSalesStatus", params);
         } catch (Exception e) {
             log.error("updateSalesStatus 오류 발생: {}", e.getMessage(), e);
             return 0; // 기본값 반환
@@ -83,14 +88,22 @@ public class SalesDetailsDaoImpl implements SalesDetailsDao {
 
     // 수주상세 상태 변경
     @Override
-    public int updateSalesDetailsStatus(SalesDetailsAll salesDetails) {
+    public int updateSalesDetailsStatus(String sales_date, int client_no, int product_no, int emp_no, int status) {
+        var params = Map.of(
+                "sales_date", sales_date,
+                "client_no", client_no,
+                "product_no", product_no,
+                "emp_no", emp_no,
+                "status", status
+        );
         try {
-            return sqlSession.update("updateSalesDetailsStatus", salesDetails);
+            return sqlSession.update("updateSalesDetailsStatus", params);
         } catch (Exception e) {
             log.error("updateSalesDetailsStatus 오류 발생: {}", e.getMessage(), e);
             return 0; // 기본값 반환
         }
     }
+
 
     
 	// =============================================================
