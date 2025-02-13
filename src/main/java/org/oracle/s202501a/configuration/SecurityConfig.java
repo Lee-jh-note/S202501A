@@ -41,9 +41,9 @@ public class SecurityConfig {
                             .requestMatchers( "/css/**", "/images/**", "/js/**", "/favicon.*", "/*/icon-*"
                             	         	, "/WEB-INF/views/**", "/js1/**").permitAll()
                             .requestMatchers("/","/writeFormEmp3","/login*","/error*").permitAll()
-                            .requestMatchers("/Sales").hasAuthority("ROLE_SALES")
-                            .requestMatchers("/Logistics").hasAuthority("ROLE_LOGISTICS")
-                            .requestMatchers("/HR").hasAuthority("ROLE_HR")
+//                            .requestMatchers("/Sales/**").hasAuthority("ROLE_SALES")
+//                            .requestMatchers("/Logistics/**").hasAuthority("ROLE_LOGISTICS")
+//                            .requestMatchers("/HR/**").hasAuthority("ROLE_HR")
                             .requestMatchers("/**").permitAll()
 //                            .requestMatchers("/admanager").access(new WebExpressionAuthorizationManager("hasRole('ADMIN') or hasRole('MANAGER')"))
                             .anyRequest().authenticated()
@@ -57,10 +57,10 @@ public class SecurityConfig {
                    .permitAll()
                    )
            .authenticationProvider(authenticationProvider)
-//           .exceptionHandling(
-//           		   exception -> exception
-//                   .accessDeniedHandler(new FormAccessDeniedHandler())
-//        		   )
+           .exceptionHandling(
+           		   exception -> exception
+                   .accessDeniedHandler(new FormAccessDeniedHandler())
+        		   )
             ;
 		
         return http.build();

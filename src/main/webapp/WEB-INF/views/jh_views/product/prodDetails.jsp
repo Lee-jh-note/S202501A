@@ -13,6 +13,16 @@
     <link href="/../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="/../css1/sb-admin-2.min.css" rel="stylesheet">
     <link href="/../css/detail.css" rel="stylesheet">
+    <style>
+
+        .btn {
+            padding: 8px 12px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -65,7 +75,7 @@
                     </table>
 
                     <div class="detail-buttons">
-                        <a href="/All/Sales/ProdList" class="btn btn-facebook">돌아가기</a>
+                        <a href="/All/Sales/ProdList" class="btn detail-gray-button">돌아가기</a>
                         <a href="/Sales/ProdModify?productNo=${ProductPrice.product_no}"
                            class="btn btn-dark">수정</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"

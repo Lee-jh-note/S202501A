@@ -96,4 +96,14 @@ public class ProdCategoryDaoImpl implements ProdCategoryDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<CategoriesDto> findMidListByTop(String topCategory){
+        try{
+            return sqlSession.selectList("findMidListByTop",topCategory);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

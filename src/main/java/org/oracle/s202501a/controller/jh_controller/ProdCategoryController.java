@@ -29,6 +29,15 @@ public class ProdCategoryController {
         return "jh_views/category/categoryPopup";
     }
 
+    @GetMapping("/api/categories/mid")
+    @ResponseBody
+    public List<CategoriesDto> getMidCategories(@RequestParam("topCategory") String topCategory) {
+        return prodCategoryService.findMidListByTop(topCategory);
+    }
+
+
+
+
     // 생성 폼
     @GetMapping("/Sales/Category/Create")
     public String ProdCategoryCreate(Model model) throws JsonProcessingException {

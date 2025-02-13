@@ -104,29 +104,48 @@ public class InventoryService {
 
     public void QuantityModify(Long prodNo, int quantity) {
 
-        System.out.println("서비스 수정 타겟 : " + prodNo + " / " + quantity);
+//        System.out.println("서비스 수정 타겟 : " + prodNo + " / " + quantity);
         // 기말 체크
         InventoryDto ClosingDto = inventoryDao.findStockByProdStock(prodNo, 1);
-        System.out.println("기말 : " + ClosingDto);
+//        System.out.println("기말 : " + ClosingDto);
         // 기초 체크
         InventoryDto BeginningDto = inventoryDao.findStockByProdStock(prodNo, 0);
-        System.out.println("기초 : " + BeginningDto);
+//        System.out.println("기초 : " + BeginningDto);
+        int result;
 
+        // 기초도 있고 기말고 있을경우
         if (ClosingDto != null && BeginningDto != null) {
             int closingQuantity = quantity - ClosingDto.getQuantity();
             ClosingDto.setQuantity(quantity);
             inventoryDao.quantityModify(ClosingDto);
 
-            int result = Math.max((BeginningDto.getQuantity() + closingQuantity), 0);
+            result = Math.max((BeginningDto.getQuantity() + closingQuantity), 0);
 
             BeginningDto.setQuantity(result);
             inventoryDao.quantityModify(BeginningDto);
         }
+        // 기말은 없고 기초만 있을경우
          else if (BeginningDto != null) {
             BeginningDto.setQuantity(quantity);
              inventoryDao.quantityModify(BeginningDto);
-        } else {
-             log.info("여기 오면 큰일남");
+
+             // 기초는 없고 기말만 있을경우
+        } else if(ClosingDto != null) {
+             // 타겟값 이랑 현재 값 비교
+            int closingQuantity = Math.max(quantity - ClosingDto.getQuantity(), 0);
+            // 기말 업데이트
+            ClosingDto.setQuantity(quantity);
+            inventoryDao.quantityModify(ClosingDto);
+
+            // 새로운 기초도 등록
+            SimpleDateFormat sdf = new SimpleDateFormat("yy/MM");
+            String date = sdf.format(new Date());
+            InventoryDto inventoryDto = new InventoryDto();
+            inventoryDto.setProduct_no(prodNo);
+            inventoryDto.setQuantity(closingQuantity);
+            inventoryDto.setYymm(date);
+            inventoryDto.setOptimal_quantity(0);
+            inventoryDao.invenCreate(inventoryDto);
         }
 
     }

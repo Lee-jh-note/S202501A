@@ -82,4 +82,10 @@
         from CATEGORIES
         where top_category = #{top_category}
     </select>
+
+    <select id="findMidListByTop" parameterType="String" resultType="CategoriesDto">
+        select mid_category, content
+        from categories
+        where top_category = #{topCategory}
+    </select>
 </mapper>

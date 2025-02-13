@@ -26,4 +26,6 @@ public interface ProdCategoryDao {
     CategoriesDto findByTop(CategoriesDto categoriesDto);
 
     void CateDelProdUpdate(CategoriesDto categoriesDto);
+
+    List<CategoriesDto> findMidListByTop(String topCategory);
 }

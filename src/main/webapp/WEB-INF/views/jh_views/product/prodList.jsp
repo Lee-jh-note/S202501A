@@ -76,7 +76,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li><a class="dropdown-item" href="javascript:void(0);"
-                                       onclick="window.open('/Sales/Category/List', 'Popup', 'width=800,height=500,scrollbars=yes');">분류
+                                       onclick="window.open('/All/Sales/Category/List', 'Popup', 'width=800,height=500,scrollbars=yes');">분류
                                     목록</a></li>
                                 <li><a class="dropdown-item" href="javascript:void(0);"
                                        onclick="window.open('/Sales/Category/Create', 'Popup', 'width=800,height=500,scrollbars=yes');">분류

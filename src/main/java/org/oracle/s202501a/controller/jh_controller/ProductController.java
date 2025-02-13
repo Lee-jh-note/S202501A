@@ -61,7 +61,7 @@ public class ProductController {
     @PostMapping("/Sales/ProdCreateAct")
     public String prodCreateAct(ProductPriceDto productPriceDtoDto, Model model) {
         productService.createProduct(productPriceDtoDto);
-        return "redirect:/Prod/ProdList";
+        return "redirect:/All/Sales/ProdList";
     }
 
     // 상세 페이지
@@ -95,7 +95,7 @@ public class ProductController {
     public String prodModifyAct(ProductPriceDto productPriceDtoDto, Model model) {
         System.out.println("수정");
         productService.prodModify(productPriceDtoDto);
-        return "redirect:/Prod/ProdList"; // 수정 후 다시 리스트로
+        return "redirect:/All/Sales/ProdList"; // 수정 후 다시 리스트로
 
     }
 
@@ -104,14 +104,14 @@ public class ProductController {
     public String prodDelete(ProductDto productDto, Model model) {
         System.out.println("삭제");
         productService.prodDelete(productDto);
-        return "redirect:/Prod/ProdList"; // 삭제 후 다시 리스트로
+        return "redirect:/All/Sales/ProdList"; // 삭제 후 다시 리스트로
     }
 
     // 상태 일괄 변경
     @PostMapping("/Sales/Status")
     public String status(@RequestParam(value = "product_no", required = false) List<Long>product_no) {
         productService.prodStatus(product_no);
-        return "redirect:/Prod/ProdList"; // 수정 후 다시 리스트
+        return "redirect:/All/Sales/ProdList"; // 수정 후 다시 리스트
     }
 
     // 제품 이름 중복체크

@@ -62,4 +62,9 @@ public class ProdCategoryService {
 //        System.out.println("서비스 :" + dto);
         prodCategoryDao.ProdCateCreate(dto);
     }
+
+    public List<CategoriesDto> findMidListByTop(String topCategory) {
+
+      return prodCategoryDao.findMidListByTop(topCategory);
+    }
 }

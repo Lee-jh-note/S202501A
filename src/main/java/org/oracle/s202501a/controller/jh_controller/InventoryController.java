@@ -62,7 +62,7 @@ public class InventoryController {
     @PostMapping("/Logistics/Inven/CreateAct")
     public String createAct(InventoryDto inventoryDto) {
         inventoryService.invenCreate(inventoryDto);
-        return "redirect:/All/Inven/InvenList";
+        return "redirect:/All/Logistics/InvenList";
     }
 
     // 마감 처리
@@ -70,7 +70,7 @@ public class InventoryController {
     public String closing(ClosingDto Dto) {
 
         inventoryService.closing(Dto);
-        return "redirect:/All/Inven/InvenList";
+        return "redirect:/All/Logistics/InvenList";
     }
 
     // 마감 진행 확인
@@ -86,6 +86,7 @@ public class InventoryController {
         }
     }
 
+    // 재고 조정
 //    @ResponseBody
     @PostMapping("/Logistics/QuantityModify")
     public String QuantityModify(@RequestParam("prodNo") Long prodNo,
@@ -96,6 +97,7 @@ public class InventoryController {
         return "redirect:/All/Logistics/InvenList";
     }
 
+    // 가마감
     @GetMapping("/Logistics/DayClosing")
     @ResponseBody
     public String DayClosing() {
