@@ -17,7 +17,7 @@
                 <span class="badge badge-danger badge-counter">3+</span>
             </a>
         </li>
-
+		
         <!-- Nav Item - Messages -->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown">
@@ -25,7 +25,7 @@
                 <span class="badge badge-danger badge-counter">7</span>
             </a>
         </li>
-
+		
         <div class="topbar-divider d-none d-sm-block"></div>
 
         <!-- Nav Item - User Information -->

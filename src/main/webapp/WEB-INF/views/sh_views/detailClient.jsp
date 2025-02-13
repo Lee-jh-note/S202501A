@@ -5,7 +5,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>발주 상세</title>
+    <title>거래처	 상세</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css/insert.css' />">
     <style>
     /* 모달 스타일 */
     .modal-overlay {
@@ -61,6 +65,9 @@
 </style>
  <script>   
     document.addEventListener("DOMContentLoaded", function() {
+    	function formatPhoneNumberForCompany(phoneNumber) {
+            return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"); // 기업 전화번호 000-000-0000
+        }
         function formatPhoneNumber(phoneNumber) {
             return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
         }
@@ -68,6 +75,10 @@
         function formatBusinessNumber(businessNumber) {
             return businessNumber.replace(/(\d{3})(\d{2})(\d{5})/, "$1-$2-$3");
         }
+        // 기업 전화번호 포맷 적용
+        document.querySelectorAll(".format-company-phone").forEach(el => {
+            el.innerText = formatPhoneNumberForCompany(el.innerText);
+        });
 
         document.querySelectorAll(".format-phone").forEach(el => {
             el.innerText = formatPhoneNumber(el.innerText);
@@ -101,18 +112,14 @@
 	    function handleDelete(clientNo) {
 	        openModal("정말 삭제하시겠습니까?", () => {
 	            // 삭제 로직 실행
-	            location.href = 'deleteClient?client_No=' + clientNo;
+	            location.href = '/Sales/deleteClient?client_No=' + clientNo;
 	        });
 	    }
 </script>
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/insert.css" rel="stylesheet">
 </head>
 <body id="page-top">
 <div id="wrapper">
     <%@ include file="../menu1.jsp" %>
-
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <%@ include file="../header1.jsp" %>
@@ -129,9 +136,9 @@
                             </div>
                         </div>
 				        <div class="insert-buttons">
-				        	<button class="insert-empty-button" onclick="location.href='listClient'">목록</button>
-				            <button class="insert-full-button" onclick="location.href='updateFormClient?client_No=${client.client_No}'">수정</button>
-				            <button class="insert-full-button" onclick="handleDelete('${client.client_No}')">삭제</button>
+				        	<button class="btn insert-empty-button" onclick="location.href='listClient'">목록</button>
+				            <button class="btn insert-full-button" onclick="location.href='/Sales/updateFormClient?client_No=${client.client_No}'">수정</button>
+				            <button class="btn insert-full-button" onclick="handleDelete('${client.client_No}')">삭제</button>
 					       </div>
 					     </div>
                         </div>
@@ -141,7 +148,7 @@
 				            <th>거래처 코드</th><td>${client.client_No}</td>
 				            <th>회사명</th><td>${client.client_Name}</td>
 				            </tr>
-				            
+				       
 				            <tr>
 				            <th>구분</th>
 				                <td>
@@ -159,11 +166,12 @@
 				            <th>이메일</th><td>${client.client_Email}</td>
 				            </tr>
 				            <tr>
-				            <th>기업 전화번호</th><td class="format-phone">${client.client_Tel}</td>
+				            <th>기업 전화번호</th><td class="format-company-phone">${client.client_Tel}</td>
 				            <th>대표자 전화번호</th><td class="format-phone">${client.ceo_Tel}</td>
 				            </tr>
 				            <tr>
-				            <th>등록일</th><td>${client.reg_Date}</td>
+				            <th>등록일</th>
+							<td>${client.reg_Date.substring(0, 10)}</td>
 				            <th>담당자</th><td>${client.emp_Name}</td>
 				            </tr>
 				            
@@ -186,16 +194,16 @@
         <%@ include file="../footer1.jsp" %>
 </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 </html>

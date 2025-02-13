@@ -7,9 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>거래처 수정</title>
-<link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-<link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-<link href="../css/insert.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css/insert.css' />">
 <style type="text/css">
   .insert-table td{
    color: black;
@@ -27,7 +28,7 @@
             <div class="insert-wrapper">
       
                     <!-- 서브메뉴랑 버튼 들어있는 헤더 -->
-                    <form action="updateClient" method="post">
+                    <form action="/Sales/updateClient" method="post">
                     <div class="insert-header">
                         <div>
                             <div class="insert-submenu">거래처 관리 > 거래처 상세 > 거래처 수정</div>
@@ -89,17 +90,17 @@
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

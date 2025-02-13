@@ -20,12 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("client")
 public class ClientController {
 	
 	private final ClientService cs;
 	
-	@RequestMapping(value="listClient")
+	@RequestMapping(value="All/Sales/listClient")
 	public String listClient(ClientDTO client, Model model) {
 		System.out.println("ClientController Start listClient...");
 		
@@ -47,7 +46,7 @@ public class ClientController {
 		return "sh_views/list";
 	}
 	
-	@GetMapping(value="detailClient")
+	@GetMapping(value="All/Sales/detailClient")
 	public String detailClient(ClientDTO client1, Model model) {
 		System.out.println("ClientController Strat detailClient");
 		
@@ -59,7 +58,7 @@ public class ClientController {
 		return "sh_views/detailClient";
 	}
 	
-	@GetMapping(value = "updateFormClient")
+	@GetMapping(value = "/Sales/updateFormClient")
 	public String updateFormClient(ClientDTO client1, Model model) {
 		System.out.println("ClientController Start updateForm");
 		ClientDTO client = cs.detailClient(client1.getClient_No());
@@ -75,7 +74,7 @@ public class ClientController {
 		return "sh_views/updateFormClient";
 	}
 	
-	@PostMapping(value = "updateClient")
+	@PostMapping(value = "/Sales/updateClient")
 	public String updateClient(ClientDTO client, Model model) {
 		log.info("updateClient Start...");
 		
@@ -84,10 +83,11 @@ public class ClientController {
 		model.addAttribute("uptCnt", updateCount);
 		model.addAttribute("kk3","Message Test");
 		
-		return "forward:listClient";
+		return "redirect:/All/Sales/listClient";
+
 	}
 	
-	@RequestMapping(value="writeFormClient")
+	@RequestMapping(value="/Sales/writeFormClient")
 	public String writeFormClient(Model model) {
 		System.out.println("clientController wirteFromClient Start...");
 		List<ClientDTO> clientList = cs.listManeger();
@@ -111,11 +111,11 @@ public class ClientController {
 		return "sh_views/writeFormClient";	
 				}	
 	
-	@PostMapping(value = "writeClient")
+	@PostMapping(value = "/Sales/writeClient")
 	public String wrtieClient(ClientDTO client, Model model) {
 		System.out.println("ClientController Start writeClient...");
 		int insertResult = cs.insertClient(client);
-		if(insertResult > 0) return "redirect:listClient";
+		if(insertResult > 0) return "redirect:/All/Sales/listClient";
 		else {
 			model.addAttribute("msg","입력 실패 확인해보세요");
 
@@ -125,7 +125,7 @@ public class ClientController {
 	}
 	
 	
-	 @RequestMapping(value = "deleteClient")
+	 @RequestMapping(value = "/Sales/deleteClient")
 	   public String deleteClient(ClientDTO client, Model model) {
 	       log.info("deleteClient Start...");
 	          System.out.println("컨트롤러 " + client);
@@ -139,7 +139,7 @@ public class ClientController {
 	              model.addAttribute("msg", "직원 삭제 실패");
 	          }
 	          model.addAttribute("client", client);
-	          return "redirect:listClient"; 
+	          return "redirect:/All/Sales/listClient"; 
 	      }
 	 
 			/*
@@ -168,7 +168,7 @@ public class ClientController {
 			 * }
 			 */
 	 
-	 @RequestMapping(value = "listSearchSh")
+	 @RequestMapping(value = "All/Sales/listSearchSh")
 	   public String listSearch3(ClientDTO client, Model model) {
 	      System.out.println("ClientController Start listSearchSh...");
 	      System.out.println("EmpController listSearchSh client->"+client);

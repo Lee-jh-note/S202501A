@@ -10,7 +10,7 @@
 <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
 <link href="../css/insert.css" rel="stylesheet">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>거래처 등록</title>
 <script type="text/javascript">
 	function chk() {
 		if (!frm.empno.value) {
@@ -31,7 +31,7 @@
             <%@ include file="../header1.jsp" %>
             <!-- 전체 div -->
             <div class="insert-wrapper">
-             <form action="writeClient" method="post" name="frm">
+             <form action="/Sales/writeClient" method="post" name="frm">
                     <!-- 서브메뉴랑 버튼 들어있는 헤더 -->
                     <div class="insert-header">
                         <div>
@@ -42,9 +42,9 @@
                             </div>
                         </div>
                         <div class="insert-buttons">
-                            <button class="insert-empty-button" type="button" onclick="location.href='/client/listClient'">취소</button>
+                            <button class="btn insert-empty-button" type="button" onclick="location.href='/client/listClient'">취소</button>
 
-                            <button class="insert-full-button" id="btn" type="submit">확인</button>
+                            <button class="btn insert-full-button" id="btn" type="submit">확인</button>
                         </div>
                     </div>
 
@@ -100,17 +100,17 @@
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>
