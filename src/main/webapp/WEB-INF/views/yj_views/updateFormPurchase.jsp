@@ -13,7 +13,7 @@
     // getPrice 함수 추가 (insert 폼에서 복사)
     function getPrice(pProduct_no, selectElement) {
         $.ajax({
-            url: "<%=request.getContextPath()%>/purchase/getPrice",
+            url: "<%=request.getContextPath()%>/Sales/getPrice",
             data: { product_no: pProduct_no },
             dataType: "json",
             success: function(productPrice) {
@@ -260,14 +260,14 @@
         };
 
         $.ajax({
-            url: "<%=request.getContextPath()%>/purchase/updatePurchase",
+            url: "<%=request.getContextPath()%>/Sales/updatePurchase",
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(purchaseData),
             success: function(response) {
                 if (response.success) {
                     alert("발주서 수정 완료");
-                    window.location.href = "<%=request.getContextPath()%>/purchase/listPurchase";
+                    window.location.href = "<%=request.getContextPath()%>/All/Sales/listPurchase";
                 } else {
                     alert("발주 수정 실패: " + response.message);
                 }
@@ -279,9 +279,9 @@
         });
     }
 </script>
-<link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-<link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-<link href="../css/insert.css" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
+<link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
+<link rel="stylesheet" href="<c:url value='/css/insert.css' />">
 <style type="text/css">
   .insert-table td{
    color: black;
@@ -381,17 +381,17 @@
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

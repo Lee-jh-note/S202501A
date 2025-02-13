@@ -96,7 +96,7 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 	}
 
 	
-	// 입고 조회의 상세 - 미입고도
+	// 입고 조회의 상세
 	// PurchaseDetailController detailPurchaseDetail
 	@Override
 	public PurchaseDetailsAll detailPurchaseDetail(Map<String, Object> params) {
@@ -135,6 +135,27 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 		System.out.println("PurchaseDetailServiceImpl searchListPurchaseDetailNo searchListPurchaseDetailNo->"+searchListPurchaseDetailNo);
 		
 		return searchListPurchaseDetailNo;
+	}
+	
+	// 입고 조회의 상세 - 미입고도
+	// PurchaseDetailController detailPurchaseDetail
+	@Override
+	public PurchaseDetailsAll detailPurchaseDetailNo(Map<String, Object> params) {
+		System.out.println("PurchaseDetailServiceImpl detailPurchaseDetail start,,");
+		PurchaseDetailsAll purchase_details = null;
+		purchase_details = pd.detailPurchaseDetailNo(params);
+		System.out.println("PurchaseDetailServiceImpl detailPurchaseDetail purchase_details-> " + purchase_details);
+		
+		return purchase_details;
+	}
+	@Override
+	public List<PurchaseDetailsAll> detailPurchaseDetailNoList(Map<String, Object> params) {
+		System.out.println("PurchaseDetailServiceImpl detailPurchaseDetail start,,");
+		List<PurchaseDetailsAll> purchase_details_list = null;
+		purchase_details_list = pd.detailPurchaseDetailNoList(params);
+		System.out.println("PurchaseDetailServiceImpl detailPurchaseDetail purchase_details_list-> " + purchase_details_list);
+		
+		return purchase_details_list;
 	}
 
 }

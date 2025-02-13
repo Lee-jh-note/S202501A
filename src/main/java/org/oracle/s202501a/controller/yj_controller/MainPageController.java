@@ -33,7 +33,7 @@ public class MainPageController {
 	
 	// emp_Name Position님 환영합니다
 	// 사원번호: emp_No / 부서: dept_Name / 직급: Position / 입사일: hiredate.subString(0,10)
-	@RequestMapping(value = "mainPage")
+	@RequestMapping(value = "All/mainPage")
 	public String mainPage(Notice notice, Model model) {
 		
 		// 세션 받아오기

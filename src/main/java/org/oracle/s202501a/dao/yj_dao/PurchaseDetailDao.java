@@ -41,6 +41,8 @@ public interface PurchaseDetailDao {
 	// PurchaseDetailServiceImpl searchTotalPurchaseDetailNo
 	int 							searchTotalPurchaseDetailNo(PurchaseDetailsAll purchase_details);
 	List<PurchaseDetailsAll> 		searchListPurchaseDetailNo(PurchaseDetailsAll purchase_details);
-	// 미입고 상세는 입고상세 따라감
+	// 미입고 상세
+	PurchaseDetailsAll detailPurchaseDetailNo(Map<String, Object> params);
+	List<PurchaseDetailsAll> detailPurchaseDetailNoList(Map<String, Object> params);
 	
 }
