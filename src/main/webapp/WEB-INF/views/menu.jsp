@@ -25,9 +25,9 @@
         <label for="answer2">물류 관리<em></em></label>
         <div class="submenu">
             <p>입고 조회</p>
-            <p><a class="collapse-item" href="/salesDetails/listPreSalesDetails">출고 예정 리스트</a></p>
-            <p><a class="collapse-item" href="/salesDetails/listGoSalesDetails">출고 조회</a></p>
-            <p><a class="collapse-item" href="/salesDetails/listNoSalesDetails">미출고 조회</a></p>
+            <p><a class="collapse-item" href="/All/Logistics/listPreSalesDetails">출고 예정 리스트</a></p>
+            <p><a class="collapse-item" href="/All/Logistics/listGoSalesDetails">출고 조회</a></p>
+            <p><a class="collapse-item" href="/All/Logistics/listNoSalesDetails">미출고 조회</a></p>
         </div>
     </div>
 
@@ -37,8 +37,8 @@
         <div class="submenu">
             <p>발주 조회</p>
             <p>발주 등록</p>
-            <p><a href="/sales/listSales">수주 조회</a></p>
-            <p><a href="/sales/createSales">수주 등록</a></p>
+            <p><a class="collapse-item" href="/All/Sales/listSales">수주 조회</a></p>
+            <p><a class="collapse-item" href="/Sales/createSales">수주 등록</a></p>
         </div>
     </div>
     <div class="menu-item">

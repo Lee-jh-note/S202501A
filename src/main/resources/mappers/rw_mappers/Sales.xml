@@ -140,8 +140,14 @@
 	<!-- 수주 품목 상세조회 -->
 	<select id="infoSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesAll" resultType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll">
 	        SELECT
-	            p.product_name, sd.price, sd.quantity, sd.product_no,
-	            (sd.quantity * sd.price) AS totalPrice
+	            p.product_name, sd.price, sd.quantity, sd.product_no, 
+	            (sd.quantity * sd.price) AS totalPrice,
+	            CASE sd.status
+		            WHEN 0 THEN '대기'
+		            WHEN 1 THEN '미출고'
+		            WHEN 2 THEN '출고'
+		            ELSE '알 수 없음'
+		        END AS status
 	        FROM SALES_DETAILS sd
 	        LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
 			WHERE sd.sales_date = #{sales_date}        

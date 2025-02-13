@@ -202,6 +202,39 @@ public class SalesDetailsDaoImpl implements SalesDetailsDao {
             return List.of(); // 빈 리스트 반환
         }
     }
+    
+    // 미출고 상태 변경
+    @Override
+    public int updateNoSalesStatus(String sales_date, int client_no, int status) {
+        var params = Map.of(
+                "sales_date", sales_date,
+                "client_no", client_no,
+                "status", status
+        );
+        try {
+            return sqlSession.update("updateNoSalesStatus", params);
+        } catch (Exception e) {
+            log.error("updateNoSalesStatus 오류 발생: {}", e.getMessage(), e);
+            return 0; // 기본값 반환
+        }
+    }
+
+    // 미출고 품목 상태 변경
+    @Override
+    public int updateNoSalesDetailsStatus(String sales_date, int client_no, int product_no, int status) {
+        var params = Map.of(
+                "sales_date", sales_date,
+                "client_no", client_no,
+                "product_no", product_no,
+                "status", status
+        );
+        try {
+            return sqlSession.update("updateNoSalesDetailsStatus", params);
+        } catch (Exception e) {
+            log.error("updateNoSalesDetailsStatus 오류 발생: {}", e.getMessage(), e);
+            return 0; // 기본값 반환
+        }
+    }
 
     
 }

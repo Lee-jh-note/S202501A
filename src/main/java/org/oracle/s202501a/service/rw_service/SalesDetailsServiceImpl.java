@@ -135,6 +135,8 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
 
         return true;
     }
+   
+
     
 
 //    @Override
@@ -316,15 +318,39 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
 	    return infoNoSalesDetailsList;
     }
 
+    // 미출고 상태 변경 (수주 상태 + 수주상세 상태)
+    @Override
+    public boolean updateNoSalesStatus(int[] productNos, String salesDate, int clientNo) {
+        log.info("SalesServiceImpl updateNoSalesStatus Start...");
 
+        // 선택된 품목이 하나도 없으면 false 반환(실패 처리)
+        if (productNos == null || productNos.length == 0) {
+            return false;
+        }
 
+        // (1) 체크된 품목들을 출고(2)로 업데이트
+        for (int productNo : productNos) {
+            int result = salesDetailsDao.updateNoSalesDetailsStatus(salesDate, clientNo, productNo, 2);
+            if (result <= 0) {
+                log.error("미출고 → 출고 처리 실패: 제품번호={}", productNo);
+                throw new RuntimeException("출고 처리 실패: " + productNo);
+            }
+        }
 
+        // (2) 출고 상태 결정(모든 품목이 출고됐는지 확인하는 로직이 필요하면 추가)
+        boolean allChecked = true; // 예시로 전부 출고라고 가정
+        int salesStatus = allChecked ? 2 : 1;
 
+        // (3) 수주 상태 업데이트
+        int updateNoSalesCount = salesDetailsDao.updateNoSalesStatus(salesDate, clientNo, salesStatus);
+        log.info("수주 상태 변경 완료: {}", updateNoSalesCount);
 
+        if (updateNoSalesCount <= 0) {
+            throw new RuntimeException("수주 상태 업데이트 실패");
+        }
 
-
-
-
+        return true;
+    }
 
 
 
