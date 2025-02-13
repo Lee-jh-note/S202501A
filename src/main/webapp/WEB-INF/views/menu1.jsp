@@ -86,8 +86,8 @@
         <div id="collapseClient" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">거래처:</h6>
-                <a class="collapse-item" href="/client/listClient">거래처 조회</a>
-                <a class="collapse-item" href="/client/writeFormClient">거래처 등록</a>
+                <a class="collapse-item" href="/All/Sales/listClient">거래처 조회</a>
+                <a class="collapse-item" href="/Sales/writeFormClient">거래처 등록</a>
             </div>
         </div>
     </li>
@@ -123,10 +123,10 @@
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">인사:</h6>
-                <a class="collapse-item" href="/empDept/listEmp">직원 조회</a>
-                <a class="collapse-item" href="/empDept/writeFormEmp">직원 등록</a>
-                <a class="collapse-item" href="/empDept/listDept3">부서 조회</a>
-                <a class="collapse-item" href="#">부서 등록</a>
+                <a class="collapse-item" href="/All/HR/listEmp">직원 조회</a>
+                <a class="collapse-item" href="/HR/writeFormEmp">직원 등록</a>
+                <a class="collapse-item" href="/All/HR/listDept3">부서 조회</a>
+                <a class="collapse-item" href="/HR/writeFormDept">부서 등록</a>
 
             </div>
         </div>

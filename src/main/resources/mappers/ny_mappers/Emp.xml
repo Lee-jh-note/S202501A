@@ -171,17 +171,24 @@
 
 	<!-- 직원 검색 -->
 	<select id="nycondEmpTotal" parameterType="org.oracle.s202501a.dto.ny_dto.Emp" resultType="int">
-	    SELECT COUNT(*) 
-    FROM EMP e
-    LEFT JOIN DEPT d ON e.dept_No = d.dept_No  
-    <choose>  
-       <when test="search == 's_dept'"> 
-            WHERE LOWER(d.dept_Name) LIKE '%' || LOWER(#{keyword}) || '%'
-        </when>
-        <when test="search == 's_ename'">
-            WHERE e.emp_Name LIKE '%' || #{keyword} || '%'
-        </when>
-    </choose>
+		SELECT count(*)
+		FROM (
+		SELECT a.*
+		FROM (
+		SELECT e.emp_No, e.emp_Name, e.dept_No, e.position,
+		e.emp_Tel, e.emp_Email, e.birth, e.hiredate, d.dept_Name
+		FROM EMP e
+		LEFT JOIN DEPT d ON e.dept_No = d.dept_No
+		WHERE 1=1
+		<if test="dept_No != null and dept_No != ''">
+			AND e.dept_No = #{dept_No}
+		</if>
+		<if test="keyword != null and keyword != ''">
+			AND LOWER(e.emp_Name) LIKE '%' || LOWER(#{keyword}) || '%'  <!-- 🔹 대소문자 구분 없이 검색 -->
+		</if>
+		ORDER BY e.emp_No
+		) a
+		)
 </select>
 
 

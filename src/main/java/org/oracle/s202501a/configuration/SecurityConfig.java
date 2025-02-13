@@ -35,33 +35,34 @@ public class SecurityConfig {
 		//  :: -> 메소드 참조라고 하며 람다식에서 불필요한 매개변수를 제거하는 것이 목적
 
 		http
-		    .csrf(AbstractHttpConfigurer::disable)  
-		    // 인가
-        	.authorizeHttpRequests(auth->auth
-                            .requestMatchers( "/css/**", "/images/**", "/js/**", "/favicon.*", "/*/icon-*"
-                            	         	, "/WEB-INF/views/**", "/js1/**").permitAll()
-                            .requestMatchers("/","/writeFormEmp3","/login*","/error*").permitAll()
-//                            .requestMatchers("/Sales/**").hasAuthority("ROLE_SALES")
-//                            .requestMatchers("/Logistics/**").hasAuthority("ROLE_LOGISTICS")
-//                            .requestMatchers("/HR/**").hasAuthority("ROLE_HR")
-                            .requestMatchers("/**").permitAll()
+				.csrf(AbstractHttpConfigurer::disable)
+				// 인가
+				.authorizeHttpRequests(auth -> auth
+								.requestMatchers("/css/**", "/images/**", "/js/**", "/favicon.*", "/*/icon-*"
+										, "/WEB-INF/views/**", "/js1/**").permitAll()
+								.requestMatchers("/", "/writeFormEmp3", "/login*", "/error*").permitAll()
+								.requestMatchers("/Sales/**").hasAnyAuthority("ROLE_SALES", "ROLE_MANAGERMENT")
+								.requestMatchers("/Logistics/**").hasAnyAuthority("ROLE_LOGISTICS", "ROLE_MANAGERMENT")
+								.requestMatchers("/HR/**").hasAnyAuthority("ROLE_HR", "ROLE_MANAGERMENT")
+								.requestMatchers("/All/**").authenticated()
+								.requestMatchers("/**").permitAll()
 //                            .requestMatchers("/admanager").access(new WebExpressionAuthorizationManager("hasRole('ADMIN') or hasRole('MANAGER')"))
-                            .anyRequest().authenticated()
-        					)
-        	// 인증 
-            .formLogin(form -> form
-                   .loginPage("/login")  // UsernamePasswordAuthenticationFilter 생성 폼방식의 인증처리
-                   .authenticationDetailsSource(authenticationDetailsSource)
-                   .successHandler(successHandler)
-                   .failureHandler(failureHandler)
-                   .permitAll()
-                   )
-           .authenticationProvider(authenticationProvider)
-           .exceptionHandling(
-           		   exception -> exception
-                   .accessDeniedHandler(new FormAccessDeniedHandler())
-        		   )
-            ;
+								.anyRequest().authenticated()
+				)
+				// 인증
+				.formLogin(form -> form
+						.loginPage("/login")  // UsernamePasswordAuthenticationFilter 생성 폼방식의 인증처리
+						.authenticationDetailsSource(authenticationDetailsSource)
+						.successHandler(successHandler)
+						.failureHandler(failureHandler)
+						.permitAll()
+				)
+				.authenticationProvider(authenticationProvider)
+				.exceptionHandling(
+						exception -> exception
+								.accessDeniedHandler(new FormAccessDeniedHandler())
+				)
+		;
 		
         return http.build();
 

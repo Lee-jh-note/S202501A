@@ -1,6 +1,5 @@
 package org.oracle.s202501a.controller.jh_controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.oracle.s202501a.dto.jh_dto.CategoriesDto;

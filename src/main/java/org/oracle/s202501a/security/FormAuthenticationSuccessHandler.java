@@ -25,7 +25,7 @@ public class FormAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
     		Authentication authentication) throws IOException, ServletException {
     	// TODO Auto-generated method stub
-        setDefaultTargetUrl("/mainPage");
+        setDefaultTargetUrl("/All/mainPage");
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 

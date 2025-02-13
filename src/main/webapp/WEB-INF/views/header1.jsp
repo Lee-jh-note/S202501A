@@ -3,7 +3,7 @@
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto d-flex align-items-center">
         <li class="nav-item">
-            반갑습니다.&nbsp;<span class="nav-item" id="userName" style="font-weight: bold; color: black"></span>&nbsp;님
+            반갑습니다.&nbsp;<span class="nav-item" id="userName1" style="font-weight: bold; color: black"></span>&nbsp;님
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/chat" role="button">
@@ -53,7 +53,7 @@
         url: '/All/headerData',
         type: 'GET',
         success: function (data) {
-            $('#userName').text(data);
+            $('#userName1').text(data);
         },
         error: function (xhr, status, error) {
             console.error('데이터를 가져오는 중 오류 발생:', error);
