@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ include file="../footer.jsp" %>
-<%@ include file="../menu.jsp" %>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>채팅</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
     * {
@@ -215,6 +216,10 @@
         }
     }
 
+    $(document).ready(function() {
+        chatName();
+    });
+
     function chatName() {
         var userName = $("#userName").val();
         console.log("ChatName function called with username: ", userName);
@@ -253,7 +258,14 @@
 
 </script>
 </head>
-<body>
+<body id ="pagetop">
+<div id="wrapper">
+    <%@ include file="../menu1.jsp" %>
+    
+    <div id="content-wrapper" class="d-flex flex-column">
+    	<div id="content">
+    	  <%@ include file="../header1.jsp" %>
+    	  <div class="list-wrapper">
     <div class="container">
         <h1>채팅</h1>
         <input type="hidden" id="sessionId" value="">
@@ -266,7 +278,7 @@
         <div id="yourName">
             <table class="inputTable">
                 <tr>
-                    <td><input type="text" name="userName" id="userName" placeholder="사용자명을 입력하세요."></td>
+                    <td><input type="text" name="userName" id="userName" value="${empName}"></td>
                     <td><button onclick="chatName()" class="start-btn">이름 등록</button></td>
                 </tr>
             </table>
@@ -281,5 +293,21 @@
             </table>
         </div>
     </div>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+<!-- jQuery -->
+<script src="../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Bundle -->
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin -->
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts -->
+<script src="../js1/sb-admin-2.min.js"></script>
 </body>
 </html>

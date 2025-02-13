@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Forgot Password</title>
+    <title>비밀번호 찾기</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -85,9 +85,7 @@
                                                 id="empEmail" aria-describedby="emailHelp"
                                                 placeholder="이메일을 적어주세요" name="empEmail">
                                         </div>
-                                
-                                         <button type="button" id="sendTempPasswordBtn" class="btn btn-primary btn-user btn-block">임시 비밀번호 받기</button>
-                                        
+                                         <button type="button" id="sendTempPasswordBtn" class="btn btn-primary btn-user btn-block">임시 비밀번호 받기</button>             
                                     </form>
                                     <hr>
                         			임시 비밀번호를 받고 빠른 시일 내에 비밀 번호 변경해주세요
