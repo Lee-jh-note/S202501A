@@ -1,6 +1,5 @@
 package org.oracle.s202501a.controller.rw_controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.oracle.s202501a.dto.rw_dto.SalesDetailsAll;
@@ -26,9 +25,9 @@ public class SalesDetailsController {
 	private final UserService userService;
 
 
-	// =============================================================
-	//                             출고 예정
-	// =============================================================
+	// ====================================================================================
+	//                             			출고 예정
+	// ====================================================================================
 
     // 출고 예정 조회 (검색 조건 적용)
     @GetMapping("All/Logistics/listPreSalesDetails")
@@ -80,9 +79,9 @@ public class SalesDetailsController {
     }
 
     
-	// =============================================================
-	//                      출고/미출고 처리 (상태 변경)
-	// =============================================================
+	// ====================================================================================
+	//                             	출고/미출고 처리 (상태 변경)
+	// ====================================================================================
      
     // 수주 상태 변경 (수주 상태 + 수주상세 상태)
     @PostMapping("Logistics/updateSalesStatus")
@@ -109,36 +108,10 @@ public class SalesDetailsController {
         }
     }
     
-   
     
-//    @PostMapping("Logistics/updateSalesStatus")
-//    public String updateSalesStatus(@RequestParam("status") int[] statuses,  // 라디오 버튼에서 넘어온 상태값 반영
-//						            @RequestParam("sales_date") String[] salesDates,
-//						            @RequestParam("client_no") int[] clientNos,
-//						            @RequestParam("product_no") int[] productNos,
-//						            @RequestParam("emp_no") int emp_no) {
-//    	System.out.println("SalesDetailsController updateSalesStatus Start...");
-//    	    	
-//        log.info("업데이트 요청: sales_date={}, client_no={}, productNos={}, emp_no={}",
-//        		salesDates, clientNos, productNos, emp_no);
-//
-//        try {
-//            boolean success = salesDetailsService.updateSalesStatus(statuses, salesDates, clientNos, productNos, emp_no);
-//            if (success) {
-//                return "redirect:/listPreSalesDetails";
-//            } else {
-//                return "rw_views/errorPage";
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "rw_views/errorPage";
-//        }
-//    }
-    
-    
-	// =============================================================
-	//                             출고
-	// =============================================================
+	// ====================================================================================
+	//                             				출고
+	// ====================================================================================
     
     // 출고 조회 (검색 조건 적용)
     @GetMapping("All/Logistics/listGoSalesDetails")
@@ -184,9 +157,9 @@ public class SalesDetailsController {
     }
 
     
-	// =============================================================
-	//                             미출고
-	// =============================================================
+	// ====================================================================================
+	//                             				미출고
+	// ====================================================================================
 
     // 미출고 조회 (검색 조건 적용)
     @GetMapping("All/Logistics/listNoSalesDetails")
@@ -254,7 +227,6 @@ public class SalesDetailsController {
     	        return "rw_views/errorPage";
     	    }
     }
-}
     
-
-
+    
+}

@@ -175,9 +175,9 @@ function submitForm(event) {
 				<%@ include file="../header1.jsp"%>
 				<!-- 전체 div -->
 				<div class="insert-wrapper">
-						<form id="updateSales" onsubmit="submitForm(event)">
-					<!-- 서브메뉴랑 버튼 들어있는 헤더 -->
-					<div class="insert-header">
+					<form id="updateSales" onsubmit="submitForm(event)">
+						<!-- 서브메뉴랑 버튼 들어있는 헤더 -->
+						<div class="insert-header">
 
 							<div>
 								<div class="insert-submenu">발주/수주 관리 > 수주 조회</div>
@@ -191,75 +191,75 @@ function submitForm(event) {
 								<button type="submit" class="insert-full-button">수정 완료</button>
 								<button type="button" class="insert-empty-button" onclick="history.back()">취소</button>
 							</div>
-					</div>
+						</div>
 
-                    <div class="insert-header-content">
-                        <!-- 수주 정보 테이블 -->
-                        <table class="insert-table">
-						<tr>
-							<th>제목</th>
-							<td colspan="3"><input type="text" id="title" name="title" value="${infoSales.title}" required></td>
-						</tr>
-						<tr>
-							<th>매출일자</th>
-							<td>${infoSales.sales_date}</td>
-							<th>담당자</th>
-							<td>${infoSales.emp_name}</td>
-						</tr>
-						<tr>
-							<th>거래처명</th>
-							<td>${infoSales.client_name}</td>
-							<th>요청배송일</th>
-							<td><input type="date" id="req_delivery_date" name="req_delivery_date" value="${infoSales.req_delivery_date}"></td>
-						</tr>
-						<tr>
-							<th>비고</th>
-							<td colspan="3"><textarea id="remarks" name="remarks" rows="4">${infoSales.remarks}</textarea></td>
-						</tr>
-					</table>
+						<div class="insert-header-content">
+							<!-- 수주 정보 테이블 -->
+							<table class="insert-table">
+								<tr>
+									<th>제목</th>
+									<td colspan="3"><input type="text" id="title" name="title" value="${infoSales.title}" required></td>
+								</tr>
+								<tr>
+									<th>매출일자</th>
+									<td>${infoSales.sales_date}</td>
+									<th>담당자</th>
+									<td>${infoSales.emp_name}</td>
+								</tr>
+								<tr>
+									<th>거래처명</th>
+									<td>${infoSales.client_name}</td>
+									<th>요청배송일</th>
+									<td><input type="date" id="req_delivery_date" name="req_delivery_date" value="${infoSales.req_delivery_date}"></td>
+								</tr>
+								<tr>
+									<th>비고</th>
+									<td colspan="3"><textarea id="remarks" name="remarks" rows="4">${infoSales.remarks}</textarea></td>
+								</tr>
+							</table>
 
-                        <!-- 품목 정보 헤더 + '추가' 버튼 -->
-                        <div class="product-header">
-                            <div class="product-title">품목 정보</div>
-                            <button class="insert-gray-button" type="button" id="addRow">추가</button>
-                        </div>
+							<!-- 품목 정보 헤더 + '추가' 버튼 -->
+							<div class="product-header">
+								<div class="product-title">품목 정보</div>
+								<button class="insert-gray-button" type="button" id="addRow">추가</button>
+							</div>
 
-					<!-- 품목 정보 테이블 -->
-					<table class="insert-table" id="updateSalesDetails">
-						<thead>
-							<tr>
-								<th>품목명</th>
-								<th>단가</th>
-								<th>수량</th>
-								<th>총금액</th>
-								<th style="width:58px;">삭제</th>
-							</tr>
-						</thead>
-						<tbody id="productRows">
-							<!-- 기존 품목 목록 여기 추가 -->
-						</tbody>
-                       </table>
-                   </div>
-                </form>
-            </div>
-            <!-- End of Main Content -->
+							<!-- 품목 정보 테이블 -->
+							<table class="insert-table" id="updateSalesDetails">
+								<thead>
+									<tr>
+										<th>품목명</th>
+										<th>단가</th>
+										<th>수량</th>
+										<th>총금액</th>
+										<th style="width: 58px;">삭제</th>
+									</tr>
+								</thead>
+								<tbody id="productRows">
+									<!-- 기존 품목 목록 여기 추가 -->
+								</tbody>
+							</table>
+						</div>
+					</form>
+				</div>
+				<!-- End of Main Content -->
 
 
-        </div>
-        <%@ include file="../footer1.jsp" %>
-    </div>
-</div>
-<!-- jQuery (항상 가장 먼저 로드) -->
-<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
+			</div>
+			<%@ include file="../footer1.jsp"%>
+		</div>
+	</div>
+	<!-- jQuery (항상 가장 먼저 로드) -->
+	<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
-<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+	<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+	<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin (jQuery Easing 등) -->
-<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
+	<!-- Core plugin (jQuery Easing 등) -->
+	<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
-<!-- Custom scripts -->
-<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
+	<!-- Custom scripts -->
+	<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

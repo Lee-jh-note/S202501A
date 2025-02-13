@@ -30,11 +30,11 @@ public class SalesController {
 	private final UserService userService;
 	
 	
-	// =============================================================
-	//                             등록
-	// =============================================================
+	// ====================================================================================
+	//                             				등록
+	// ====================================================================================
 
-	// 수주 등록 페이지로 이동 (거래처 목록 & 제품 목록 & 담당자 목록(임시) 조회)
+	// 수주 등록 페이지로 이동 (거래처 목록 & 제품 목록 조회)
 	@GetMapping("Sales/createSales")
 	public String createSalesPage(Model model) {
 		System.out.println("SalesController createSalesPage Start...");
@@ -45,9 +45,6 @@ public class SalesController {
 		// 제품 목록 조회(드롭다운)
 		List<SalesDetailsAll> productList = salesService.getProductList();
 		log.debug("조회된 제품 목록: {}", productList);		
-//		// 담당자 목록 조회(드롭다운) - 임시용
-//		List<SalesAll> empList = salesService.getEmpList();
-//		log.debug("조회된 담당자 목록: {}", empList);
 		
 		// 세션에서 가져온 담당자 (현재 로그인 되어있는 직원) - 수주담당자
 		EmpDTO dto = userService.getSe();
@@ -109,7 +106,7 @@ public class SalesController {
 		
 		int productPrice = salesService.getProductPrice(product_no);
 		
-		log.info("조회된 제품 단가: {}", productPrice);
+		log.info("조회된 제품단가: {}", productPrice);
 		return productPrice;
 	}
 	
@@ -136,9 +133,9 @@ public class SalesController {
     }
     
 
-	// =============================================================
-	//                             조회
-	// =============================================================
+	// ====================================================================================
+	//                             				조회
+	// ====================================================================================
 	
     // 수주 목록 조회 (검색 조건 적용)
     @GetMapping("All/Sales/listSales")
@@ -183,9 +180,10 @@ public class SalesController {
 	    return "rw_views/infoSales";
 	}
 
-	// =============================================================
-	//                             수정
-	// =============================================================		
+	
+	// ====================================================================================
+	//                             				수정
+	// ====================================================================================	
 	
 	// 수주 수정 페이지 이동 (처리 상태가 '대기'인 경우만 가능)
     @GetMapping("Sales/updateSales")
@@ -242,10 +240,9 @@ public class SalesController {
 	}
 	
 
-
-	// =============================================================
-	//                             삭제
-	// =============================================================
+	// ====================================================================================
+	//                             				삭제
+	// ====================================================================================
 
 	// 수주 삭제 (처리 상태가 '대기'인 경우만 가능)- 품목 삭제 후 수주 정보 삭제
     @PostMapping("Sales/deleteSales")
@@ -268,11 +265,11 @@ public class SalesController {
         }
     }
 
+//    // 에러페이지 test
+//    @GetMapping("Sales/errorPage")
+//    public String showErrorPage() {
+//        return "rw_views/errorPage";  
+//    }
 
-    // 에러페이지 test
-    @GetMapping("Sales/errorPage")
-    public String showErrorPage() {
-        return "rw_views/errorPage";  
-    }
     
 }

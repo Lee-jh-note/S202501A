@@ -56,7 +56,7 @@ $(document).ready(function () {
     $("#chkClientBtn").click(chkClient);
 });
 
-// 중복 확인 함수
+// 중복 확인 함수 (같은 거래처 같은 날짜 수주 등록 방지)
 function chkClient() {
     let client_no = $("#client_no").val();
     let sales_date = $("#sales_date").val(); 
@@ -145,9 +145,77 @@ function calculateTotal(input) {
     row.find(".totalPrice").val(totalPrice ? totalPrice.toLocaleString() : "0");
 }
 
+// 필수 입력값 검증 함수
+function validateForm() {
+    let title = $("#title").val().trim();
+    let client_no = $("#client_no").val();
+    let req_delivery_date = $("#req_delivery_date").val();
+    let sales_date = $("#sales_date").val();
+    
+    if (!title) {
+        alert("제목을 입력해주세요.");
+        $("#title").focus();
+        return false;
+    }
+
+    if (!client_no) {
+        alert("거래처를 선택해주세요.");
+        $("#client_no").focus();
+        return false;
+    }
+
+    if (!req_delivery_date) {
+        alert("요청 배송일을 선택해주세요.");
+        $("#req_delivery_date").focus();
+        return false;
+    }
+
+    if (new Date(req_delivery_date) < new Date(sales_date)) {
+        alert("요청 배송일은 매출일자 이후여야 합니다.");
+        $("#req_delivery_date").focus();
+        return false;
+    }
+
+    let hasProduct = false;
+    let allValid = true;
+    let productSet = new Set(); // 중복 품목 검사용
+
+    $("#createSalesDetails tbody tr").each(function () {
+        let product_no = $(this).find(".product-select").val();
+        let quantity = $(this).find(".quantity").val();
+        
+        if (product_no) {
+            if (productSet.has(product_no)) {
+                alert("동일한 품목이 중복되었습니다.");
+                $(this).find(".product-select").focus();
+                allValid = false;
+                return false;
+            }
+            productSet.add(product_no);
+            hasProduct = true;
+
+            if (!quantity || parseInt(quantity) < 1) {
+                alert("수량은 1개 이상 입력해야 합니다.");
+                $(this).find(".quantity").focus();
+                allValid = false;
+                return false;
+            }
+        }
+    });
+
+    if (!hasProduct) {
+        alert("최소 하나 이상의 품목을 추가해주세요.");
+        return false;
+    }
+
+    return allValid;
+}
 //  AJAX 수주서 등록
 function submitForm(event) {
     event.preventDefault();
+    
+    // 폼 검증 실행
+    if (!validateForm()) return;
 
     let salesData = {
         title: $("#title").val().trim(),
@@ -159,11 +227,6 @@ function submitForm(event) {
         productList: []
     };
     
-    // 필수 항목 확인
-    if (!salesData.title || !salesData.client_no) {
-        alert("필수 항목을 입력해주세요!");
-        return;
-    }
     
     // 각 품목 행에서 데이터 추출
     $("#createSalesDetails tbody tr").each(function () {
@@ -174,11 +237,6 @@ function submitForm(event) {
        };
         salesData.productList.push(product);
     });
-
-    if (salesData.productList.length === 0) {
-        alert("최소 하나 이상의 품목을 추가해주세요!");
-        return;
-    }
     
     // 전송할 데이터 콘솔 출력 
     console.log("전송 데이터:", JSON.stringify(salesData));
@@ -190,7 +248,7 @@ function submitForm(event) {
         contentType: "application/json",
         data: JSON.stringify(salesData),
         success: function () {
-            alert("수주서 등록 성공!");
+            alert("수주서 등록 성공");
             window.location.href = "/All/Sales/listSales";
         },
         error: function (xhr, status, error) {

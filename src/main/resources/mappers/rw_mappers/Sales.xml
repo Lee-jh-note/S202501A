@@ -21,11 +21,15 @@
 	<select id="getClientList" resultType="org.oracle.s202501a.dto.rw_dto.SalesAll">
 	    SELECT client_no, client_name FROM CLIENTS
 	    WHERE client_type = 1
+	    AND client_delete = 0
+	    ORDER BY client_name
 	</select>
 	   
 	<!-- 제품 목록 조회 (드롭다운)  --> 
 	<select id="getProductList" resultType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll">
 	    SELECT product_no, product_name FROM PRODUCT 
+	    WHERE product_delete = 0
+	    ORDER BY product_name
 	</select>
 	 
 <!-- 	   

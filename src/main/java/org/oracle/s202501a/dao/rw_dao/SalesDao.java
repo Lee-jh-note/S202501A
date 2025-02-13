@@ -10,11 +10,9 @@ public interface SalesDao {
 
     // 등록
     int 					createSales(SalesAll sales); // 수주 정보 등록
-    int 					createSalesDetails(SalesDetailsAll salesDetails); // 수주 품목 등록
-		
+    int 					createSalesDetails(SalesDetailsAll salesDetails); // 수주 품목 등록		
     List<SalesAll> 			getClientList(); // 거래처 목록 조회 (드롭다운)
     List<SalesDetailsAll> 	getProductList(); // 제품 목록 조회 (드롭다운)
-//    List<SalesAll>      	getEmpList(); // 담당자 목록 조회 (드롭다운) - 임시용
 	int 					getProductPrice(int product_No); // 품목 선택 시 단가 자동설정
 	int 					checkDuplicateSales(String client_no, String sales_date); // 중복확인 (같은 날짜에 같은 거래처 여부 확인)
 
@@ -28,14 +26,12 @@ public interface SalesDao {
     
     // 수정
     int 					updateSales(SalesAll sales); // 수주 정보 수정
-    // 품목 수정은 삭제 후 재등록으로 기존 코드 재활용 deleteSalesDetails 후 createSalesDetails
-//    int 					updateSalesDetails(List<SalesDetails> salesDetailsList); // 기존 품목 삭제 후 새로운 품목 추가
+    // 품목 수정 				updateSalesDetails는 기존 코드 재활용 -> 삭제(deleteSalesDetails) 후 재등록(createSalesDetails)
 
     
     // 삭제
     int 					deleteSalesDetails(SalesDetails details); // 수주 품목 삭제 (처리 상태가 '대기'인 경우만 가능)
 	int 					deleteSales(SalesAll sales); // 수주 정보 삭제 (처리 상태가 '대기'인 경우만 가능)
 
-
-
+	
 }
