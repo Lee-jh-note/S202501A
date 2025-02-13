@@ -3,9 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -55,7 +53,7 @@
 									        });
 									    </script>
 									</c:if>
-
+									
                                     <form action="login" method="post" class="user">
                                     <input type="hidden" value="secret" name="secret_key" />
                                         <div class="form-group">
@@ -74,7 +72,6 @@
                                     <div class="text-center">
                                         <a class="small" href="find_password">비밀번호 찾기</a>
                                     </div>
-                           
                                 </div>
                             </div>
                         </div>

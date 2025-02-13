@@ -121,7 +121,7 @@
 <div id="wrapper">
     <%@ include file="../menu1.jsp" %>
     <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
+        <div id="content">	
             <%@ include file="../header1.jsp" %>
             <!-- 전체 div -->
             <div class="insert-wrapper">
@@ -176,7 +176,7 @@
 				            </tr>
 				            
 				        </table>
-				
+							
 					    
  			       	</div>
 	            <!-- End of Main Content -->
