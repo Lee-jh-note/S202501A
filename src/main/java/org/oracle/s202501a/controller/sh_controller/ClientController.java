@@ -190,7 +190,6 @@ public class ClientController {
 	      model.addAttribute("listClient", listSearchClient);
 	      model.addAttribute("page", page);
 	      
-	      
 	      return "sh_views/list";
 	   }
 
