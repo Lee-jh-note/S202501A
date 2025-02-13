@@ -2,8 +2,8 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto d-flex align-items-center">
-        <li class="nav-item">
-            반갑습니다.&nbsp;<span class="nav-item" id="userName" style="font-weight: bold; color: black"></span>&nbsp;님
+        <li class="nav-item" style="font-family: 'Inter', sans-serif; font-size:14px;">
+            반갑습니다.&nbsp;<span class="nav-item" id="userName" style="font-weight: 600;; color: #585858;"></span>&nbsp;님
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/chat" role="button">
