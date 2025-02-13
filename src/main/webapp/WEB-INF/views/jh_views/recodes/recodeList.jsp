@@ -128,15 +128,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- Custom scripts -->
-<script src="../../../../js1/sb-admin-2.min.js"></script>
-
-<!-- jQuery -->
-<script src="../../../../vendor/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Bundle -->
-<script src="../../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin -->
-<script src="../../../../vendor/jquery-easing/jquery.easing.min.js"></script>
 </body>
 </html>

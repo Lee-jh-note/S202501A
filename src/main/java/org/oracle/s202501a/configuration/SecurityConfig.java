@@ -35,7 +35,7 @@ public class SecurityConfig {
 				// 인가
 				.authorizeHttpRequests(auth -> auth
 								.requestMatchers("/css/**", "/images/**", "/js/**", "/favicon.*", "/*/icon-*"
-										, "/WEB-INF/views/**", "/js1/**").permitAll()
+										, "/WEB-INF/views/**", "/js1/**", "/vendor/**", "/css1/**").permitAll()
 								.requestMatchers("/", "/writeFormEmp3", "/login*", "/error*").permitAll()
 								.requestMatchers("/Sales/**").hasAnyAuthority("ROLE_SALES", "ROLE_MANAGERMENT")
 								.requestMatchers("/Logistics/**").hasAnyAuthority("ROLE_LOGISTICS", "ROLE_MANAGERMENT")

@@ -304,6 +304,7 @@
             method: 'GET',
             data: {yymm: yymm},
             success: function (response) {
+                console.log(response)
                 if (response === "1") {
                     if (confirm(yymm + " 날짜로 마감을 진행하시겠습니까?")) {
                         var form = document.createElement('form');
@@ -320,14 +321,13 @@
                         form.submit();
                         alert(yymm + "월 마감 완료되었습니다.");
                     }
-                    else if (response === "0") {
+                } else if (response == "0") {
                         alert("이미 마감처리된 내역입니다.");
-
                     }
-                } else {
-                    alert("권한이 없습니다.");
-                }
-            },
+                    else {
+                        alert("관리자 문의");
+                    }
+                },
             error: function (xhr, status, error) {
                 console.error("Error: " + error);
                 alert("마감 월을 선택해 주세요.");

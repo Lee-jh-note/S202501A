@@ -74,7 +74,7 @@
                         <tr>
                             <th>상세설명</th>
                                <td colspan="3" rowspan="6" style="height: 200px;"><textarea name="description" id="description" rows="4"
-                                                                  placeholder="상세설명을 입력하세요" required></textarea></td>
+                                                                  placeholder="상세설명을 입력하세요"></textarea></td>
                         </tr>
 
                     </table>
@@ -87,7 +87,7 @@
         <%@ include file="../../footer1.jsp" %>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
     $(document).ready(function () {
         // 폼 제출 시 중복 체크
@@ -96,15 +96,16 @@
 
             // 제품명이 비어 있지 않으면 중복 체크 수행
             if (prodName) {
+                event.preventDefault();  // ajax 요청이 끝날 때까지 폼 제출을 막음
+
                 $.ajax({
                     url: '/Sales/validProdName',  // 중복 체크 URL
                     type: 'GET',
-                    data: {prodName: prodName},  // 서버로 제품명 전달
+                    data: { prodName: prodName },  // 서버로 제품명 전달
                     success: function (response) {
                         if (response === '1') {
                             // 중복인 경우
                             alert('이미 존재하는 제품명입니다.');
-                            event.preventDefault();  // 폼 제출을 막음
                         } else if (response === '0') {
                             // 사용 가능한 경우
                             alert('등록 하였습니다.');
@@ -114,7 +115,6 @@
                     },
                     error: function () {
                         alert('중복 체크 실패');
-                        event.preventDefault();  // 폼 제출을 막음
                     }
                 });
             } else {
@@ -162,7 +162,7 @@
 </script>
 
 <!-- Bootstrap JS, Popper.js, jQuery 추가 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
