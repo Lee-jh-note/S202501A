@@ -13,8 +13,9 @@ public interface SalesDetailsService {
     
     
     // 출고/미출고 처리 (상태 변경)
-	boolean 				updateSalesStatus(int[] checked, String[] salesDates, int[] clientNos, int[] productNos, int emp_no);
+	boolean 				updateSalesStatus(int[] checked, String[] salesDates, int[] clientNos, int[] productNos, int emp_no); // 수주 상태 변경 (수주 + 수주상세)
 //	boolean 				updateSalesStatus(int[] statuses, String[] salesDates, int[] clientNos, int[] productNos, int emp_no);
+//	boolean updateSalesStatus(int[] checkedProductNos, int[] allProductNos, String salesDate, int clientNo, int emp_no);
 
     
     // 출고 (수주 상태: 출고)
@@ -27,6 +28,7 @@ public interface SalesDetailsService {
     List<SalesDetailsAll> 	listNoSalesDetails(SalesDetailsAll salesDetails); // 미출고 조회 (총 갯수 조회 포함) (검색 조건 적용)
     SalesDetailsAll 		infoNoSalesDetails(SalesDetailsAll salesDetails); // 미출고 상세조회 
     List<SalesDetailsAll> 	infoNoSalesDetailsList(SalesDetailsAll salesDetails); // 미출고 품목 상세조회 (출고 상세조회 재활용?)
+	boolean 				updateNoSalesStatus(int[] productNos, String salesDate, int clientNo); // 미출고 상태 변경 (수주 + 수주상세)
 
     
 	

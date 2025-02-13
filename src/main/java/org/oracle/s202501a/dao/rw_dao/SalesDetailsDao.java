@@ -28,8 +28,10 @@ public interface SalesDetailsDao {
     // 미출고 (수주 상태: 미출고)
     int 					totalNoSalesDetails(SalesDetailsAll salesDetails); // 미출고 총 갯수 조회 (검색 조건 적용)
     List<SalesDetailsAll> 	listNoSalesDetails(SalesDetailsAll salesDetails); // 미출고 조회 (검색 조건 적용)
-    SalesDetailsAll 		infoNoSalesDetails(SalesDetailsAll salesDetails); // 미출고 상세조회 (출고 상세조회 재활용?)
-    List<SalesDetailsAll>  	infoNoSalesDetailsList(SalesDetailsAll salesDetails); // 미출고 품목 상세조회 (출고 상세조회 재활용?)
+    SalesDetailsAll 		infoNoSalesDetails(SalesDetailsAll salesDetails); // 미출고 상세조회 
+    List<SalesDetailsAll>  	infoNoSalesDetailsList(SalesDetailsAll salesDetails); // 미출고 품목 상세조회 
+    int 					updateNoSalesStatus(String sales_date, int client_no, int status); // 미출고 상태 변경
+    int 					updateNoSalesDetailsStatus(String sales_date, int client_no, int product_no, int status); // 미출고 품목 상태 변경
 
     
 }

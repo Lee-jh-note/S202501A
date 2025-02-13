@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,19 +24,18 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("sales")
 public class SalesController {
 
 	private final SalesService salesService;
 	private final UserService userService;
 	
-//	private final 
+	
 	// =============================================================
 	//                             등록
 	// =============================================================
 
 	// 수주 등록 페이지로 이동 (거래처 목록 & 제품 목록 & 담당자 목록(임시) 조회)
-	@GetMapping("/createSales")
+	@GetMapping("Sales/createSales")
 	public String createSalesPage(Model model) {
 		System.out.println("SalesController createSalesPage Start...");
 
@@ -71,7 +69,7 @@ public class SalesController {
 	
 	// 수주 등록 (수주 정보 & 품목 정보) - AJAX 요청
 	@ResponseBody
-	@PostMapping("/createSales")
+	@PostMapping("Sales/createSales")
 	public Map<String, Object> createSales(@RequestBody SalesAll sales) {
 		System.out.println("SalesController createSales Start...");
 
@@ -103,7 +101,7 @@ public class SalesController {
 
 	// 제품 선택 시 단가 자동설정
 	@ResponseBody
-	@GetMapping("/getProductPrice")
+	@GetMapping("Sales/getProductPrice")
 	public int getProductPrice(@RequestParam("product_no") int product_no) {
 		System.out.println("SalesController getProductPrice Start...");
 
@@ -117,7 +115,7 @@ public class SalesController {
 	
 	// 중복확인 (sales_date와 client_no 비교해서 같은 날짜에 같은 거래처 수주가 없는지 수주 등록 전 미리 확인)
 	@ResponseBody 
-	@GetMapping("/checkDuplicateSales")
+	@GetMapping("Sales/checkDuplicateSales")
     public Map<String, Boolean> checkDuplicateSales(@RequestParam("client_no") String client_no, 
     												@RequestParam("sales_date") String sales_date) {
     	System.out.println("SalesController checkDuplicateSales Start...");
@@ -143,7 +141,7 @@ public class SalesController {
 	// =============================================================
 	
     // 수주 목록 조회 (검색 조건 적용)
-    @GetMapping("/listSales")
+    @GetMapping("All/Sales/listSales")
     public String listSales(SalesAll sales, Model model) {
     	System.out.println("SalesController listSales Start...");
     	
@@ -166,7 +164,7 @@ public class SalesController {
 	
 
 	// 수주 상세 조회 (수주 정보 + 수주 품목 상세)
-	@GetMapping("/infoSales")
+	@GetMapping("All/Sales/infoSales")
 	public String infoSales(SalesAll sales, Model model) {
 		System.out.println("SalesController infoSales Start...");
 
@@ -190,7 +188,7 @@ public class SalesController {
 	// =============================================================		
 	
 	// 수주 수정 페이지 이동 (처리 상태가 '대기'인 경우만 가능)
-    @GetMapping("/updateSales")
+    @GetMapping("Sales/updateSales")
     public String updateSalesPage(SalesAll sales, Model model) {
         log.info("updateSales 페이지 이동: {}", sales);
 
@@ -216,7 +214,7 @@ public class SalesController {
 
 	// 수주 정보 수정 (처리 상태가 '대기'인 경우만 가능)
 	@ResponseBody
-	@PostMapping("/updateSales")
+	@PostMapping("Sales/updateSales")
 	public Map<String, Object> updateSales(@RequestBody SalesAll sales) {
 		System.out.println("SalesController updateSales Start...");
 
@@ -250,7 +248,7 @@ public class SalesController {
 	// =============================================================
 
 	// 수주 삭제 (처리 상태가 '대기'인 경우만 가능)- 품목 삭제 후 수주 정보 삭제
-    @PostMapping("/deleteSales")
+    @PostMapping("Sales/deleteSales")
     public String deleteSales(SalesAll sales) {
     	System.out.println("SalesController deleteSales Start...");
     	
@@ -272,7 +270,7 @@ public class SalesController {
 
 
     // 에러페이지 test
-    @GetMapping("/errorPage")
+    @GetMapping("Sales/errorPage")
     public String showErrorPage() {
         return "rw_views/errorPage";  
     }

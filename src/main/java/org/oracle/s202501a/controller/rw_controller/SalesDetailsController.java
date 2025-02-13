@@ -1,5 +1,6 @@
 package org.oracle.s202501a.controller.rw_controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.oracle.s202501a.dto.rw_dto.SalesDetailsAll;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("salesDetails")
 public class SalesDetailsController {
 	
     private final SalesDetailsService salesDetailsService;
@@ -32,7 +31,7 @@ public class SalesDetailsController {
 	// =============================================================
 
     // 출고 예정 조회 (검색 조건 적용)
-    @GetMapping("/listPreSalesDetails")
+    @GetMapping("All/Logistics/listPreSalesDetails")
     public String listPreSalesDetails(SalesDetailsAll salesDetails, Model model) {
     	System.out.println("SalesDetailsController listPreSalesDetails Start...");
     	
@@ -54,7 +53,7 @@ public class SalesDetailsController {
     }
 
     // 출고 예정 상세조회 (출고예정 정보 + 출고예정 품목 상세)
-    @GetMapping("/infoPreSalesDetails")
+    @GetMapping("All/Logistics/infoPreSalesDetails")
     public String infoPreSalesDetails(SalesDetailsAll salesDetails, Model model) {
     	System.out.println("SalesDetailsController infoPreSalesDetails Start...");
     	
@@ -86,21 +85,21 @@ public class SalesDetailsController {
 	// =============================================================
      
     // 수주 상태 변경 (수주 상태 + 수주상세 상태)
-    @PostMapping("/updateSalesStatus")
-    public String updateSalesStatus(@RequestParam("checked") int[] checked,
+    @PostMapping("Logistics/updateSalesStatus")
+    public String updateSalesStatus(@RequestParam(value = "checked", required = false) int[] checked,
 						            @RequestParam("sales_date") String[] salesDates,
 						            @RequestParam("client_no") int[] clientNos,
 						            @RequestParam("product_no") int[] productNos,
 						            @RequestParam("emp_no") int emp_no) {
     	System.out.println("SalesDetailsController updateSalesStatus Start...");
     	    	
-        log.info("업데이트 요청: sales_date={}, client_no={}, productNos={}, emp_no={}, checked={}",
-        		salesDates, clientNos, productNos, emp_no, checked);
+        log.info("업데이트 요청: sales_date={}, client_no={}, productNos={}, emp_no={}",
+        		salesDates, clientNos, productNos, emp_no);
 
         try {
             boolean success = salesDetailsService.updateSalesStatus(checked, salesDates, clientNos, productNos, emp_no);
             if (success) {
-                return "redirect:/salesDetails/listPreSalesDetails";
+                return "redirect:/All/Logistics/listPreSalesDetails";
             } else {
                 return "rw_views/errorPage";
             }
@@ -110,9 +109,9 @@ public class SalesDetailsController {
         }
     }
     
+   
     
-    
-//    @PostMapping("/updateSalesStatus")
+//    @PostMapping("Logistics/updateSalesStatus")
 //    public String updateSalesStatus(@RequestParam("status") int[] statuses,  // 라디오 버튼에서 넘어온 상태값 반영
 //						            @RequestParam("sales_date") String[] salesDates,
 //						            @RequestParam("client_no") int[] clientNos,
@@ -142,7 +141,7 @@ public class SalesDetailsController {
 	// =============================================================
     
     // 출고 조회 (검색 조건 적용)
-    @GetMapping("/listGoSalesDetails")
+    @GetMapping("All/Logistics/listGoSalesDetails")
     public String listGoSalesDetails(SalesDetailsAll salesDetails, Model model) {
     	System.out.println("SalesDetailsController listGoSalesDetails Start...");
     	
@@ -165,7 +164,7 @@ public class SalesDetailsController {
     
     
     // 출고 상세조회 (출고 정보 + 출고 품목 상세)
-    @GetMapping("/infoGoSalesDetails")
+    @GetMapping("All/Logistics/infoGoSalesDetails")
     public String infoGoSalesDetails(SalesDetailsAll salesDetails, Model model) {
     	System.out.println("SalesDetailsController infoGoSalesDetails Start...");
     	
@@ -190,7 +189,7 @@ public class SalesDetailsController {
 	// =============================================================
 
     // 미출고 조회 (검색 조건 적용)
-    @GetMapping("/listNoSalesDetails")
+    @GetMapping("All/Logistics/listNoSalesDetails")
     public String listNoSalesDetails(SalesDetailsAll salesDetails, Model model) {
     	System.out.println("SalesDetailsController listNoSalesDetails Start...");
     	
@@ -212,7 +211,7 @@ public class SalesDetailsController {
     }
     
     // 미출고 상세조회 (미출고 정보 + 미출고 품목 상세)
-    @GetMapping("/infoNoSalesDetails")
+    @GetMapping("All/Logistics/infoNoSalesDetails")
     public String infoNoSalesDetails(SalesDetailsAll salesDetails, Model model) {
     	System.out.println("SalesDetailsController infoNoSalesDetails Start...");
     	
@@ -230,5 +229,32 @@ public class SalesDetailsController {
 
         return "rw_views/infoNoSalesDetails";
     }
+    
+    
+    // 미출고 상태 변경 (수주 상태 + 수주상세 상태)
+    @PostMapping("Logistics/updateNoSalesStatus")
+    public String updateNoSalesStatus(
+    	    @RequestParam(value = "product_no", required = false) int[] productNos,
+    	    @RequestParam("sales_date") String salesDate,       // 단일 값으로
+    	    @RequestParam("client_no") int clientNo             // 단일 값으로
+    	) {
+    	    log.info("업데이트 요청: sales_date={}, client_no={}, productNos={}",
+    	             salesDate, clientNo, productNos);
 
+    	    try {
+    	        boolean success = salesDetailsService.updateNoSalesStatus(productNos, salesDate, clientNo);
+    	        if (success) {
+    	            return "redirect:/All/Logistics/listNoSalesDetails";
+    	        } else {
+    	            log.warn("출고 처리 실패: 선택된 품목 없음");
+    	            return "rw_views/errorPage";
+    	        }
+    	    } catch (Exception e) {
+    	        log.error("출고 처리 중 오류 발생", e);
+    	        return "rw_views/errorPage";
+    	    }
+    }
 }
+    
+
+
