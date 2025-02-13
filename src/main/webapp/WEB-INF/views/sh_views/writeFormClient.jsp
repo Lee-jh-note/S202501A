@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="insert-buttons">
-                            <button class="btn insert-empty-button" type="button" onclick="location.href='/client/listClient'">취소</button>
+                            <button class="btn insert-empty-button" type="button" onclick="location.href='/All/Sales/listClient'">취소</button>
 
                             <button class="btn insert-full-button" id="btn" type="submit">확인</button>
                         </div>
