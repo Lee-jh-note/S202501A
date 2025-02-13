@@ -25,8 +25,8 @@
         <div id="collapseBoard" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">게시판:</h6>
-                <a class="collapse-item" href="/notice/NoticeList">공지 게시판</a>
-                <a class="collapse-item" href="/board/BoardList">자유 게시판</a>
+                <a class="collapse-item" href="/All/Management/NoticeList">공지 게시판</a>
+                <a class="collapse-item" href="/All/Management/BoardList">자유 게시판</a>
             </div>
         </div>
     </li>

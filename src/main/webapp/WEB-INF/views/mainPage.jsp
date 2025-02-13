@@ -61,7 +61,7 @@
 			                <tbody>
 			                	<c:set var="num" value="${fn:length(listNotice)}"/>
 				                <c:forEach var="notice" items="${listNotice}" varStatus="status">
-					                <tr class="clickable-row" data-href="notice/NoticeContent?board_No=${notice.board_No}">
+					                <tr class="clickable-row" data-href="/All/Management/NoticeContent?board_No=${notice.board_No}"">
 					                    <td>${num - status.index}</td> 
 					                    <td>${notice.title}</td>
 					                    <td>${notice.emp_Name}</td>

@@ -26,7 +26,6 @@
 	background-color: #f1f1f1; /* 호버 색상 변경 */
 }
 
-<
 style>.list-table th:nth-child(1), .list-table td:nth-child(1) {
 	width: 2%; /* 조회수 칸 크기 줄이기 */
 }
