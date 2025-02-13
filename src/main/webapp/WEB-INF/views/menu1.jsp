@@ -1,12 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 메뉴바 시작 -->
 <!-- Sidebar -->
-<%--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--%>
-<%--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>--%>
 <ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: #395B7F;" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/mainPage">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/All/mainPage">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-fw fa-box"></i>
         </div>
@@ -46,9 +44,9 @@
         <div id="collapsePurSalDetail" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">입고:</h6>
-                <a class="collapse-item" href="/purchaseDetail/listPurchaseDetailPlan">입고 예정 리스트</a>
-                <a class="collapse-item" href="/purchaseDetail/listPurchaseDetail">입고 조회</a>
-                <a class="collapse-item" href="/purchaseDetail/listPurchaseDetailNo">미입고 조회</a>
+                <a class="collapse-item" href="/All/Logistics/listPurchaseDetailPlan">입고 예정 리스트</a>
+                <a class="collapse-item" href="/All/Logistics/listPurchaseDetail">입고 조회</a>
+                <a class="collapse-item" href="/All/Logistics/listPurchaseDetailNo">미입고 조회</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">출고:</h6>
                 <a class="collapse-item" href="/salesDetails/listPreSalesDetails">출고 예정 리스트</a>
@@ -68,12 +66,12 @@
         <div id="collapsePurSal" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">발주:</h6>
-                <a class="collapse-item" href="/purchase/insertFormPurchase">발주 등록</a>
-                <a class="collapse-item" href="/purchase/listPurchase">발주 조회</a>
+                <a class="collapse-item" href="/Sales/insertFormPurchase">발주 등록</a>
+                <a class="collapse-item" href="/All/Sales/listPurchase">발주 조회</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">수주:</h6>
-                <a class="collapse-item" href="/sales/createSales">수주 등록</a>
-                <a class="collapse-item" href="/sales/listSales">수주 조회</a>
+                <a class="collapse-item" href="/createSales">수주 등록</a>
+                <a class="collapse-item" href="/listSales">수주 조회</a>
             </div>
         </div>
     </li>
@@ -85,8 +83,7 @@
             <i class="fas fa-fw fa-city"></i>
             <span>거래처 관리</span>
         </a>
-        <div id="collapseClient" class="collapse" aria-labelledby="headingTwo"
-             data-parent="#accordionSidebar">
+        <div id="collapseClient" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">거래처:</h6>
                 <a class="collapse-item" href="/client/listClient">거래처 조회</a>
@@ -141,7 +138,7 @@
     <!-- 채팅 -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseChat"
-           aria-expanded="true" aria-controls="collapseChat" >
+           aria-expanded="true" aria-controls="collapseChat">
             <i class="fas fa-fw fa-comments"></i>
             <span>채팅</span>
         </a>
@@ -161,6 +158,5 @@
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
 </ul>
-
 <!-- End of Sidebar -->
 <!-- 메뉴바 끝 -->

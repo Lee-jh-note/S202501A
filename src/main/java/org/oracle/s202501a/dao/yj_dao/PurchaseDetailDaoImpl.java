@@ -188,6 +188,33 @@ public class PurchaseDetailDaoImpl implements PurchaseDetailDao {
 		}
 		return searchListPurchaseDetailNo;
 	}
+	
+	// 미입고 조회 상세
+	// PurchaseDetailServiceImpl detailPurchaseDetail
+	@Override
+	public PurchaseDetailsAll detailPurchaseDetailNo(Map<String, Object> params) {
+		System.out.println("PurchaseDetailDaoImpl detailPurchaseDetail start,,");
+		PurchaseDetailsAll purchase_details = new PurchaseDetailsAll();
+		try {
+			purchase_details = session.selectOne("yjDetailPurchaseDetailsNo",params);
+			System.out.println("PurchaseDetailDaoImpl detailPurchaseDetail purchase_details-> " + purchase_details);
+		} catch (Exception e) {
+			System.out.println("PurchaseDetailDaoImpl detailPurchaseDetail e.getMessage()->"+e.getMessage());
+		}
+		return purchase_details;
+	}
+
+	@Override
+	public List<PurchaseDetailsAll> detailPurchaseDetailNoList(Map<String, Object> params) {
+		List<PurchaseDetailsAll> purchase_details_list = null;
+		try {
+			purchase_details_list = session.selectList("yjDetailPurchaseDetailNoLists", params);
+			System.out.println("PurchaseDetailDaoImpl detailPurchaseDetailList purchase_details_list-> " + purchase_details_list);
+		} catch (Exception e) {
+			System.out.println("PurchaseDetailDaoImpl detailPurchaseDetailList e.getMessage()->"+e.getMessage());
+		}
+		return purchase_details_list;
+	}
 
 
 	

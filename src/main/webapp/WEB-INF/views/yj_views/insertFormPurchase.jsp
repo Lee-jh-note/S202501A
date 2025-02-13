@@ -29,7 +29,7 @@
             } // 처음에 그냥 바로 PurchaseController로 연결했다가 적어놓은 데이터를 불러오지 못해서 ajax로 변경
               // else location.href="confirm?client_no="+frm.client_no.value+"&purchase_date="+frm.purchase_date.value;
             $.ajax({
-                url: "<%=request.getContextPath()%>/purchase/confirm",
+                url: "<%=request.getContextPath()%>/Sales/confirm",
                 type: "GET",
                 data: {
                     client_no: frm.client_no.value,
@@ -58,7 +58,7 @@
             // alert("pProduct_no->"+pProduct_no)
             $.ajax(
                 {
-                    url: "<%=request.getContextPath()%>/purchase/getPrice",
+                    url: "<%=request.getContextPath()%>/Sales/getPrice",
                     data: {product_no: pProduct_no},
                     dataType: "json",
                     success: function (productPrice) {
@@ -264,14 +264,14 @@
             };
 
             $.ajax({
-                url: "<%=request.getContextPath()%>/purchase/insertPurchaseAll",
+                url: "<%=request.getContextPath()%>/Sales/insertPurchaseAll",
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(purchaseData),
                 success: function (response) {
                     if (response.success) {
                         alert("발주서 등록 완료");
-                        window.location.href = "<%=request.getContextPath()%>/purchase/listPurchase";
+                        window.location.href = "<%=request.getContextPath()%>/All/Sales/listPurchase";
                     } else {
                         alert("발주 등록 실패: " + response.message);
                     }
@@ -400,9 +400,9 @@
         });
         let nextIndex = 0; // Purchase_details의 index를 저장할 변수
     </script>
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/insert.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css/insert.css' />">
     <style type="text/css">
     .insert-table td{
 		color: black;
@@ -435,7 +435,7 @@
                         </div>
                         <div class="insert-buttons">
                             <button class="btn insert-empty-button" type="button" 
-                            	onclick="location.href='/purchase/listPurchase'">취소</button>
+                            	onclick="location.href='/All/Sales/listPurchase'">취소</button>
                             <button class="btn insert-full-button" id="btn" type="button" onclick="insertPurchase()">확인</button>
                         </div>
                     </div>
@@ -508,17 +508,17 @@
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

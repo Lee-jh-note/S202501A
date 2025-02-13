@@ -236,27 +236,29 @@
 			WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
-	<!-- 입고 조회의 상세 화면/ 미입고의 상세화면도 -->
+	<!-- 입고 조회의 상세 화면-->
 	<!-- 가져와야하는 값: 매입일자, 거래처명(거래처코드) -->
 	<select id="yjDetailPurchaseDetails" parameterType="map" resultType="org.oracle.s202501a.dto.yj_dto.PurchaseDetailsAll">
-		select pd.purchase_date, c.client_name, e.emp_name
+		select pd.purchase_date, c.client_name, e.emp_name, e.emp_no
 		from purchase_details pd
 		left join clients c on pd.client_no = c.client_no
 		left join emp e on pd.emp_no = e.emp_no
 		left join product pro on pd.product_no = pro.product_no
 		where pd.purchase_date = #{purchase_date}
 		    and pd.client_no = #{client_no}
-		group by pd.purchase_date, c.client_name, e.emp_name
+		    and pd.status = 2
+		group by pd.purchase_date, c.client_name, e.emp_name, e.emp_no
 	</select>
 	 <!-- 품목명(품목코드), 단가, 수량, 총금액 -->
 	<select id="yjDetailPurchaseDetailLists" parameterType="map" resultType="org.oracle.s202501a.dto.yj_dto.PurchaseDetailsAll">
-		select pro.product_name, pd.price, pd.quantity, e.emp_name
+		select pro.product_name, pd.price, pd.quantity, e.emp_name, c.client_no, pd.purchase_date, pd.product_no
 		from purchase_details pd
 		left join clients c on pd.client_no = c.client_no
 		left join emp e on pd.emp_no = e.emp_no
 		left join product pro on pd.product_no = pro.product_no
 		where pd.purchase_date = #{purchase_date}
 		    and pd.client_no = #{client_no}
+		    and pd.status = 2
 	</select>
 	
 
@@ -353,6 +355,30 @@
 			WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
+	<!-- 미입고 조회의 상세 화면-->
+	<!-- 가져와야하는 값: 매입일자, 거래처명(거래처코드) -->
+	<select id="yjDetailPurchaseDetailsNo" parameterType="map" resultType="org.oracle.s202501a.dto.yj_dto.PurchaseDetailsAll">
+		select pd.purchase_date, c.client_name, e.emp_name, e.emp_no
+		from purchase_details pd
+		left join clients c on pd.client_no = c.client_no
+		left join emp e on pd.emp_no = e.emp_no
+		left join product pro on pd.product_no = pro.product_no
+		where pd.purchase_date = #{purchase_date}
+		    and pd.client_no = #{client_no}
+		    and pd.status = 1
+		group by pd.purchase_date, c.client_name, e.emp_name, e.emp_no
+	</select>
+	 <!-- 품목명(품목코드), 단가, 수량, 총금액 -->
+	<select id="yjDetailPurchaseDetailNoLists" parameterType="map" resultType="org.oracle.s202501a.dto.yj_dto.PurchaseDetailsAll">
+		select pro.product_name, pd.price, pd.quantity, e.emp_name, c.client_no, pd.purchase_date, pd.product_no
+		from purchase_details pd
+		left join clients c on pd.client_no = c.client_no
+		left join emp e on pd.emp_no = e.emp_no
+		left join product pro on pd.product_no = pro.product_no
+		where pd.purchase_date = #{purchase_date}
+		    and pd.client_no = #{client_no}
+		    and pd.status = 1
+	</select>
 	
 	
 	<!-- 발주서 등록에서 물품 등록 -->

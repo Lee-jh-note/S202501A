@@ -29,7 +29,7 @@ public interface PurchaseDetailService {
 	int searchTotalPurchaseDetail(PurchaseDetailsAll purchase_details);
 	List<PurchaseDetailsAll> searchListPurchaseDetail(PurchaseDetailsAll purchase_details);
 	
-	// 입고 조회의 상세- 미입고도
+	// 입고 조회의 상세
 	// PurchaseDetailController detailPurchaseDetail
 	PurchaseDetailsAll detailPurchaseDetail(Map<String, Object> params);
 	List<PurchaseDetailsAll> detailPurchaseDetailList(Map<String, Object> params);
@@ -39,6 +39,10 @@ public interface PurchaseDetailService {
 	// PurchaseDetailController searchPurchaseDetailNo
 	int searchTotalPurchaseDetailNo(PurchaseDetailsAll purchase_details);
 	List<PurchaseDetailsAll> searchListPurchaseDetailNo(PurchaseDetailsAll purchase_details);
+	
+	// 미입고 조회의 상세
+	PurchaseDetailsAll detailPurchaseDetailNo(Map<String, Object> params);
+	List<PurchaseDetailsAll> detailPurchaseDetailNoList(Map<String, Object> params);
 
 
 }

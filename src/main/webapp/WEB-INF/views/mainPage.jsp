@@ -10,9 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>발주 조회</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="css/mainPage.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css/mainPage.css' />">
     
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -42,7 +42,7 @@
 		                
 		                <p>사원번호: ${emp_no} / 부서: ${dept_name} / 직급: ${position} / 입사일: ${hiredate}</p>
 		            </div>
-		            <img src="img/emp_ill-removebg-preview.png" alt="User Illustration">
+		            <img src="<c:url value='/img/emp_ill-removebg-preview.png' />" alt="User Illustration">
 		        </div>
 				<div style="height: 20px"></div>
 		        <div class="main-table">
@@ -81,17 +81,17 @@
         <%@ include file="footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

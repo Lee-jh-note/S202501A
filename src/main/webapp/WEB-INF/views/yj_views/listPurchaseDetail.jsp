@@ -12,9 +12,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/list.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/css/list.css' />">
     
 <!-- 엑셀 다운로드 및 인쇄 기능 -->
 <script>
@@ -156,16 +156,18 @@
                         </div>
                     </div>
                     <div class="list-buttons">
-                    	<!-- 엑셀 다운로드 및 인쇄 기능 -->	
-                        <button class="btn list-full-button" onclick="exportToExcel()">
-                            <i class="fa-solid fa-file-excel"></i> 엑셀 선택 다운로드
-                        </button>
-                        
+                    
                         <a href="/excel/purchaseDetailExcel?startDate=${param.startDate}&endDate=${param.endDate}&client_name=${param.client_name}">
                             <button class="btn list-full-button">
                                 <i class="fa-solid fa-file-excel"></i> 엑셀 전체 다운로드
                             </button>
                         </a>
+                        
+                    	<!-- 엑셀 다운로드 및 인쇄 기능 -->	
+                        <button class="btn list-full-button" onclick="exportToExcel()">
+                            <i class="fa-solid fa-file-excel"></i> 엑셀 선택 다운로드
+                        </button>
+                        
                         <button id="printSelection" class="btn list-full-button" onclick="printSelectedRows()">
                             <i class="fa-solid fa-print"></i> 인쇄
                         </button>
@@ -257,17 +259,17 @@
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

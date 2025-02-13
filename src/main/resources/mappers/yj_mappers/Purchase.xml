@@ -154,7 +154,13 @@
 	
 	<!-- 구매상세의 상세 조회 -구매상세에서 가져와야하는 값 - 매입일자, 거래처명, 품목명, 단가, 수량 -->
 	<select id="yjDetailPurchaseDetail" parameterType="map" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
-		select pd.purchase_date, c.client_name, pro.product_name, pd.price, pd.quantity, pd.status, pd.product_no
+		select pd.purchase_date, c.client_name, pro.product_name, pd.price, pd.quantity, pd.product_no,
+		(CASE pd.status
+               WHEN 0 THEN '대기'
+               WHEN 1 THEN '미입고'
+               WHEN 2 THEN '입고'
+               ELSE '알 수 없음'
+               END) as status
 		from purchase_details pd
 		join clients c on pd.client_no = c.client_no
         join product pro on pd.product_no = pro.product_no
