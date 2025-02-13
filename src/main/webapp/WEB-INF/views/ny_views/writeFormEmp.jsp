@@ -10,50 +10,55 @@
 <link href="/css1/sb-admin-2.min.css" rel="stylesheet">
 <link href="/css/insert.css" rel="stylesheet">
 <meta charset="UTF-8">
-<title>Insert title here</title
->
+<title>Insert title here</title>
 <script type="text/javascript">
-let isDuplicateChecked = false;
+let isDuplicateChecked = false;  // 중복 확인 여부
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("btn").disabled = true; //  처음에는 "확인" 버튼 비활성화
+});
+
+// 중복 확인 AJAX 요청
 function chk() {
     var empName = document.querySelector("input[name='empName']").value;
-    
+    var submitBtn = document.getElementById("btn");
+
     if (!empName) {
         alert("직원 이름을 입력한 후에 확인하세요.");
         document.querySelector("input[name='empName']").focus();
         return false;
     }
-    
+
     $.ajax({
         url: "<%=request.getContextPath()%>/HR/empConfirm",
         type: "GET",
-        data: {
-            emp_Name: empName
-        },
+        data: { emp_Name: empName },
         dataType: "json",
         success: function (response) {
             if (response.isDuplicate) {
                 alert("동일한 이름 존재. 소문자 알파벳을 뒤에 붙이시오.");
-                isDuplicateChecked = false;  // 중복된 경우 false로 설정
+                isDuplicateChecked = false;
+                submitBtn.disabled = true; //  중복된 경우 "확인" 버튼 비활성화
             } else {
                 alert("이름 등록 가능");
-                isDuplicateChecked = true;   // 중복 확인 완료 후 true로 설정
+                isDuplicateChecked = true;
+                submitBtn.disabled = false; //  중복 확인 통과 후 "확인" 버튼 활성화
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX 오류:", textStatus, errorThrown);
             alert("중복 확인 중 오류가 발생했습니다.");
+            isDuplicateChecked = false;
+            submitBtn.disabled = true; //  오류 발생 시 버튼 비활성화
         }
     });
 }
 
-// 🔹 폼 제출 시 중복 확인 여부 체크
-document.querySelector("form[name='frm']").addEventListener("submit", function(event) {
-    if (!isDuplicateChecked) {
-        alert("중복 확인을 먼저 수행하세요.");
-        event.preventDefault();  // 폼 제출 방지
-    }
-});
+// 입력 값이 변경될 때마다 "확인" 버튼 비활성화 (중복 확인 다시 해야 함)
+document.querySelector("input[name='empName']").addEventListener("input", function () {
+    isDuplicateChecked = false;
+    document.getElementById("btn").disabled = true;
+})
 </script>
 
 </head>
