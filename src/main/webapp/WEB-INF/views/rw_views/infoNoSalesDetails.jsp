@@ -16,11 +16,9 @@
 .detail-table td {
 	color: black;
 }
-
 .detail-table {
 	table-layout: fixed; /* 테이블 칸 크기 고정 */
 }
-
 /* 모달 스타일 */
 .modal-overlay {
 	display: none; /* 기본적으로 숨김 */
@@ -32,7 +30,6 @@
 	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 1000;
 }
-
 .modal-confirm {
 	position: fixed;
 	top: 50%;
@@ -45,62 +42,57 @@
 	text-align: center;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
-
 .modal-confirm p {
 	margin: 20px 0;
 }
-
 .modal-actions {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
 }
-
 .modal-actions button {
 	padding: 8px 16px;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 }
-
 .modal-actions .confirm {
 	background-color: #4e73df;
 	color: #fff;
 }
-
 .modal-actions .cancel {
 	background-color: #ccc;
 	color: #000;
 }
 </style>
 <script>
-        // 모달 열기
-        function openModal(message, onConfirm) {
-            document.querySelector(".modal-message").innerHTML = message;
-            document.querySelector(".modal-overlay").style.display = "block";
+// 모달 열기
+function openModal(message, onConfirm) {
+    document.querySelector(".modal-message").innerHTML = message;
+    document.querySelector(".modal-overlay").style.display = "block";
 
-            // 확인 버튼 이벤트 핸들러 설정
-            const confirmButton = document.querySelector(".confirm");
-            confirmButton.onclick = () => {
-                document.querySelector(".modal-overlay").style.display = "none";
-                if (typeof onConfirm === "function") {
-                    onConfirm(); // 확인 콜백 호출
-                }
-            };
-
-            // 취소 버튼 클릭 시 모달 닫기
-            document.querySelector(".cancel").onclick = () => {
-                document.querySelector(".modal-overlay").style.display = "none";
-            };
+    // 확인 버튼 이벤트 핸들러 설정
+    const confirmButton = document.querySelector(".confirm");
+    confirmButton.onclick = () => {
+        document.querySelector(".modal-overlay").style.display = "none";
+        if (typeof onConfirm === "function") {
+            onConfirm(); // 확인 콜백 호출
         }
+    };
 
-        // 삭제 버튼 클릭 시 모달 열기
-        function handleStore() {
-            openModal("정말 출고 처리 하시겠습니까?", () => {
-            	document.querySelector("#updateForm").submit(); // 폼 제출
-            });
-        }
-    </script>
+    // 취소 버튼 클릭 시 모달 닫기
+    document.querySelector(".cancel").onclick = () => {
+        document.querySelector(".modal-overlay").style.display = "none";
+    };
+}
+
+// 삭제 버튼 클릭 시 모달 열기
+function handleStore() {
+    openModal("정말 출고 처리 하시겠습니까?", () => {
+    	document.querySelector("#updateForm").submit(); // 폼 제출
+    });
+}
+</script>
 </head>
 <body id="page-top">
 	<div id="wrapper">
@@ -132,39 +124,37 @@
 						<div class="detail-header-content">
 							<table class="detail-table">
 								<tr>
-									<th>매출일자</th>
-									<td>${infoNoSalesDetails.sales_date}</td>
+									<th>매출일자</th><td>${infoNoSalesDetails.sales_date}</td>
 								</tr>
 								<tr>
-									<th>담당자</th>
-									<td>${infoNoSalesDetails.emp_name}</td>
+									<th>담당자</th><td>${infoNoSalesDetails.emp_name}</td>
 								</tr>
 								<tr>
-									<th>거래처명</th>
-									<td>${infoNoSalesDetails.client_name}</td>
+									<th>거래처명</th><td>${infoNoSalesDetails.client_name}</td>
 								</tr>
 							</table>
-							
-		                    <!-- 품목 정보 헤더 + '추가' 버튼 -->
-		                    <div class="product-header">
-		                        <div class="product-title">품목 정보</div>
-		                        <div></div>
-		                    </div>
 
-							<!-- (1) sales_date, client_no는 모든 행에 공통이므로, 반복문 밖에서 hidden으로 딱 한 번만 전송 -->
+							<!-- 품목 정보 헤더 + '추가' 버튼 -->
+							<div class="product-header">
+								<div class="product-title">품목 정보</div>
+								<div></div>
+							</div>
+
+							<!-- sales_date, client_no는 모든 행에 공통이므로, 반복문 밖에서 hidden으로 딱 한번만 전송 -->
 							<input type="hidden" name="sales_date" value="${infoNoSalesDetails.sales_date}"> <input type="hidden" name="client_no" value="${infoNoSalesDetails.client_no}">
 
 							<!-- 품목정보 -->
 							<table class="detail-table">
 								<thead>
 									<tr>
-										<th style="width:40px;">선택</th>
+										<th style="width: 40px;">선택</th>
 										<th>제품명</th>
 										<th>단가</th>
 										<th>수량</th>
 										<th>총금액</th>
 									</tr>
 								</thead>
+								
 								<tbody>
 									<c:forEach var="salesDetails" items="${infoNoSalesDetailsList}">
 										<tr>
@@ -173,7 +163,6 @@
 											<td>${salesDetails.price}</td>
 											<td>${salesDetails.quantity}</td>
 											<td><fmt:formatNumber value="${salesDetails.totalPrice}" type="number" pattern="#,###" /></td>
-
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -199,17 +188,17 @@
 			<%@ include file="../footer1.jsp"%>
 		</div>
 	</div>
-<!-- jQuery (항상 가장 먼저 로드) -->
-<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
+	<!-- jQuery (항상 가장 먼저 로드) -->
+	<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
-<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+	<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+	<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin (jQuery Easing 등) -->
-<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
+	<!-- Core plugin (jQuery Easing 등) -->
+	<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
-<!-- Custom scripts -->
-<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
+	<!-- Custom scripts -->
+	<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

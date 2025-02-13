@@ -208,8 +208,8 @@ public class SalesDetailsController {
     @PostMapping("Logistics/updateNoSalesStatus")
     public String updateNoSalesStatus(
     	    @RequestParam(value = "product_no", required = false) int[] productNos,
-    	    @RequestParam("sales_date") String salesDate,       // 단일 값으로
-    	    @RequestParam("client_no") int clientNo             // 단일 값으로
+    	    @RequestParam("sales_date") String salesDate,       // 배열말고 단일값으로
+    	    @RequestParam("client_no") int clientNo             // 배열말고 단일값으로
     	) {
     	    log.info("업데이트 요청: sales_date={}, client_no={}, productNos={}",
     	             salesDate, clientNo, productNos);

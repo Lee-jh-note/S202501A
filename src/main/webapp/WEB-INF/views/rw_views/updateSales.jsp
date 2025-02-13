@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,18 +38,10 @@ $(document).ready(function () {
                         </c:forEach>
                     </select>
                 </td>
-                <td>
-                    <input type="text" name="price" class="productPrice" placeholder="단가" value="${details.price}" readonly>
-                </td>
-                <td>
-                    <input type="number" name="quantity" class="quantity" placeholder="수량" value="${details.quantity}" required min="1" oninput="calculateTotal(this)">
-                </td>
-                <td>
-                    <input type="text" name="totalPrice" class="totalPrice" placeholder="총 금액" value="${details.totalPrice}" readonly>
-                </td>
-                <td>
-                    <button type="button" class="insert-gray-button" onclick="removeRow(this)">삭제</button>
-                </td>
+                <td><input type="text" name="price" class="productPrice" placeholder="단가" value="${details.price}" readonly></td>   
+                <td><input type="number" name="quantity" class="quantity" placeholder="수량" value="${details.quantity}" required min="1" oninput="calculateTotal(this)"></td>             
+                <td><input type="text" name="totalPrice" class="totalPrice" placeholder="총 금액" value="${details.totalPrice}" readonly></td> 
+                <td><button type="button" class="insert-gray-button" onclick="removeRow(this)">삭제</button></td>                        
             </tr>
        `;
        $("#productRows").append(newRow);
@@ -186,7 +177,8 @@ function submitForm(event) {
 									<h1>수주 수정</h1>
 								</div>
 							</div>
-
+							
+							<!-- 버튼 영역 -->
 							<div class="insert-buttons">
 								<button type="submit" class="insert-full-button">수정 완료</button>
 								<button type="button" class="insert-empty-button" onclick="history.back()">취소</button>
@@ -197,24 +189,18 @@ function submitForm(event) {
 							<!-- 수주 정보 테이블 -->
 							<table class="insert-table">
 								<tr>
-									<th>제목</th>
-									<td colspan="3"><input type="text" id="title" name="title" value="${infoSales.title}" required></td>
+									<th>제목</th><td colspan="3"><input type="text" id="title" name="title" value="${infoSales.title}" required></td>
 								</tr>
 								<tr>
-									<th>매출일자</th>
-									<td>${infoSales.sales_date}</td>
-									<th>담당자</th>
-									<td>${infoSales.emp_name}</td>
+									<th>매출일자</th><td>${infoSales.sales_date}</td>
+									<th>담당자</th><td>${infoSales.emp_name}</td>
 								</tr>
 								<tr>
-									<th>거래처명</th>
-									<td>${infoSales.client_name}</td>
-									<th>요청배송일</th>
-									<td><input type="date" id="req_delivery_date" name="req_delivery_date" value="${infoSales.req_delivery_date}"></td>
+									<th>거래처명</th><td>${infoSales.client_name}</td>
+									<th>요청배송일</th>	<td><input type="date" id="req_delivery_date" name="req_delivery_date" value="${infoSales.req_delivery_date}"></td>
 								</tr>
 								<tr>
-									<th>비고</th>
-									<td colspan="3"><textarea id="remarks" name="remarks" rows="4">${infoSales.remarks}</textarea></td>
+									<th>비고</th><td colspan="3"><textarea id="remarks" name="remarks" rows="4">${infoSales.remarks}</textarea></td>
 								</tr>
 							</table>
 
@@ -236,7 +222,7 @@ function submitForm(event) {
 									</tr>
 								</thead>
 								<tbody id="productRows">
-									<!-- 기존 품목 목록 여기 추가 -->
+									<!-- 기존 품목 목록 여기 추가 (수정하기위해 그대로 불러오지않고 스크립트에서 함수 처리) -->
 								</tbody>
 							</table>
 						</div>

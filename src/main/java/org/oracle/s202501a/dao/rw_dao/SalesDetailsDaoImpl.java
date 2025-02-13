@@ -17,6 +17,7 @@ public class SalesDetailsDaoImpl implements SalesDetailsDao {
 	
     private final SqlSession sqlSession;
 
+    
 	// ====================================================================================
 	//                             		출고 예정
 	// ====================================================================================
@@ -64,6 +65,7 @@ public class SalesDetailsDaoImpl implements SalesDetailsDao {
             return List.of(); // 빈 리스트 반환
         }
     }
+    
 
 	// ====================================================================================
 	//                             	출고/미출고 처리 (상태 변경)
@@ -102,7 +104,6 @@ public class SalesDetailsDaoImpl implements SalesDetailsDao {
             return 0; // 기본값 반환
         }
     }
-
 
     
 	// ====================================================================================

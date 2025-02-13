@@ -57,6 +57,5 @@ public class SalesAll {
     private int totalQuantity; // 총수량
     private int totalPrice;	// 총금액 (단가 * 수량)
 
+    
 	}
-
-

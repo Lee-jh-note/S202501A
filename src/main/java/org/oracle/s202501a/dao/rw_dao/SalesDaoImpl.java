@@ -159,9 +159,8 @@ public class SalesDaoImpl implements SalesDao {
 		}
 	}
 
-	// 수주 품목 수정 (처리 상태가 '대기'인 경우만 가능) - 기존품목 삭제 후 재등록(기존 코드 재활용)
-    // 품목 수정 				updateSalesDetails는 기존 코드 재활용 -> 삭제(deleteSalesDetails) 후 재등록(createSalesDetails)
-
+	// 수주 품목 수정 updateSalesDetails (처리 상태가 '대기'인 경우만 가능) 
+	// 기존 코드 재활용 -> 삭제(deleteSalesDetails) 후 재등록(createSalesDetails)
 	
 	
 	// ================================================================
@@ -190,4 +189,5 @@ public class SalesDaoImpl implements SalesDao {
 		}
 	}
 
+	
 }

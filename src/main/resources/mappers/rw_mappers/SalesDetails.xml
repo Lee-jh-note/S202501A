@@ -4,7 +4,7 @@
 
 <mapper namespace="org.oracle.s202501a.mapper.SalesDetailsMapper">
 
-		<!-- 출고 예정 -->
+	<!-- 출고 예정 -->
 	<!-- 출고 예정 총 갯수 조회 (검색 조건 적용) -->
 	<select id="totalPreSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll" resultType="int">
 	    SELECT COUNT(DISTINCT s.sales_date || '_' || s.client_no)  
@@ -30,8 +30,7 @@
 	    <if test="req_delivery_date != null and req_delivery_date.trim() != ''">
 	        AND s.req_delivery_date = #{req_delivery_date}
 	    </if>
-	</select>
-	
+	</select>	
 	
 	<!-- 출고 예정 조회 (검색 조건 적용) -->
 	<select id="listPreSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll" resultType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll">
@@ -108,7 +107,7 @@
 		UPDATE SALES
 		SET status = #{status}
 		WHERE sales_date = #{sales_date} 
-			AND client_no = #{client_no}
+		AND client_no = #{client_no}
 	</update>
 	
 	<!-- 수주상세 상태 변경 -->
@@ -117,12 +116,12 @@
 		SET status = #{status},
 			emp_no = #{emp_no}
 		WHERE sales_date = #{sales_date} 
-			AND client_no = #{client_no} 
-			AND product_no = #{product_no}
+		AND client_no = #{client_no} 
+		AND product_no = #{product_no}
 	</update>
 			
 	
-		<!-- 출고 -->	
+	<!-- 출고 -->	
 	<!-- 출고 총 갯수 조회 (검색기능 포함) -->
 		<select id="totalGoSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll" resultType="int">
 	    SELECT COUNT(DISTINCT s.sales_date || '_' || s.client_no)  
@@ -185,7 +184,7 @@
 	    WHERE rn BETWEEN #{start} AND #{end}
 		</select>
 	
-	 <!-- 출고 상세조회 -->
+	<!-- 출고 상세조회 -->
 	<select id="infoGoSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll" resultType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll">
 	    SELECT 
 	        sd.sales_date, e.emp_name, c.client_name
@@ -198,17 +197,17 @@
 	
 	<!-- 출고 품목 상세조회 -->
 	<select id="infoGoSalesDetailsList" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll" resultType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll">
-	        SELECT
-	            p.product_name, sd.price, sd.quantity,
-	            (sd.quantity * sd.price) AS totalPrice
-	        FROM SALES_DETAILS sd
-	        LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
-	        WHERE sd.sales_date = #{sales_date} AND sd.client_no = #{client_no}
-	            	 AND sd.status = 2
+        SELECT
+            p.product_name, sd.price, sd.quantity,
+            (sd.quantity * sd.price) AS totalPrice
+        FROM SALES_DETAILS sd
+        LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
+        WHERE sd.sales_date = #{sales_date} AND sd.client_no = #{client_no}
+        AND sd.status = 2
 	</select>
 	
 	
-		<!-- 미출고 -->	
+	<!-- 미출고 -->	
 	<!-- 미출고 총 갯수 조회 (검색기능 포함) -->
 		<select id="totalNoSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll" resultType="int">
 	    SELECT COUNT(DISTINCT s.sales_date || '_' || s.client_no)  
@@ -271,7 +270,7 @@
 	    WHERE rn BETWEEN #{start} AND #{end}
 		</select>
 	
-	 <!-- 미출고 상세조회 -->
+	<!-- 미출고 상세조회 -->
 	<select id="infoNoSalesDetails" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll" resultType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll">
 	    SELECT 
 	        sd.sales_date, e.emp_name, c.client_name, c.client_no
@@ -284,22 +283,22 @@
 	
 	<!-- 미출고 품목 상세조회 -->
 	<select id="infoNoSalesDetailsList" parameterType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll" resultType="org.oracle.s202501a.dto.rw_dto.SalesDetailsAll">
-	        SELECT
-	            p.product_name, sd.price, sd.quantity, 
-	            (sd.quantity * sd.price) AS totalPrice,
-	            sd.product_no, sd.client_no, sd.sales_date
-	        FROM SALES_DETAILS sd
-	        LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
-	        WHERE sd.sales_date = #{sales_date} AND sd.client_no = #{client_no}
-	            AND sd.status = 1     
+        SELECT
+            p.product_name, sd.price, sd.quantity, 
+            (sd.quantity * sd.price) AS totalPrice,
+            sd.product_no, sd.client_no, sd.sales_date
+        FROM SALES_DETAILS sd
+        LEFT JOIN PRODUCT p ON sd.product_no = p.product_no
+        WHERE sd.sales_date = #{sales_date} AND sd.client_no = #{client_no}
+        AND sd.status = 1     
 	</select>
 	
-	<!-- 미출고 상태 변경 -->
+	<!-- 미출고 수주 상태 변경 -->
 	<update id="updateNoSalesStatus">
 		UPDATE SALES
 		SET status = #{status}
 		WHERE sales_date = #{sales_date} 
-			AND client_no = #{client_no}
+		AND client_no = #{client_no}
 	</update>
 	
 	<!-- 미출고 품목 상태 변경 -->
@@ -307,10 +306,10 @@
 		UPDATE SALES_DETAILS
 		SET status = #{status}
 		WHERE sales_date = #{sales_date} 
-			AND client_no = #{client_no} 
-			AND product_no = #{product_no}
-			AND status = 1  
+		AND client_no = #{client_no} 
+		AND product_no = #{product_no}
+		AND status = 1  
 	</update> 
 
-</mapper>
 
+</mapper>

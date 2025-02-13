@@ -9,13 +9,11 @@
 <title>출고 예정 조회</title>
 <!-- 엑셀 다운로드 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
 <!-- 아이콘 및 CSS 스타일 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
 <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
 <link rel="stylesheet" href="<c:url value='/css/list.css' />">
-
 <!-- 엑셀 다운로드 및 인쇄 기능 -->
 <script>
 /* 전체 선택 기능 추가 */
@@ -162,7 +160,6 @@ function printSelectedRows() {
 							<button class="list-full-button" onclick="exportToExcel()">
 								<i class="fa-solid fa-file-excel"></i> 엑셀 선택 다운로드
 							</button>
-
 							<button id="printSelection" class="list-full-button" onclick="printSelectedRows()">
 								<i class="fa-solid fa-print"></i> 인쇄
 							</button>
@@ -175,17 +172,9 @@ function printSelectedRows() {
 						<div class="list-search-filters">
 							<!-- 검색 필터 -->
 							<form action="listPreSalesDetails" method="get" style="display: flex; gap: 10px; align-items: center;">
-
-								<!-- 조회 기간 -->
 								<label for="startDate">매출일자:</label> <input type="date" name="startDate" value="${param.startDate}"> ~ <input type="date" name="endDate" value="${param.endDate}">
-
-								<!-- 거래처 -->
 								<label>거래처:</label> <input type="text" name="client_name" value="${param.client_name}" placeholder="거래처 입력">
-
-								<!-- 요청배송일 -->
 								<label>요청배송일:</label> <input type="date" name="req_delivery_date" value="${param.req_delivery_date}">
-
-								<!-- 검색 버튼 -->
 								<button type="submit" class="list-gray-button">조회</button>
 							</form>
 						</div>

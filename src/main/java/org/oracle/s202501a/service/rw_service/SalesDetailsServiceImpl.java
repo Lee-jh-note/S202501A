@@ -20,10 +20,10 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
 	
     private final SalesDetailsDao salesDetailsDao;
 
-	// =============================================================
-	//                             출고 예정
-	// =============================================================
-
+    
+	// ====================================================================================
+	//                             		출고 예정
+	// ====================================================================================
 
     // 출고 예정 조회 (검색 조건 적용)
     @Override
@@ -89,10 +89,10 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
 	    return infoPreSalesDetailsList;
     }
 
-    
-	// =============================================================
-	//                      출고/미출고 처리 (상태 변경)
-	// =============================================================
+
+	// ====================================================================================
+	//                             		출고/미출고 처리 (상태 변경)
+	// ====================================================================================
     
     // 수주 상태 변경 (수주 상태 + 수주상세 상태)
     @Override
@@ -137,52 +137,9 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
     }
    
 
-    
-
-//    @Override
-//    public boolean updateSalesStatus(int[] statuses, String[] salesDates, int[] clientNos, int[] productNos, int emp_no) {
-//        System.out.println("SalesServiceImpl updateSalesStatus Start...");
-//        
-//        log.info("수주 상태 변경 요청: salesDates={}, clientNos={}, productNos={}, emp_no={}, statuses={}",
-//                 Arrays.toString(salesDates), Arrays.toString(clientNos), Arrays.toString(productNos), emp_no, Arrays.toString(statuses));
-//
-//        // 모든 품목이 출고 상태인지 확인 (수주 상태를 결정하는 데 필요)
-//        boolean allShipped = true; 
-//
-//        for (int i = 0; i < salesDates.length; i++) {
-//            int status = statuses[i]; // 라디오 버튼을 통해 받은 상태값 그대로 사용 (1: 미출고, 2: 출고)
-//
-//            // 수주 상세 상태 업데이트 (품목별 상태를 DB에 반영)
-//            int result = salesDetailsDao.updateSalesDetailsStatus(salesDates[i], clientNos[i], productNos[i], emp_no, status);
-//
-//            if (result <= 0) {
-//                throw new RuntimeException("수주상세 상태 업데이트 실패: " + productNos[i]);
-//            }
-//
-//            // 하나라도 미출고(1) 상태가 있으면 전체 수주 상태를 '부분출고(1)'로 설정
-//            if (status != 2) {
-//                allShipped = false;
-//            }
-//        }
-//
-//        // 모든 품목이 출고(2) 상태이면, 전체 수주 상태도 '출고 완료(2)'로 설정
-//        int salesStatus = allShipped ? 2 : 1; 
-//
-//        // 수주 상태 업데이트 실행 (전체 상태 반영)
-//        int updateSalesCount = salesDetailsDao.updateSalesStatus(salesDates[0], clientNos[0], salesStatus);
-//        log.info("수주 상태 변경 완료: {}", updateSalesCount);
-//
-//        if (updateSalesCount <= 0) {
-//            throw new RuntimeException("수주 상태 업데이트 실패");
-//        }
-//
-//        return true;
-//    }
-
-
-	// =============================================================
-	//                             출고
-	// =============================================================
+	// ====================================================================================
+	//                             				출고
+	// ====================================================================================
 
     // 출고 조회 (검색 조건 적용)
     @Override
@@ -248,11 +205,10 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
 	    return infoGoSalesDetailsList;
     }
 
-
     
-	// =============================================================
-	//                             미출고
-	// =============================================================
+	// ====================================================================================
+	//                             				미출고
+	// ====================================================================================
 
     // 미출고 조회 (검색 조건 적용)
     @Override
@@ -323,12 +279,12 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
     public boolean updateNoSalesStatus(int[] productNos, String salesDate, int clientNo) {
         log.info("SalesServiceImpl updateNoSalesStatus Start...");
 
-        // 선택된 품목이 하나도 없으면 false 반환(실패 처리)
+        // 선택된 품목이 하나도 없으면 false 반환 (실패 처리)
         if (productNos == null || productNos.length == 0) {
             return false;
         }
 
-        // (1) 체크된 품목들을 출고(2)로 업데이트
+        // 체크된 품목들을 출고(2)로 업데이트
         for (int productNo : productNos) {
             int result = salesDetailsDao.updateNoSalesDetailsStatus(salesDate, clientNo, productNo, 2);
             if (result <= 0) {
@@ -337,21 +293,20 @@ public class SalesDetailsServiceImpl implements SalesDetailsService {
             }
         }
 
-        // (2) 출고 상태 결정(모든 품목이 출고됐는지 확인하는 로직이 필요하면 추가)
-        boolean allChecked = true; // 예시로 전부 출고라고 가정
+        // 출고 상태 결정
+        boolean allChecked = true; 
         int salesStatus = allChecked ? 2 : 1;
 
-        // (3) 수주 상태 업데이트
+        // 미출고 수주 상태 업데이트
         int updateNoSalesCount = salesDetailsDao.updateNoSalesStatus(salesDate, clientNo, salesStatus);
-        log.info("수주 상태 변경 완료: {}", updateNoSalesCount);
+        log.info("미출고 수주 상태 변경 완료: {}", updateNoSalesCount);
 
         if (updateNoSalesCount <= 0) {
-            throw new RuntimeException("수주 상태 업데이트 실패");
+            throw new RuntimeException("미출고 수주 상태 업데이트 실패");
         }
 
         return true;
     }
-
 
 
 }
