@@ -364,7 +364,7 @@
                                 <th>단가</th>
                                 <th>수량</th>
                                 <th>총 금액</th>
-                                <th>삭제</th>
+                                <th style="width:58px;">삭제</th>
                             </tr>
                             </thead>
                             <tbody id="dynamicRows">

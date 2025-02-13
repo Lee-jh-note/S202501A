@@ -178,13 +178,16 @@
 	<select id="yjListClient" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
 		select client_no, client_name
 		from clients
-		where client_type = 0
+		where client_type = 0 and client_delete = 0
+		order by client_name
 	</select>
 	
 	<!-- PurchaseDaoImpl - listProduct -insert를 위한 제품 드롭다운 -->
 	<select id="yjListProduct" resultType="org.oracle.s202501a.dto.yj_dto.Purchase">
 		select product_no, product_name
 		from product
+		where PRODUCT_DELETE = 0
+		order by product_name
 	</select>
 
 	
