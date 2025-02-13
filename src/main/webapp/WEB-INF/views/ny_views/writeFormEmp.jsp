@@ -13,6 +13,8 @@
 <title>Insert title here</title
 >
 <script type="text/javascript">
+let isDuplicateChecked = false;
+
 function chk() {
     var empName = document.querySelector("input[name='empName']").value;
     
@@ -32,8 +34,10 @@ function chk() {
         success: function (response) {
             if (response.isDuplicate) {
                 alert("동일한 이름 존재. 소문자 알파벳을 뒤에 붙이시오.");
+                isDuplicateChecked = false;  // 중복된 경우 false로 설정
             } else {
                 alert("이름 등록 가능");
+                isDuplicateChecked = true;   // 중복 확인 완료 후 true로 설정
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -43,7 +47,15 @@ function chk() {
     });
 }
 
+// 🔹 폼 제출 시 중복 확인 여부 체크
+document.querySelector("form[name='frm']").addEventListener("submit", function(event) {
+    if (!isDuplicateChecked) {
+        alert("중복 확인을 먼저 수행하세요.");
+        event.preventDefault();  // 폼 제출 방지
+    }
+});
 </script>
+
 </head>
 <body id="page-top">
 	<div id="wrapper">
