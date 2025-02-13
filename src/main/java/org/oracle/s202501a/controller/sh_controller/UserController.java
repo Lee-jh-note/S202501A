@@ -47,7 +47,7 @@ public class UserController {
 		System.out.println("UserController @PostMapping signup accountDto2 emp->"+emp);
 		userService.createUser(emp);
 		
-		return "redirect:/empDept/listEmp";
+		return "redirect:All/HR/listEmp";
 		
 
 	}
