@@ -161,5 +161,18 @@ public class EmpDaoImpl implements EmpDao {
 		return empSearchList3;
 	}
 
+
+
+	@Override
+	public Emp empConfirm(String emp_Name) {
+		 Emp emp = new Emp();
+		    try {
+		    	emp = session.selectOne("nyempConfirm", emp_Name);
+		      } catch (Exception e) {
+		         System.out.println("EmpDaoImpl empConfirm Exception->"+e.getMessage());
+		      }
+		return emp;
+	}
+
 }
 

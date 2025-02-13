@@ -22,13 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("notice")
+
 public class NoticeController {
 
 	private final NoticeService ns;
 	
 	// 공지 리스트 (글 15개씩)
-		@RequestMapping(value = "NoticeList")
+		@RequestMapping(value = "/All/Management/NoticeList")
 		public String listBoard(Notice notice, Model model) {
 			System.out.println("NoticeController Start Boardlist...");
 
@@ -55,7 +55,7 @@ public class NoticeController {
 	
 	
 		// 공지 상세조회 / 조회수
-		@GetMapping("NoticeContent")
+		@GetMapping("/All/Management/NoticeContent")
 		public String contents(Notice notice1, Model model) {
 			System.out.println("NoticeController Start ContentView...");
 
@@ -85,7 +85,7 @@ public class NoticeController {
 		
 		
 		// 공지 수정1 (폼)
-		@GetMapping("updateNoticeForm")
+		@GetMapping("/Management/updateNoticeForm")
 		public String updateForm(Notice notice1, Model model) {
 			System.out.println("NoticeController Start updateNoticeForm...");
 
@@ -98,7 +98,7 @@ public class NoticeController {
 		}
 		
 		// 공지 수정2
-		@PostMapping("updateNotice")
+		@PostMapping("/Management/updateNotice")
 		public String updateBoard(Notice notice, Model model) {
 			System.out.println("NoticeController Start updateNotice...");
 			System.out.println("NoticeController updateNotice Notice->"+ notice);
@@ -106,23 +106,23 @@ public class NoticeController {
 			int updateCount = ns.updateNotice(notice);
 			System.out.println(notice);
 
-			return "redirect:NoticeContent?board_No="+notice.getBoard_No();
+			return "redirect:/All/Management/NoticeContent?board_No="+notice.getBoard_No();
 
 		}
 		
 
 		// 공지 삭제
-		@RequestMapping(value = "deleteNotice")
+		@RequestMapping(value = "/Management/deleteNotice")
 		public String deleteBoard(Notice notice, Model model) {
 			System.out.println("NoticeController Start deleteNotice...");
 			System.out.println("NoticeController deleteBoard board.getBoard_No()->"+notice.getBoard_No());
 			 int result = ns.deleteNotice(notice.getBoard_No());
-			return "redirect:NoticeList";
+			return "redirect:/All/Management/NoticeList";
 		}
 		
 
 		// 게시글등록1 폼
-		@RequestMapping(value ="writeFormNotice")
+		@RequestMapping(value ="/Management/writeFormNotice")
 		public String writeFormNotice(Model model) { 
 		    System.out.println("NoticeController writeFormBoard Start...");
 		   	SecurityContext securityContext = SecurityContextHolder.getContextHolderStrategy().getContext();
@@ -138,13 +138,41 @@ public class NoticeController {
 		}
 		
 		// 게시글등록2 
-				@PostMapping(value ="writeNotice")
+				@PostMapping(value ="/Management/writeNotice")
 				 public String writeNotice(Notice notice, Model model) {
 					 System.out.println("NoticeConntroller Start writeBoard...");
 					 System.out.println("NoticeController Start writeBoard..."+notice);
 					 int insertResult = ns.insertNotice(notice);
-					return "redirect:NoticeList";
+					return "redirect:/All/Management/NoticeList";
 				 
 			 }
+				
+				// 제목 검색 (listSearchNotice)
+			    @RequestMapping(value = "/All/Management/listSearchN")
+			    public String listSearchNotice(Notice notice, Model model) {
+			        System.out.println("NoticeController Start listSearchNotice...");
+			        System.out.println("NoticeController listSearchNotice notice->" + notice);
+
+			        int totalNotice = ns.condTotalNotice(notice);
+			        System.out.println("NoticeController listSearchNotice totalNotice=>" + totalNotice);
+
+			        Paging page = new Paging(totalNotice, notice.getCurrentPage());
+			        notice.setStart(page.getStart());
+			        notice.setEnd(page.getEnd());
+			        System.out.println("NoticeController listSearchN page=>" + page);
+
+			        List<Notice> listSearchNotice = ns.listSearchNotice(notice);
+
+			        System.out.println("NoticeController listSearchNotice listSearchNotice.size()=>" + listSearchNotice.size());
+			        System.out.println("NoticeController listSearchNotice listSearchNotice=>" + listSearchNotice);
+
+			        model.addAttribute("totalNotice", totalNotice);
+			        model.addAttribute("listNotice", listSearchNotice);
+			        model.addAttribute("page", page);
+
+			        return "ny_views/NoticeList";
+			    }	
+				
+				
 	
 }

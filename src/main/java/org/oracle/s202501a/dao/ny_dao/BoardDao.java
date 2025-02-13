@@ -18,6 +18,8 @@ public interface BoardDao {
 	int updateReply(Board board);
 	int deleteReply(Long board_No);
 	void increaseHit(Long board_No);
+	int condTotalBoard(Board board);
+	List<Board> boardSearchList(Board board);
 	
 
 

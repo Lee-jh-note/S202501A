@@ -100,7 +100,7 @@ public class EmpServiceImpl implements EmpService {
 		return deleteupdate;
 	}
 
-	// 밑 2개가 조건 검색
+	// 밑 2개가 검색
 	@Override
 	public int condTotalEmp(Emp emp) {
 		System.out.println("EmpServiceImpl Start total...");
@@ -176,7 +176,7 @@ public class EmpServiceImpl implements EmpService {
 // 부서 수정
 	@Override
 	public int updateDept(Dept dept) {
-		System.out.println("DeptServiceImpl update ...");
+		System.out.println("EmpServiceImpl update ...");
 		int updateDeptCount = 0;
 		updateDeptCount = dd.updateDept(dept);
 		return updateDeptCount;
@@ -186,12 +186,21 @@ public class EmpServiceImpl implements EmpService {
    // 부서 중복 확인
    @Override
    public Dept deptConfirm(Long deptNo) {
-      System.out.println("DeptServiceImpl deptConfirm Start...");
+      System.out.println("EmpServiceImpl deptConfirm Start...");
       Dept dept = null;
       dept = dd.deptConfirm(deptNo);
 
       return dept;
    }
+
+@Override
+public Emp empConfirm(String emp_Name) {
+	 System.out.println("EmpServiceImpl deptConfirm Start...");
+	 Emp emp = null;
+	 emp = ed.empConfirm(emp_Name);
+	 
+	return emp;
+}
 
 }
 

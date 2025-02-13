@@ -79,4 +79,22 @@ public class  NoticeServiceImpl implements NoticeService{
 		return result;
 	}
 
+	
+	//제목 검색
+	  @Override
+	    public int condTotalNotice(Notice notice) {
+	        System.out.println("NoticeServiceImpl Start condTotalNotice...");
+	        int totNoticeCnt = nd.condTotalNotice(notice);
+	        System.out.println("NoticeServiceImpl condTotalNotice totNoticeCnt->" + totNoticeCnt);
+	        return totNoticeCnt;
+	    }
+
+	    @Override
+	    public List<Notice> listSearchNotice(Notice notice) {
+	        List<Notice> noticeSearchList = null;
+	        System.out.println("NoticeServiceImpl listSearchNotice Start...");
+	        noticeSearchList = nd.noticeSearchList(notice);
+	        System.out.println("NoticeServiceImpl listSearchNotice noticeSearchList.size()->" + noticeSearchList.size());
+	        return noticeSearchList;
+	    }
 }

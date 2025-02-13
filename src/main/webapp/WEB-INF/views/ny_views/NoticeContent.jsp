@@ -8,9 +8,9 @@
     <meta charset="UTF-8">
     <title>공지사항 상세</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/detail.css" rel="stylesheet">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/detail.css" rel="stylesheet">
     <style>
         /* 모달 스타일 */
         .modal-overlay {
@@ -125,6 +125,8 @@
         height: auto; /* 내용이 많아지면 자동 확장 */
         vertical-align: top; /* 위쪽 정렬 */
     }
+    
+  
 
     /* 내용 칸 내부 div를 사용하여 크기 유지 */
     .content-container {
@@ -173,7 +175,7 @@
         function handleDelete() {
             openModal("정말 삭제하시겠습니까?", () => {
                 // 삭제 로직 실행
-                location.href="deleteNotice?board_No=${notice.board_No}";
+                location.href="/Management/deleteNotice?board_No=${notice.board_No}";
             });
         }
     </script>
@@ -201,11 +203,11 @@
                         </div>
                     </div>
       		<div class="detail-buttons">
-                         <input class="detail-empty-button" type="button" value="목록" onclick="location.href='NoticeList'">
+                         <input class="btn detail-empty-button" type="button" value="목록" onclick="location.href='/All/Management/NoticeList'">
 
-                            <input class="detail-full-button" type="button" value="수정"
-                                   onclick="location.href='updateNoticeForm?board_No=${notice.board_No}'">
-                            <input class="detail-full-button" type="button" value="삭제" onclick="handleDelete()">
+                            <input class="btn detail-full-button" type="button" value="수정"
+                                   onclick="location.href='/Management/updateNoticeForm?board_No=${notice.board_No}'">
+                            <input class="btn detail-full-button" type="button" value="삭제" onclick="handleDelete()">
                        
                     </div>
    
@@ -218,16 +220,18 @@
                             <th>작성자</th><td>${notice.emp_Name}</td>
                             <th>조회수</th><td>${notice.hits}</td>
                         </tr>
-                       
+                        
+                         <tr class="date-row">
+                             <th>작성일</th><td colspan="2"><fmt:formatDate value="${notice.createdDate}" pattern="yyyy-MM-dd"/></td>
+                            <th>수정일</th><td colspan="3"><fmt:formatDate value="${notice.modifiedDate}" pattern="yyyy-MM-dd"/></td>                                       
+                         </tr>
+                         
                      	<tr> 
 				   		  <th>내용</th><td colspan="6" class="content-cell">
        					<div class="content-container"><pre>${notice.content}</pre></div></td>
                        </tr> 
                        
-                        <tr class="date-row">
-                             <th>작성일</th><td colspan="3"><fmt:formatDate value="${notice.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                            <th>수정일</th><td colspan="3"><fmt:formatDate value="${notice.modifiedDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>                                       
-                         </tr>
+                      
                     </table>
 
 
@@ -252,17 +256,18 @@
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
+
 </body>
 
 </html>

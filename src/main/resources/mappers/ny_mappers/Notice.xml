@@ -9,7 +9,7 @@
 <!-- 공지사항 총 글 수 -->
    <select id="nytotalNotice" resultType="int">
       SELECT Count(*) FROM BOARD
-       WHERE BOARD_CATEGORY = 1
+       WHERE BOARD_CATEGORY = 1  
    </select>
       
       
@@ -119,6 +119,59 @@
             #{hits}
         ) 
     </insert>
-  
+    
+    
+    
+     <!-- 조건에 맞는 공지사항 개수 조회 -->
+<select id="nyCondNoticeTotal" parameterType="org.oracle.s202501a.dto.ny_dto.Notice" resultType="int">
+    SELECT Count(*) FROM BOARD
+    WHERE BOARD_CATEGORY = 1  
+       
+    <choose>
+        <when test="search == 's_title'"> 
+            AND title like '%' || #{keyword} || '%'
+        </when>
+    </choose>
+</select>
+
+
+    <!-- 공지사항 검색 목록 -->
+ <select id="nySearchListNotice" parameterType="org.oracle.s202501a.dto.ny_dto.Notice"
+    resultType="org.oracle.s202501a.dto.ny_dto.Notice">
+    SELECT *
+    FROM
+    (
+        SELECT rownum rn, a.*
+        FROM
+        (
+            SELECT n.board_no, 
+                   n.emp_no, 
+                   n.modifiedDate, 
+                   n.content, 
+                   n.createdDate, 
+                   n.title, 
+                   n.hits, 
+                   e.emp_name
+            FROM BOARD n  
+            LEFT JOIN EMP e ON n.emp_no = e.emp_no
+            WHERE n.BOARD_CATEGORY = 1  
            
+            <choose>
+                <when test="search == 's_title'">
+                    AND n.title like '%' || #{keyword} || '%'
+                </when>
+            </choose>
+            ORDER BY n.board_no DESC
+        ) a
+    )
+    WHERE rn BETWEEN #{start} AND #{end}
+</select>
+
 </mapper>
+    
+    
+    
+    
+    
+  
+         

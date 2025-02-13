@@ -189,6 +189,36 @@ public class BoardDaoIml implements BoardDao{
 	}
 
 
+	// 제목 검색
+    
+	    @Override
+	    public int condTotalBoard(Board board) {
+	        int totBoardCount = 0;
+	        System.out.println("BoardDaoImpl Start condTotalBoard...");
+
+	        try {
+	            totBoardCount = session.selectOne("nyCondBoardTotal", board);
+	            System.out.println("BoardDaoImpl condTotalBoard totBoardCount->" + totBoardCount);
+	        } catch (Exception e) {
+	            System.out.println("BoardDaoImpl condTotalBoard Exception->" + e.getMessage());
+	        }
+	        return totBoardCount;
+	    }
+
+	    @Override
+	    public List<Board> boardSearchList(Board board) {
+	        List<Board> boardSearchList = null;
+	        System.out.println("BoardDaoImpl boardSearchList Start ...");
+
+	        try {
+	            boardSearchList = session.selectList("nySearchListBoard", board);
+	        } catch (Exception e) {
+	            System.out.println("BoardDaoImpl boardSearchList Exception->" + e.getMessage());
+	        }
+	        return boardSearchList;
+	    }
+
+
 
 
 

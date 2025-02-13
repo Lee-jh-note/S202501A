@@ -13,5 +13,8 @@ public interface NoticeDao {
 	int updateNotice(Notice notice);
 	int deleteNotice(Long board_No);
 	int insertNotice(Notice notice);
+	int condTotalNotice(Notice notice);
+	List<Notice> noticeSearchList(Notice notice);
+	
 
 }

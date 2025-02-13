@@ -6,8 +6,7 @@
 <mapper namespace="org.oracle.s202501a.mapper.DeptMapper">
 	   
 	<select id="ny11SelectDept" resultType="org.oracle.s202501a.dto.ny_dto.Dept">
-		select *
-		from DEPT 
+		 SELECT * FROM DEPT ORDER BY dept_No
         
 	</select>
 

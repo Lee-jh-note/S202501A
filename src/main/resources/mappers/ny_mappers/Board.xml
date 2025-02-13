@@ -6,16 +6,18 @@
 
 
 
-<!-- 게시판 총 글 수 -->
-   <select id="nytotalBoard" resultType="int">
-      SELECT Count(*) FROM BOARD
-       WHERE BOARD_CATEGORY = 0 
-      
-   </select>
-   
-   
-    <!--  게시판 리스트 (BOARD_CATEGORY = 0) -->
-    <select id="nylistBoard" parameterType="org.oracle.s202501a.dto.ny_dto.Board" resultType="org.oracle.s202501a.dto.ny_dto.Board">
+	<!-- 게시판 총 글 수 -->
+	<select id="nytotalBoard" resultType="int">
+		SELECT Count(*) FROM BOARD
+		WHERE BOARD_CATEGORY = 0 AND COMMENT_STEP =0
+
+	</select>
+
+
+	<!-- 게시판 리스트 (BOARD_CATEGORY = 0) -->
+	<select id="nylistBoard"
+		parameterType="org.oracle.s202501a.dto.ny_dto.Board"
+		resultType="org.oracle.s202501a.dto.ny_dto.Board">
     <![CDATA[
         SELECT *
         FROM
@@ -43,11 +45,12 @@
         WHERE rn >= #{start}
           AND rn <= #{end}
     ]]>
-    </select>
+	</select>
 
 
-    <!--  게시판 글 상세조회 (BOARD_CATEGORY = 0) -->
-    <select id="nylistboardSelOne" parameterType="Long" resultType="org.oracle.s202501a.dto.ny_dto.Board">
+	<!-- 게시판 글 상세조회 (BOARD_CATEGORY = 0) -->
+	<select id="nylistboardSelOne" parameterType="Long"
+		resultType="org.oracle.s202501a.dto.ny_dto.Board">
     <![CDATA[
         SELECT
             b.board_No, 
@@ -68,89 +71,95 @@
         WHERE b.board_No = #{board_No}
           AND b.BOARD_CATEGORY = 0  
     ]]>
-    </select>
+	</select>
 
-    <!--  게시판 조회 댓글 최댓값 가져오기 -->
-    <select id="nyGetMaxStep" 
-            parameterType="org.oracle.s202501a.dto.ny_dto.Board" 
-            resultType="int"
-    >
-   
-        SELECT
-            Max(b.comment_Step)+1 
-         FROM 
-            BOARD b
-        WHERE b.comment_Group = #{comment_Group}
-          AND b.BOARD_CATEGORY = 0  
-    
-    </select>
+	<!-- 게시판 조회 댓글 최댓값 가져오기 -->
+	<select id="nyGetMaxStep"
+		parameterType="org.oracle.s202501a.dto.ny_dto.Board" resultType="int">
 
+		SELECT
+		Max(b.comment_Step)+1
+		FROM
+		BOARD b
+		WHERE b.comment_Group =
+		#{comment_Group}
+		AND b.BOARD_CATEGORY = 0
 
-    <!--  게시판 글 수정 (BOARD_CATEGORY = 0인 글만 수정 가능) -->
-    <update id="nyUpdateBoard" parameterType="org.oracle.s202501a.dto.ny_dto.Board">
-        UPDATE BOARD
-        SET
-            modifiedDate = sysdate,  
-            content = #{content},    
-            title = #{title}         
-        WHERE board_No = #{board_No}  
-          AND BOARD_CATEGORY = 0  
-    </update>
+	</select>
 
 
-    <!--  게시판 글 삭제 (BOARD_CATEGORY = 0인 글만 삭제 가능) -->
-    <delete id="nydeleteBoard" parameterType="Long">
-        DELETE FROM BOARD 
-        WHERE board_No = #{board_No}
-          AND BOARD_CATEGORY = 0  
-    </delete>
+	<!-- 게시판 글 수정 (BOARD_CATEGORY = 0인 글만 수정 가능) -->
+	<update id="nyUpdateBoard"
+		parameterType="org.oracle.s202501a.dto.ny_dto.Board">
+		UPDATE BOARD
+		SET
+		modifiedDate = sysdate,
+		content =
+		#{content},
+		title = #{title}
+		WHERE board_No = #{board_No}
+		AND
+		BOARD_CATEGORY = 0
+	</update>
 
 
-    <!--  게시판 글 등록 (새 글의 BOARD_CATEGORY는 0으로 설정) -->
-    <insert id="nyinsertBoard" parameterType="org.oracle.s202501a.dto.ny_dto.Board">
-        INSERT INTO BOARD 
-        (
-            BOARD_NO, 
-            EMP_NO, 
-            MODIFIEDDATE, 
-            CONTENT, 
-            CREATEDDATE, 
-            TITLE, 
-            BOARD_CATEGORY, 
-            COMMENT_GROUP, 
-            COMMENT_INDENT, 
-            COMMENT_STEP, 
-            HITS
-        ) 
-        VALUES 
-        (
-            board_seq.nextval, 
-            #{emp_No}, 
-            sysdate, 
-            #{content}, 
-            sysdate, 
-            #{title}, 
-            0,  -- 새 글은 BOARD_CATEGORY를 0으로 설정
-            board_seq.currval, 
-            #{comment_Indent}, 
-            #{comment_Step}, 
-            #{hits}
-        ) 
-    </insert>
-    
-    
-<!--   게시판 조회수 -->
-<update id="nyincreaseHit" parameterType="Long">
-    UPDATE  BOARD
-    SET Hits = Hits + 1 
-    WHERE board_No = #{board_No}
-    AND BOARD_CATEGORY = 0  
-</update>
+	<!-- 게시판 글 삭제 (BOARD_CATEGORY = 0인 글만 삭제 가능) -->
+	<delete id="nydeleteBoard" parameterType="Long">
+		DELETE FROM BOARD
+		WHERE
+		board_No = #{board_No}
+		AND BOARD_CATEGORY = 0
+	</delete>
 
 
-  
-<!--  댓글 리스트 조회 (BOARD_CATEGORY = 0) -->
-<select id="nylistReply" parameterType="int" resultType="org.oracle.s202501a.dto.ny_dto.Board">
+	<!-- 게시판 글 등록 (새 글의 BOARD_CATEGORY는 0으로 설정) -->
+	<insert id="nyinsertBoard"
+		parameterType="org.oracle.s202501a.dto.ny_dto.Board">
+		INSERT INTO BOARD
+		(
+		BOARD_NO,
+		EMP_NO,
+		MODIFIEDDATE,
+		CONTENT,
+		CREATEDDATE,
+		TITLE,
+		BOARD_CATEGORY,
+		COMMENT_GROUP,
+		COMMENT_INDENT,
+		COMMENT_STEP,
+		HITS
+		)
+		VALUES
+		(
+		board_seq.nextval,
+		#{emp_No},
+		sysdate,
+		#{content},
+		sysdate,
+		#{title},
+		0, -- 새 글은 BOARD_CATEGORY를 0으로 설정
+		board_seq.currval,
+		#{comment_Indent},
+		#{comment_Step},
+		#{hits}
+		)
+	</insert>
+
+
+	<!-- 게시판 조회수 -->
+	<update id="nyincreaseHit" parameterType="Long">
+		UPDATE BOARD
+		SET Hits =
+		Hits + 1
+		WHERE board_No = #{board_No}
+		AND BOARD_CATEGORY = 0
+	</update>
+
+
+
+	<!-- 댓글 리스트 조회 (BOARD_CATEGORY = 0) -->
+	<select id="nylistReply" parameterType="int"
+		resultType="org.oracle.s202501a.dto.ny_dto.Board">
     <![CDATA[
     SELECT 
         b.BOARD_NO, 
@@ -173,64 +182,113 @@
         b.COMMENT_GROUP ASC,   
         b.BOARD_NO ASC     
     ]]>
-</select>
+	</select>
 
-    <!--  댓글 등록 (댓글도 BOARD_CATEGORY를 0으로 설정) -->
-    <insert id="nyInsertComment" 
-            parameterType="org.oracle.s202501a.dto.ny_dto.Board"
-            useGeneratedKeys="true" 
-            keyColumn="board_No"
-            keyProperty="board_No"
-    >
-        INSERT INTO BOARD 
+	<!-- 댓글 등록 (댓글도 BOARD_CATEGORY를 0으로 설정) -->
+	<insert id="nyInsertComment"
+		parameterType="org.oracle.s202501a.dto.ny_dto.Board"
+		useGeneratedKeys="true" keyColumn="board_No" keyProperty="board_No">
+		INSERT INTO
+		BOARD
+		(
+		BOARD_NO,
+		EMP_NO,
+		MODIFIEDDATE,
+		CONTENT,
+		CREATEDDATE,
+		BOARD_CATEGORY,
+		COMMENT_GROUP,
+		COMMENT_INDENT,
+		COMMENT_STEP,
+		HITS
+		)
+		VALUES
+		(
+		board_seq.nextval,
+		#{emp_No},
+		SYSDATE,
+		#{content},
+		SYSDATE,
+		#{board_Category},
+		#{comment_Group},
+		#{comment_Indent},
+		#{comment_Step},
+		0
+		)
+	</insert>
+
+
+
+	<!-- 댓글 수정 -->
+	<update id="nyupdateReply"
+		parameterType="org.oracle.s202501a.dto.ny_dto.Board">
+		UPDATE BOARD
+		SET
+
+		modifiedDate = SYSDATE,
+		content =
+		#{content}
+		WHERE BOARD_No = #{board_No}
+		AND BOARD_CATEGORY = 0
+	</update>
+
+
+
+	<!-- 댓글 삭제 -->
+	<delete id="nydeleteReply" parameterType="Long">
+		DELETE FROM BOARD
+		WHERE
+		board_No = #{board_No}
+		AND BOARD_CATEGORY = 0
+	</delete>
+
+
+
+	<!-- 조건에 맞는 게시판 개수 조회 -->
+	<select id="nyCondBoardTotal"
+		parameterType="org.oracle.s202501a.dto.ny_dto.Board" resultType="int">
+	 SELECT Count(*) FROM BOARD
+    WHERE BOARD_CATEGORY = 0  AND COMMENT_STEP = 0
+       
+    <choose>
+        <when test="search == 's_title'"> 
+            AND title like '%' || #{keyword} || '%'
+        </when>
+    </choose>
+	</select>
+
+
+	<!-- 게시판 검색 목록 -->
+	<select id="nySearchListBoard"
+		parameterType="org.oracle.s202501a.dto.ny_dto.Board"
+		resultType="org.oracle.s202501a.dto.ny_dto.Board">
+		 SELECT *
+    FROM
+    (
+        SELECT rownum rn, a.*
+        FROM
         (
-            BOARD_NO,
-            EMP_NO, 
-            MODIFIEDDATE,
-            CONTENT, 
-            CREATEDDATE, 
-            BOARD_CATEGORY, 
-            COMMENT_GROUP,
-            COMMENT_INDENT,
-            COMMENT_STEP,
-            HITS
-        )
-        VALUES 
-        (
-            board_seq.nextval, 
-            #{emp_No}, 
-            SYSDATE, 
-            #{content}, 
-            SYSDATE, 
-            #{board_Category},  
-            #{comment_Group}, 
-            #{comment_Indent}, 
-            #{comment_Step}, 
-            0
-        )
-    </insert>
-    
-    
-    
-  <!-- 댓글 수정 -->
-<update id="nyupdateReply" parameterType="org.oracle.s202501a.dto.ny_dto.Board">
-    UPDATE BOARD
-    SET
-    
-        modifiedDate = SYSDATE,  
-        content = #{content}     
-    WHERE BOARD_No = #{board_No}  
-      AND BOARD_CATEGORY = 0  
-</update>
-
-
-
-<!-- 댓글 삭제 -->
-<delete id="nydeleteReply" parameterType="Long">
-    DELETE FROM BOARD 
-    WHERE board_No = #{board_No}
-      AND BOARD_CATEGORY = 0  
-</delete>
-
+            SELECT n.board_no, 
+                   n.emp_no, 
+                   n.modifiedDate, 
+                   n.content, 
+                   n.createdDate, 
+                   n.title, 
+                   n.hits, 
+                   e.emp_name
+            FROM BOARD n  
+            LEFT JOIN EMP e ON n.emp_no = e.emp_no
+            WHERE n.BOARD_CATEGORY = 0  AND COMMENT_STEP = 0
+           
+            <choose>
+                <when test="search == 's_title'">
+                    AND n.title like '%' || #{keyword} || '%'
+                </when>
+            </choose>
+            ORDER BY n.board_no DESC
+        ) a
+    )
+    WHERE rn BETWEEN #{start} AND #{end}
+	</select>
 
 </mapper>
