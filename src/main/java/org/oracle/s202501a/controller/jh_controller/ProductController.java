@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.oracle.s202501a.dao.jh_dao.ProductDao;
 import org.oracle.s202501a.dto.jh_dto.CategoriesDto;
 import org.oracle.s202501a.dto.jh_dto.ProductDto;
 import org.oracle.s202501a.dto.jh_dto.ProductPriceDto;
@@ -59,7 +58,7 @@ public class ProductController {
 
     // 등록 액션
     @PostMapping("/Sales/ProdCreateAct")
-    public String prodCreateAct(ProductPriceDto productPriceDtoDto, Model model) {
+    public String prodCreateAct(ProductPriceDto productPriceDtoDto) {
         productService.createProduct(productPriceDtoDto);
         return "redirect:/All/Sales/ProdList";
     }
@@ -92,7 +91,7 @@ public class ProductController {
 
     // 수정 액션
     @PostMapping("/Sales/ProdModifyAct")
-    public String prodModifyAct(ProductPriceDto productPriceDtoDto, Model model) {
+    public String prodModifyAct(ProductPriceDto productPriceDtoDto) {
         System.out.println("수정");
         productService.prodModify(productPriceDtoDto);
         return "redirect:/All/Sales/ProdList"; // 수정 후 다시 리스트로
@@ -101,7 +100,7 @@ public class ProductController {
 
     //제품 삭제
     @PostMapping("/Sales/ProdDelete")
-    public String prodDelete(ProductDto productDto, Model model) {
+    public String prodDelete(ProductDto productDto) {
         System.out.println("삭제");
         productService.prodDelete(productDto);
         return "redirect:/All/Sales/ProdList"; // 삭제 후 다시 리스트로

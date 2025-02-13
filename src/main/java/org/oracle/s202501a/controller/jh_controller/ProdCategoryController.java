@@ -40,7 +40,7 @@ public class ProdCategoryController {
 
     // 생성 폼
     @GetMapping("/Sales/Category/Create")
-    public String ProdCategoryCreate(Model model) throws JsonProcessingException {
+    public String ProdCategoryCreate(Model model){
         CategoriesDto category = prodCategoryService.prodCateFindAll();
 
         List<CategoriesDto> dto = category.getTopList();

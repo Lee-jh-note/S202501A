@@ -54,9 +54,8 @@ public class ProdCategoryService {
         prodCategoryDao.CateDelProdUpdate(categoriesDto);
     }
 
-    public void addMidCategory(String category, String newSubCategory) {
-
-    }
+//    public void addMidCategory(String category, String newSubCategory) {
+//    }
 
     public void prodCateCreateMid(CategoriesDto dto) {
 //        System.out.println("서비스 :" + dto);
