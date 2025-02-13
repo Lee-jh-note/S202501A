@@ -27,12 +27,12 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("board")
+
 public class BoardController {
 	private final BoardService bs;
 
 	// 보드 리스트 (글 15개씩)
-	@RequestMapping(value = "BoardList")
+	@RequestMapping(value = "/All/Management/BoardList")
 	public String listBoard(Board board, Model model) {
 		System.out.println("BoardController Start Boardlist...");
 
@@ -57,7 +57,7 @@ public class BoardController {
 	}
 
 	// 게시판 상세조회 / 조회수
-	@GetMapping("BoardContent")
+	@GetMapping("/All/Management/BoardContent")
 	public String contents(Board board1, Model model) {
 		System.out.println("EmpController Start ContentView...");
 
@@ -92,7 +92,7 @@ public class BoardController {
 
 	
 	// 게시글 수정1 (폼)
-	@GetMapping("updateBoardForm")
+	@GetMapping("/All/Management/updateBoardForm")
 	public String updateForm(Board board1, Model model) {
 		System.out.println("BController Start updateBoardForm...");
 
@@ -105,7 +105,7 @@ public class BoardController {
 	}
 
 	// 게시글 수정2
-	@PostMapping("updateBoard")
+	@PostMapping("/All/Management/updateBoard")
 	public String updateBoard(Board board, Model model) {
 		System.out.println("BoardController Start updateBoard...");
 		System.out.println("BoardController updateBoard board->"+board);
@@ -113,24 +113,24 @@ public class BoardController {
 		int updateCount = bs.updateBoard(board);
 		System.out.println(board);
 
-		return "redirect:BoardContent?board_No="+board.getBoard_No();
+		return "redirect:/All/Management/BoardContent?board_No="+board.getBoard_No();
 
 
 	}
 
 	// 게시글 삭제
-	@RequestMapping(value = "deleteBoard")
+	@RequestMapping(value = "/All/Management/deleteBoard")
 	public String deleteBoard(Board board, Model model) {
 		System.out.println("BoardController Start deleteBoard...");
 		System.out.println("BoardController deleteBoard board.getBoard_No()->"+board.getBoard_No());
 		 int result = bs.deleteBoard(board.getBoard_No());
-		return "redirect:BoardList";
+		return "redirect:/All/Management/BoardList";
 	}
 	
 
 	
 	// 게시글등록1 폼
-	@RequestMapping(value ="writeFormBoard")
+	@RequestMapping(value ="/All/Management/writeFormBoard")
 	public String writeFormBoard(Model model) { 
 	    System.out.println("BoardController writeFormBoard Start...");
 	   	SecurityContext securityContext = SecurityContextHolder.getContextHolderStrategy().getContext();
@@ -148,19 +148,19 @@ public class BoardController {
 	 
 	 
 	// 게시글등록2 
-		@PostMapping(value ="writeBoard")
+		@PostMapping(value ="/All/Management/writeBoard")
 		 public String writeBoard(Board board, Model model) {
 			 System.out.println("BoardController Start writeBoard...");
 			 System.out.println("BoardController Start writeBoard..."+board);
 			 int insertResult = bs.insertBoard(board);
-			return "redirect:BoardList";
+			return "redirect:/All/Management/BoardList";
 		 
 	 }
 		
 		
 		// 댓글 등록 뷰 
 		// 삭제 대상 
-		@RequestMapping(value ="BoardContent")
+		@RequestMapping(value ="/All/Management/BoardContent")
 		public String replyContent(Board board,Model model) { 
 			 System.out.println("BoardController Start replyContents...");
 			   	SecurityContext securityContext = SecurityContextHolder.getContextHolderStrategy().getContext();
@@ -190,7 +190,7 @@ public class BoardController {
 		
 		
 		// 댓글 등록 	
-		@RequestMapping(value ="reply")
+		@RequestMapping(value ="/All/Management/reply")
 		public String reply (Board board, Model model) {
 			 System.out.println("controller board/reply start");
 			 System.out.println("reply start board->"+board);
@@ -214,12 +214,12 @@ public class BoardController {
 			 System.out.println("controller reply end board->"+board);
 
 			 // 원글에 대한 조회 => .getComment_Group
-			 return "redirect:BoardContent?board_No="+board.getComment_Group();
+			 return "redirect:/All/Management/BoardContent?board_No="+board.getComment_Group();
 		}
 
 
 		// 댓글 수정
-		@PostMapping("updateReply")
+		@PostMapping("/All/Management/updateReply")
 		public String updateReply(Board board, Model model) {
 		    System.out.println("BoardController Start updateReply...");
 		    System.out.println("BoardController updateReply board->" + board);
@@ -227,11 +227,11 @@ public class BoardController {
 		    int updateCount = bs.updateReply(board);
 		    System.out.println("updateCount -> " + updateCount);
 
-		    return "redirect:BoardContent?board_No=" + board.getComment_Group();  
+		    return "redirect:/All/Management/BoardContent?board_No=" + board.getComment_Group();  
 		}
 
 		// 댓글 삭제
-		@RequestMapping(value = "deleteReply")
+		@RequestMapping(value = "/All/Management/deleteReply")
 		public String deleteReply(Board board, Model model) {
 		    System.out.println("BoardController Start deleteReply...");
 		    System.out.println("BoardController deleteReply board->" + board);
@@ -239,9 +239,33 @@ public class BoardController {
 		    int result = bs.deleteReply(board.getBoard_No());
 		    System.out.println("deleteCount -> " + result);
              //   게시글의 번호로 돌아가도록
-		    return "redirect:BoardContent?board_No=" + board.getComment_Group();
+		    return "redirect:/All/Management/BoardContent?board_No=" + board.getComment_Group();
 		}
 
-		
+		  // 제목 검색 (listSearchBoard)
+	    @RequestMapping(value = "/All/Management/listSearchB")
+	    public String listSearchBoard(Board board, Model model) {
+	        System.out.println("BoardController Start listSearchBoard...");
+	        System.out.println("BoardController listSearchBoard board->" + board);
+
+	        int totalBoard = bs.condTotalBoard(board);
+	        System.out.println("BoardController listSearchBoard totalBoard=>" + totalBoard);
+
+	        Paging page = new Paging(totalBoard, board.getCurrentPage());
+	        board.setStart(page.getStart());
+	        board.setEnd(page.getEnd());
+	        System.out.println("BoardController listSearchBoard page=>" + page);
+
+	        List<Board> listSearchBoard = bs.listSearchBoard(board);
+
+	        System.out.println("BoardController listSearchBoard listSearchBoard.size()=>" + listSearchBoard.size());
+	        System.out.println("BoardController listSearchBoard listSearchBoard=>" + listSearchBoard);
+
+	        model.addAttribute("totalBoard", totalBoard);
+	        model.addAttribute("listBoard", listSearchBoard);
+	        model.addAttribute("page", page);
+
+	        return "ny_views/BoardList";
+	    }
 
 	 }

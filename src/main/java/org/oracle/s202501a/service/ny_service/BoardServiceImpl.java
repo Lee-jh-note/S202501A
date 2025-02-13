@@ -127,6 +127,24 @@ public class BoardServiceImpl implements BoardService{
 		return result;
 	}
 
+	// 밑 2개가 검색
+	  @Override
+	    public int condTotalBoard(Board board) {
+	        System.out.println("BoardServiceImpl Start condTotalBoard...");
+	        int totBoardCnt = bd.condTotalBoard(board);
+	        System.out.println("BoardServiceImpl condTotalBoard totBoardCnt->" + totBoardCnt);
+	        return totBoardCnt;
+	    }
+
+	    @Override
+	    public List<Board> listSearchBoard(Board board) {
+	        List<Board> boardSearchList = null;
+	        System.out.println("BoardServiceImpl listSearchBoard Start...");
+	        boardSearchList = bd.boardSearchList(board);
+	        System.out.println("BoardServiceImpl listSearchBoard boardSearchList.size()->" + boardSearchList.size());
+	        return boardSearchList;
+	    }
+
 
 }
  

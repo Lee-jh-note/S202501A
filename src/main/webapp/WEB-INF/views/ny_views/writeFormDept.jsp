@@ -65,7 +65,7 @@ function chk() {
                             </div>
                         </div>
                         <div class="insert-buttons">
-                            <button class="btn insert-empty-button" type="button" onclick="location.href='/empDept/listDept'">취소</button>
+                            <button class="btn insert-empty-button" type="button" onclick="location.href='/listDept'">취소</button>
 
                             <button class="btn insert-full-button" id="btn" type="submit">확인</button>
                         </div>
@@ -91,17 +91,18 @@ function chk() {
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
+
 </body>
 
 </html>

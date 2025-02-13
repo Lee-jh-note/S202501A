@@ -13,9 +13,9 @@
 <title>자유 게시판</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-<link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-<link href="../css/list.css" rel="stylesheet">
+<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link href="/css1/sb-admin-2.min.css" rel="stylesheet">
+<link href="/css/list.css" rel="stylesheet">
 
 <style>
 .clickable-row { /* 행 전체 클릭 가능하게 */
@@ -86,21 +86,20 @@ style>.list-table th:nth-child(1), .list-table td:nth-child(1) {
 							</div>
 						</div>
 						<div class="list-buttons">
-							<input type="button" value="등록" class="btn list-full-button"
-								onclick="location.href='writeFormBoard'">
+							<input type="button" value="글작성" class="btn list-full-button"
+								onclick="location.href='/All/Management/writeFormBoard'">
 						</div>
 					</div>
 					<div class="list-header2">
 						<div></div>
 						<!-- 검색영역을 .search-filters 로 감싸기 -->
 						<div class="list-search-filters">
-							<form action="listtile" method="get"
+							<form action="/All/Management/listSearchB" method="get"
 								style="display: flex; gap: 10px; align-items: center;">
-
-								<input type="text" name="keyword" placeholder="keyword을 입력하세요">
-								<button type="submit" class="btn list-gray-button">제목
-									검색</button>
-
+								<input type="hidden" name="search" value="s_title"> <input
+									type="text" name="keyword" placeholder="제목keyword 입력"
+									value="${param.keyword}">
+								<button type="submit" class="btn list-gray-button">검색</button>
 							</form>
 						</div>
 					</div>
@@ -122,7 +121,7 @@ style>.list-table th:nth-child(1), .list-table td:nth-child(1) {
 							<!-- 총 개수 가져오기 -->
 							<c:forEach var="board" items="${listBoard}" varStatus="status">
 								<tr class="clickable-row"
-									data-href="BoardContent?board_No=${board.board_No}">
+									data-href="/All/Management/BoardContent?board_No=${board.board_No}">
 									<td>${num - status.index}</td>
 									<!-- 역순으로 번호 표시 -->
 									<td>${board.title}</td>
@@ -138,13 +137,15 @@ style>.list-table th:nth-child(1), .list-table td:nth-child(1) {
 
 					<div style="text-align: center; margin-top: 20px;">
 						<c:if test="${page.startPage > page.pageBlock }">
-							<a href="BoardList?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+							<a
+								href="/All/Management/BoardList?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
 						</c:if>
 						<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-							<a href="BoardList?currentPage=${i}">[${i}]</a>
+							<a href="/All/Management/BoardList?currentPage=${i}">[${i}]</a>
 						</c:forEach>
 						<c:if test="${page.endPage < page.totalPage }">
-							<a href="BoardList?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+							<a
+								href="/All/Management/BoardList?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
 						</c:if>
 
 					</div>
@@ -158,17 +159,19 @@ style>.list-table th:nth-child(1), .list-table td:nth-child(1) {
 			<%@ include file="../footer1.jsp"%>
 		</div>
 	</div>
-	<!-- jQuery -->
-	<script src="../vendor/jquery/jquery.min.js"></script>
+	<!-- jQuery (항상 가장 먼저 로드) -->
+	<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-	<!-- Bootstrap Bundle -->
-	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+	<script
+		src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-	<!-- Core plugin -->
-	<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Core plugin (jQuery Easing 등) -->
+	<script
+		src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 	<!-- Custom scripts -->
-	<script src="../js1/sb-admin-2.min.js"></script>
+	<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

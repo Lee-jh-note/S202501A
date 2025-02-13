@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>부서 조회</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/list.css" rel="stylesheet">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/list.css" rel="stylesheet">
 
 
 <style>
@@ -25,15 +25,26 @@
     	border: 1px solid #4e73df;
 	}
 
-  .detail-gray-button{
-   		 padding: 8px 12px;
-    	font-size: 12px;
-    	border: none;
-    	border-radius: 4px;
-    	cursor: pointer;
-    	background-color: #898c89;
-   		 color: white;
-	}
+	
+	.detail-full-button{
+    padding: 8px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4e73df;
+    color: white;
+}
+
+.detail-empty-button{
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: white;
+    color: #4e73df;
+    border: 1px solid #4e73df;
+}
     /* 모달 스타일 */
     .modal-overlay {
         display: none; /* 기본적으로 숨김 */
@@ -96,7 +107,7 @@ let deleteDeptName = null;
 
 function confirmDelete(dept_No, dept_Name) {
     $.ajax({
-        url: 'countEmpInDept',
+        url: '/HR/countEmpInDept',
         type: 'GET',
         data: { dept_No: dept_No },
         success: function(empCount) {
@@ -116,7 +127,7 @@ function confirmDelete(dept_No, dept_Name) {
 // 실제 삭제 실행 함수
 function executeDelete() {
     if (deleteDeptNo !== null) {
-        window.location.href = 'deleteDept?dept_No=' + deleteDeptNo;
+        window.location.href = '/HR/deleteDept?dept_No=' + deleteDeptNo;
     }
 }
 
@@ -127,6 +138,7 @@ function editRow(button) {
     // 부서 이름과 전화번호 셀(td)을 찾는다
     var deptNameCell = row.find('td:eq(1)');
     var deptTelCell = row.find('td:eq(2)');
+    var deleteButton = row.find('td:eq(3)').find("button"); // 삭제 버튼 찾기
 
     // 현재 텍스트를 input으로 변경
     var deptName = deptNameCell.text().trim();
@@ -135,8 +147,11 @@ function editRow(button) {
     deptNameCell.html('<input type="text" name="dept_Name" value="' + deptName + '">');
     deptTelCell.html('<input type="text" name="dept_Tel" value="' + deptTel + '">');
 
-    // "수정" 버튼을 "확인" 버튼으로 변경
-    $(button).replaceWith('<button onclick="saveRow(this)">확인</button>');
+    // "삭제" 버튼 숨기기
+    deleteButton.hide();
+
+    // "수정" 버튼을 "저장" 버튼으로 변경
+    $(button).replaceWith('<button class="btn detail-full-button" onclick="saveRow(this)">저장</button>');
 }
 
 function saveRow(button) {
@@ -145,9 +160,10 @@ function saveRow(button) {
     var deptNo = row.find('td:eq(0)').text().trim();
     var deptName = row.find('td:eq(1)').find('input').val();
     var deptTel = row.find('td:eq(2)').find('input').val();
+    var deleteButton = row.find('td:eq(3)').find("button"); // 삭제 버튼 찾기
 
     $.ajax({
-        url: 'updateDept',
+        url: '/HR/updateDept',
         type: 'POST',
         data: {
             dept_No: deptNo,
@@ -158,13 +174,18 @@ function saveRow(button) {
             row.find('td:eq(1)').text(deptName);
             row.find('td:eq(2)').text(deptTel);
 
-            $(button).replaceWith('<input type="button" value="수정" onclick="editRow(this)">');
+            // "저장" 버튼을 다시 "수정" 버튼으로 변경
+            $(button).replaceWith('<input type="button" class="btn detail-full-button" value="수정" onclick="editRow(this)">');
+
+            // "삭제" 버튼 다시 보이기
+            deleteButton.show();
         },
         error: function() {
             alert('수정 중 오류가 발생했습니다.');
         }
     });
 }
+
 
 
 //모달 열기
@@ -205,8 +226,7 @@ function openModal(message, onConfirm) {
                         </div>
                     </div>
                     <div class="list-buttons">
-                    <input type="button" value="목록" class="btn list-empty-button" onclick="history.back()">
-                        <input type="button" value="등록" class="btn list-full-button" onclick="location.href='writeFormDept'">
+                   <input type="button" value="직원목록" class="btn list-empty-button" onclick="location.href='/All/HR/listEmp'">
                     </div>
                 </div>
                 <div class="list-header2">
@@ -234,9 +254,10 @@ function openModal(message, onConfirm) {
                 				<td>${dept.dept_Name}</td>
                 				<td>${dept.dept_Tel}</td>
 								<td> 
+								<input type="button" class="btn detail-full-button" value="수정" onclick="editRow(this)">
 								<button onclick="confirmDelete(${dept.dept_No} , 
-								'${dept.dept_Name}')" class="btn detail-gray-button" >삭제</button>
-                    			<input type="button" class="btn detail-gray-button" value="수정" onclick="editRow(this)"></td>
+								'${dept.dept_Name}')" class="btn detail-full-button" >삭제</button>
+                    			</td>
                        			</tr>
                 
                     </c:forEach>
@@ -254,17 +275,18 @@ function openModal(message, onConfirm) {
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 
 
 	    <!-- 모달 HTML -->

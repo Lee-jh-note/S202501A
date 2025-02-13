@@ -31,7 +31,9 @@ public class Emp {
 		
 		
 	    //페이징 조회용
-		private String search;   	   private String keyword;
+		private String search;  
+		
+		private String keyword;		
 		private String pageNum;  
 		private int start; 		 	   private int end;
 		// Page 정보

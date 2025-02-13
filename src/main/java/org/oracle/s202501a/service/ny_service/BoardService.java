@@ -25,6 +25,8 @@ public interface BoardService {
 	
 	int updateReply(Board board); //댓글 수정
 	int deleteReply(Long board_No); //댓글 삭제
+	int condTotalBoard(Board board);
+	List<Board> listSearchBoard(Board board);
 	
 	
 		

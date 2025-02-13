@@ -8,9 +8,9 @@
     <meta charset="UTF-8">
     <title>자유게시글</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/detail.css" rel="stylesheet">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/detail.css" rel="stylesheet">
     
     
     <style>
@@ -26,11 +26,7 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 1000;
         }
-        /* 모달도 폰트 12로 맞출지?
-        .modal-overlay * {
-           font-size: 12px;
-        }
- */
+
         .modal-confirm {
             position: fixed;
             top: 50%;
@@ -274,10 +270,10 @@
                     </div>
                    
                    <div class="detail-buttons">
-                        <input class="btn detail-empty-button" type="button" value="목록" onclick="location.href='BoardList'">
+                        <input class="btn detail-empty-button" type="button" value="목록" onclick="location.href='/All/Management/BoardList'">
                              <c:if test="${board.emp_No eq empDTO.emp_No}">
                              <input class="btn detail-full-button" type="button" value="수정"
-                            onclick="location.href='updateBoardForm?board_No=${board.board_No}'">
+                            onclick="location.href='/All/Management/updateBoardForm?board_No=${board.board_No}'">
                             <input class="btn detail-full-button" type="button" value="삭제" onclick="handleDeleteBoard('${board.board_No}')">
                     </c:if>
                     </div>
@@ -331,7 +327,7 @@
 
                         <!-- 수정 폼 (기본 숨김) -->
                         <div class="comment-form" id="editForm-${board.board_No}" style="display:none;">
-                            <form action="/board/updateReply" method="post">
+                            <form action="/All/Management/updateReply" method="post">
                                 <input type="hidden" name="board_No" value="${board.board_No}">
                                 <input type="hidden" name="comment_Group" value="${board.comment_Group}">
                                 <textarea name="content" rows="2" required>${board.content}</textarea>
@@ -355,7 +351,7 @@
 
     <!-- 댓글 작성 폼 -->
     <div class="comment-form">
-      <form id="commentForm" action="/board/reply" method="post">
+      <form id="commentForm" action="/All/Management/reply" method="post">
 		    <input type="hidden" name="board_No" value="${board.board_No}">
 		    <input type="hidden" name="comment_Group" value="${board.comment_Group}">
 		    <input type="hidden" name="comment_Indent" value="${board.comment_Indent+1}">
@@ -408,12 +404,12 @@
  // 삭제 버튼 클릭 시 모달 열기
     function handleDeleteReply(boardNo, commentGroup) {
         openModal("정말 삭제하시겠습니까?", () => {
-            location.href = "/board/deleteReply?board_No=" + boardNo + "&comment_Group=" + commentGroup;
+            location.href = "/All/Management/deleteReply?board_No=" + boardNo + "&comment_Group=" + commentGroup;
         });
     }
     function handleDeleteBoard(boardNo) {
         openModal("정말 삭제하시겠습니까?", () => {
-            location.href = "/board/deleteBoard?board_No=" + boardNo;
+            location.href = "/All/Management/deleteBoard?board_No=" + boardNo;
         });
     }
  // 댓글 수정 모드 활성화 (기존 버튼 숨김)
@@ -458,17 +454,17 @@
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

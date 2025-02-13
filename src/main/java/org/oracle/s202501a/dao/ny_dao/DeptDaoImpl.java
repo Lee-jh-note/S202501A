@@ -48,7 +48,7 @@ public class DeptDaoImpl implements DeptDao {
 		return dept;
 	}
 
-	//11 부서 선택시 리스트
+	//11 부서 선택시 전체리스트
 	@Override
 	public List<Dept> listDept(Dept dept) {
 		List<Dept> deptList = null;

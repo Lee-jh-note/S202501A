@@ -100,7 +100,7 @@ public class EmpServiceImpl implements EmpService {
 		return deleteupdate;
 	}
 
-	// 밑 2개가 조건 검색
+	// 밑 2개가 검색
 	@Override
 	public int condTotalEmp(Emp emp) {
 		System.out.println("EmpServiceImpl Start total...");

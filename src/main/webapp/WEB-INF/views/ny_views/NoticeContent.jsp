@@ -8,9 +8,9 @@
     <meta charset="UTF-8">
     <title>공지사항 상세</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="../css1/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../css/detail.css" rel="stylesheet">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/css1/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/detail.css" rel="stylesheet">
     <style>
         /* 모달 스타일 */
         .modal-overlay {
@@ -175,7 +175,7 @@
         function handleDelete() {
             openModal("정말 삭제하시겠습니까?", () => {
                 // 삭제 로직 실행
-                location.href="deleteNotice?board_No=${notice.board_No}";
+                location.href="/Management/deleteNotice?board_No=${notice.board_No}";
             });
         }
     </script>
@@ -203,10 +203,10 @@
                         </div>
                     </div>
       		<div class="detail-buttons">
-                         <input class="btn detail-empty-button" type="button" value="목록" onclick="location.href='NoticeList'">
+                         <input class="btn detail-empty-button" type="button" value="목록" onclick="location.href='/All/Management/NoticeList'">
 
                             <input class="btn detail-full-button" type="button" value="수정"
-                                   onclick="location.href='updateNoticeForm?board_No=${notice.board_No}'">
+                                   onclick="location.href='/Management/updateNoticeForm?board_No=${notice.board_No}'">
                             <input class="btn detail-full-button" type="button" value="삭제" onclick="handleDelete()">
                        
                     </div>
@@ -256,17 +256,18 @@
         <%@ include file="../footer1.jsp" %>
     </div>
 </div>
-<!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- jQuery (항상 가장 먼저 로드) -->
+<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle -->
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin -->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Core plugin (jQuery Easing 등) -->
+<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
 <!-- Custom scripts -->
-<script src="../js1/sb-admin-2.min.js"></script>
+<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
+
 </body>
 
 </html>

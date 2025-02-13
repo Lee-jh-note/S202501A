@@ -126,7 +126,7 @@ public class NoticeDaoImpl implements NoticeDao  {
 		}
 
 
-
+		// 제목 검색
 		  @Override
 		    public int condTotalNotice(Notice notice) {
 		        int totNoticeCount = 0;
