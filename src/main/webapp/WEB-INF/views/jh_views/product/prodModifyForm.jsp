@@ -13,13 +13,6 @@
     <link href="/../css1/sb-admin-2.min.css" rel="stylesheet">
     <link href="/../css/detail.css" rel="stylesheet">
     <style>
-        .btn {
-            padding: 8px 12px;
-            font-size: 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body id="page-top">
@@ -39,6 +32,11 @@
                                 <div></div>
                                 <h1>제품 수정</h1>
                             </div>
+                        </div>
+                        <div>
+                            <button type="button" class="btn detail-empty-button" onclick="window.history.back();">
+                                목록
+                            </button>
                         </div>
                     </div>
                     <div class="detail-header-content">
@@ -100,10 +98,7 @@
                             </tr>
                         </table>
                         <div class="detail-buttons">
-                            <button type="button" class="btn detail-gray-button" onclick="window.history.back();">
-                                돌아가기
-                            </button>
-                            <button type="submit" class="btn btn-dark">수정</button>
+                            <button type="submit" class="btn detail-full-button">수정</button>
                         </div>
                     </div>
                 </div>

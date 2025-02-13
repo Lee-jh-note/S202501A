@@ -29,7 +29,7 @@ public class ProdCategoryController {
         return "jh_views/category/categoryPopup";
     }
 
-    @GetMapping("/api/categories/mid")
+    @GetMapping("/Sales/api/categories/mid")
     @ResponseBody
     public List<CategoriesDto> getMidCategories(@RequestParam("topCategory") String topCategory) {
         return prodCategoryService.findMidListByTop(topCategory);
@@ -54,7 +54,7 @@ public class ProdCategoryController {
     public String addSubCategory(@RequestParam(value = "newMidCategory", required = false) String newMidCategory,
                                  @RequestParam(value = "newTopCategory", required = false) String newTopCategory) {
         prodCategoryService.prodCateCreate(newMidCategory, newTopCategory);
-        return "redirect:/Prod/Category/List";
+        return "redirect:/Sales/Category/List";
     }
 
     // 대분류 선택 후 추가
@@ -63,7 +63,7 @@ public class ProdCategoryController {
 //        System.out.println("컨트롤러 : " + dto);
         prodCategoryService.prodCateCreateMid(dto);
 
-        return "redirect:/Prod/Category/List";
+        return "redirect:/Sales/Category/List";
     }
 
     // 수정 및 삭제 폼
@@ -81,14 +81,14 @@ public class ProdCategoryController {
     public String ProdCategoryModify(@ModelAttribute CategoriesDto categoriesDto) {
 //        System.out.println("수정 액션 들어온 내용 :" + categoriesDto);
         prodCategoryService.prodCateModify(categoriesDto);
-        return "redirect:/Prod/Category/List";
+        return "redirect:/Sales/Category/List";
     }
 
     // 삭제
     @PostMapping("/Sales/Category/Delete")
     public String ProdCategoryDelete(@ModelAttribute CategoriesDto categoriesDto) {
         prodCategoryService.prodCateDelete(categoriesDto);
-        return "redirect:/Prod/Category/List";
+        return "redirect:/Sales/Category/List";
     }
 
 

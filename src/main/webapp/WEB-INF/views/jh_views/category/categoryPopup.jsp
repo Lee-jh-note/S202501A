@@ -103,7 +103,7 @@
         }
 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/api/categories/mid?topCategory=' + topCategoryId, true);
+        xhr.open('GET', '/Sales/api/categories/mid?topCategory=' + topCategoryId, true);
         xhr.onload = function() {
             if (xhr.status == 200) {
                 var midCategories = JSON.parse(xhr.responseText);

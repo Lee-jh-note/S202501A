@@ -44,6 +44,9 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+        #dayClosingLink:hover {
+            color: white;
+        }
 
     </style>
 </head>
@@ -103,9 +106,9 @@
                                        placeholder="제품명 검색" value="${name != null ? name : ''}">
                             </div>
                             <!-- 검색 버튼 -->
-                            <button type="submit" class="list-gray-button">검색</button>
+                            <button type="submit" class="list-gray-button">조회</button>
                         </form>
-                        <a href="javascript:void(0);" class="list-gray-button" id="dayClosingLink">내역 업데이트</a>
+                        <a href="javascript:void(0);" class="list-gray-button" id="dayClosingLink" style="text-decoration: none">내역 업데이트</a>
                     </div>
                 </div>
 
@@ -180,7 +183,7 @@
                                        value="${list[0].closing == 0 ? list[0].beginning : list[0].closing}"/>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">수정 완료</button>
+                            <button type="submit" class="btn list-full-button">수정</button>
                         </form>
                     </div>
                 </div>
@@ -210,7 +213,7 @@
                                                name="optimal_quantity"
                                                required/>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">수정 완료</button>
+                                    <button type="submit" class="btn list-full-button">수정</button>
                                 </form>
                             </div>
                         </div>
@@ -263,7 +266,7 @@
                                     </div>
 
                                     <div class="form-group text-center">
-                                        <button type="submit" class="btn btn-primary">저장</button>
+                                        <button type="submit" class="btn list-full-button">저장</button>
                                     </div>
                                 </form>
                             </div>

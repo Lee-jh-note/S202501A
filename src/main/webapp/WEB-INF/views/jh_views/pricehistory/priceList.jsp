@@ -49,7 +49,7 @@
                                 <option value="1" ${param.type == '1' ? 'selected' : ''}>매출</option>
                             </select>
 
-                            <button type="submit" class="list-gray-button">검색</button>
+                            <button type="submit" class="list-gray-button">조회</button>
 
                         </form>
                     </div>

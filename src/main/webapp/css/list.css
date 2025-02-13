@@ -109,7 +109,7 @@
 }
 
 .list-table th {
-    background-color: #F8F8F8;
+    background-color: #f5f5f5;  /* 추가 변경내역 */
     color: #777;
     font-size: 12px;
     font-weight: 400;
@@ -119,3 +119,4 @@
     font-size: 12px;
     color: black;
 }
+

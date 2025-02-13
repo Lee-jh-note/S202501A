@@ -30,6 +30,9 @@
                                 <h1>가격 수정</h1>
                             </div>
                         </div>
+                        <div>
+                            <a href="/All/Sales/PriceList" class="btn detail-empty-button">목록</a>
+                        </div>
                     </div>
 
                     <!-- 제품 번호 -->
@@ -82,8 +85,7 @@
                                 </td>
                         </table>
                         <div class="detail-buttons">
-                            <a href="/All/Sales/PriceList" class="btn btn-secondary">돌아가기</a>
-                            <button type="submit" class="btn btn-dark">수정</button>
+                            <button type="submit" class="btn detail-full-button">수정</button>
                         </div>
                     </div>
                 </div>

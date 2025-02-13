@@ -14,13 +14,13 @@
     <link href="/../css1/sb-admin-2.min.css" rel="stylesheet">
     <link href="/../css/detail.css" rel="stylesheet">
     <style>
-
-        .btn {
+        .btn1{
             padding: 8px 12px;
             font-size: 12px;
-            border: none;
             border-radius: 4px;
             cursor: pointer;
+            background-color: #ff0000;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -40,6 +40,9 @@
                             <div></div>
                             <h1>제품 상세</h1>
                         </div>
+                    </div>
+                    <div>
+                        <a href="/All/Sales/ProdList" class="btn detail-empty-button">목록</a>
                     </div>
                 </div>
                 <div class="detail-header-content">
@@ -75,10 +78,9 @@
                     </table>
 
                     <div class="detail-buttons">
-                        <a href="/All/Sales/ProdList" class="btn detail-gray-button">돌아가기</a>
                         <a href="/Sales/ProdModify?productNo=${ProductPrice.product_no}"
-                           class="btn btn-dark">수정</a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                           class="btn detail-full-button">수정</a>
+                        <button type="button" class="btn btn1" data-toggle="modal" data-target="#deleteModal"
                                 data-product-no="${ProductPrice.product_no}">
                             삭제
                         </button>
@@ -97,12 +99,12 @@
                                     진짜 지울거니?
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                    <button type="button" class="btn detail-gray-button" data-dismiss="modal">취소</button>
                                     <!-- 삭제 확인 버튼 -->
                                     <form id="deleteForm" action="/Sales/ProdDelete" method="post"
                                           style="display:inline;">
                                         <input type="hidden" name="product_no" id="modalProductNo">
-                                        <button type="submit" class="btn btn-danger">삭제</button>
+                                        <button type="submit" class="btn btn1">삭제</button>
                                     </form>
                                 </div>
                             </div>

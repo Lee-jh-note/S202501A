@@ -103,7 +103,7 @@
                             </select>
 
                             <button id="searchButton" class="list-gray-button">조회</button>
-                            <button type="button" id="submitBtn" class="list-status-button">상태 변경</button>
+                            <button type="button" id="submitBtn" class="btn list-status-button">상태 변경</button>
                         </div>
                         <form id="statusForm" action="/Sales/Status" method="post" onsubmit="return validateForm()"
                               style="margin: 0">

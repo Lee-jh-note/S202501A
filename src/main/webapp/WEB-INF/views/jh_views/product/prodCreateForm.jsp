@@ -41,8 +41,8 @@
                             </div>
                         </div>
                         <div>
-                            <a href="/All/Sales/ProdList" class="insert-empty-button"> 취소</a>
-                            <button type="submit" id="submitBtn" class="insert-full-button"> 등록</button>
+                            <a href="/All/Sales/ProdList" class="btn insert-empty-button" style="text-decoration: none"> 취소</a>
+                            <button type="submit" id="submitBtn" class="btn insert-full-button"> 등록</button>
                         </div>
                     </div>
                     <div class="insert-header-content">
