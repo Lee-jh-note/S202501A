@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.oracle.s202501a.dto.sh_dto.EmpDTO;
 import org.oracle.s202501a.entity.Emp;
+import org.oracle.s202501a.service.sh_service.EmailService;
 import org.oracle.s202501a.service.sh_service.MyPageService;
 import org.oracle.s202501a.service.sh_service.UserService;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,9 @@ public class MyPageController {
 
 	private final UserService userservice;
 	private final MyPageService myPageService;
-	private final JavaMailSender mailSender;
+//	private final JavaMailSender mailSender;
+    // 추가
+    private final EmailService emailService;
 	private final PasswordEncoder passwordEncoder;
 	
     @GetMapping("/mypage")
@@ -78,10 +81,9 @@ public class MyPageController {
         return "sh_views/find_password";  
     }
     
-    
     @PostMapping("/sendTemporaryPassword")
     public ResponseEntity<Map<String, String>> sendTemporaryPassword(
-            @RequestParam(name = "empName") String empName, 
+            @RequestParam(name = "empName") String empName,
             @RequestParam(name = "empEmail") String empEmail) {
 
         Map<String, String> response = new HashMap<>();
@@ -95,28 +97,60 @@ public class MyPageController {
             // 임시 비밀번호 생성 (영문 + 숫자 조합)
             String tempPassword = generateTemporaryPassword();
 
-            // 이메일 전송
-            boolean emailSent = sendTempPasswordEmail(empEmail, tempPassword);
+            // **비동기 이메일 전송**
+            emailService.sendTempPasswordEmail(empEmail, tempPassword);
 
-            if (emailSent) {
-                // **임시 비밀번호를 암호화해서 저장**
-                emp.setPassword(passwordEncoder.encode(tempPassword));
-                myPageService.updatePassword(emp);
+            // **임시 비밀번호를 암호화해서 저장**
+            emp.setPassword(passwordEncoder.encode(tempPassword));
+            myPageService.updatePassword(emp);
 
-                response.put("status", "success");
-                response.put("message", "임시 비밀번호가 이메일로 전송되었습니다.");
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("status", "error");
-                response.put("message", "이메일 전송에 실패했습니다.");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-            }
+            response.put("status", "success");
+            response.put("message", "임시 비밀번호가 이메일로 전송되었습니다.");
+            return ResponseEntity.ok(response);
         } else {
             response.put("status", "error");
             response.put("message", "입력한 정보와 일치하는 계정이 없습니다.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+//    @PostMapping("/sendTemporaryPassword")
+//    public ResponseEntity<Map<String, String>> sendTemporaryPassword(
+//            @RequestParam(name = "empName") String empName, 
+//            @RequestParam(name = "empEmail") String empEmail) {
+//
+//        Map<String, String> response = new HashMap<>();
+//
+//        // 사원 이름과 이메일로 직원 조회
+//        Optional<Emp> empOpt = myPageService.findByEmpNameAndEmpEmail(empName, empEmail);
+//
+//        if (empOpt.isPresent()) {
+//            Emp emp = empOpt.get();
+//
+//            // 임시 비밀번호 생성 (영문 + 숫자 조합)
+//            String tempPassword = generateTemporaryPassword();
+//
+//            // 이메일 전송
+//            boolean emailSent = sendTempPasswordEmail(empEmail, tempPassword);
+//
+//            if (emailSent) {
+//                // **임시 비밀번호를 암호화해서 저장**
+//                emp.setPassword(passwordEncoder.encode(tempPassword));
+//                myPageService.updatePassword(emp);
+//
+//                response.put("status", "success");
+//                response.put("message", "임시 비밀번호가 이메일로 전송되었습니다.");
+//                return ResponseEntity.ok(response);
+//            } else {
+//                response.put("status", "error");
+//                response.put("message", "이메일 전송에 실패했습니다.");
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+//            }
+//        } else {
+//            response.put("status", "error");
+//            response.put("message", "입력한 정보와 일치하는 계정이 없습니다.");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+//        }
+//    }
 
     // 임시 비밀번호 생성 메서드
     private String generateTemporaryPassword() {
@@ -129,23 +163,23 @@ public class MyPageController {
         return sb.toString();
     }
 
-    // 이메일 전송 메서드
-    private boolean sendTempPasswordEmail(String toEmail, String tempPassword) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setFrom("your-email@gmail.com"); // 변경 필요
-            helper.setTo(toEmail);
-            helper.setSubject("HOTTHINK 임시 비밀번호 안내");
-            helper.setText("안녕하세요.\n\n[" + toEmail + "]님의 임시 비밀번호는 [" + tempPassword + "]입니다.\n" +
-                           "로그인 후 비밀번호를 변경해 주세요.");
-
-            mailSender.send(message);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+//    // 이메일 전송 메서드
+//    private boolean sendTempPasswordEmail(String toEmail, String tempPassword) {
+//        try {
+//            MimeMessage message = mailSender.createMimeMessage();
+//            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+//
+//            helper.setFrom("your-email@gmail.com"); // 변경 필요
+//            helper.setTo(toEmail);
+//            helper.setSubject("HOTTHINK 임시 비밀번호 안내");
+//            helper.setText("안녕하세요.\n\n[" + toEmail + "]님의 임시 비밀번호는 [" + tempPassword + "]입니다.\n" +
+//                           "로그인 후 비밀번호를 변경해 주세요.");
+//
+//            mailSender.send(message);
+//            return true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 }
