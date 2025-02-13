@@ -31,8 +31,6 @@ public class LoginController {
 	
     @GetMapping(value="/writeFormEmp655")
     public String signup() {
-    	
-    	
         return "sh_views/writeFormEmp";
     }
 
