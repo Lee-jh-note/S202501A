@@ -157,6 +157,3 @@
 .insert-table td{
     color: black;
 }
-.insert-table {
-    table-layout: fixed; /* 테이블 칸 크기 고정 */
-}
