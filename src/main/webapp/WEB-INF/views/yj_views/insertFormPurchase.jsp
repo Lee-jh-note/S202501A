@@ -437,7 +437,7 @@
                         <div class="insert-buttons">
                             <button class="btn insert-empty-button" type="button" 
                             	onclick="location.href='/All/Sales/listPurchase'">취소</button>
-                            <button class="btn insert-full-button" id="btn" type="button" onclick="insertPurchase()">확인</button>
+                            <button class="btn insert-full-button" id="btn" type="button" onclick="insertPurchase()">등록</button>
                         </div>
                     </div>
 
