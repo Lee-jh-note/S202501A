@@ -37,6 +37,7 @@
                             <button type="button" class="btn detail-empty-button" onclick="window.history.back();">
                                 목록
                             </button>
+                            <button type="submit" class="btn detail-full-button">수정</button>
                         </div>
                     </div>
                     <div class="detail-header-content">
@@ -97,9 +98,9 @@
                                 </td>
                             </tr>
                         </table>
-                        <div class="detail-buttons">
-                            <button type="submit" class="btn detail-full-button">수정</button>
-                        </div>
+<%--                        <div class="detail-buttons">--%>
+<%--                            <button type="submit" class="btn detail-full-button">수정</button>--%>
+<%--                        </div>--%>
                     </div>
                 </div>
             </form>

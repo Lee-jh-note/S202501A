@@ -92,7 +92,7 @@ public class EmpController {
 	
 	 // 부서 삭제
 	
-	 @RequestMapping(value="/HR/deleteDept") 
+	 @RequestMapping(value="/HR/deleteDept")
 	 public String deleteDept(Dept dept, Model model)  { 
 		 System.out.println("EmpController Start deleteDept..." ); 
 		
@@ -156,25 +156,26 @@ public class EmpController {
 	}
 	
 	
-	//부서 수정 1
-		@GetMapping(value = "/HR/updateFormDept")
-		public String updateFormDept(Dept dept1, Model model) {
-			System.out.println("EmpController Start updateForm...");
-			
-			Dept dept = es.detailDept(dept1.getDept_No());
-			System.out.println("EmpController updateFormEmp emp->" + dept);
-			System.out.println(dept1.getDept_No());
-			
-			return "ny_views/updateFormDept";
-		}
+//	//부서 수정 1
+//		@GetMapping(value = "/HR/updateFormDept")
+//		public String updateFormDept(Dept dept1, Model model) {
+//			System.out.println("EmpController Start updateForm...");
+//
+//			Dept dept = es.detailDept(dept1.getDept_No());
+//			System.out.println("EmpController updateFormEmp emp->" + dept);
+//			System.out.println(dept1.getDept_No());
+//
+//			return "ny_views/updateFormDept";
+//		}
 		
 		// 부서 수정 2
+		@ResponseBody
 		@PostMapping(value = "/HR/updateDept")
 		public String updateDept(Dept dept, Model model) {
 			log.info("updateDept Start...");
 			System.out.println("컨트롤러 " +  dept);
 			int updateDeptCount = es.updateDept(dept);
-			return "forward:/All/HR/listDept";
+			return "0";
 		}
 
 		

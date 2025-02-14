@@ -32,6 +32,8 @@
                         </div>
                         <div>
                             <a href="/All/Sales/PriceList" class="btn detail-empty-button">목록</a>
+                            <button type="submit" class="btn detail-full-button">수정</button>
+
                         </div>
                     </div>
 
@@ -84,9 +86,9 @@
                                            value="${priceHistoryModel.price.price}"/>
                                 </td>
                         </table>
-                        <div class="detail-buttons">
-                            <button type="submit" class="btn detail-full-button">수정</button>
-                        </div>
+<%--                        <div class="detail-buttons">--%>
+<%--                            <button type="submit" class="btn detail-full-button">수정</button>--%>
+<%--                        </div>--%>
                     </div>
                 </div>
             </form>

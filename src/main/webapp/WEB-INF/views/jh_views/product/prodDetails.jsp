@@ -43,6 +43,12 @@
                     </div>
                     <div>
                         <a href="/All/Sales/ProdList" class="btn detail-empty-button">목록</a>
+                        <a href="/Sales/ProdModify?productNo=${ProductPrice.product_no}"
+                           class="btn detail-full-button">수정</a>
+                        <button type="button" class="btn btn1" data-toggle="modal" data-target="#deleteModal"
+                                data-product-no="${ProductPrice.product_no}">
+                            삭제
+                        </button>
                     </div>
                 </div>
                 <div class="detail-header-content">
@@ -77,14 +83,14 @@
                         </tr>
                     </table>
 
-                    <div class="detail-buttons">
-                        <a href="/Sales/ProdModify?productNo=${ProductPrice.product_no}"
-                           class="btn detail-full-button">수정</a>
-                        <button type="button" class="btn btn1" data-toggle="modal" data-target="#deleteModal"
-                                data-product-no="${ProductPrice.product_no}">
-                            삭제
-                        </button>
-                    </div>
+<%--                    <div class="detail-buttons">--%>
+<%--                        <a href="/Sales/ProdModify?productNo=${ProductPrice.product_no}"--%>
+<%--                           class="btn detail-full-button">수정</a>--%>
+<%--                        <button type="button" class="btn btn1" data-toggle="modal" data-target="#deleteModal"--%>
+<%--                                data-product-no="${ProductPrice.product_no}">--%>
+<%--                            삭제--%>
+<%--                        </button>--%>
+<%--                    </div>--%>
                     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
                          aria-labelledby="deleteModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -96,7 +102,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    진짜 지울거니?
+                                    삭제하시겠습니까?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn detail-gray-button" data-dismiss="modal">취소</button>

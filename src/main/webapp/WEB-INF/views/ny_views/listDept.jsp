@@ -171,15 +171,23 @@ function saveRow(button) {
             dept_Tel: deptTel
         },
         success: function(response) {
-            row.find('td:eq(1)').text(deptName);
-            row.find('td:eq(2)').text(deptTel);
 
-            // "저장" 버튼을 다시 "수정" 버튼으로 변경
-            $(button).replaceWith('<input type="button" class="btn detail-full-button" value="수정" onclick="editRow(this)">');
+            if (response === "0") {
+                row.find('td:eq(1)').text(deptName);
+                row.find('td:eq(2)').text(deptTel);
 
-            // "삭제" 버튼 다시 보이기
-            deleteButton.show();
+                // "저장" 버튼을 다시 "수정" 버튼으로 변경
+                $(button).replaceWith('<input type="button" class="btn detail-full-button" value="수정" onclick="editRow(this)">');
+
+                // "삭제" 버튼 다시 보이기
+                deleteButton.show();
+            }
+            else {
+                alert("권한이 없습니다")
+                window.location.href = '/All/HR/listDept3';
+            }
         },
+
         error: function() {
             alert('수정 중 오류가 발생했습니다.');
         }

@@ -120,16 +120,14 @@ style>.list-table th:nth-child(1), .list-table td:nth-child(1) {
 						</thead>
 						<tbody>
 							<c:set var="num" value="${fn:length(listNotice)}" />
-							<!-- 총 개수 가져오기 -->
 							<c:forEach var="notice" items="${listNotice}" varStatus="status">
 								<tr class="clickable-row"
 									data-href="/All/Management/NoticeContent?board_No=${notice.board_No}">
 									<td>${num - status.index}</td>
-									<!-- 역순으로 번호 표시 -->
 									<td>${notice.title}</td>
 									<td>${notice.emp_Name}</td>
 									<td><fmt:formatDate value="${notice.createdDate}"
-											pattern="yyyy-MM-dd HH:mm" /></td>
+											pattern="yyyy-MM-dd" /></td>
 									<td>${notice.hits}</td>
 								</tr>
 							</c:forEach>

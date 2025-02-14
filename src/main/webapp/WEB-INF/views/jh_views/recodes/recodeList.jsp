@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="list-buttons">
-                        <a href="/excel/sprecodes?yymmdd=${yymmdd != null ? yymmdd : ''}"
+                        <a href="/All/excel/sprecodes?yymmdd=${yymmdd != null ? yymmdd : ''}"
                            class="btn btn-info list-full-button"
                            onclick="return confirmDownload('${yymmdd != null ? yymmdd : ''}');">엑셀 다운로드</a>
                     </div>
