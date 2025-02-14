@@ -59,10 +59,10 @@
                     <table class="insert-table">
 						<tr><th>회사명</th><td>    	<input  type="text"     name="client_Name" 			required="required"></td></tr>
 						<tr><th>대표자</th><td>    	<input  type="text" 	name="client_Ceo" 			required="required"></td></tr>
-						<tr><th>사업자 번호</th><td>	<input 	type="text"   	name="business_No" 			required="required"></td></tr>
+						<tr><th>사업자 번호</th><td>	<input 	type="number"   name="business_No" 			required="required"></td></tr>
 						<tr><th>이메일</th><td>	 	<input 	type="text"   	name="client_Email" 		required="required"></td></tr>
-						<tr><th>기업 전화번호</th><td>	<input 	type="text"   	name="client_Tel" 			required="required"></td></tr>
-						<tr><th>대표자 전화번호</th><td><input 	type="text"     name="ceo_Tel" 				required="required"></td></tr>
+						<tr><th>기업 전화번호</th><td>	<input 	type="number"   name="client_Tel" 			required="required"></td></tr>
+						<tr><th>대표자 전화번호</th><td><input 	type="number"   name="ceo_Tel" 				required="required"></td></tr>
 						<tr><th>등록일</th><td>		<input 	type="date" 	name="reg_Date" 	id="reg_Date"		required="required"></td></tr>
 					 	<tr><th>구분</th><td>
 								    <select name="client_Type">
