@@ -20,7 +20,7 @@ function chk() {
     }
 
     $.ajax({
-        url: "<%=request.getContextPath()%>/empDept/deptConfirm",
+        url: "<%=request.getContextPath()%>/HR/deptConfirm",
         type: "GET",
         data: {
             dept_No: frm.Dept_No.value

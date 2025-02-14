@@ -114,9 +114,13 @@ function confirmDelete(dept_No, dept_Name) {
             deleteDeptNo = dept_No;   // 전역 변수에 저장
             deleteDeptName = dept_Name;  
 
-            let confirmMessage = dept_Name + " 부서는 " + empCount + "명의 직원을 포함하고 있습니다.<br>삭제를 진행하겠습니까?";
-            
-            openModal(confirmMessage, executeDelete); // 모달 열기
+            if (empCount > 0) {
+                // 직원이 있는 경우: 취소 버튼을 "확인"으로 변경 (삭제 불가)
+                openModal(dept_Name + "에는 " + empCount + "명의 직원이 있습니다.<br>삭제할 수 없습니다.", null);
+            } else {
+                // 직원이 없는 경우: "확인" 버튼이 삭제 실행
+                openModal(dept_Name + "에는 직원이 없습니다.<br>정말 삭제하시겠습니까?", executeDelete);
+            }
         },
         error: function() {
             alert('직원 수 조회 오류');
@@ -130,6 +134,42 @@ function executeDelete() {
         window.location.href = '/HR/deleteDept?dept_No=' + deleteDeptNo;
     }
 }
+
+
+//모달 열기
+function openModal(message, onConfirm) {
+    document.querySelector(".modal-message").innerHTML = message;
+    document.querySelector(".modal-overlay").style.display = "block";
+
+    let confirmButton = document.querySelector(".confirm");
+    let cancelButton = document.querySelector(".cancel");
+
+    if (onConfirm) {
+        // 삭제 가능한 경우: "확인" 버튼이 삭제 실행, "취소" 버튼 유지
+        confirmButton.textContent = "확인";
+        confirmButton.style.display = "inline-block";
+        confirmButton.onclick = () => {
+            document.querySelector(".modal-overlay").style.display = "none";
+            onConfirm();
+        };
+
+        cancelButton.textContent = "취소";
+        cancelButton.style.display = "inline-block";
+        cancelButton.onclick = () => {
+            document.querySelector(".modal-overlay").style.display = "none";
+        };
+
+    } else {
+        // 삭제할 수 없는 경우: "취소" 버튼을 "확인" 버튼처럼 표시
+        confirmButton.style.display = "none"; // "확인" 버튼 숨김
+        cancelButton.textContent = "확인";  // 취소 버튼을 "확인"으로 변경
+        cancelButton.style.display = "inline-block";
+        cancelButton.onclick = () => {
+            document.querySelector(".modal-overlay").style.display = "none";
+        };
+    }
+}
+
 
 function editRow(button) {
     // 현재 행(row)을 찾아온다
@@ -194,24 +234,6 @@ function saveRow(button) {
     });
 }
 
-
-
-//모달 열기
-function openModal(message, onConfirm) {
-    document.querySelector(".modal-message").innerHTML = message;
-    document.querySelector(".modal-overlay").style.display = "block";
-
-    document.querySelector(".confirm").onclick = () => {
-        document.querySelector(".modal-overlay").style.display = "none";
-        if (typeof onConfirm === "function") {
-            onConfirm();
-        }
-    };
-
-    document.querySelector(".cancel").onclick = () => {
-        document.querySelector(".modal-overlay").style.display = "none";
-    };
-}
 
 </script>
 </head>
