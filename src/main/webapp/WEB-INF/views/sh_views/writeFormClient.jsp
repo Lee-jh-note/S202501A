@@ -20,6 +20,12 @@
 		} else location.href="confirm?client_No="+frm.client_No.value;
 	}
 	
+	
+	   document.addEventListener("DOMContentLoaded", function() {
+	        const today = new Date().toISOString().split('T')[0]; // 현재 날짜 가져오기 (YYYY-MM-DD 형식)
+	        document.getElementById("reg_Date").value = today; // input 필드에 기본값 설정
+	    });
+	
 </script>
 </head>
 <body id="page-top">
@@ -53,31 +59,25 @@
                     <table class="insert-table">
 						<tr><th>회사명</th><td>    	<input  type="text"     name="client_Name" 			required="required"></td></tr>
 						<tr><th>대표자</th><td>    	<input  type="text" 	name="client_Ceo" 			required="required"></td></tr>
-						<tr><th>사업자 번호</th><td>	<input 	type="text"   	name="business_No" 			required="required"></td></tr>
+						<tr><th>사업자 번호</th><td>	<input 	type="number"   name="business_No" 			required="required"></td></tr>
 						<tr><th>이메일</th><td>	 	<input 	type="text"   	name="client_Email" 		required="required"></td></tr>
-						<tr><th>기업 전화번호</th><td>	<input 	type="text"   	name="client_Tel" 			required="required"></td></tr>
-						<tr><th>대표자 전화번호</th><td><input 	type="text"     name="ceo_Tel" 				required="required"></td></tr>
-						<tr><th>등록일</th><td>		<input 	type="date" 	name="reg_Date" 			required="required"></td></tr>
+						<tr><th>기업 전화번호</th><td>	<input 	type="number"   name="client_Tel" 			required="required"></td></tr>
+						<tr><th>대표자 전화번호</th><td><input 	type="number"   name="ceo_Tel" 				required="required"></td></tr>
+						<tr><th>등록일</th><td>		<input 	type="date" 	name="reg_Date" 	id="reg_Date"		required="required"></td></tr>
 					 	<tr><th>구분</th><td>
-							<select name="client_Type">
-								<c:forEach var="client" items="${clientMngList}">
-									<option value="${client.client_Type}">${client.client_Type}
-											<c:choose>
-						                        <c:when test="${client.client_Type == 0}">
-						                            매입처
-						                        </c:when>
-						                        <c:when test="${client.client_Type == 1}">
-						                            매출처
-						                        </c:when>
-						                        <c:otherwise>
-						                            알 수 없음
-						                        </c:otherwise>
-						                    </c:choose>
-									
-									</option>
-								</c:forEach>  
-							</select></td>
-							
+								    <select name="client_Type">
+								        <c:forEach var="client" items="${clientMngList}">
+								            <option value="${client.client_Type}">
+								                <c:choose>	
+								                    <c:when test="${client.client_Type == 0}">매입처</c:when>
+								                    <c:when test="${client.client_Type == 1}">매출처</c:when>
+								                    <c:otherwise>알 수 없음</c:otherwise>
+								                </c:choose>
+								            </option>
+								        </c:forEach>  
+								    </select>
+								</td></tr>
+
 								<tr>
 								  <th>담당자 이름	</th>
 								  <td>

@@ -73,7 +73,7 @@
 						<tr><th>기업 전화번호</th><td>
 						    <input type="number" name="client_Tel" 	required="required" value="${client.client_Tel}"></td></tr>
 						<tr><th>대표자 전화번호</th><td>
-						    <input type="number" name="ceo_Tel" 	value="${client.ceo_Tel }"></td></tr>
+						    <input type="number" name="ceo_Tel" 	required="required" value="${client.ceo_Tel }"></td></tr>
 						<tr><th>등록일</th>
 							<td>
 						       <input type="date" name="reg_Date" id="hiredate"	value="${client.reg_Date}" > 
