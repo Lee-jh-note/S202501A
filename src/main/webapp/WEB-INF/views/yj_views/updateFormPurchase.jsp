@@ -102,6 +102,7 @@
                 <tr>
                     <td style="width: 160px;">
                         <select name="product_no" class="productSelect">
+                        	<option value="">-- 선택 --</option>
                             <c:forEach var="product" items="${productList}">
                                 <option value="${product.product_no}">${product.product_name}</option>
                             </c:forEach>

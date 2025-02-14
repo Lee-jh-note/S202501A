@@ -317,6 +317,7 @@
                 <tr>
                     <td style="width: 160px;">
                         <select name="product_no" class="productSelect">
+                        	<option value="">-- 선택 --</option>
                             <c:forEach var="product" items="${productList}">
                                 <option value="${product.product_no}">${product.product_name}</option>
                             </c:forEach>
@@ -465,6 +466,7 @@
                                 	<td><input type="date" name="req_delivery_date" required="required"/></td>
                                 <th>거래처명</th>
                                 	<td><select name="client_no" value="${client_no}">
+                                			<option value="">-- 선택 --</option>
 	                                        <c:forEach var="client" items="${clientList}">
 	                                            <option value="${client.client_no}"${client.client_no == client_no ? 'selected' : ''}>${client.client_name}</option>
 	                                        </c:forEach>
@@ -498,6 +500,7 @@
 	                           <tr>
 				               	   <td style="width: 160px;">
 				                        <select name="product_no" class="productSelect">
+				                        	<option value="">-- 선택 --</option>
 				                            <c:forEach var="product" items="${productList}">
 				                                <option value="${product.product_no}">${product.product_name}</option>
 				                            </c:forEach>
