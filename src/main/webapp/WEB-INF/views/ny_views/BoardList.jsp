@@ -126,7 +126,7 @@ style>.list-table th:nth-child(1), .list-table td:nth-child(1) {
 									<td>${board.title}</td>
 									<td>${board.emp_Name}</td>
 									<td><fmt:formatDate value="${board.createdDate}"
-											pattern="yyyy-MM-dd HH:mm" /></td>
+											pattern="yyyy-MM-dd" /></td>
 									<td>${board.hits}</td>
 								</tr>
 							</c:forEach>

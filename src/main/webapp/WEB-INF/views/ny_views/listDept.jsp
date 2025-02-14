@@ -21,8 +21,8 @@
     	border-radius: 4px;
     	cursor: pointer;
    		background-color: white;
-   		color: #4e73df;
-    	border: 1px solid #4e73df;
+   		color: #395B7F;
+    	border: 1px solid #395B7F;
 	}
 
 	
@@ -32,7 +32,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    background-color: #4e73df;
+    background-color: #395B7F;
     color: white;
 }
 
@@ -42,8 +42,8 @@
     border-radius: 4px;
     cursor: pointer;
     background-color: white;
-    color: #4e73df;
-    border: 1px solid #4e73df;
+    color: #395B7F;
+    border: 1px solid #395B7F;
 }
     /* 모달 스타일 */
     .modal-overlay {

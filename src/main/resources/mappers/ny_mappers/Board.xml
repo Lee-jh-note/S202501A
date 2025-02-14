@@ -39,6 +39,7 @@
                 LEFT JOIN EMP e ON b.emp_No = e.emp_No
                 WHERE b.BOARD_CATEGORY = 0   AND COMMENT_INDENT = 0
                 ORDER BY 
+                	b.createdDate DESC,
                     b.board_No desc
             ) a
         )
@@ -133,7 +134,7 @@
 		(
 		board_seq.nextval,
 		#{emp_No},
-		sysdate,
+		null,
 		#{content},
 		sysdate,
 		#{title},

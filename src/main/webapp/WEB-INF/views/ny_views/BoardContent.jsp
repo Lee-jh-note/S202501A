@@ -290,8 +290,8 @@
                         </tr>
                        
                         <tr class="date-row">
-                             <th>작성일</th><td colspan="2"><fmt:formatDate value="${board.createdDate}" pattern="yyyy-MM-dd"/></td>
-                            <th>수정일</th><td colspan="3"><fmt:formatDate value="${board.modifiedDate}" pattern="yyyy-MM-dd"/></td>                                       
+                             <th>작성일</th><td colspan="2"><fmt:formatDate value="${board.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                            <th>수정일</th><td colspan="3"><fmt:formatDate value="${board.modifiedDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>                                       
                          </tr>
                        
                      	<tr> 

@@ -21,10 +21,12 @@
 	border-collapse: collapse;
 }
 
+/* th, td 기본 스타일 */
 .detail-table th, .detail-table td {
 	border: 1px solid #dadada;
 	padding: 10px;
 	vertical-align: middle;
+	text-align: left;
 }
 
 /* 입력 필드 스타일 */
@@ -33,26 +35,14 @@
 	padding: 5px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
+	box-sizing: border-box; /* 내부 패딩 포함하여 크기 조정 */
 }
 
+/* 내용 입력창 크기 조정 */
 .detail-table textarea {
 	min-height: 200px;
 	resize: vertical;
 }
-
-/* 테이블 열 너비 조정 */
-.detail-table th:nth-child(1), .detail-table td:nth-child(1) {
-	width: 10%;
-} /* 제목 */
-.detail-table th:nth-child(2), .detail-table td:nth-child(2) {
-	width: 40%;
-} /* 제목 내용 */
-.detail-table th:nth-child(3), .detail-table td:nth-child(3) {
-	width: 10%;
-} /* 작성자 */
-.detail-table th:nth-child(4), .detail-table td:nth-child(4) {
-	width: 30%;
-} /* 작성자 이름 (30%) */
 
 .insert-full-button {
 	padding: 8px 12px;
@@ -114,16 +104,16 @@
 								<!-- 제목 & 작성자 -->
 								<tr>
 									<th>제목</th>
-									<td colspan="2"><input type="text" name="title" required>
+									<td colspan="3"><input type="text" name="title" required>
 									</td>
 									<th>작성자</th>
-									<td colspan="1"><span>${empDTO.empName}</span></td>
+									<td colspan="2"><span>${empDTO.empName}</span></td>
 								</tr>
 
 								<!-- 내용 -->
 								<tr>
 									<th>내용</th>
-									<td colspan="5"><textarea name="content" required></textarea>
+									<td colspan="6"><textarea name="content" required></textarea>
 									</td>
 								</tr>
 							</table>
