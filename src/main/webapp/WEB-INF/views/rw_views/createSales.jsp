@@ -246,11 +246,11 @@ function submitForm(event) {
         contentType: "application/json",
         data: JSON.stringify(salesData),
         success: function () {
-            alert("수주서 등록 성공");
+            alert("수주서가 등록되었습니다");
             window.location.href = "/All/Sales/listSales";
         },
         error: function (xhr, status, error) {
-            alert("수주서 등록 실패: " + error);
+            alert("수주서 등록이 실패하였습니다: " + error);
         }
     });
 }

@@ -145,11 +145,11 @@ function submitForm(event) {
             contentType: "application/json",
             data: JSON.stringify(salesData),
             success: function () {
-                alert("수주 수정 성공!");
+                alert("수주서가 수정되었습니다");
                 window.location.href = "/All/Sales/listSales";
             },
             error: function (xhr, status, error) {
-                alert("수주 수정 실패: " + error);
+                alert("수주서 수정이 실패하였습니다: " + error);
             }
         });
     }
