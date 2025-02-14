@@ -43,6 +43,8 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+let isDuplicateClient = false; // 중복 거래처 여부 저장
+
 $(document).ready(function () {
     // 오늘 날짜를 매출일자(input type="date")에 기본값으로 설정
     let today = new Date().toISOString().split("T")[0];
@@ -53,6 +55,11 @@ $(document).ready(function () {
 
     // 중복 확인 버튼 이벤트 리스너 추가
     $("#chkClientBtn").click(chkClient);
+    
+    // 사용자가 거래처 변경 시, 중복 검증 상태 초기화
+    $("#client_no").change(function() {
+        isDuplicateClient = false; 
+    });
 });
 
 // 중복 확인 함수 (같은 거래처 같은 날짜 수주 등록 방지)
@@ -75,13 +82,13 @@ function chkClient() {
 
             if (response.isDuplicate) {
                 alert("이미 해당 거래처로 등록된 수주서가 있습니다.");
+                isDuplicateClient = true; // 중복된 경우 true로 설정
             } else {
                 alert("사용 가능한 거래처입니다.");
             }
         },
         error: function(xhr, status, error) {
-            console.error("중복 확인 오류:", error); // 디버깅 로그 추가
-
+            console.error("중복 확인 오류:", error); 
             alert("중복 확인 중 오류가 발생했습니다.");
         }
     });
@@ -172,6 +179,11 @@ function validateForm() {
     if (new Date(req_delivery_date) < new Date(sales_date)) {
         alert("요청 배송일은 매출일자 이후여야 합니다.");
         $("#req_delivery_date").focus();
+        return false;
+    }
+    
+    if (isDuplicateClient) { 
+        alert("이미 등록된 거래처입니다. 다른 거래처를 선택해주세요.");
         return false;
     }
 
