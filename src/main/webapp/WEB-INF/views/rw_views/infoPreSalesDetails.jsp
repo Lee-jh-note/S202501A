@@ -117,7 +117,7 @@ function handleStore() {
 							<!-- 버튼 영역 -->
 							<div>
 								<button type="button" class="detail-empty-button" onclick="history.back()">목록</button>
-								<button type="button" class="detail-full-button" onclick="handleStore()">출고 처리</button>
+								<button type="button" class="detail-full-button" onclick="handleStore()">출고</button>
 							</div>
 						</div>
 

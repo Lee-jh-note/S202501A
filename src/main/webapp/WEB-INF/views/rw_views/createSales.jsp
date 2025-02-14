@@ -293,8 +293,8 @@ function submitForm(event) {
 							
 						<!-- 버튼 -->
 							<div class="insert-buttons">
-								<button type="submit" class="insert-full-button">수주서 등록</button>
 								<button type="button" class="insert-empty-button" onclick="location.href='/All/Sales/listSales'">취소</button>
+								<button type="submit" class="insert-full-button">등록</button>
 							</div>
 						</div>
 
@@ -322,7 +322,7 @@ function submitForm(event) {
 											</c:forEach>
 									</select> 
 									<!-- 중복 확인 버튼에 id 추가하여 jQuery 이벤트 바인딩 활용 --> 
-									<input type="button" value="중복확인" onclick="chkClient()"></td>
+									<input type="button" class="insert-gray-button" value="중복확인" onclick="chkClient()"></td>
 								</tr>
 								<tr>
 									<th>비고</th>

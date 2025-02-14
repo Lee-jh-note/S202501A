@@ -243,8 +243,8 @@ function submitForm(event) {
 							
 							<!-- 버튼 영역 -->
 							<div class="insert-buttons">
-								<button type="submit" class="insert-full-button">수정 완료</button>
 								<button type="button" class="insert-empty-button" onclick="history.back()">취소</button>
+								<button type="submit" class="insert-full-button">완료</button>
 							</div>
 						</div>
 
