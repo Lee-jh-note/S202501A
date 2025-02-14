@@ -61,7 +61,7 @@ $(document).ready(function () {
     });
 });
 
-// 새 행 추가 함수
+//품목 추가 (행 추가)
 function addRow() {
     var newRow = `
         <tr>
@@ -76,7 +76,7 @@ function addRow() {
             <td><input type="text" name="price" class="productPrice" placeholder="단가" readonly></td>
             <td><input type="number" name="quantity" class="quantity" placeholder="수량" required min="1" oninput="calculateTotal(this)"></td>
             <td><input type="text" name="totalPrice" class="totalPrice" placeholder="총 금액" readonly></td>
-            <td><button type="button" class="minus-btn" onclick="removeRow(this)">-</button></td>
+            <td><button type="button" class="insert-gray-button" onclick="removeRow(this)">삭제</button></td>
         </tr>
     `;
     $("#productRows").append(newRow);
@@ -116,9 +116,71 @@ function calculateTotal(input) {
     row.find(".totalPrice").val(totalPrice ? totalPrice.toLocaleString() : "0");
 }
 
+//필수 입력값 검증 함수
+function validateForm() {
+    let title = $("#title").val().trim();
+    let req_delivery_date = $("#req_delivery_date").val();
+    let sales_date = "${infoSales.sales_date};" // 기존 입력된 매출일자 직접 가져옴
+    
+    if (!title) {
+        alert("제목을 입력해주세요.");
+        $("#title").focus();
+        return false;
+    }
+
+    if (!req_delivery_date) {
+        alert("요청 배송일을 선택해주세요.");
+        $("#req_delivery_date").focus();
+        return false;
+    }
+
+    if (new Date(req_delivery_date) < new Date(sales_date)) {
+        alert("요청 배송일은 매출일자 이후여야 합니다.");
+        $("#req_delivery_date").focus();
+        return false;
+    }
+
+    let hasProduct = false; // 기존 품목 + 신규 품목 모두 확인
+    let allValid = true;
+    let productSet = new Set(); // 중복 품목 검사용(기존 품목 + 신규 품목)
+
+    $("#productRows tr").each(function () {
+        let product_no = $(this).find(".productSelect").val(); // 기존 및 신규 품목 모두 가져오기
+        let quantity = $(this).find(".quantity").val();
+        
+        if (product_no) {
+            if (productSet.has(product_no)) {
+                alert("동일한 품목이 중복되었습니다.");
+                $(this).find(".product-select").focus();
+                allValid = false;
+                return false;
+            }
+            productSet.add(product_no);
+            hasProduct = true; // 기존 품목이 있어도 true 처리
+
+            if (!quantity || parseInt(quantity) < 1) {
+                alert("수량은 1개 이상 입력해야 합니다.");
+                $(this).find(".quantity").focus();
+                allValid = false;
+                return false;
+            }
+        }
+    });
+
+    if (!hasProduct) {
+        alert("최소 하나 이상의 품목을 추가해주세요.");
+        return false;
+    }
+
+    return allValid;
+}
+
 // AJAX를 통한 수주 수정 전송
 function submitForm(event) {
     event.preventDefault();
+    
+    // 폼 검증 실행
+    if (!validateForm()) return;
     
     var salesData = {
         sales_date: "${infoSales.sales_date}",
@@ -129,6 +191,7 @@ function submitForm(event) {
         productList: []
     };
     
+    // 기존 품목 + 신규 품목 정보 모두 저장
     $("#productRows tr").each(function () {
         var product = {
             product_no: $(this).find(".productSelect").val(),

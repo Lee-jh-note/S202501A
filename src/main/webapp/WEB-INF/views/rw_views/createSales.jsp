@@ -209,6 +209,7 @@ function validateForm() {
 
     return allValid;
 }
+
 // AJAX 수주서 등록
 function submitForm(event) {
     event.preventDefault();
