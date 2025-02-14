@@ -19,6 +19,8 @@
 			return false;
 		} else location.href="confirm?client_No="+frm.client_No.value;
 	}
+	
+	
 	   document.addEventListener("DOMContentLoaded", function() {
 	        const today = new Date().toISOString().split('T')[0]; // 현재 날짜 가져오기 (YYYY-MM-DD 형식)
 	        document.getElementById("reg_Date").value = today; // input 필드에 기본값 설정
