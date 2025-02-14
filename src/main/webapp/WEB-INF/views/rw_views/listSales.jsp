@@ -103,13 +103,14 @@ function printSelectedRows() {
     printWindow.document.write("<html><head><title>인쇄</title>"); // 새로운 HTML 문서 작성 시작
     printWindow.document.write("<link href='../css/list.css' rel='stylesheet' media='print'>"); // 외부 CSS 연결
     // 외부 CSS 걸어줬더니 인쇄는 제대로 나오는데 인쇄 미리보기는 제대로 안나옴
-        
-    printWindow.document.write("</head><body>");
-    printWindow.document.write("<table class='list-table'><tr>");
 
+    
+    printWindow.document.write("</head><body>");
+
+    printWindow.document.write("<table style='border-collapse: collapse; border: 1px solid #777; font-size: 12px;'><tr style='border: 1px solid #777;'>"); // 테이블 시작
     let headers = document.querySelectorAll("#salesTable th"); // 원본 테이블 헤더 가져오기
     headers.forEach(th => {
-        printWindow.document.write("<th>" + th.innerText + "</th>"); // 헤더 추가
+        printWindow.document.write("<th style='border: 1px solid #777;'>" + th.innerText + "</th>"); // 헤더 추가
     });
     printWindow.document.write("</tr>");
 
