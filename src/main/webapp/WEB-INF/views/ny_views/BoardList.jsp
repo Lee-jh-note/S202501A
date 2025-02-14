@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -26,12 +26,12 @@
 	background-color: #f1f1f1; /* 호버 색상 변경 */
 }
 
-style>.list-table th:nth-child(1), .list-table td:nth-child(1) {
-	width: 2%; /* 조회수 칸 크기 줄이기 */
+.list-table th:nth-child(1), .list-table td:nth-child(1) {
+	width: 5%; /* 조회수 칸 크기 줄이기 */
 }
 
 .list-table th:nth-child(2), .list-table td:nth-child(2) {
-	width: 63%; /* 제목을 넓게 설정 */
+	width: 60%; /* 제목을 넓게 설정 */
 }
 
 .list-table th:nth-child(3), .list-table td:nth-child(3) {
