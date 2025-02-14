@@ -52,7 +52,7 @@ public class SalesDetailsController {
     }
 
     // 출고 예정 상세조회 (출고예정 정보 + 출고예정 품목 상세)
-    @GetMapping("All/Logistics/infoPreSalesDetails")
+    @GetMapping("Logistics/infoPreSalesDetails")
     public String infoPreSalesDetails(SalesDetailsAll salesDetails, Model model) {
     	System.out.println("SalesDetailsController infoPreSalesDetails Start...");
     	

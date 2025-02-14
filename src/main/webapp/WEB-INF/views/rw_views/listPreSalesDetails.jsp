@@ -201,7 +201,7 @@ function printSelectedRows() {
 									<td><input type="checkbox" class="selectRow"></td>
 									<td>${(page.total - ((page.currentPage - 1) * page.rowPage)) - status.index}</td>
 									<td>${salesDetails.sales_date}</td>
-									<td><a href="infoPreSalesDetails?sales_date=${salesDetails.sales_date}&client_no=${salesDetails.client_no}"> ${salesDetails.client_name} </a></td>
+									<td><a href="/Logistics/infoPreSalesDetails?sales_date=${salesDetails.sales_date}&client_no=${salesDetails.client_no}"> ${salesDetails.client_name} </a></td>
 									<td>${salesDetails.emp_name}</td>
 									<td>${salesDetails.count}</td>
 									<td>${salesDetails.totalQuantity}</td>
