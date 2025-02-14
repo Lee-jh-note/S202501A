@@ -92,44 +92,45 @@ function exportToExcel() {
 
 /* 인쇄 기능 */
 function printSelectedRows() {
-    let selectedRows = document.querySelectorAll(".selectRow:checked"); // 체크된 항목 가져오기
+     let selectedRows = document.querySelectorAll(".selectRow:checked"); // 체크된 항목 가져오기
 
-    if (selectedRows.length === 0) { // 선택된 항목이 없을 경우 경고창 표시
-        alert("인쇄할 항목을 선택하세요.");
-        return;
-    }
+     if (selectedRows.length === 0) { // 선택된 항목이 없을 경우 경고창 표시
+         alert("인쇄할 항목을 선택하세요.");
+         return;
+     }
 
-    let printWindow = window.open("", "", "width=800,height=600"); // 새로운 창 열기 (인쇄용)
-    printWindow.document.write("<html><head><title>인쇄</title>"); // 새로운 HTML 문서 작성 시작
-    printWindow.document.write("<link href='../css/list.css' rel='stylesheet' media='print'>"); // 외부 CSS 연결
-    // 외부 CSS 걸어줬더니 인쇄는 제대로 나오는데 인쇄 미리보기는 제대로 안나옴
-        
-    printWindow.document.write("</head><body>");
-    printWindow.document.write("<table class='list-table'><tr>");
+     let printWindow = window.open("", "", "width=800,height=600"); // 새로운 창 열기 (인쇄용)
+     printWindow.document.write("<html><head><title>인쇄</title>"); // 새로운 HTML 문서 작성 시작
+     printWindow.document.write("<link href='../css/list.css' rel='stylesheet' media='print'>"); // 외부 CSS 연결
+     // 외부 CSS 걸어줬더니 인쇄는 제대로 나오는데 인쇄 미리보기는 제대로 안나옴
 
-    let headers = document.querySelectorAll("#preSalesTable th"); // 원본 테이블 헤더 가져오기
-    headers.forEach(th => {
-        printWindow.document.write("<th>" + th.innerText + "</th>"); // 헤더 추가
-    });
-    printWindow.document.write("</tr>");
+     
+     printWindow.document.write("</head><body>");
 
-    selectedRows.forEach(checkbox => {
-        let row = checkbox.parentNode.parentNode; // 체크박스가 포함된 행 가져오기
-        printWindow.document.write("<tr style='border: 1px solid #777;'>");
-        row.querySelectorAll("td").forEach(td => {
-            printWindow.document.write("<td style='border: 1px solid #777;'>" + td.innerText + "</td>"); // 각 열 데이터 추가
-        });
-        printWindow.document.write("</tr>");
-    });
+     printWindow.document.write("<table style='border-collapse: collapse; border: 1px solid #777; font-size: 12px;'><tr style='border: 1px solid #777;'>"); // 테이블 시작
+     let headers = document.querySelectorAll("#preSalesTable th"); // 원본 테이블 헤더 가져오기
+     headers.forEach(th => {
+         printWindow.document.write("<th style='border: 1px solid #777;'>" + th.innerText + "</th>"); // 헤더 추가
+     });
+     printWindow.document.write("</tr>");
 
-    printWindow.document.write("</table></body></html>"); // 테이블 종료 및 HTML 문서 닫기
-    printWindow.document.close();
+     selectedRows.forEach(checkbox => {
+         let row = checkbox.parentNode.parentNode; // 체크박스가 포함된 행 가져오기
+         printWindow.document.write("<tr style='border: 1px solid #777;'>");
+         row.querySelectorAll("td").forEach(td => {
+             printWindow.document.write("<td style='border: 1px solid #777;'>" + td.innerText + "</td>"); // 각 열 데이터 추가
+         });
+         printWindow.document.write("</tr>");
+     });
 
-    // 새 창이 로드된 후 인쇄 실행
-    printWindow.addEventListener('load', function() {
-        printWindow.print();
-    });
-}
+     printWindow.document.write("</table></body></html>"); // 테이블 종료 및 HTML 문서 닫기
+     printWindow.document.close();
+
+     // 새 창이 로드된 후 인쇄 실행
+     printWindow.addEventListener('load', function() {
+         printWindow.print();
+     });
+ }
 </script>
 </head>
 
