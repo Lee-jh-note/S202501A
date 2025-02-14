@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>발주 조회</title>
+    <title>메인페이지</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
     <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
@@ -31,7 +31,7 @@
 	.clickable-row:hover {
 		background-color: #f1f1f1; /* 호버 색상 변경 */
 	}
-	</style>
+    </style>
 </head>
 
 <body id="page-top">
