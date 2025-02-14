@@ -64,8 +64,8 @@
     border-radius: 4px;
     cursor: pointer;
     background-color: white;
-    color: #4e73df;
-    border: 1px solid #4e73df;
+    color: #395B7F;	/* 변경 내역 */
+    border: 1px solid #395B7F;		/* 변경 내역 */
 }
 
 .insert-gray-button{
@@ -156,7 +156,4 @@
 
 .insert-table td{
     color: black;
-}
-.insert-table {
-    table-layout: fixed; /* 테이블 칸 크기 고정 */
 }

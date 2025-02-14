@@ -144,7 +144,7 @@
                     <table class="detail-table">
                         <thead>
                         <tr>
-                        	<th>선택</th>
+                        	<th style="width:40px;">선택</th>
                             <th>품목명</th>
                             <th>단가</th>
                             <th>수량</th>

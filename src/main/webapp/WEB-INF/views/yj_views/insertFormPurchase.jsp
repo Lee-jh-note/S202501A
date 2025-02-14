@@ -317,6 +317,7 @@
                 <tr>
                     <td style="width: 160px;">
                         <select name="product_no" class="productSelect">
+                        	<option value="">-- 선택 --</option>
                             <c:forEach var="product" items="${productList}">
                                 <option value="${product.product_no}">${product.product_name}</option>
                             </c:forEach>
@@ -436,7 +437,7 @@
                         <div class="insert-buttons">
                             <button class="btn insert-empty-button" type="button" 
                             	onclick="location.href='/All/Sales/listPurchase'">취소</button>
-                            <button class="btn insert-full-button" id="btn" type="button" onclick="insertPurchase()">확인</button>
+                            <button class="btn insert-full-button" id="btn" type="button" onclick="insertPurchase()">등록</button>
                         </div>
                     </div>
 
@@ -465,6 +466,7 @@
                                 	<td><input type="date" name="req_delivery_date" required="required"/></td>
                                 <th>거래처명</th>
                                 	<td><select name="client_no" value="${client_no}">
+                                			<option value="">-- 선택 --</option>
 	                                        <c:forEach var="client" items="${clientList}">
 	                                            <option value="${client.client_no}"${client.client_no == client_no ? 'selected' : ''}>${client.client_name}</option>
 	                                        </c:forEach>
@@ -491,11 +493,24 @@
                                 <th>단가</th>
                                 <th>수량</th>
                                 <th>총 금액</th>
-                                <th>삭제</th>
+                                <th style="width:58px;">삭제</th>
                             </tr>
                             </thead>
                             <tbody id="dynamicRows">
-                            <!-- 동적 행들이 들어갈 공간 -->
+	                           <tr>
+				               	   <td style="width: 160px;">
+				                        <select name="product_no" class="productSelect">
+				                        	<option value="">-- 선택 --</option>
+				                            <c:forEach var="product" items="${productList}">
+				                                <option value="${product.product_no}">${product.product_name}</option>
+				                            </c:forEach>
+				                        </select>
+				                    </td>
+				                    <td><input type="text" name="price" class="productPrice" placeholder="단가" readonly></td>
+				                    <td><input type="number" name="quantity" class="quantity" placeholder="수량" required></td>
+				                    <td><input type="number" class="total" placeholder="총 금액" readonly></td>
+				                    <td><button type="button" class="btn deleteRow">삭제</button></td>
+				                </tr>
                             </tbody>
                         </table>
                 	</div>

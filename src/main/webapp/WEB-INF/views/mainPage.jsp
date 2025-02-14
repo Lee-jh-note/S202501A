@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>발주 조회</title>
+    <title>메인페이지</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
     <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
@@ -23,6 +23,15 @@
             });
         });
     </script>
+    <style>
+	.clickable-row { /* 행 전체 클릭 가능하게 */
+		cursor: pointer;
+	}
+	
+	.clickable-row:hover {
+		background-color: #f1f1f1; /* 호버 색상 변경 */
+	}
+    </style>
 </head>
 
 <body id="page-top">
@@ -52,7 +61,7 @@
 			                <thead>
 			                    <tr>
 			                        <th>번호</th>
-			                        <th>제목</th>
+			                        <th style="width:700px;">제목</th>
 			                        <th>작성자</th>
 			                        <th>작성일</th>
 			                        <th>조회수</th>
