@@ -78,7 +78,7 @@
 
     <update id="ProdModify" parameterType="ProductDto">
         update PRODUCT
-        set product_name = #{product_name}, description = #{description}, CATEGORY = #{category}, MID_CATEGORY =#{mid_category}
+        set product_name = #{product_name}, description = #{description}, CATEGORY = #{category}, MID_CATEGORY =#{mid_category}, status = #{status}
         where product_no = #{product_no}
     </update>
 

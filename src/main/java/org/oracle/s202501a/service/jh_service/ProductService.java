@@ -122,6 +122,7 @@ public class ProductService {
         dto.setCategory(productPriceDto.getCategory());
         dto.setProduct_no(productPriceDto.getProduct_no());
         dto.setMid_category(productPriceDto.getMid_category());
+        dto.setStatus(productPriceDto.getStatus());
         productDao.ProdModify(dto);
 
         // priceHistory 테이블 구매 가격 수정
