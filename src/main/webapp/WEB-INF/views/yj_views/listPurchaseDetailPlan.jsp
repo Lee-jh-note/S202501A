@@ -227,6 +227,12 @@
 						</tr>
 						<c:set var="num" value="${num - 1}"></c:set>
 					</c:forEach>
+                    <!-- 데이터가 없을 경우 -->
+					<c:if test="${empty listPurchaseDetailPlan}">
+						<tr>
+							<td colspan="10">입고 예정 데이터가 없습니다.</td>
+						</tr>
+					</c:if>
                     </tbody>
                 </table>
 
