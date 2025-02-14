@@ -128,7 +128,7 @@ public class EmpController {
 
 			int insertResult = es.insertDEPT(dept);
 			if (insertResult > 0)
-				return "redirect:/All/HR/empDept/listDept";
+				return "redirect:/All/HR/listDept";
 			else {
 				model.addAttribute("msg", "입력 실패 확인해 보세요");
 				return "redirect:/HR/writeFormDept";

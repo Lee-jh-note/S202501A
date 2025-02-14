@@ -17,12 +17,16 @@
 
     <select id="ProdFindAll" resultType="ProductDto" parameterType="ProductDto">
         SELECT *
-        FROM (SELECT p.product_no, c.content, c.title, p.product_name, p.status, p.description, rownum rm
-              FROM product p
-                       JOIN CATEGORIES c ON c.mid_category = p.mid_category
-              where product_delete = 0
-              ORDER BY p.product_no)
-        WHERE rm between #{start} and #{end}
+        FROM (
+                 SELECT rownum RM , B.*
+                 FROM (
+                          SELECT p.product_no, c.content, c.title, p.product_name, p.status, p.description
+                          FROM product p
+                                   JOIN CATEGORIES c ON c.mid_category = p.mid_category
+                          where product_delete = 0
+                          ORDER BY p.product_no)B
+             )
+        WHERE ROWNUM between #{start} AND #{end};
     </select>
 
     <select id="ProdTotal" resultType="int">
@@ -33,34 +37,36 @@
 
     <select id="ProdSearch" parameterType="ProductDto" resultType="ProductDto">
         SELECT *
-        FROM (SELECT p.product_no, c.content, c.title, p.product_name, p.status, p.description,   rownum rm
+        FROM ( SELECT rownum RM , B.*
+        FROM (
+        SELECT p.product_no, c.content, c.title, p.product_name, p.status, p.description
         FROM product p
-         JOIN CATEGORIES c ON c.mid_category = p.mid_category
+        JOIN CATEGORIES c ON c.mid_category = p.mid_category
         where 1 = 1
-          and PRODUCT_DELETE = 0
+        and PRODUCT_DELETE = 0
         AND p.product_name LIKE '%' || #{product_name} || '%'
         <if test="category != 0">
             AND c.top_category = #{category}
         </if>
-        ORDER BY p.product_no)
-         WHERE 1 = 1
-            and rm between #{start} and #{end}
+        ORDER BY p.product_no) b )
+        WHERE 1 = 1
+        and rm between #{start} and #{end}
     </select>
 
     <select id="ProdSearchTotal" parameterType="ProductDto" resultType="int">
         SELECT count(*)
-        FROM (SELECT p.product_no, c.content, c.title, p.product_name, p.status, p.description,rownum rm
+        FROM ( SELECT B.*
+        FROM (
+        SELECT p.product_no, c.content, c.title, p.product_name, p.status, p.description
         FROM product p
-         JOIN CATEGORIES c ON c.mid_category = p.mid_category
+        JOIN CATEGORIES c ON c.mid_category = p.mid_category
         where 1 = 1
         and PRODUCT_DELETE = 0
-          <if test="product_name != null">
         AND p.product_name LIKE '%' || #{product_name} || '%'
-          </if>
         <if test="category != 0">
             AND c.top_category = #{category}
         </if>
-        ORDER BY p.product_no)
+        ORDER BY p.product_no) b )
         WHERE 1 = 1
     </select>
 
@@ -78,7 +84,7 @@
 
     <update id="ProdModify" parameterType="ProductDto">
         update PRODUCT
-        set product_name = #{product_name}, description = #{description}, CATEGORY = #{category}, MID_CATEGORY =#{mid_category}, status = #{status}
+        set product_name = #{product_name}, description = #{description}, CATEGORY = #{category}, MID_CATEGORY =#{mid_category}, STATUS = #{STATUS}
         where product_no = #{product_no}
     </update>
 
