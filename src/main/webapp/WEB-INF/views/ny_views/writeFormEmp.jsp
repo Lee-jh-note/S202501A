@@ -12,53 +12,66 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-let isDuplicateChecked = false;  // 중복 확인 여부
 
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("btn").disabled = true; //  처음에는 "확인" 버튼 비활성화
-});
 
-// 중복 확인 AJAX 요청
-function chk() {
-    var empName = document.querySelector("input[name='empName']").value;
-    var submitBtn = document.getElementById("btn");
 
-    if (!empName) {
-        alert("직원 이름을 입력한 후에 확인하세요.");
-        document.querySelector("input[name='empName']").focus();
-        return false;
+// *** 이름중복이 아닌게 확인되어야 => 확인버튼 활성화 & 입사일이 자동으로 들어옴
+
+    let isDuplicateChecked = false;  // 중복 확인 여부
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("btn").disabled = true; //  처음에는 "확인" 버튼 비활성화
+    });
+
+    // 중복 확인 및 입사일 자동 설정 AJAX 요청
+    function chk() {
+        var empName = document.querySelector("input[name='empName']").value;
+        var submitBtn = document.getElementById("btn");
+
+        if (!empName) {
+            alert("직원 이름을 입력한 후에 확인하세요.");
+            document.querySelector("input[name='empName']").focus();
+            return false;
+        }
+
+        $.ajax({
+            url: "<%=request.getContextPath()%>/HR/empConfirm",
+            type: "GET",
+            data: { emp_Name: empName },
+            dataType: "json",
+            success: function(response) {
+                if (response.isDuplicate) {
+                    alert("동일한 이름 존재. 소문자 알파벳을 뒤에 붙이시오.");
+                    isDuplicateChecked = false;
+                    submitBtn.disabled = true; //  중복된 경우 "확인" 버튼 비활성화
+                } else {
+                    alert("이름 등록 가능");
+                    isDuplicateChecked = true;
+                    submitBtn.disabled = false; //  중복 확인 통과 후 "확인" 버튼 활성화
+
+                    // 중복 확인이 완료되면 오늘 날짜를 입사일(hiredate)에 자동 입력
+                    const today = new Date().toISOString().split('T')[0];
+                    let hiredateField = document.getElementById("hiredate");
+                    if (hiredateField && !hiredateField.value) {
+                        hiredateField.value = today;
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("AJAX 오류:", textStatus, errorThrown);
+                alert("중복 확인 중 오류가 발생했습니다.");
+                isDuplicateChecked = false;
+                submitBtn.disabled = true; //  오류 발생 시 버튼 비활성화
+            }
+        });
     }
 
-    $.ajax({
-        url: "<%=request.getContextPath()%>/HR/empConfirm",
-        type: "GET",
-        data: { emp_Name: empName },
-        dataType: "json",
-        success: function (response) {
-            if (response.isDuplicate) {
-                alert("동일한 이름 존재. 소문자 알파벳을 뒤에 붙이시오.");
-                isDuplicateChecked = false;
-                submitBtn.disabled = true; //  중복된 경우 "확인" 버튼 비활성화
-            } else {
-                alert("이름 등록 가능");
-                isDuplicateChecked = true;
-                submitBtn.disabled = false; //  중복 확인 통과 후 "확인" 버튼 활성화
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error("AJAX 오류:", textStatus, errorThrown);
-            alert("중복 확인 중 오류가 발생했습니다.");
-            isDuplicateChecked = false;
-            submitBtn.disabled = true; //  오류 발생 시 버튼 비활성화
-        }
+    // 입력 값이 변경될 때마다 "확인" 버튼 비활성화 (중복 확인 다시 해야 함)
+    document.querySelector("input[name='empName']").addEventListener("input", function() {
+        isDuplicateChecked = false;
+        document.getElementById("btn").disabled = true;
     });
-}
 
-// 입력 값이 변경될 때마다 "확인" 버튼 비활성화 (중복 확인 다시 해야 함)
-document.querySelector("input[name='empName']").addEventListener("input", function () {
-    isDuplicateChecked = false;
-    document.getElementById("btn").disabled = true;
-})
 </script>
 
 </head>
@@ -96,7 +109,8 @@ document.querySelector("input[name='empName']").addEventListener("input", functi
 									<th>이름</th>
 									<td><input type="text" name="empName" required="required">
 										<input type="button" class="btn insert-gray-button"
-										value="중복확인" onclick="chk()"></td></tr>
+										value="중복확인" onclick="chk()"></td>
+								</tr>
 								<tr>
 									<th>부서</th>
 									<td><select name="dept_No">
@@ -129,7 +143,8 @@ document.querySelector("input[name='empName']").addEventListener("input", functi
 								</tr>
 								<tr>
 									<th>입사일</th>
-									<td><input type="date" name="hiredate" required="required"></td>
+									<td><input type="date" name="hiredate" id="hiredate"
+										required="required"></td>
 								</tr>
 								<tr>
 									<th>권한</th>
@@ -152,16 +167,17 @@ document.querySelector("input[name='empName']").addEventListener("input", functi
 		</div>
 	</div>
 	<!-- jQuery (항상 가장 먼저 로드) -->
-<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
+	<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
-<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+	<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+	<script
+		src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin (jQuery Easing 등) -->
-<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
+	<!-- Core plugin (jQuery Easing 등) -->
+	<script
+		src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
-<!-- Custom scripts -->
-<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
+	<!-- Custom scripts -->
 
 </body>
 

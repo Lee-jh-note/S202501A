@@ -46,13 +46,6 @@ pre {
 	resize: vertical; /* 세로 크기 조절 가능 */
 }
 
-/* 버튼을 오른쪽 정렬 */
-.detail-buttons {
-	display: flex;
-	justify-content: flex-end; /* 오른쪽 정렬 */
-	gap: 10px; /* 버튼 간격 */
-	margin-top: 10px;
-}
 
 .insert-full-button {
 	padding: 8px 12px;
