@@ -130,11 +130,12 @@ function handleDelete() {
 						<div>
 							<button type="button" class="detail-empty-button" onclick="history.back()">목록</button>
 
-							<!-- 상태가 '0'(대기)일 때만 수정/삭제 버튼 표시 -->
+ 							<!-- 상태가 '0'(대기)일 때만 수정/삭제 버튼 표시 -->
 							<c:if test="${infoSales.status == '0'}">
 								<button type="button" class="detail-full-button" onclick="location.href='/Sales/updateSales?sales_date=${infoSales.sales_date}&client_no=${infoSales.client_no}'">수정</button>
 								<button type="button" class="detail-full-button" onclick="handleDelete()">삭제</button>
-							</c:if>
+							</c:if> 
+							
 						</div>
 					</div>
 
