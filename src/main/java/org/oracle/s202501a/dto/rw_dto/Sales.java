@@ -19,5 +19,4 @@ public class Sales {
     private int emp_no; // 직원(담당자) 번호
 	   
 
-
 }

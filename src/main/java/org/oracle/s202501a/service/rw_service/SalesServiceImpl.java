@@ -21,9 +21,10 @@ public class SalesServiceImpl implements SalesService {
 
 	private final SalesDao salesDao; 
 
-	// =============================================================
-	//                             등록
-	// =============================================================
+	
+	// ===================================================================================
+	//                             			등록
+	// ===================================================================================
 
 	// 수주 등록 (수주 정보 & 품목 정보)
 	@Override
@@ -87,17 +88,6 @@ public class SalesServiceImpl implements SalesService {
 	    return productList;
 	}
 	
-//	// 담당자 목록 조회 (드롭다운) -임시용
-//	@Override
-//	public List<SalesAll> getEmpList() {
-//		System.out.println("SalesServiceImpl getEmpList Start...");
-//
-//	    List<SalesAll> empList = salesDao.getEmpList();
-//	    log.debug("조회된 담당자 목록: {}", empList);
-//	    
-//	    return empList;
-//	}
-	
 	// 품목 선택 시 단가 자동설정
 	@Override
 	public int getProductPrice(int product_no) {
@@ -128,9 +118,9 @@ public class SalesServiceImpl implements SalesService {
     }
 	
 
-	// =============================================================
-	//                             조회
-	// =============================================================
+	// ===================================================================================
+	//                             			조회
+	// ===================================================================================
 
 	// 수주 조회 (검색 조건 적용)
     @Override
@@ -172,7 +162,6 @@ public class SalesServiceImpl implements SalesService {
         return listSales;
     }
     
-	
 	// 수주 정보 상세조회
 	@Override
 	public SalesAll infoSales(SalesAll sales) {
@@ -186,7 +175,6 @@ public class SalesServiceImpl implements SalesService {
 	    return infoSales;
 	}
 	
-
 	// 수주 품목 상세조회
 	@Override
 	public List<SalesDetailsAll> infoSalesDetails(SalesAll sales) {
@@ -198,13 +186,12 @@ public class SalesServiceImpl implements SalesService {
 	    log.debug("조회된 수주 품목: {}", infoSalesDetails);
 
 	    return infoSalesDetails;
-	}
+	}	
 	
 	
-	
-	// =============================================================
-	//                             수정
-	// =============================================================
+	// ===================================================================================
+	//                             			수정
+	// ===================================================================================
 	
 	// 수주 수정 (처리 상태가 '대기'인 경우만 가능)
 	@Override
@@ -240,11 +227,10 @@ public class SalesServiceImpl implements SalesService {
         return result;
     }
 
-
 	
-	// =============================================================
-	//                             삭제
-	// =============================================================
+	// ===================================================================================
+	//                             			삭제
+	// ===================================================================================
 	
 	// 수주 삭제 (처리 상태가 '대기'인 경우만 가능) - 수주품목 먼저 삭제 후 수주정보 삭제
 	@Override
@@ -283,7 +269,6 @@ public class SalesServiceImpl implements SalesService {
 	    
 	    return deleteSales;
 	}
-
 
 
 }

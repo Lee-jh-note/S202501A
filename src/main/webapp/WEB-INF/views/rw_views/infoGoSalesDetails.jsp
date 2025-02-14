@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
 <link rel="stylesheet" href="<c:url value='/css/detail.css' />">
 <style type="text/css">
-.detail-table td {
+.detail-table td { 
 	color: black;
 }
 </style>
@@ -48,16 +48,13 @@
 					<div class="detail-header-content">
 						<table class="detail-table">
 							<tr>
-								<th>매출일자</th>
-								<td>${infoGoSalesDetails.sales_date}</td>
+								<th>매출일자</th><td>${infoGoSalesDetails.sales_date}</td>
 							</tr>
 							<tr>
-								<th>담당자</th>
-								<td>${infoGoSalesDetails.emp_name}</td>
+								<th>담당자</th><td>${infoGoSalesDetails.emp_name}</td>
 							</tr>
 							<tr>
-								<th>거래처명</th>
-								<td>${infoGoSalesDetails.client_name}</td>
+								<th>거래처명</th><td>${infoGoSalesDetails.client_name}</td>
 							</tr>
 						</table>
 
@@ -97,17 +94,17 @@
 			<%@ include file="../footer1.jsp"%>
 		</div>
 	</div>
-<!-- jQuery (항상 가장 먼저 로드) -->
-<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
+	<!-- jQuery (항상 가장 먼저 로드) -->
+	<script src="<c:url value='/vendor/jquery/jquery.min.js' />"></script>
 
-<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
-<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+	<!-- Bootstrap Bundle (jQuery 다음에 로드) -->
+	<script src="<c:url value='/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
 
-<!-- Core plugin (jQuery Easing 등) -->
-<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
+	<!-- Core plugin (jQuery Easing 등) -->
+	<script src="<c:url value='/vendor/jquery-easing/jquery.easing.min.js' />"></script>
 
-<!-- Custom scripts -->
-<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
+	<!-- Custom scripts -->
+	<script src="<c:url value='/js1/sb-admin-2.min.js' />"></script>
 </body>
 
 </html>

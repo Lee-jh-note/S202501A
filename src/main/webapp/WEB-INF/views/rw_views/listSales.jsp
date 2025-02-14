@@ -9,13 +9,11 @@
 <title>수주 조회</title>
 <!-- 엑셀 다운로드 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
 <!-- 아이콘 및 CSS 스타일 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <link rel="stylesheet" href="<c:url value='/vendor/fontawesome-free/css/all.min.css' />">
 <link rel="stylesheet" href="<c:url value='/css1/sb-admin-2.min.css' />">
 <link rel="stylesheet" href="<c:url value='/css/list.css' />">
-
 <!-- 엑셀 다운로드 및 인쇄 기능 -->
 <script>
 /* 전체 선택 기능 추가 */
@@ -162,7 +160,6 @@ function printSelectedRows() {
 							<button class="list-full-button" onclick="exportToExcel()">
 								<i class="fa-solid fa-file-excel"></i> 엑셀 선택 다운로드
 							</button>
-
 							<button id="printSelection" class="list-full-button" onclick="printSelectedRows()">
 								<i class="fa-solid fa-print"></i> 인쇄
 							</button>
@@ -176,14 +173,9 @@ function printSelectedRows() {
 
 							<!-- 검색 필터 -->
 							<form action="listSales" method="get" style="display: flex; gap: 10px; align-items: center;">
-								<!-- 조회 기간 -->
-								<label>매출일자:</label> <input type="date" name="startDate" value="${param.startDate}"> ~ <input type="date" name="endDate" value="${param.endDate}"> 
-																<!-- 거래처 -->
-								<label>거래처:</label> 
-								<input type="text" name="client_name" placeholder="거래처명 입력" value="${param.client_name}"> 
-                            <!-- 처리상태(status) -->								
-								<label>상태:</label> 
-								<select name="status">
+								<label>매출일자:</label> <input type="date" name="startDate" value="${param.startDate}"> ~ <input type="date" name="endDate" value="${param.endDate}">
+								<label>거래처:</label> <input type="text" name="client_name" placeholder="거래처명 입력" value="${param.client_name}">
+								<label>상태:</label> <select name="status">
 									<option value="" ${empty param.status ? 'selected' : ''}>전체</option>
 									<option value="0" ${param.status == '0' ? 'selected' : ''}>대기</option>
 									<option value="1" ${param.status == '1' ? 'selected' : ''}>부분출고</option>
@@ -233,7 +225,7 @@ function printSelectedRows() {
 							<!-- 데이터가 없을 경우 -->
 							<c:if test="${empty listSales}">
 								<tr>
-									<td colspan="10">출고 예정 데이터가 없습니다.</td>
+									<td colspan="10">수주 데이터가 없습니다.</td>
 								</tr>
 							</c:if>
 
