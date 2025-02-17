@@ -97,7 +97,7 @@ function openModal(message, onConfirm) {
 function handleDelete() {
     openModal("정말 삭제하시겠습니까?", () => {
         // 삭제 로직 실행
-        location.href = "/Sales/deleteSales?sales_date=${sales.sales_date}&client_no=${sales.client_no}&status=${sales.status}";
+        location.href = "/Sales/deleteSales?sales_date=${infoSales.sales_date}&client_no=${infoSales.client_no}&status=${infoSales.status}";
     });
 }
 </script>

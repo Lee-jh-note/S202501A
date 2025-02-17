@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -245,7 +246,7 @@ public class SalesController {
 	// ====================================================================================
 
 	// 수주 삭제 (처리 상태가 '대기'인 경우만 가능)- 품목 삭제 후 수주 정보 삭제
-    @PostMapping("Sales/deleteSales")
+    @RequestMapping("Sales/deleteSales")
     public String deleteSales(SalesAll sales) {
     	System.out.println("SalesController deleteSales Start...");
     	
@@ -255,7 +256,7 @@ public class SalesController {
     	    log.info("수주 삭제 완료 (deleteSalesCount={})", deleteSalesCount); 
     	    
             // 삭제가 성공하면 수주 목록 페이지로 리다이렉트
-            return "redirect:/sales/listSales";
+            return "redirect:/All/Sales/listSales";
             
         } catch (Exception e) {
             e.printStackTrace();

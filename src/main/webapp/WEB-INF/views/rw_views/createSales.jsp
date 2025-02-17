@@ -107,9 +107,9 @@ function addRow() {
                     </c:forEach>
                 </select>
             </td>
-            <td><input type="text" name="price" class="price" readonly></td>
-            <td><input type="number" name="quantity" class="quantity" required min="1" oninput="calculateTotal(this)"></td>
-            <td><input type="text" name="totalPrice" class="totalPrice" readonly></td>
+            <td><input type="text" name="price" class="price" placeholder="단가" readonly></td>
+            <td><input type="number" name="quantity" class="quantity" placeholder="수량" required min="1" oninput="calculateTotal(this)"></td>
+            <td><input type="text" name="totalPrice" class="totalPrice" placeholder="총금액" readonly></td>
             <td><button type="button" class="insert-gray-button" onclick="removeRow(this)">삭제</button></td>
         </tr>`;
     tbody.append(newRow);
@@ -356,9 +356,9 @@ function submitForm(event) {
 													<option value="${product.product_no}">${product.product_name}</option>
 												</c:forEach>
 										</select></td>
-										<td><input type="text" name="price" class="price" readonly></td>
-										<td><input type="number" name="quantity" class="quantity" required oninput="calculateTotal(this)"></td>
-										<td><input type="text" name="totalPrice" class="totalPrice" readonly></td>
+										<td><input type="text" name="price" class="price" placeholder="단가" readonly></td>
+										<td><input type="number" name="quantity" class="quantity" placeholder="수량" required oninput="calculateTotal(this)"></td>
+										<td><input type="text" name="totalPrice" class="totalPrice" placeholder="총금액" readonly></td>
 										<td><button type="button" class="insert-gray-button" onclick="removeRow(this)">삭제</button></td>
 									</tr>
 								</tbody>

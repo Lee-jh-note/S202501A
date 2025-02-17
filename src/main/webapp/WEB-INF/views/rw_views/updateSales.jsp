@@ -40,7 +40,7 @@ $(document).ready(function () {
                 </td>
                 <td><input type="text" name="price" class="productPrice" placeholder="단가" value="${details.price}" readonly></td>   
                 <td><input type="number" name="quantity" class="quantity" placeholder="수량" value="${details.quantity}" required min="1" oninput="calculateTotal(this)"></td>             
-                <td><input type="text" name="totalPrice" class="totalPrice" placeholder="총 금액" value="${details.totalPrice}" readonly></td> 
+                <td><input type="text" name="totalPrice" class="totalPrice" placeholder="총금액" value="${details.totalPrice}" readonly></td> 
                 <td><button type="button" class="insert-gray-button" onclick="removeRow(this)">삭제</button></td>                        
             </tr>
        `;
