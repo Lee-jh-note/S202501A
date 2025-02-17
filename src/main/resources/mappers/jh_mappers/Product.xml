@@ -26,7 +26,7 @@
                           where product_delete = 0
                           ORDER BY p.product_no)B
              )
-        WHERE ROWNUM between #{start} AND #{end};
+        WHERE ROWNUM between #{start} AND #{end}
     </select>
 
     <select id="ProdTotal" resultType="int">
