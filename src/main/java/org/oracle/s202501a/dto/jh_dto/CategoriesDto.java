@@ -23,16 +23,6 @@ public class CategoriesDto {
 
     List<CategoriesDto> topList;
     List<CategoriesDto> midList;
-    // 카테고리ㅋㅋ 중분류 , 대분류
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class midDto{
-        private int mid_category;
-        private int top_category;
-        private String content;
-    }
 
-//    private Map<String,CategoriesDto> mid_categories ;
 }

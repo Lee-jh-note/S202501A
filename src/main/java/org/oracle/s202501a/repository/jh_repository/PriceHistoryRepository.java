@@ -90,7 +90,8 @@ public interface PriceHistoryRepository extends JpaRepository<PriceHistory, Long
     void price_prc(Long pProductNo, Integer pPrice, Integer pSalePur);
 
     @Query(value = "select count(*) " +
-            " from price_history ", nativeQuery = true)
+            " from price_history h " +
+            "join product p on p.product_no = h.product_no ", nativeQuery = true)
     int PriceTotal();
 
     @Query(value = "select price_code, PRODUCT_NO, FROM_DATE, TO_DATE, SALE_OR_PURCHASE, PRICE, REG_DATE, product_name " +

@@ -43,7 +43,7 @@ public class InventoryController {
     public String optimalModify(@RequestParam(value = "product_no", required = false) Long product_no,
                                 @RequestParam("optimal_quantity") int optimal) {
 
-        System.out.println(product_no+ " 타겟 수량 : " + optimal);
+//        System.out.println(product_no+ " 타겟 수량 : " + optimal);
         inventoryService.optimalModify(product_no, optimal);
 
         return "redirect:/All/Logistics/InvenList";

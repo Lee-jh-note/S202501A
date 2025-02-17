@@ -26,7 +26,7 @@
                           where product_delete = 0
                           ORDER BY p.product_no)B
              )
-        WHERE ROWNUM between #{start} AND #{end};
+        WHERE ROWNUM between #{start} AND #{end}
     </select>
 
     <select id="ProdTotal" resultType="int">
@@ -84,7 +84,7 @@
 
     <update id="ProdModify" parameterType="ProductDto">
         update PRODUCT
-        set product_name = #{product_name}, description = #{description}, CATEGORY = #{category}, MID_CATEGORY =#{mid_category}, STATUS = #{STATUS}
+        set product_name = #{product_name}, description = #{description}, CATEGORY = #{category}, MID_CATEGORY =#{mid_category}, STATUS = #{status}
         where product_no = #{product_no}
     </update>
 

@@ -67,7 +67,6 @@ public class ProductService {
         dto.setMid_category(productpriceDto.getMid_category());
         productDao.CreateProd(dto);
 
-
         // 매퍼에서 셀렉트 키 사용해서 인서트 후 바로 product_no 반환 해서
         // 반환된 넘버로 가격 테이블 등록
         PriceHistoryModel priceHistoryModel = new PriceHistoryModel();

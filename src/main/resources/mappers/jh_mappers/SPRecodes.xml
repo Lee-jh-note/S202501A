@@ -20,65 +20,38 @@
 
     <select id="SPRecodesFindAll" resultMap="RecodesResultMap">
         select *
-        from ( select
-        d.yymmdd,
-        d.product_no,
-        d.reg_date,
-        d.emp_no,
-        d.emp_name,
-        d.product_name,
-        d.title,
-        d.purPrice,
-        d.purQuantity,
-        d.salePrice,
-        d.saleQuantity
         from (
-        SELECT
-        a.product_no,
-        a.yymmdd,
-        a.reg_date,
-        a.emp_no,
-        a.emp_name,
-        a.product_name,
-        a.title,
-        NVL(c.pur_Price, 0) AS purPrice,
-        NVL(c.pur_Quantity, 0) AS purQuantity,
-        NVL(c.sale_Price, 0) AS salePrice,
-        NVL(c.sale_Quantity, 0) AS saleQuantity,
-        rownum rm
-        FROM (
-        SELECT
-        spm.product_no,
-        spm.yymmdd,
-        spm.reg_date,
-        spm.emp_no,
-        e.emp_name,
-        p.product_name,
-        ca.title
-        FROM spm_recodes spm
-            JOIN product p ON p.product_no = spm.product_no
-            JOIN categories ca ON p.mid_category = ca.mid_category
-            JOIN emp e ON e.emp_no = spm.emp_no
-        GROUP BY spm.yymmdd, spm.reg_date, spm.emp_no, e.emp_name, p.product_name, ca.title, spm.product_no
-        ) a
-        LEFT JOIN (
-        SELECT
-        spm.yymmdd, spm.product_no,
-        MAX(CASE WHEN spm.sale_or_purchase = 0 THEN spm.price ELSE 0 END) AS pur_Price,
-        MAX(CASE WHEN spm.sale_or_purchase = 0 THEN spm.quantity ELSE 0 END) AS pur_Quantity,
-        MAX(CASE WHEN spm.sale_or_purchase = 1 THEN spm.price ELSE 0 END) AS sale_Price,
-        MAX(CASE WHEN spm.sale_or_purchase = 1 THEN spm.quantity ELSE 0 END) AS sale_Quantity
-        FROM spm_recodes spm
-        GROUP BY spm.product_no, spm.yymmdd
-        ) c ON a.yymmdd = c.yymmdd and a.product_no = c.product_no ) d
-        where 1 = 1
-        <if test="product_name != null and product_name != ''">
-            AND product_name LIKE '%' || #{product_name} || '%'
-        </if>
-        <if test="yymmdd != null and yymmdd != ''">
-            and to_char( to_date(yymmdd, 'yy/mm/dd'), 'yy/mm') LIKE '%' || #{yymmdd} || '%'
-        </if>
-        order by yymmdd desc, product_no)
+                select d.yymmdd, d.product_no, d.reg_date, d.emp_no, d.emp_name, d.product_name, d.title, d.purPrice, d.purQuantity, d.salePrice, d.saleQuantity
+                     from (
+                         SELECT a.product_no, a.yymmdd, a.reg_date, a.emp_no, a.emp_name, a.product_name, a.title,
+                               NVL(c.pur_Price, 0) AS purPrice,
+                               NVL(c.pur_Quantity, 0) AS purQuantity,
+                               NVL(c.sale_Price, 0) AS salePrice,
+                               NVL(c.sale_Quantity, 0) AS saleQuantity,
+                               rownum rm
+                             FROM (
+                                    SELECT spm.product_no, spm.yymmdd, spm.reg_date, spm.emp_no, e.emp_name, p.product_name, ca.title
+                                      FROM spm_recodes spm
+                                      JOIN product p ON p.product_no = spm.product_no
+                                      JOIN categories ca ON p.mid_category = ca.mid_category
+                                      JOIN emp e ON e.emp_no = spm.emp_no
+                                      GROUP BY spm.yymmdd, spm.reg_date, spm.emp_no, e.emp_name, p.product_name, ca.title, spm.product_no ) a
+                             LEFT JOIN ( SELECT spm.yymmdd, spm.product_no,
+                                                 MAX(CASE WHEN spm.sale_or_purchase = 0 THEN spm.price ELSE 0 END) AS pur_Price,
+                                                 MAX(CASE WHEN spm.sale_or_purchase = 0 THEN spm.quantity ELSE 0 END) AS pur_Quantity,
+                                                 MAX(CASE WHEN spm.sale_or_purchase = 1 THEN spm.price ELSE 0 END) AS sale_Price,
+                                                 MAX(CASE WHEN spm.sale_or_purchase = 1 THEN spm.quantity ELSE 0 END) AS sale_Quantity
+                                                  FROM spm_recodes spm
+                                                  GROUP BY spm.product_no, spm.yymmdd ) c
+                                        ON a.yymmdd = c.yymmdd and a.product_no = c.product_no ) d
+                  where 1 = 1
+                  <if test="product_name != null and product_name != ''">
+                      AND product_name LIKE '%' || #{product_name} || '%'
+                  </if>
+                   <if test="yymmdd != null and yymmdd != ''">
+                      and to_char( to_date(yymmdd, 'yy/mm/dd'), 'yy/mm') LIKE '%' || #{yymmdd} || '%'
+                  </if>
+                  order by yymmdd desc, product_no)
         where rownum between #{start} and #{end}
     </select>
 

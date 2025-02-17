@@ -9,7 +9,6 @@
         select *
         from ( select a.*, rownum rm
         from (
-
         select i.yymm,
         i.optimal_quantity, p.product_name,
         max(CASE WHEN h.sale_or_purchase = 0 THEN h.price END) AS pur_price,
