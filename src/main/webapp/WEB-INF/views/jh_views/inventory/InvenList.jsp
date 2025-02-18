@@ -44,6 +44,7 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
         #dayClosingLink:hover {
             color: white;
         }
@@ -108,7 +109,8 @@
                             <!-- 검색 버튼 -->
                             <button type="submit" class="list-gray-button">조회</button>
                         </form>
-                        <a href="javascript:void(0);" class="list-gray-button" id="dayClosingLink" style="text-decoration: none">내역 업데이트</a>
+                        <a href="javascript:void(0);" class="list-gray-button" id="dayClosingLink"
+                           style="text-decoration: none">내역 업데이트</a>
                     </div>
                 </div>
 
@@ -147,8 +149,6 @@
                                 <td>
                                     <a href="javascript:void(0)"
                                        class="optimal-quantity-link"
-                                       data-bs-toggle="modal"
-                                       data-bs-target="#editModal"
                                        data-id="${inventory.product_no}"
                                        data-optimal_quantity="${inventory.optimal_quantity}">
                                             ${inventory.optimal_quantity}
@@ -322,12 +322,11 @@
                         alert(yymm + "월 마감 완료되었습니다.");
                     }
                 } else if (response == "0") {
-                        alert("이미 마감처리된 내역입니다.");
-                    }
-                    else {
-                        alert("관리자 문의");
-                    }
-                },
+                    alert("이미 마감처리된 내역입니다.");
+                } else {
+                    alert("관리자 문의");
+                }
+            },
             error: function (xhr, status, error) {
                 console.error("Error: " + error);
                 alert("마감 월을 선택해 주세요.");
@@ -352,32 +351,37 @@
         updateQuantity(); // 처음 페이지 로드 시에도 수량을 업데이트
     }
 
-    // 모달이 열릴 때 데이터 속성 가져오기
-    $('#editModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // 버튼을 클릭한 시점의 요소
-        var productNo = button.data('id'); // data-id에서 product_no 값 가져오기
-        var optimalQuantity = button.data('optimal_quantity'); // data-optimal_quantity에서 최적수량 값 가져오기
 
-        // 모달 내에서 데이터를 처리
-        var modal = $(this);
-        modal.find('#product_no').val(productNo);  // product_no 숨겨진 input에 값 설정
-        modal.find('#optimal_quantity').val(optimalQuantity);  // 최적수량 input에 값 설정
+    // 모달이 열릴 때 데이터 속성 가져오기
+    document.querySelectorAll('.optimal-quantity-link').forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            // 클릭된 버튼에서 데이터 속성 가져오기
+            var productNo = button.getAttribute('data-id'); // data-id에서 product_no 값 가져오기
+            var optimalQuantity = button.getAttribute('data-optimal_quantity'); // data-optimal_quantity에서 최적수량 값 가져오기
+
+            // 모달 내에서 데이터를 처리
+            var modal = new bootstrap.Modal(document.getElementById('editModal')); // 모달 객체 가져오기
+            document.getElementById('product_no').value = productNo;  // product_no 숨겨진 input에 값 설정
+            document.getElementById('optimal_quantity').value = optimalQuantity;  // 최적수량 input에 값 설정
+
+            // 모달 열기
+            modal.show();
+        });
     });
 
     // 일 마감처리
-    $(document).ready(function() {
-        $("#dayClosingLink").click(function() {
+    $(document).ready(function () {
+        $("#dayClosingLink").click(function () {
             $.ajax({
                 url: "/Logistics/DayClosing",
                 type: "GET",
-                success: function(response) {
+                success: function (response) {
                     alert("내역이 업데이트되었습니다.");
                     window.location.href = "/All/Logistics/InvenList";
                 }
             });
         });
     });
-
 
 
 </script>
